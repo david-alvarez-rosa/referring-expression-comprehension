@@ -61,7 +61,7 @@ from matplotlib.patches import Polygon
 import numpy as np
 import copy
 import itertools
-import mask as maskUtils
+from . import mask as maskUtils
 import os
 from collections import defaultdict
 from urllib.request import urlretrieve

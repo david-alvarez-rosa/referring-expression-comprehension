@@ -12,3 +12,5 @@ Thesis/Thesis.pdf
 __pycache__
 *.cpython*
 _mask.c
+
+data/
