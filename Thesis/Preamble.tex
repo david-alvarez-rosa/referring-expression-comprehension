@@ -1,0 +1,47 @@
+% -*- TeX-master: "test.tex" -*-
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin = 1in, right = .75in]{geometry}
+
+\usepackage{graphicx}
+
+
+
+
+\usepackage{hyperref}
+\hypersetup{
+  pdfusetitle,
+  colorlinks,
+  linkcolor = blue,
+  citecolor = magenta
+}
+
+
+\let\origdoublepage\cleardoublepage
+\newcommand{\clearemptydoublepage}{%
+  \clearpage
+  {\pagestyle{empty}\origdoublepage}%
+}
+\let\cleardoublepage\clearemptydoublepage
+
+\usepackage{lettrine}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[RO,LE]{\bf \thepage}
+\fancyhead[RE]{\leftmark}
+\fancyhead[LO]{\rightmark}
+\fancyfoot{}
+\makeatletter
+\fancyfoot[CO]{\sc\@author}
+\fancyfoot[CE]{\sc\@title}
+\makeatother
+
+\renewcommand{\footrulewidth}{.4pt}
+
+\renewcommand\footnoterule{}
+\usepackage[labelfont = bf]{caption}
+
+
+\usepackage[nottoc]{tocbibind}
