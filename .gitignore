@@ -1,0 +1,9 @@
+*.aux
+*.log
+*.log
+*.out
+*.lof
+*.lot
+*.synctex.gz
+*.toc
+Thesis/Thesis.pdf
