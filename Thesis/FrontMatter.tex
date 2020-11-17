@@ -1,52 +1,238 @@
-\makeatletter
+% -*- TeX-master: "Thesis.tex" -*-
+
+
 \begin{titlepage}
-  \@title
+  \makeatletter
+  \newgeometry{
+    margin = 0in,
+  }
+  \hypersetup{
+    urlcolor = black
+  }
+
+  \begin{tikzpicture}[
+    remember picture,
+    overlay,
+    hexagon/.style = {
+      rounded corners,
+      draw,
+      regular polygon,
+      regular polygon sides = 6,
+      ultra thick
+    }
+    ]
+
+%%%%%%%%%%%%%%%%%%%% Background %%%%%%%%%%%%%%%%%%%%%%%%
+
+\fill[Dandelion] (current page.south west) rectangle (current page.north east);
+
+
+
+%%%%%%%%%%%%%%%%%%%% Background Polygon %%%%%%%%%%%%%%%%%%%%
+
+\foreach \i in {2.5,...,22} {
+  \node[hexagon, Dandelion!60, minimum size=\i cm] at ($(current page.west)+(2.5,-5)$) {};
+}
+
+\foreach \i in {0.5,...,22} {
+  \node[hexagon, Dandelion!60, minimum size=\i cm] at ($(current page.north west)+(2.5,0)$) {};
+}
+
+\foreach \i in {0.5,...,22} {
+  \node[hexagon, Dandelion!90, minimum size=\i cm] at ($(current page.north east)+(0,-9.5)$) {};
+}
+
+\foreach \i in {21,...,6} {
+  \node[hexagon, Dandelion!85, minimum size=\i cm] at ($(current page.south east)+(-0.2,-0.45)$) {} ;
+}
+
+%%%%%%%%%%%%%%%%%%%% Title of the Report %%%%%%%%%%%%%%%%%%%%
+
+\node[left,black,minimum width=0.625*\paperwidth,minimum height=3cm, rounded
+corners] at ($(current page.north east)+(0,-9.5)$) {
+{\fontsize{25}{30} \selectfont \bfseries TITLE OF THE REPORT}
+};
+
+%%%%%%%%%%%%%%%%%%%% Subtitle %%%%%%%%%%%%%%%%%%%%
+
+\node[left,black,minimum width=0.625*\paperwidth,minimum height=2cm, rounded corners] at ($(current page.north east)+(0,-11)$)
+{
+{\huge \textit{Subtitle of the Report}}
+};
+
+%%%%%%%%%%%%%%%%%%%% Author Name %%%%%%%%%%%%%%%%%%%%
+
+\node[left,black,minimum width=0.625*\paperwidth,minimum height=2cm, rounded corners] at ($(current page.north east)+(0,-13)$)
+{
+{\Large \textsc{David Álvarez Rosa}}
+};
+
+%%%%%%%%%%%%%%%%%%%% Year %%%%%%%%%%%%%%%%%%%%
+
+\node[rounded corners,fill=Dandelion!70,text =black,regular polygon,regular polygon sides=6, minimum size=2.5 cm,inner sep=0,ultra thick] at ($(current page.west)+(2.5,-5)$) {\LARGE \bfseries 2020};
+
+\end{tikzpicture}
+
+
+  \makeatother
 \end{titlepage}
-\makeatother
+
+
+\cleardoublepage
+\thispagestyle{empty}
+\begin{center}
+  \null
+  \vfill
+  This page intentionally left blank.
+  \vfill
+  \null
+\end{center}
+\cleardoublepage
+
+
+\begin{titlepage}
+  \makeatletter
+  \hypersetup{
+    urlcolor = black
+  }
+
+  \centering
+  \scshape \Large
+
+  \begin{minipage}[c]{.2\textwidth}
+    \includegraphics[width=1.1\textwidth]{Logos/UofT.png}
+  \end{minipage} \hfill
+  \begin{minipage}[c]{.5\textwidth}
+    \centering
+    \href{https://href.com}{University of Toronto} \\[2ex]
+    \href{https://href.com}{Politechnical University \\ of Catalonia}
+  \end{minipage} \hfill
+  \begin{minipage}[c]{.2\textwidth}
+    \includegraphics[width=\textwidth]{Logos/UPC.png}
+  \end{minipage}
+
+  \vfill
+
+  Bachelor's Thesis \\[-1.5ex]
+  \LARGE
+  \rule{\textwidth}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt}
+  \rule{\textwidth}{0.4pt}
+  \textbf{\href{https://href.com}{\@title}} \\[-1ex]
+  \rule{\textwidth}{0.4pt}\vspace*{-\baselineskip}\vspace*{3.2pt}
+  \rule{\textwidth}{1.6pt} \\
+  \Large
+  by \\
+  \LARGE
+  \textbf{\href{http://href.com}{\@author}} \\[1ex]
+  \large
+  \noindent \textit{Supervisor} \hfill \textit{Co-Supervisor} \\
+  \href{https://href.com}{Sanja Fidler}\hfill
+  \href{https://href.com}{Xavier Giró-i-Nieto}
+
+  \vfill
+
+  \Large
+  Mathematics \\
+  Industrial Technology Engineering
+
+  \vfill
+
+  \large
+  \href{https://href.com}{\includegraphics[height=12ex]{Logos/CFIS.jpeg}}
+  \hspace{2em}
+  \href{https://href.com}{\includegraphics[height=12ex]{Logos/FME.png}}
+  \hspace{2em}
+  \href{https://href.com}{\includegraphics[height=12ex]{Logos/ETSEIB.png}} \\[1ex]
+  {\slshape
+  \href{https://href.com}{Centro de Formación Interdisciplinaria Superior} \\
+  \href{https://href.com}{Facultad de Matemáticas y Estadísitcas} \\
+  \href{https://href.com}{Escuela Técnica Superior de Ingeniería Industrial de Barcelona}}
+
+  \vfill
+
+  Toronto, ON, Canada \hfill \@date
+
+  \makeatother
+\end{titlepage}
 
 
 \thispagestyle{plain}
-\vspace*{\fill}
+\null
+\vfill
 \makeatletter
-\noindent \@author\ \textcopyright\ \today \\
-\texttt{\@title} \\
+\begin{sloppypar}
+  \noindent \@author{} \textcopyright{} \today \\
+  \texttt{\@title} \\
+\end{sloppypar}
 \makeatother
 
-\noindent A senior Bachelor's Degree Thesis submitted to
+\noindent A senior Bachelor's Thesis submitted to
 \begin{itemize}
-  \item \textit{Escola Tècnica Superior d'Enginyeria Industrial de Barcelona},
-  \item \textit{Facultat de Matemàtiques i Estadística},
-  \item and \textit{Centre de Formació Interdisciplinària Superior}
+  \item \textsl{Escola Tècnica Superior d'Enginyeria Industrial de Barcelona},
+  \item \textsl{Facultat de Matemàtiques i Estadística},
+  \item and \textsl{Centre de Formació Interdisciplinària Superior}
 \end{itemize}
 of the \textit{Universitat Politècnica de Catalunya} in partial fulfillment of
-the requirements of the \textsc{doble titulació en grau d'Enginyeria Industrial
-  i grau d'Enginyeria en Telecomunicacions}. \\
+the requirements for the degrees
+\begin{itemize}
+  \item in \textsc{Mathematics},
+  \item and in \textsc{Industrial Technology Engineering}. \\
+\end{itemize}
 
-\noindent Thesis produced at the Vector Institute, University of Toronto, under the
-supervision of Prof. Sanja Fidler and co-supervision of Xavier Giró-i-Nieto. \\
+\noindent Thesis produced at the Vector Institute, University of Toronto, under
+the supervision of Prof.\ Sanja Fidler and co-supervision of Prof.\ Xavier
+Giró-i-Nieto. \\
 
 \noindent \textsc{Supervisor} \hfill \textsc{Co-Supervisor} \\
- Sanja Fidler \hfill Xavier Giró-ias \\
+Sanja Fidler \hfill Xavier Giró-i-Nieto \\
 
 \noindent \textsc{Location} \\
-Toronto, ON, Canada
+Toronto, ON, Canada \\
+
+% \doclicenseThis
 
 
-\chapter*{Abstract}
-This is the abstract page with the title and author.
-
-
-\chapter*{Dedication}
-\vfill
+\cleardoublepage
+\thispagestyle{empty}
+\vspace*{\stretch{1}}
 \begin{flushright}
-  \it To my mother, for her love and patience. \\
+  \itshape
+  To my mother, for her love and patience. \\
   To all my friends.
 \end{flushright}
+\vspace{\stretch{2}}
+
+
+\cleardoublepage
+\thispagestyle{empty}
+\null
 \vfill
+\begin{center}
+  \makeatletter
+  \MakeUppercase{\href{https://href.com}{University Name}} \\
+  \bigskip
+  \huge{\textit{Abstract}} \\
+  \bigskip
+  {\normalsize \href{https://href.com}{Faculty Name} \par}
+  {\normalsize \href{https://href.com}{Department Name} \par}
+  \bigskip
+  {\normalsize Degree Name \par}
+  \bigskip
+  {\normalsize\bfseries \@title \par}
+  \medskip
+  {\normalsize by \@author \par}
+  \bigskip
+  \makeatother
+\end{center}
+\small{The Thesis Abstract is written here (and usually kept to just this
+  page). The page is kept centered vertically so can expand into the blank space
+  above the title too\ldots}
+\vfill
+\null
 
 
 \chapter*{Acknowledgements}
-I want to thank...
+I want to thank\ldots
 
 
 \tableofcontents

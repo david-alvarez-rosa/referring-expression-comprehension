@@ -1,0 +1,85 @@
+\documentclass{report}
+
+\usepackage[margin=1in]{geometry}
+
+\usepackage[dvipsnames]{xcolor}
+
+\usepackage{tikz}
+\usepackage{minted}
+
+\usepackage{fontawesome}
+
+
+
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{listings}
+\tcbuselibrary{minted}
+
+\usemintedstyle{tango}
+\renewcommand{\theFancyVerbLine}{\ttfamily \small \arabic{FancyVerbLine}}
+
+\tikzset{
+  linum/.style = {
+    fill=black!25,
+    draw=black
+  },
+  codeSymbol/.style = {
+    white,
+    circle,
+    anchor = north east,
+    outer sep = -9pt,
+    fill = black,
+  }
+}
+
+
+\newtcbinputlisting[auto counter, number within=chapter, list inside=code]{\codeInput}[4]{
+  listing engine = minted,
+  minted language = #1,
+  listing file = {#2},
+  minted options = {
+    autogobble,
+    linenos,
+    breaklines,
+    fontfamily = tt,
+    fontsize = \small,
+    mathescape = true,
+    samepage = false,
+  },
+  listing only,
+  drop fuzzy shadow,
+  breakable,
+  left = 22pt,
+  lefttitle = 4mm,
+  enhanced,
+  colbacktitle = RoyalBlue!50!black,
+  coltitle = white,
+  fonttitle = \bfseries,
+  colback = RoyalBlue!12,
+  title = {Source code~\thetcbcounter : #3 \hfill \large\faCode},
+  list entry = Source code~\thetcbcounter : #3,
+  underlay = {
+    \begin{tcbclipinterior}
+      \draw[linum] (frame.south west) rectangle ([xshift=20pt]frame.north west);
+    \end{tcbclipinterior}
+  },
+  label = code:#4
+}
+
+
+\begin{document}
+\chapter{hola}
+\chapter{adios}
+
+
+  % \pycode[label=test.py]{../test.py}
+
+\codeInput{python}{hola.py}{Test.py name}{label}
+
+hola \ref{lst:label} hola
+
+\tcblistof[\chapter*]{code}{Lista de ejercicios}
+
+
+
+\end{document}

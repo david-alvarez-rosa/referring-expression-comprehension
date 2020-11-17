@@ -1,70 +1,25 @@
-\documentclass[twoside, openright, b5paper]{report}
+% -*- TeX-master: "Thesis.tex" -*-
 
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[margin=1in, right=.75in]{geometry}
-\usepackage{graphicx}
-\usepackage{hyperref}
-\usepackage{fancyhdr}
-\usepackage{lettrine}
-\usepackage[labelfont=bf]{caption}
-\usepackage[nottoc]{tocbibind}
-
-
-\pagestyle{fancy}
-\fancyhead[RO,LE]{\bf \thepage}
-\fancyhead[RE]{\leftmark}
-\fancyhead[LO]{\rightmark}
-\fancyfoot{}
-\makeatletter
-\fancyfoot[CO]{\sc\@author}
-\fancyfoot[CE]{\sc\@title}
-\makeatother
-\renewcommand{\footrulewidth}{.4pt}
-\renewcommand\footnoterule{}
-
-\hypersetup{
-  pdfusetitle,
-  colorlinks,
-  linkcolor = blue,
-  citecolor = magenta
-}
-
-\let\origdoublepage\cleardoublepage%
-\newcommand{\clearemptydoublepage}{%
-  \clearpage
-  {\pagestyle{empty}\origdoublepage}%
-}
-\let\cleardoublepage\clearemptydoublepage%
-
-
-\title{Multimodal learning}
-\author{David Álvarez Rosa}
-\date{\today}
+\input{Preamble}
 
 
 \begin{document}
 
-\pagenumbering{roman}
-\input{FrontMatter}
+\frontmatter
+\include{FrontMatter}
 
 
-\cleardoublepage
-\pagestyle{fancy}
-\pagenumbering{arabic}
-\include{Chapter1}
+\mainmatter
+\include{Chapters/Chapter1}
+\include{Chapters/Chapter2}
+\include{Chapters/Chapter3}
 
-
-\cleardoublepage
-\bibliographystyle{plain}
-\bibliography{References}
-\nocite{*}
-
-
-\cleardoublepage
 \appendix
-\include{AppendixA}
+\include{Appendices/AppendixA}
 
+
+\backmatter
+\include{BackMatter}
 
 \end{document}

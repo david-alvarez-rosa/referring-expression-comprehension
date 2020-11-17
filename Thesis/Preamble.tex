@@ -1,47 +1,248 @@
-% -*- TeX-master: "test.tex" -*-
+% -*- TeX-master: "Thesis.tex" -*-
+
+
+\documentclass{book}
+
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[margin = 1in, right = .75in]{geometry}
-
+\usepackage{geometry}
+\usepackage{amsmath, amsthm, amssymb}
 \usepackage{graphicx}
+\usepackage[dvipsnames, table]{xcolor}
+\usepackage{emptypage}
+\usepackage{fancyhdr}
+\usepackage{lettrine}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage[nottoc]{tocbibind}
+\usepackage[backend=biber, style=alphabetic, citestyle=alphabetic]{biblatex}
+\usepackage{imakeidx}
+\usepackage{epigraph}
+\usepackage{tikz}
+\usepackage{fontawesome}
+\usepackage{minted}
+\usepackage[most]{tcolorbox}
+\usepackage[pdfusetitle]{hyperref}
 
 
+% Customize page layout.
+\geometry{
+	paper = b5paper,
+  top = 1in,
+  bottom = 1in,
+  inner = .75in,
+  outer = .75in,
+	bindingoffset = .25in,
+  headsep = 20pt,
+  footskip = 35pt,
+	% showframe
+}
 
+\captionsetup{
+  font = small,
+  labelfont = {sc, bf},
+  labelsep = period,
+  width = .75\textwidth,
+  tableposition = top,
+}
 
-\usepackage{hyperref}
 \hypersetup{
-  pdfusetitle,
+  % Info.
+  pdfsubject = {Computer Vision},
+  pdfkeywords = {Artificial Intelligence, Machine Learning, Computer Vision,
+    Multimodal Learning},
+  % Colors.
   colorlinks,
   linkcolor = blue,
-  citecolor = magenta
+  citecolor = magenta,
+  urlcolor = red!50!black,
+  % Displaying.
+  pdfpagelayout = TwoPageRight,
+  pdfstartview = FitV,
+  pdfpagemode = UseOutlines,
+  bookmarksopen,
+  bookmarksnumbered,
+  breaklinks,
 }
 
-
-\let\origdoublepage\cleardoublepage
-\newcommand{\clearemptydoublepage}{%
-  \clearpage
-  {\pagestyle{empty}\origdoublepage}%
-}
-\let\cleardoublepage\clearemptydoublepage
-
-\usepackage{lettrine}
-
-\usepackage{fancyhdr}
+% Configure running headers and footers.
 \pagestyle{fancy}
-\fancyhead[RO,LE]{\bf \thepage}
-\fancyhead[RE]{\leftmark}
-\fancyhead[LO]{\rightmark}
+\fancyhead[RO,LE]{\small\bf\thepage}
+\fancyhead[RE]{\small\slshape\leftmark}
+\fancyhead[LO]{\small\slshape\rightmark}
 \fancyfoot{}
 \makeatletter
 \fancyfoot[CO]{\sc\@author}
 \fancyfoot[CE]{\sc\@title}
 \makeatother
-
 \renewcommand{\footrulewidth}{.4pt}
 
+% Don't use rule for footnotes (ugly with footer rule).
 \renewcommand\footnoterule{}
-\usepackage[labelfont = bf]{caption}
+
+% Set path for figures (relative to main document).
+\graphicspath{{./Figures/}}
+
+% Alphabetical index customization.
+\makeindex[columns=2, intoc, options={-s index_style.ist}]
+
+% Remove epigraph rule.
+\setlength\epigraphrule{0pt}
+
+% Change label item icon from bullet to square.
+\renewcommand{\labelitemi}{\raisebox{.32ex}{\rule{.7ex}{.7ex}}}
+
+% Customize bibliography (biblatex and biber).
+\addbibresource{References.bib}
+\ExecuteBibliographyOptions{minnames=5, maxnames=5}
+\DeclareFieldFormat{annotation}{\par\nobreak\vskip\bibitemsep #1\smallskip}
+\renewbibmacro*{finentry}{\printfield{annotation}\finentry}
+\DeclareFieldFormat{labelalpha}{\mkbibbold{#1}}
+\DeclareFieldFormat{extraalpha}{\mkbibbold{\mknumalph{#1}}}
+
+% Set minted style and font for line numbers.
+\usemintedstyle{tango}
+\renewcommand{\theFancyVerbLine}{\ttfamily\small\arabic{FancyVerbLine}}
+
+% Tikz configuration.
+\usetikzlibrary{
+  external,
+  positioning,
+  arrows,
+  shadows.blur,
+  calc,
+  shapes.geometric
+}
+% \tikzexternalize[prefix=Figures/Tikz/] % TODO: This is not working!
+\tikzset{
+  linum/.style = {
+    fill = black!25,
+    draw = black
+  },
+  codeSymbol/.style = {
+    white,
+    circle,
+    anchor = north east,
+    outer sep = -9pt,
+    fill = black,
+  },
+  quoteDecoration/.style = {
+    draw = tcbcolframe,
+    fill = tcbcolback!80!black,
+    line width = .5mm,
+  }
+}
+
+% Tcolorbox configuration.
+\tcbuselibrary{listings}
+\tcbuselibrary{minted}
+% Basic reusable styles.
+\tcbset{
+  skipBox/.style = {
+    before skip = .75em,
+    after skip = 1em,
+  }
+}
+% Quote box.
+\newtcolorbox{quoteBox}[1][]{
+  skipBox,
+  enhanced,
+  lower separated = false,
+  left = 3mm,
+  right = 4mm,
+  top = 1mm,
+  bottom = 2mm,
+  middle = 0pt,
+  colback = RoyalBlue!10,
+  colframe = RoyalBlue!50!black,
+  sharp corners,
+  rounded corners = southeast,
+  arc is angular,
+  arc = 3mm,
+  leftrule = 5pt,
+  underlay = {
+    \path[quoteDecoration] ([shift={(.01, .3)}]interior.south east) --
+    ++(-.4, -.1) -- ++(.1, -.2);
+  },
+  drop fuzzy shadow,
+  #1
+}
+% Basic remark box.
+\newtcbtheorem[no counter]{hola}{}{
+  skipBox,
+  lower separated = false,
+  colframe = black,
+  fonttitle = \bfseries,
+  separator sign = {},
+  coltitle = black,
+  enhanced,
+  top = 4.5mm,
+  drop fuzzy shadow,
+  boxed title style = { colframe = black },
+  attach boxed title to top left = { xshift = 5mm, yshift = -2mm },
+  colback = ForestGreen!12,
+  colbacktitle = ForestGreen!36
+  % colback = RoyalBlue!12,
+  % colbacktitle = RoyalBlue!36
+}{hola}
+% Input code file.
+\newtcbinputlisting[auto counter, number within=chapter, list inside=code]{\codeLst}[4]{
+  listing engine = minted,
+  minted language = #1,
+  listing file = {#2},
+  minted options = {
+    autogobble,
+    linenos,
+    breaklines,
+    fontfamily = tt,
+    fontsize = \small,
+    mathescape = true,
+    samepage = false,
+  },
+  listing only,
+  drop fuzzy shadow,
+  breakable,
+  left = 22pt,
+  lefttitle = 4mm,
+  enhanced,
+  colbacktitle = RoyalBlue!50!black,
+  coltitle = white,
+  fonttitle = \bfseries,
+  colback = RoyalBlue!12,
+  title = {Source code~\thetcbcounter : #3 \hfill \large\faCode},
+  list entry = Source code~\thetcbcounter : #3,
+  underlay = {
+    \begin{tcbclipinterior}
+      \draw[linum] (frame.south west) rectangle ([xshift=20pt]frame.north west);
+    \end{tcbclipinterior}
+  },
+  label = code:#4
+}
 
 
-\usepackage[nottoc]{tocbibind}
+\title{An innecesarily long title related to Artifical Intelligence and in the
+  topic of Multimodal Learning}
+\author{David Álvarez Rosa}
+\date{\today}
+
+
+% \includeonly{FrontMatter}
+
+
+
+
+
+
+
+
+
+
+
+
+% \usepackage[
+% type={CC},
+% modifier={by-nc-sa},
+% version={3.0},
+% ]{doclicense}
+% % \usepackage{hyperxmp}
