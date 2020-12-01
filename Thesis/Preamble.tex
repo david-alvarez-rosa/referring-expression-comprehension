@@ -1,21 +1,26 @@
 % -*- TeX-master: "Thesis.tex" -*-
 
 
-\documentclass{book}
+\documentclass[11pt]{book}
 
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{fix-cm}
+\usepackage[main=english, spanish, catalan]{babel}
 \usepackage{geometry}
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{graphicx}
 \usepackage[dvipsnames, table]{xcolor}
+\usepackage{microtype}
 \usepackage{emptypage}
 \usepackage{fancyhdr}
 \usepackage{lettrine}
 \usepackage{booktabs}
 \usepackage{caption}
 \usepackage[nottoc]{tocbibind}
+\usepackage[type={CC}, modifier={by-nc-sa}, version={4.0}]{doclicense}
 \usepackage[backend=biber, style=alphabetic, citestyle=alphabetic]{biblatex}
 \usepackage{imakeidx}
 \usepackage{epigraph}
@@ -24,7 +29,13 @@
 \usepackage{minted}
 \usepackage[most]{tcolorbox}
 \usepackage[pdfusetitle]{hyperref}
+\usepackage{hyperxmp}
 
+
+% Fallback to computer modern for sc + bf.
+\rmfamily
+\DeclareFontShape{T1}{lmr}{b}{sc}{<->ssub*cmr/bx/sc}{}
+\DeclareFontShape{T1}{lmr}{bx}{sc}{<->ssub*cmr/bx/sc}{}
 
 % Customize page layout.
 \geometry{
@@ -68,15 +79,48 @@
 
 % Configure running headers and footers.
 \pagestyle{fancy}
-\fancyhead[RO,LE]{\small\bf\thepage}
+\fancyhead[RO,LE]{\small\bfseries\thepage}
 \fancyhead[RE]{\small\slshape\leftmark}
 \fancyhead[LO]{\small\slshape\rightmark}
 \fancyfoot{}
 \makeatletter
-\fancyfoot[CO]{\sc\@author}
-\fancyfoot[CE]{\sc\@title}
+\fancyfoot[CO]{\scshape\@author}
+\fancyfoot[CE]{\scshape\@title}
 \makeatother
 \renewcommand{\footrulewidth}{.4pt}
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\small\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+% Really ugly stuff.
+% https://tex.stackexchange.com/questions/125457/changing-chapter-page-footer-with-epigraph
+\makeatletter
+\renewcommand{\epigraphhead}[2][95]{%
+  \def\@epitemp{\begin{minipage}{\epigraphwidth}#2\end{minipage}}
+  \def\ps@epigraph{\let\@mkboth\@gobbletwo
+    \@epipos
+    \if@epirhs
+    \def\@oddhead{\hfil\begin{picture}(0,0)
+        \put(0,-#1){\makebox(0,0)[r]{\@epitemp}}
+      \end{picture}}
+    \else
+    \if@epicenter
+    \def\@oddhead{\hfil\begin{picture}(0,0)
+        \put(0,-#1){\makebox(0,0)[b]{\@epitemp}}
+      \end{picture}\hfil}
+    \else
+    \def\@oddhead{\begin{picture}(0,0)
+        \put(0,-#1){\makebox(0,0)[l]{\@epitemp}}
+      \end{picture}\hfil}
+    \fi
+    \fi
+    \let\@evenhead\@oddhead
+    \def\@oddfoot{\reset@font\hfil\small\thepage\hfil}
+    \let\@evenfoot\@oddfoot}
+  \thispagestyle{epigraph}}
+\makeatother
 
 % Don't use rule for footnotes (ugly with footer rule).
 \renewcommand\footnoterule{}
@@ -90,8 +134,15 @@
 % Remove epigraph rule.
 \setlength\epigraphrule{0pt}
 
-% Change label item icon from bullet to square.
-\renewcommand{\labelitemi}{\raisebox{.32ex}{\rule{.7ex}{.7ex}}}
+% Set the label symbols (taken from spanish babel package).
+\makeatletter
+\renewcommand{\labelitemi}{%
+  \leavevmode\hbox to 1.2ex{\hss\vrule height .9ex width .7ex depth -.2ex\hss}%
+}
+\renewcommand{\labelitemii}{\textbullet}
+\renewcommand{\labelitemiii}{$\m@th\circ$}
+\renewcommand{\labelitemiv}{$\m@th\diamond$}
+\makeatother
 
 % Customize bibliography (biblatex and biber).
 \addbibresource{References.bib}
@@ -114,7 +165,7 @@
   calc,
   shapes.geometric
 }
-% \tikzexternalize[prefix=Figures/Tikz/] % TODO: This is not working!
+\tikzexternalize[prefix=Figures/Tikz/External/]
 \tikzset{
   linum/.style = {
     fill = black!25,
@@ -144,6 +195,7 @@
     after skip = 1em,
   }
 }
+\tcbsetforeverylayer{shield externalize}
 % Quote box.
 \newtcolorbox{quoteBox}[1][]{
   skipBox,
@@ -228,21 +280,3 @@
 
 
 % \includeonly{FrontMatter}
-
-
-
-
-
-
-
-
-
-
-
-
-% \usepackage[
-% type={CC},
-% modifier={by-nc-sa},
-% version={3.0},
-% ]{doclicense}
-% % \usepackage{hyperxmp}

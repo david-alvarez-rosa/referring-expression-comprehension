@@ -9,10 +9,8 @@
   \hypersetup{
     urlcolor = black
   }
-
+  \noindent
   \begin{tikzpicture}[
-    remember picture,
-    overlay,
     hexagon/.style = {
       rounded corners,
       draw,
@@ -22,57 +20,53 @@
     }
     ]
 
-%%%%%%%%%%%%%%%%%%%% Background %%%%%%%%%%%%%%%%%%%%%%%%
+    \clip (0, 0) rectangle (\paperwidth, \paperheight);
 
-\fill[Dandelion] (current page.south west) rectangle (current page.north east);
+    %%%%%%%%%%%%%%%%%%%% Background %%%%%%%%%%%%%%%%%%%%%%%%
+
+    \fill[Dandelion] (current page.south west) rectangle (current page.north
+    east);
 
 
 
-%%%%%%%%%%%%%%%%%%%% Background Polygon %%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%% Background Polygon %%%%%%%%%%%%%%%%%%%%
 
-\foreach \i in {2.5,...,22} {
-  \node[hexagon, Dandelion!60, minimum size=\i cm] at ($(current page.west)+(2.5,-5)$) {};
-}
+    \foreach \i in {2.5,...,22} { \node[hexagon, Dandelion!60, minimum size=\i
+      cm] at ($(current page.west)+(2.5,-5)$) {}; }
 
-\foreach \i in {0.5,...,22} {
-  \node[hexagon, Dandelion!60, minimum size=\i cm] at ($(current page.north west)+(2.5,0)$) {};
-}
+    \foreach \i in {0.5,...,22} { \node[hexagon, Dandelion!60, minimum size=\i
+      cm] at ($(current page.north west)+(2.5,0)$) {}; }
 
-\foreach \i in {0.5,...,22} {
-  \node[hexagon, Dandelion!90, minimum size=\i cm] at ($(current page.north east)+(0,-9.5)$) {};
-}
+    \foreach \i in {0.5,...,22} { \node[hexagon, Dandelion!90, minimum size=\i
+      cm] at ($(current page.north east)+(0,-9.5)$) {}; }
 
-\foreach \i in {21,...,6} {
-  \node[hexagon, Dandelion!85, minimum size=\i cm] at ($(current page.south east)+(-0.2,-0.45)$) {} ;
-}
+    \foreach \i in {21,...,6} { \node[hexagon, Dandelion!85, minimum size=\i cm]
+      at ($(current page.south east)+(-0.2,-0.45)$) {} ; }
 
-%%%%%%%%%%%%%%%%%%%% Title of the Report %%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%% Title of the Report %%%%%%%%%%%%%%%%%%%%
 
-\node[left,black,minimum width=0.625*\paperwidth,minimum height=3cm, rounded
-corners] at ($(current page.north east)+(0,-9.5)$) {
-{\fontsize{25}{30} \selectfont \bfseries TITLE OF THE REPORT}
-};
+    \node[left,black,minimum width=0.625*\paperwidth,minimum height=3cm, rounded
+    corners] at ($(current page.north east)+(0,-9.5)$) { {\fontsize{25}{30}
+        \selectfont \bfseries TITLE OF THE REPORT} };
 
-%%%%%%%%%%%%%%%%%%%% Subtitle %%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%% Subtitle %%%%%%%%%%%%%%%%%%%%
 
-\node[left,black,minimum width=0.625*\paperwidth,minimum height=2cm, rounded corners] at ($(current page.north east)+(0,-11)$)
-{
-{\huge \textit{Subtitle of the Report}}
-};
+    \node[left,black,minimum width=0.625*\paperwidth,minimum height=2cm, rounded
+    corners] at ($(current page.north east)+(0,-11)$) { {\huge \textit{Subtitle
+          of the Report}} };
 
-%%%%%%%%%%%%%%%%%%%% Author Name %%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%% Author Name %%%%%%%%%%%%%%%%%%%%
 
-\node[left,black,minimum width=0.625*\paperwidth,minimum height=2cm, rounded corners] at ($(current page.north east)+(0,-13)$)
-{
-{\Large \textsc{David Álvarez Rosa}}
-};
+    \node[left,black,minimum width=0.625*\paperwidth,minimum height=2cm, rounded
+    corners] at ($(current page.north east)+(0,-13)$) { {\Large \textsc{David
+          Álvarez Rosa}} };
 
-%%%%%%%%%%%%%%%%%%%% Year %%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%% Year %%%%%%%%%%%%%%%%%%%%
 
-\node[rounded corners,fill=Dandelion!70,text =black,regular polygon,regular polygon sides=6, minimum size=2.5 cm,inner sep=0,ultra thick] at ($(current page.west)+(2.5,-5)$) {\LARGE \bfseries 2020};
-
-\end{tikzpicture}
-
+    \node[rounded corners,fill=Dandelion!70,text =black,regular polygon,regular
+    polygon sides=6, minimum size=2.5 cm,inner sep=0,ultra thick] at
+    ($(current page.west)+(2.5,-5)$) {\LARGE \bfseries 2020};
+  \end{tikzpicture}
 
   \makeatother
 \end{titlepage}
@@ -125,7 +119,7 @@ corners] at ($(current page.north east)+(0,-9.5)$) {
   \LARGE
   \textbf{\href{http://href.com}{\@author}} \\[1ex]
   \large
-  \noindent \textit{Supervisor} \hfill \textit{Co-Supervisor} \\
+  \noindent \textsl{Supervisor} \hfill \textsl{Co-Supervisor} \\
   \href{https://href.com}{Sanja Fidler}\hfill
   \href{https://href.com}{Xavier Giró-i-Nieto}
 
@@ -159,12 +153,12 @@ corners] at ($(current page.north east)+(0,-9.5)$) {
 \thispagestyle{plain}
 \null
 \vfill
-\makeatletter
 \begin{sloppypar}
+  \makeatletter
   \noindent \@author{} \textcopyright{} \today \\
   \texttt{\@title} \\
+  \makeatother
 \end{sloppypar}
-\makeatother
 
 \noindent A senior Bachelor's Thesis submitted to
 \begin{itemize}
@@ -189,7 +183,7 @@ Sanja Fidler \hfill Xavier Giró-i-Nieto \\
 \noindent \textsc{Location} \\
 Toronto, ON, Canada \\
 
-% \doclicenseThis
+\doclicenseThis
 
 
 \cleardoublepage
@@ -204,10 +198,39 @@ Toronto, ON, Canada \\
 
 
 \cleardoublepage
-\thispagestyle{empty}
+\thispagestyle{plain}
 \null
 \vfill
 \begin{center}
+  \makeatletter
+  \MakeUppercase{\href{https://href.com}{University Name}} \\
+  \bigskip
+  {\huge\itshape Abstract} \\
+  \bigskip
+  \href{https://href.com}{Faculty Name} \\
+  \href{https://href.com}{Department Name} \\
+  \bigskip
+  Degree Name \\
+  \bigskip
+  \textbf{\@title} \\
+  \medskip
+  by \@author \\
+  \bigskip
+  \makeatother
+\end{center}
+{\small The Thesis Abstract is written here (and usually kept to just this
+  page). The page is kept centered vertically so can expand into the blank space
+  above the title too\ldots}
+\vfill
+\null
+
+
+\cleardoublepage
+\thispagestyle{plain}
+\null
+\vfill
+\begin{otherlanguage}{spanish}
+  \centering
   \makeatletter
   \MakeUppercase{\href{https://href.com}{University Name}} \\
   \bigskip
@@ -223,19 +246,80 @@ Toronto, ON, Canada \\
   {\normalsize by \@author \par}
   \bigskip
   \makeatother
-\end{center}
-\small{The Thesis Abstract is written here (and usually kept to just this
-  page). The page is kept centered vertically so can expand into the blank space
-  above the title too\ldots}
+  \small{The Thesis Abstract is written here (and usually kept to just this
+    page). The page is kept centered vertically so can expand into the blank space
+    above the title too\ldots}
+\end{otherlanguage}
+\vfill
+\null
+
+
+\cleardoublepage
+\thispagestyle{plain}
+\null
+\vfill
+\begin{otherlanguage}{catalan}
+  \centering
+  \makeatletter
+  \MakeUppercase{\href{https://href.com}{University Name}} \\
+  \bigskip
+  \huge{\textit{Abstract}} \\
+  \bigskip
+  {\normalsize \href{https://href.com}{Faculty Name} \par}
+  {\normalsize \href{https://href.com}{Department Name} \par}
+  \bigskip
+  {\normalsize Degree Name \par}
+  \bigskip
+  {\normalsize\bfseries \@title \par}
+  \medskip
+  {\normalsize by \@author \par}
+  \bigskip
+  \makeatother
+  \small{The Thesis Abstract is written here (and usually kept to just this
+    page). The page is kept centered vertically so can expand into the blank space
+    above the title too\ldots}
+\end{otherlanguage}
 \vfill
 \null
 
 
 \chapter*{Acknowledgements}
-I want to thank\ldots
+
+I would like to express my very deep appreciation to Professor Sanja Fidler, my
+research supervisor, for her willingness to host me as a visiting student at her
+research group, as well as for her enthusiastic direction and useful critiques
+of this present work. I would also like to thank the University of Toronto for
+making this stay possible and Vector Institute for providing me with all
+computational resources and amenities to comfortably carry out the entirety of
+the project. I would also like to acknowledge Professor Xavier Giró for
+mentoring my project from Barcelona.
+
+My special thanks are extended to Professor Miguel Ángel Barja, Professor Toni
+Pascual and Professor Eduardo Alarcón, respectively director, mobility director
+and deputy director of the Interdisciplinary Higher Education Centre (CFIS), for
+their excellent work in the management of this Mobility Program, which has
+facilitated me the opportunity to be hosted in one of the most cutting-edge
+research institutions of the world.
+
+I wish to acknowledge the help provided by Professor Fidler students Hang Chu
+and Wenzheng Chen, for their countless observations and useful contributions to
+this work, as well as to Jordi Fortuny, Rafel Palliser, Dídac Surís and Louis
+Clergue, fellow students from Polytechnic University of Catalonia that have
+supported me during the whole project, and which whom I have the pleasure to
+share a very good friendship. I am particularly grateful to my dear friend and
+housemate Jordi Fortuny for his endless patience and comprehension throughout
+the whole stay.
+
+I cannot forget to mention and acknowledge my secondary school teachers Antonio
+García and David Pi, for putting so much effort to make me discover and realize
+the intuition and beauty of mathematics.
+
+Lastly, I need to thank my family for their incessant support and affection
+through my education, even when very long distance has separated us, and
+especially my sister for always being an inspiration for me with her limitless
+strength and creativity.
 
 
 \tableofcontents
 \listoftables
 \listoffigures
-\clearpage
