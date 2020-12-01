@@ -1,19 +1,5 @@
-*.aux
-*.log
-*.log
-*.out
-*.lof
-*.lot
-*.synctex.gz
-*.toc
-*.idx
-*.md5
-*.ilg
-*.bcf
-*.auxlock
-*.ind
-*.run.xml
-_minted*
+Thesis/Build/
+!Thesis/Build/README.org
 Thesis/Thesis.pdf
 
 

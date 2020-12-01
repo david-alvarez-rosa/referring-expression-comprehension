@@ -26,7 +26,7 @@
 \usepackage{epigraph}
 \usepackage{tikz}
 \usepackage{fontawesome}
-\usepackage{minted}
+\usepackage[outputdir=Build, cachedir=Minted]{minted}
 \usepackage[most]{tcolorbox}
 \usepackage[pdfusetitle]{hyperref}
 \usepackage{hyperxmp}
@@ -129,7 +129,7 @@
 \graphicspath{{./Figures/}}
 
 % Alphabetical index customization.
-\makeindex[columns=2, intoc, options={-s index_style.ist}]
+\makeindex[columns=2, intoc, options={-s Index.ist}]
 
 % Remove epigraph rule.
 \setlength\epigraphrule{0pt}
@@ -165,7 +165,7 @@
   calc,
   shapes.geometric
 }
-\tikzexternalize[prefix=Figures/Tikz/External/]
+\tikzexternalize[prefix=Build/Tikz/]
 \tikzset{
   linum/.style = {
     fill = black!25,
