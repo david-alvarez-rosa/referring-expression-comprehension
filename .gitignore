@@ -6,7 +6,16 @@
 *.lot
 *.synctex.gz
 *.toc
+*.idx
+*.md5
+*.ilg
+*.bcf
+*.auxlock
+*.ind
+*.run.xml
+_minted*
 Thesis/Thesis.pdf
+
 
 .ipynb_checkpoints
 __pycache__
