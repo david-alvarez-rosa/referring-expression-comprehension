@@ -1,3 +1,9 @@
+Thesis.pdf
+
+
+## Below a general .gitignore file from:
+## https://github.com/github/gitignore/blob/master/TeX.gitignore
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
