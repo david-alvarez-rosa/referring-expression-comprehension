@@ -1,6 +1,9 @@
-.ipynb_checkpoints
+checkpoints/
+checkpoints_bert/
+datasets/
+results/
+mio/
+
 __pycache__
 *.cpython*
 _mask.c
-
-data/
