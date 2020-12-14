@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 
-"""Interface for accessing the Microsoft REFER datasetAnns.
+"""Interface for accessing the Microsoft REFER ann_dataset.
 
 This interface provides access to four datasets:
 1) refclef
@@ -12,34 +12,30 @@ split by unc and google
 
 The following API functions are defined:
 REFER      - REFER api class
-getRefIds  - get ref ids that satisfy given filter conditions.
+get_ref_ids  - get ref ids that satisfy given filter conditions.
 getAnnIds  - get ann ids that satisfy given filter conditions.
-getImgIds  - get image ids that satisfy given filter conditions.
-getCatIds  - get category ids that satisfy given filter conditions.
+get_img_ids  - get image ids that satisfy given filter conditions.
+get_cat_ids  - get category ids that satisfy given filter conditions.
 loadRefs   - load refs with the specified ref ids.
 loadAnns   - load anns with the specified ann ids.
 loadImgs   - load images with the specified image ids.
 loadCats   - load category names with the specified category ids.
-getRefBox  - get ref's bounding box [x, y, w, h] given the ref_id
+getRefBox  - get ref"s bounding box [x, y, w, h] given the ref_id
 showRef    - show image, segmentation or box of the referred object with the ref
-getMask    - get mask and area of the referred object given ref
+get_mask    - get mask and area of the referred object given ref
 showMask   - show mask of the referred object given ref
 """
 
 
-import sys
-import os.path as osp
 import json
 import pickle
 import time
-import itertools
-import skimage.io as io
 import matplotlib.pyplot as plt
 from matplotlib.collections import PatchCollection
-from matplotlib.patches import Polygon, Rectangle
-from pprint import pprint
+from matplotlib.patches import Polygon
 import numpy as np
-from .external import mask
+from pycocotools import mask as mask_utils
+from collections import defaultdict
 
 
 __author__ = "Rob Knight, Gavin Huttley, and Peter Maxwell"
@@ -52,9 +48,9 @@ __maintainer__ = "Rob Knight"
 __email__ = "rob@spot.colorado.edu"
 __status__ = "Production"
 
-def _isArrayLike(obj):
-    return hasattr(obj, '__iter__') and hasattr(obj, '__len__')
 
+def _is_array_like(obj):
+    return hasattr(obj, "__iter__") and hasattr(obj, "__len__")
 
 
 class REFER:
@@ -62,366 +58,571 @@ class REFER:
 
     Longer description of class.
     Longer description of class.
-
     """
 
-    def __init__(self, data_root, dataset='refcoco', splitBy='unc'):
-        """
-        provide data_root folder which contains refclef, refcoco, refcoco+ and refcocog
-        also provide dataset name and splitBy information
-        e.g., dataset = 'refcoco', splitBy = 'unc'
-        """
-        print('loading dataset %s into memory...' % dataset)
-        self.ROOT_DIR = osp.abspath(osp.dirname(__file__))
-        self.DATA_DIR = osp.join(data_root, dataset)
-        if dataset in ['refcoco', 'refcoco+', 'refcocog']:
-            self.IMAGE_DIR = osp.join(data_root, 'images/mscoco/images/train2014')
-        elif dataset == 'refclef':
-            self.IMAGE_DIR = osp.join(data_root, 'images/saiapr_tc-12')
-        else:
-            print('No refer dataset is called [%s]' % dataset)
-            sys.exit()
+    def __init__(self, ann_file, ref_file):
+        """Short description.
 
-        # load refs from data/dataset/refs(dataset).json
+        provide data_root folder which contains refclef, refcoco, refcoco+ and
+        refcocog also provide ann_dataset name and splitBy information e.g.,
+        ann_dataset = "refcoco", splitBy = "unc"
+        """
+
+        # TODO: remove this
+        self.image_dir = ("/home/david/Documents/UPC/Cuatrimestre 9/"
+                          "Bachelor's Thesis/datasets/refcoco/images")
+
+        print("Loading annotations into memory...")
         tic = time.time()
-        ref_file = osp.join(self.DATA_DIR, 'refs('+splitBy+').p')
-        self.data = {}
-        self.data['dataset'] = dataset
-        self.data['refs'] = pickle.load(open(ref_file, 'rb'))
+        ann_dataset = json.load(open(ann_file, "r"))
+        print("Done (t={:0.2f}s)".format(time.time() - tic))
+        self.ann_dataset = ann_dataset
 
-        # load annotations from data/dataset/instances.json
-        instances_file = osp.join(self.DATA_DIR, 'instances.json')
-        instances = json.load(open(instances_file, 'r'))
-        self.data['images'] = instances['images']
-        self.data['annotations'] = instances['annotations']
-        self.data['categories'] = instances['categories']
+        print("Loading referring expressions into memory...")
+        tic = time.time()
+        ref_dataset = pickle.load(open(ref_file, "rb"))
+        print("Done (t={:0.2f}s)".format(time.time() - tic))
+        self.ref_dataset = ref_dataset
 
-        # create index
-        self.createIndex()
-        print('DONE (t=%.2fs)' % (time.time()-tic))
+        self.create_index()
 
-    def createIndex(self):
-        # create sets of mapping
-        # 1)  Refs:         {ref_id: ref}
-        # 2)  Anns:         {ann_id: ann}
-        # 3)  Imgs:         {image_id: image}
-        # 4)  Cats:         {category_id: category_name}
-        # 5)  Sents:        {sent_id: sent}
-        # 6)  imgToRefs:    {image_id: refs}
-        # 7)  imgToAnns:    {image_id: anns}
-        # 8)  refToAnn:     {ref_id: ann}
-        # 9)  annToRef:     {ann_id: ref}
-        # 10) catToRefs:    {category_id: refs}
-        # 11) sentToRef:    {sent_id: ref}
-        # 12) sentToTokens: {sent_id: tokens}
-        print('creating index...')
-        # fetch info from instances
-        Anns, Imgs, Cats, imgToAnns = {}, {}, {}, {}
-        for ann in self.data['annotations']:
-            Anns[ann['id']] = ann
-            imgToAnns[ann['image_id']] = imgToAnns.get(ann['image_id'], []) + [ann]
-        for img in self.data['images']:
-            Imgs[img['id']] = img
-        for cat in self.data['categories']:
-            Cats[cat['id']] = cat['name']
+    def create_index(self):
+        """asdf
 
-        # fetch info from refs
-        Refs, imgToRefs, refToAnn, annToRef, catToRefs = {}, {}, {}, {}, {}
-        Sents, sentToRef, sentToTokens = {}, {}, {}
-        for ref in self.data['refs']:
-            # ids
-            ref_id = ref['ref_id']
-            ann_id = ref['ann_id']
-            category_id = ref['category_id']
-            image_id = ref['image_id']
+        create sets of mapping
+        1)  refs:         {ref_id: ref}
+        2)  anns:         {ann_id: ann}
+        3)  imgs:         {image_id: image}
+        4)  cats:         {category_id: category_name}
+        5)  sents:        {sent_id: sent}
+        6)  img_to_refs:    {image_id: refs}
+        7)  img_to_anns:    {image_id: anns}
+        8)  ref_to_ann:     {ref_id: ann}
+        9)  ann_to_ref:     {ann_id: ref}
+        10) cat_to_refs:    {category_id: refs}
+        11) sentToRef:    {sent_id: ref}
+        12) sent_to_tokens: {sent_id: tokens}
+        """
 
-            # add mapping related to ref
-            Refs[ref_id] = ref
-            imgToRefs[image_id] = imgToRefs.get(image_id, []) + [ref]
-            catToRefs[category_id] = catToRefs.get(category_id, []) + [ref]
-            refToAnn[ref_id] = Anns[ann_id]
-            annToRef[ann_id] = ref
+        print("Creating index...")
+        tic = time.time()
 
-            # add mapping of sent
-            for sent in ref['sentences']:
-                Sents[sent['sent_id']] = sent
-                sentToRef[sent['sent_id']] = ref
-                sentToTokens[sent['sent_id']] = sent['tokens']
+        # Fetch info from annotation dataset.
+        anns, imgs, cats = {}, {}, {}
+        cat_to_imgs, img_to_anns = defaultdict(list), defaultdict(list)
+        for ann in self.ann_dataset["annotations"]:
+            anns[ann["id"]] = ann
+            img_to_anns[ann["image_id"]].append(ann["id"])
+            cat_to_imgs[ann["category_id"]].append(ann["image_id"])
+        for img in self.ann_dataset["images"]:
+            imgs[img["id"]] = img
+        for cat in self.ann_dataset["categories"]:
+            cats[cat["id"]] = cat["name"]
 
-        # create class members
-        self.Refs = Refs
-        self.Anns = Anns
-        self.Imgs = Imgs
-        self.Cats = Cats
-        self.Sents = Sents
-        self.imgToRefs = imgToRefs
-        self.imgToAnns = imgToAnns
-        self.refToAnn = refToAnn
-        self.annToRef = annToRef
-        self.catToRefs = catToRefs
-        self.sentToRef = sentToRef
-        self.sentToTokens = sentToTokens
-        print('index created.')
+        # Fetch info from referring dataset.
+        refs, sents = {}, {}
+        ann_to_ref, ref_to_ann = {}, {}
+        ref_to_sents = defaultdict(list)
+        sent_to_tokens = {} # TODO: check if this is being used.
+        for ref in self.ref_dataset:
+            refs[ref["ref_id"]] = ref
+            ann_to_ref[ref["ann_id"]] = ref["ref_id"]
+            ref_to_ann[ref["ref_id"]] = ref["ann_id"]
+            for sent in ref["sentences"]:
+                sents[sent["sent_id"]] = sent
+                sent_to_tokens[sent["sent_id"]] = sent["tokens"]
+                ref_to_sents["ref_id"].append(sent["sent_id"])
 
-    def getRefIds(self, image_ids=[], cat_ids=[], ref_ids=[], split=''):
-        image_ids = image_ids if type(image_ids) == list else [image_ids]
-        cat_ids = cat_ids if type(cat_ids) == list else [cat_ids]
-        ref_ids = ref_ids if type(ref_ids) == list else [ref_ids]
+        print("Done (t={:0.2f}s)".format(time.time() - tic))
 
-        if len(image_ids)==len(cat_ids)==len(ref_ids)==len(split)==0:
-            refs = self.data['refs']
+        # Set attributes.
+        self.cats = cats
+        self.imgs = imgs
+        self.anns = anns
+        self.refs = refs
+        self.sents = sents
+        self.cat_to_imgs = cat_to_imgs
+        self.img_to_anns = img_to_anns
+        self.ann_to_ref = ann_to_ref
+        self.ref_to_ann = ref_to_ann
+        self.ref_to_sents = ref_to_sents
+        self.sent_to_tokens = sent_to_tokens
+
+    def ann_info(self):
+        """Prints information about the annotation file."""
+
+        for key, value in self.ann_dataset["info"].items():
+            print("{}: {}".format(key, value))
+
+    def get_sent_ids(self,
+                     cat_names=None,
+                     cat_ids=None,
+                     sup_names=None,
+                     img_ids=None,
+                     area_range=None,
+                     is_crowd=None,
+                     ann_ids=None,
+                     split=None,
+                     ref_ids=None,
+                     sent_ids=None):
+        """Get ann ids that satisfy given filter conditions.
+
+        Args:
+          cat_names:
+            A list of strings specifying cat names or None if filter is
+            deactivated. A single string will also work.
+          cat_ids:
+            A list of integers specifying cat ids or None if filter is
+            deactivated. A single integer will also work.
+          sup_names:
+            A list of strings specifying supercategory names or None if filter
+            is deactivated. A single string will also work.
+          img_ids:
+            A list of integers specifying cat ids or None if filter is
+            deactivated. A single integer will also work.
+          area_range:
+            A list of two integers specifying area range (e.g. [0 inf]) or None
+            if filter is deactivated.
+          is_crowd:
+            A boolean specifying crowd label or None if filter is deactivated.
+          ann_ids:
+            A list of integers specifying ann ids or None if filter is
+            deactivated. A single integer will also work.
+          split:
+            A string specifying split label (train/val/test) or None if filter
+            is deactivated.
+          ref_ids:
+            A list of integers specifying ann ids or None if filter is
+            deactivated. A single integer will also work.
+          sent_ids:
+            A list of integers specifying ann ids or None if filter is
+            deactivated. A single integer will also work.
+
+        Returns:
+          A list of integers specifying the sent ids.
+        """
+
+        ref_ids = self.get_ref_ids(cat_names=cat_names,
+                                   cat_ids=cat_ids,
+                                   sup_names=sup_names,
+                                   img_ids=img_ids,
+                                   area_range=area_range,
+                                   is_crowd=is_crowd,
+                                   ann_ids=ann_ids,
+                                   split=split,
+                                   ref_ids=ref_ids)
+
+        ids = []
+        for ref_id in ref_ids:
+            ids += self.ref_to_sents[ref_id]
+        if sent_ids is not None:
+            sent_ids = sent_ids if _is_array_like(sent_ids) else [sent_ids]
+            ids = [id_ for id_ in ids if id_ in sent_ids]
+        return ids
+
+    def get_ref_ids(self,
+                    cat_names=None,
+                    cat_ids=None,
+                    sup_names=None,
+                    img_ids=None,
+                    area_range=None,
+                    is_crowd=None,
+                    ann_ids=None,
+                    split=None,
+                    ref_ids=None):
+        """Get ann ids that satisfy given filter conditions.
+
+        Args:
+          cat_names:
+            A list of strings specifying cat names or None if filter is
+            deactivated. A single string will also work.
+          cat_ids:
+            A list of integers specifying cat ids or None if filter is
+            deactivated. A single integer will also work.
+          sup_names:
+            A list of strings specifying supercategory names or None if filter
+            is deactivated. A single string will also work.
+          img_ids:
+            A list of integers specifying cat ids or None if filter is
+            deactivated. A single integer will also work.
+          area_range:
+            A list of two integers specifying area range (e.g. [0 inf]) or None
+            if filter is deactivated.
+          is_crowd:
+            A boolean specifying crowd label or None if filter is deactivated.
+          ann_ids:
+            A list of integers specifying ann ids or None if filter is
+            deactivated. A single integer will also work.
+          split:
+            A string specifying split label (train/val/test) or None if filter
+            is deactivated.
+          ref_ids:
+            A list of integers specifying ann ids or None if filter is
+            deactivated. A single integer will also work.
+
+        Returns:
+          A list of integers specifying the ref ids.
+        """
+
+        ann_ids = self.get_ann_ids(cat_names=cat_names,
+                                   cat_ids=cat_ids,
+                                   sup_names=sup_names,
+                                   img_ids=img_ids,
+                                   area_range=area_range,
+                                   is_crowd=is_crowd,
+                                   ann_ids=ann_ids)
+        refs = [self.refs[self.ann_to_ref[ann_id]] for ann_id in ann_ids]
+        if split is not None:
+            refs = [ref for ref in refs if ref["split"] == split]
+        if ref_ids is not None:
+            ref_ids = ref_ids if _is_array_like(ref_ids) else [ref_ids]
+            refs = [ref for ref in refs if ref["id"] in ref_ids]
+
+        ids = [ref["ref_id"] for ref in refs]
+        return ids
+
+    def get_ann_ids(self,
+                    cat_names=None,
+                    cat_ids=None,
+                    sup_names=None,
+                    img_ids=None,
+                    area_range=None,
+                    is_crowd=None,
+                    ann_ids=None):
+        """Get ann ids that satisfy given filter conditions.
+
+        Args:
+          cat_names:
+            A list of strings specifying cat names or None if filter is
+            deactivated. A single string will also work.
+          cat_ids:
+            A list of integers specifying cat ids or None if filter is
+            deactivated. A single integer will also work.
+          sup_names:
+            A list of strings specifying supercategory names or None if filter
+            is deactivated. A single string will also work.
+          img_ids:
+            A list of integers specifying cat ids or None if filter is
+            deactivated. A single integer will also work.
+          are_range:
+            A list of two integers specifying area range (e.g. [0 inf]) or None
+            if filter is deactivated.
+          is_crowd:
+            A boolean specifying crowd label or None if filter is deactivated.
+          ann_ids:
+            A list of integers specifying ann ids or None if filter is
+            deactivated. A single integer will also work.
+
+        Returns:
+          A list of integers specifying the ann ids.
+        """
+
+        img_ids = self.get_img_ids(cat_names=cat_names,
+                                   cat_ids=cat_ids,
+                                   sup_names=sup_names,
+                                   img_ids=img_ids)
+        ann_ids_ = []
+        for img_id in img_ids:
+            ann_ids_ += self.img_to_anns[img_id]
+        if area_range is not None:
+            ann_ids_ = [ann_id for ann_id in ann_ids_
+                        if self.anns[ann_id]["area"] > area_range[0]
+                        and self.anns[ann_id]["area"] < area_range[1]]
+        if is_crowd is not None:
+            ann_ids_ = [ann_id for ann_id in ann_ids_
+                       if self.anns[ann_id]["iscrowd"] == is_crowd]
+        if ann_ids is not None:
+            ann_ids = ann_ids if _is_array_like(ann_ids) else [ann_ids]
+            ann_ids_ = [ann_id for ann_id in ann_ids_ if ann_id in ann_ids]
+
+        return ann_ids_
+
+    def get_img_ids(self,
+                    cat_names=None,
+                    cat_ids=None,
+                    sup_names=None,
+                    img_ids=None):
+        """Get img ids that satisfy given filter conditions.
+
+        Args:
+          cat_names:
+            A list of strings specifying cat names or None if filter is
+            deactivated. A single string will also work.
+          cat_ids:
+            A list of integers specifying cat ids or None if filter is
+            deactivated. A single integer will also work.
+          sup_names:
+            A list of strings specifying supercategory names or None if filter
+            is deactivated. A single string will also work.
+          img_ids:
+            A list of integers specifying cat ids or None if filter is
+            deactivated. A single integer will also work.
+
+        Returns:
+          A list of integers specifying the img ids.
+        """
+
+        cat_ids = self.get_cat_ids(cat_names=cat_names,
+                                   sup_names=sup_names,
+                                   cat_ids=cat_ids)
+        ids = []
+        for cat_id in cat_ids:
+            ids += self.cat_to_imgs[cat_id]
+        if img_ids is not None:
+            img_ids = img_ids if _is_array_like(img_ids) else [img_ids]
+            ids = [id_ for id_ in ids if id_ in img_ids]
+        return ids
+
+    def get_cat_ids(self, cat_names=None, sup_names=None, cat_ids=None):
+        """Get cat ids that satisfy given filter conditions.
+
+        Args:
+          cat_names:
+            A list of strings specifying cat names or None if filter is
+            deactivated. A single string will also work.
+          sup_names:
+            A list of strings specifying supercategory names or None if filter
+            is deactivated. A single string will also work.
+          cat_ids:
+            A list of integers specifying cat ids or None if filter is
+            deactivated. A single integer will also work.
+
+        Returns:
+          A list of integers specifying the cat ids.
+        """
+
+        cats = self.ann_dataset["categories"]
+
+        if cat_names is not None:
+            cat_names = cat_names if _is_array_like(cat_names) else [cat_names]
+            cats = [cat for cat in cats if cat["name"] in cat_names]
+        if sup_names is not None:
+            sup_names = sup_names if _is_array_like(sup_names) else [sup_names]
+            cats = [cat for cat in cats if cat["supercategory"] in sup_names]
+        if cat_ids is not None:
+            cat_ids = cat_ids if _is_array_like(cat_ids) else [cat_ids]
+            cats = [cat for cat in cats if cat["id"] in cat_ids]
+
+        ids = [cat["id"] for cat in cats]
+        return ids
+
+    def load_sents(self, ids=None):
+        """Load sents with the specified ids.
+
+        Args:
+          ids:
+            A list of integers specifying the sent ids or None to load all
+            sents. A single integer will also work.
+
+        Returns:
+          A list of sents for all the specfied ids, or a single sent if
+          ids is a single integer.
+        """
+
+        if _is_array_like(ids):
+            return [self.sents[id_] for id_ in ids]
+        return self.sents[ids]
+
+    def load_refs(self, ids=None):
+        """Load refs with the specified ids.
+
+        Args:
+          ids:
+            A list of integers specifying the sent ids or None to load all
+            refs. A single integer will also work.
+
+        Returns:
+          A list of refs for all the specfied ids, or a single sent if ids is a
+          single integer.
+        """
+
+        if _is_array_like(ids):
+            return [self.refs[id_] for id_ in ids]
+        return self.refs[ids]
+
+    def load_anns(self, ids=None):
+        """Load anns with the specified ids.
+
+        Args:
+          ids:
+            A list of integers specifying the sent ids or None to load all
+            anns. A single integer will also work.
+
+        Returns:
+          A list of anns for all the specfied ids, or a single sent if ids is a
+          single integer.
+        """
+
+        if _is_array_like(ids):
+            return [self.anns[id_] for id_ in ids]
+        return self.anns[ids]
+
+    def load_imgs(self, ids=None):
+        """Load imgs with the specified ids.
+
+        Args:
+          ids:
+            A list of integers specifying the sent ids or None to load all
+            imgs. A single integer will also work.
+
+        Returns:
+          A list of imgs for all the specfied ids, or a single sent if ids is a
+          single integer.
+        """
+
+        if _is_array_like(ids):
+            return [self.imgs[id_] for id_ in ids]
+        return self.imgs[ids]
+
+    def load_cats(self, ids=None):
+        """Load cats with the specified ids.
+
+        Args:
+          ids:
+            A list of integers specifying the sent ids or None to load all
+            cats. A single integer will also work.
+
+        Returns:
+          A list of cats for all the specfied ids, or a single sent if ids is a
+          single integer.
+        """
+
+        if _is_array_like(ids):
+            return [self.cats[id_] for id_ in ids]
+        return self.cats[ids]
+
+    def show_anns(self, anns, draw_bbox=False):
+        """Display the specified annotations.
+
+        Args:
+          anns:
+            List of ann to display. It will also work with a single ann.
+          draw_bbow:
+            A boolean specifying if the bounding box should be drawn.
+        """
+
+        anns = anns if _is_array_like(anns) else [anns]
+
+        if "segmentation" in anns[0] or "keypoints" in anns[0]:
+            dataset_type = "instances"
+        elif "caption" in anns[0]:
+            dataset_type = "captions"
         else:
-            if not len(image_ids) == 0:
-                refs = [self.imgToRefs[image_id] for image_id in image_ids]
-            else:
-                refs = self.data['refs']
-            if not len(cat_ids) == 0:
-                refs = [ref for ref in refs if ref['category_id'] in cat_ids]
-            if not len(ref_ids) == 0:
-                refs = [ref for ref in refs if ref['ref_id'] in ref_ids]
-            if not len(split) == 0:
-                if split in ['testA', 'testB', 'testC']:
-                    refs = [ref for ref in refs if split[-1] in ref['split']] # we also consider testAB, testBC, ...
-                elif split in ['testAB', 'testBC', 'testAC']:
-                    refs = [ref for ref in refs if ref['split'] == split]  # rarely used I guess...
-                elif split == 'test':
-                    refs = [ref for ref in refs if 'test' in ref['split']]
-                elif split == 'train' or split == 'val':
-                    refs = [ref for ref in refs if ref['split'] == split]
-                else:
-                    print('No such split [%s]' % split)
-                    sys.exit()
-        ref_ids = [ref['ref_id'] for ref in refs]
-        return ref_ids
-
-    def getAnnIds(self, image_ids=[], cat_ids=[], ref_ids=[]):
-        image_ids = image_ids if type(image_ids) == list else [image_ids]
-        cat_ids = cat_ids if type(cat_ids) == list else [cat_ids]
-        ref_ids = ref_ids if type(ref_ids) == list else [ref_ids]
-
-        if len(image_ids) == len(cat_ids) == len(ref_ids) == 0:
-            ann_ids = [ann['id'] for ann in self.data['annotations']]
-        else:
-            if not len(image_ids) == 0:
-                lists = [self.imgToAnns[image_id] for image_id in image_ids if image_id in self.imgToAnns]  # list of [anns]
-                anns = list(itertools.chain.from_iterable(lists))
-            else:
-                anns = self.data['annotations']
-            if not len(cat_ids) == 0:
-                anns = [ann for ann in anns if ann['category_id'] in cat_ids]
-            ann_ids = [ann['id'] for ann in anns]
-            if not len(ref_ids) == 0:
-                ids = set(ann_ids).intersection(set([self.Refs[ref_id]['ann_id'] for ref_id in ref_ids]))
-        return ann_ids
-
-    def getImgIds(self, ref_ids=[]):
-        ref_ids = ref_ids if type(ref_ids) == list else [ref_ids]
-
-        if not len(ref_ids) == 0:
-            image_ids = list(set([self.Refs[ref_id]['image_id'] for ref_id in ref_ids]))
-        else:
-            image_ids = self.Imgs.keys()
-        return image_ids
-
-    def getCatIds(self):
-        return self.Cats.keys()
-
-    def loadRefs(self, ref_ids=[]):
-        if type(ref_ids) == list:
-            return [self.Refs[ref_id] for ref_id in ref_ids]
-        elif type(ref_ids) == int:
-            return [self.Refs[ref_ids]]
-
-    def loadAnns(self, ann_ids=[]):
-        if type(ann_ids) == list:
-            return [self.Anns[ann_id] for ann_id in ann_ids]
-        elif type(ann_ids) == int or type(ann_ids) == unicode:
-            return [self.Anns[ann_ids]]
-
-    def loadImgs(self, image_ids=[]):
-        if type(image_ids) == list:
-            return [self.Imgs[image_id] for image_id in image_ids]
-        elif type(image_ids) == int:
-            return [self.Imgs[image_ids]]
-
-    def loadCats(self, cat_ids=[]):
-        if type(cat_ids) == list:
-            return [self.Cats[cat_id] for cat_id in cat_ids]
-        elif type(cat_ids) == int:
-            return [self.Cats[cat_ids]]
-
-    def getRefBox(self, ref_id):
-        ref = self.Refs[ref_id]
-        ann = self.refToAnn[ref_id]
-        return ann['bbox']  # [x, y, w, h]
-
-    def showRef(self, ref, seg_box='seg'):
-        ax = plt.gca()
-        # show image
-        image = self.Imgs[ref['image_id']]
-        I = io.imread(osp.join(self.IMAGE_DIR, image['file_name']))
-        ax.imshow(I)
-        # show refer expression
-        for sid, sent in enumerate(ref['sentences']):
-            print('%s. %s' % (sid+1, sent['sent']))
-        # show segmentations
-        if seg_box == 'seg':
-            ann_id = ref['ann_id']
-            ann = self.Anns[ann_id]
+            raise Exception("dataset_type not supported")
+        if dataset_type == "instances":
+            ax = plt.gca()
+            ax.set_autoscale_on(False)
             polygons = []
             color = []
-            c = 'none'
-            if type(ann['segmentation'][0]) == list:
-                # polygon used for refcoco*
-                for seg in ann['segmentation']:
-                    poly = np.array(seg).reshape((len(seg)/2, 2))
-                    polygons.append(Polygon(poly, True, alpha=0.4))
+            for ann in anns:
+                c = (np.random.random((1, 3))*0.6 + 0.4).tolist()[0]
+                if "segmentation" in ann:
+                    if isinstance(ann["segmentation"], list):
+                        # polygon
+                        for seg in ann["segmentation"]:
+                            poly = np.array(seg).reshape((int(len(seg)/2), 2))
+                            polygons.append(Polygon(poly))
+                            color.append(c)
+                    else:
+                        # mask
+                        t = self.imgs[ann["image_id"]]
+                        if isinstance(ann["segmentation"]["counts"], list):
+                            rle = mask_utils.frPyObjects([ann["segmentation"]],
+                                                        t["height"],
+                                                        t["width"])
+                        else:
+                            rle = [ann["segmentation"]]
+                        m = mask_utils.decode(rle)
+                        img = np.ones((m.shape[0], m.shape[1], 3))
+                        if ann["iscrowd"] == 1:
+                            color_mask = np.array([2.0, 166.0, 101.0])/255
+                        if ann["iscrowd"] == 0:
+                            color_mask = np.random.random((1, 3)).tolist()[0]
+                        for i in range(3):
+                            img[:, :, i] = color_mask[i]
+                        ax.imshow(np.dstack((img, m*0.5)))
+                if "keypoints" in ann and isinstance(ann["keypoints"], list):
+                    # turn skeleton into zero-based index
+                    sks = np.array(
+                        self.loadCats(ann["category_id"])[0]["skeleton"]
+                    ) - 1
+                    kp = np.array(ann["keypoints"])
+                    x = kp[0::3]
+                    y = kp[1::3]
+                    v = kp[2::3]
+                    for sk in sks:
+                        if np.all(v[sk] > 0):
+                            plt.plot(x[sk], y[sk], linewidth=3, color=c)
+                    plt.plot(x[v > 0], y[v > 0], "o", markersize=8,
+                             markerfacecolor=c, markeredgecolor="k",
+                             markeredgewidth=2)
+                    plt.plot(x[v > 1], y[v > 1], "o", markersize=8,
+                             markerfacecolor=c, markeredgecolor=c,
+                             markeredgewidth=2)
+
+                if draw_bbox:
+                    [bbox_x, bbox_y, bbox_w, bbox_h] = ann["bbox"]
+                    poly = [[bbox_x, bbox_y], [bbox_x, bbox_y + bbox_h],
+                            [bbox_x + bbox_w, bbox_y + bbox_h],
+                            [bbox_x + bbox_w, bbox_y]]
+                    np_poly = np.array(poly).reshape((4, 2))
+                    polygons.append(Polygon(np_poly))
                     color.append(c)
-                p = PatchCollection(polygons, facecolors=color, edgecolors=(1,1,0,0), linewidths=3, alpha=1)
-                ax.add_collection(p)  # thick yellow polygon
-                p = PatchCollection(polygons, facecolors=color, edgecolors=(1,0,0,0), linewidths=1, alpha=1)
-                ax.add_collection(p)  # thin red polygon
-            else:
-                # mask used for refclef
-                rle = ann['segmentation']
-                m = mask.decode(rle)
-                img = np.ones( (m.shape[0], m.shape[1], 3) )
-                color_mask = np.array([2.0,166.0,101.0])/255
-                for i in range(3):
-                    img[:,:,i] = color_mask[i]
-                ax.imshow(np.dstack( (img, m*0.5) ))
-        # show bounding-box
-        elif seg_box == 'box':
-            ann_id = ref['ann_id']
-            ann = self.Anns[ann_id]
-            bbox =  self.getRefBox(ref['ref_id'])
-            box_plot = Rectangle((bbox[0], bbox[1]), bbox[2], bbox[3], fill=False, edgecolor='green', linewidth=3)
-            ax.add_patch(box_plot)
 
+            p = PatchCollection(polygons, facecolor=color, linewidths=0,
+                                alpha=0.4)
+            ax.add_collection(p)
+            p = PatchCollection(polygons, facecolor="none", edgecolors=color,
+                                linewidths=2)
+            ax.add_collection(p)
+        elif dataset_type == "captions":
+            for ann in anns:
+                print(ann["caption"])
 
-    def annToRLE(self, ann):
-        """
+    def ann_to_RLE(self, ann):
+        """Convert annotation to RLE.
+
         Convert annotation which can be polygons, uncompressed RLE to RLE.
         :return: binary mask (numpy 2D array)
+
+        Args:
+          ann:
+            Annotation object.
+
+        Returns:
+          A numpy 2D array specifying the binary mask.
         """
-        t = self.Imgs[ann['image_id']]
-        h, w = t['height'], t['width']
-        segm = ann['segmentation']
-        if type(segm) == list:
+
+        t = self.imgs[ann["image_id"]]
+        h, w = t["height"], t["width"]
+        segm = ann["segmentation"]
+        if isinstance(segm, list):
             # polygon -- a single object might consist of multiple parts
             # we merge all parts into one mask rle code
-            rles = mask.frPyObjects(segm, h, w)
-            rle = mask.merge(rles)
-        elif type(segm['counts']) == list:
+            rles = mask_utils.frPyObjects(segm, h, w)
+            rle = mask_utils.merge(rles)
+        elif isinstance(segm["counts"], list):
             # uncompressed RLE
-            rle = mask.frPyObjects(segm, h, w)
+            rle = mask_utils.frPyObjects(segm, h, w)
         else:
             # rle
-            rle = ann['segmentation']
+            rle = ann["segmentation"]
         return rle
 
-    def annToMask(self, ann):
-        """
+    def ann_to_mask(self, ann):
+        """Convert annotation to binary mask.
+
         Convert annotation which can be polygons, uncompressed RLE, or RLE to
-        binary mask.
-        :return: binary mask (numpy 2D array)
+        binary mask_utils.
+
+        Args:
+          ann:
+            Annotation object.
+
+        Returns:
+          A numpy 2D array specifying the binary mask.
         """
-        rle = self.annToRLE(ann)
-        m = mask.decode(rle)
+
+        rle = self.ann_to_RLE(ann)
+        m = mask_utils.decode(rle)
         return m
-
-
-
-    def getMask(self, ref):
-        # return mask, area and mask-center
-        ann = self.refToAnn[ref['ref_id']]
-        m = self.annToMask(ann)
-        # area = sum(mask.area(rle))  # should be close to ann['area']
-        return {'mask': m, 'area': -1}
-
-
-        image = self.Imgs[ref['image_id']]
-        if type(ann['segmentation'][0]) == list: # polygon
-            rle = mask.frPyObjects(ann['segmentation'], image['height'], image['width'])
-        else:
-            # rle = ann['segmentation']
-                        rle = mask.frPyObjects(ann['segmentation'], image['height'], image['width'])
-        print(rle)
-        print(rle[0]['counts'])
-        print(type(rle[0]['counts']))
-        # rle[0]['counts'] = str.encode(rle[0]['counts'])
-        # rle = bytes(rle)
-        m = mask.decode(rle)
-        m = np.sum(m, axis=2)  # sometimes there are multiple binary map (corresponding to multiple segs)
-        m = m.astype(np.uint8) # convert to np.uint8
-        # compute area
-        area = sum(mask.area(rle))  # should be close to ann['area']
-        return {'mask': m, 'area': area}
-        # # position
-        # position_x = np.mean(np.where(m==1)[1]) # [1] means columns (matlab style) -> x (c style)
-        # position_y = np.mean(np.where(m==1)[0]) # [0] means rows (matlab style)    -> y (c style)
-        # # mass position (if there were multiple regions, we use the largest one.)
-        # label_m = label(m, connectivity=m.ndim)
-        # regions = regionprops(label_m)
-        # if len(regions) > 0:
-        #   largest_id = np.argmax(np.array([props.filled_area for props in regions]))
-        #   largest_props = regions[largest_id]
-        #   mass_y, mass_x = largest_props.centroid
-        # else:
-        #   mass_x, mass_y = position_x, position_y
-        # # if centroid is not in mask, we find the closest point to it from mask
-        # if m[mass_y, mass_x] != 1:
-        #   print('Finding closes mask point ...')
-        #   kernel = np.ones((10, 10),np.uint8)
-        #   me = cv2.erode(m, kernel, iterations = 1)
-        #   points = zip(np.where(me == 1)[0].tolist(), np.where(me == 1)[1].tolist())  # row, col style
-        #   points = np.array(points)
-        #   dist   = np.sum((points - (mass_y, mass_x))**2, axis=1)
-        #   id     = np.argsort(dist)[0]
-        #   mass_y, mass_x = points[id]
-        #   # return
-        # return {'mask': m, 'area': area, 'position_x': position_x, 'position_y': position_y, 'mass_x': mass_x, 'mass_y': mass_y}
-        # # show image and mask
-        # I = io.imread(osp.join(self.IMAGE_DIR, image['file_name']))
-        # plt.figure()
-        # plt.imshow(I)
-        # ax = plt.gca()
-        # img = np.ones( (m.shape[0], m.shape[1], 3) )
-        # color_mask = np.array([2.0,166.0,101.0])/255
-        # for i in range(3):
-        #     img[:,:,i] = color_mask[i]
-        # ax.imshow(np.dstack( (img, m*0.5) ))
-        # plt.show()
-
-    def showMask(self, ref):
-        M = self.getMask(ref)
-        msk = M['mask']
-        ax = plt.gca()
-        ax.imshow(msk)
-
-
-if __name__ == '__main__':
-    refer = REFER(dataset='refcocog', splitBy='google')
-    ref_ids = refer.getRefIds()
-    print(len(ref_ids))
-
-    print(len(refer.Imgs))
-    print(len(refer.imgToRefs))
-
-    ref_ids = refer.getRefIds(split='train')
-    print('There are %s training referred objects.' % len(ref_ids))
-
-    for ref_id in ref_ids:
-        ref = refer.loadRefs(ref_id)[0]
-        if len(ref['sentences']) < 2:
-            continue
-
-        pprint(ref)
-        print('The label is %s.' % refer.Cats[ref['category_id']])
-        plt.figure()
-        refer.showRef(ref, seg_box='box')
-        plt.show()
-
-        # plt.figure()
-        # refer.showMask(ref)
-        # plt.show()

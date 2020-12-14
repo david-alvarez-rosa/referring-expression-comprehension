@@ -1,34 +1,28 @@
+"""Explanation.
+
+TODO: explanation.
+
+More text.
+"""
+
 import os
-import sys
-import torch.utils.data as data
-import torch
-from torchvision import transforms
-from torch.autograd import Variable
 import numpy as np
+import torch
+import torch.utils.data as data
 from PIL import Image
-import torchvision.transforms.functional as TF
-import random
-
 import transformers
-
-import h5py
 from refer.refer import REFER
-
-from args import get_parser
-
-# Dataset configuration initialization
-parser = get_parser()
-args = parser.parse_args()
 
 
 class ReferDataset(data.Dataset):
+    """TODO: docstring."""
 
     def __init__(self,
                  args,
                  input_size,
                  image_transforms=None,
                  target_transforms=None,
-                 split='train',
+                 split="train",
                  eval_mode=False):
 
         self.classes = []
@@ -36,15 +30,21 @@ class ReferDataset(data.Dataset):
         self.image_transforms = image_transforms
         self.target_transform = target_transforms
         self.split = split
-        self.refer = REFER(args.refer_data_root, args.dataset, args.splitBy)
+
+        ref_file = "datasets/refcoco/refs(unc).p"
+        ann_file = "datasets/refcoco/annotations.json"
+        self.refer = REFER(ann_file, ref_file)
 
         self.max_tokens = 20
 
-        ref_ids = self.refer.getRefIds(split=self.split)
-        img_ids = self.refer.getImgIds(ref_ids)
+        #ref_ids = self.refer.get_ref_ids(split=self.split)  # Set split in future
+        ref_ids = self.refer.get_ref_ids()
 
-        all_imgs = self.refer.Imgs
-        self.imgs = list(all_imgs[i] for i in img_ids)
+        img_ids = self.refer.get_img_ids(ref_ids)
+
+        all_imgs = self.refer.imgs
+        # print(all_imgs)
+        # self.imgs = list(all_imgs[i] for i in img_ids)
         self.ref_ids = ref_ids
 
         self.input_ids = []
@@ -53,20 +53,19 @@ class ReferDataset(data.Dataset):
 
         self.eval_mode = eval_mode
 
-        pad_id = self.tokenizer.convert_tokens_to_ids(self.tokenizer.tokenize('[PAD]'))
-
-        for r in ref_ids:
-            ref = self.refer.Refs[r]
+        for ref_id in ref_ids:
+            ref = self.refer.refs[ref_id]
 
             sentences_for_ref = []
             attentions_for_ref = []
 
-            for i, (el, sent_id) in enumerate(zip(ref['sentences'], ref['sent_ids'])):
-                sentence_raw = el['raw']
+            for sent in ref["sentences"]:
+                sentence_raw = sent["raw"]
                 attention_mask = [0] * self.max_tokens
                 padded_input_ids = [0] * self.max_tokens
 
-                input_ids = self.tokenizer.encode(text=sentence_raw, add_special_tokens=True)
+                input_ids = self.tokenizer.encode(text=sentence_raw,
+                                                  add_special_tokens=True)
 
                 # truncation of tokens
                 input_ids = input_ids[:self.max_tokens]
@@ -79,7 +78,6 @@ class ReferDataset(data.Dataset):
 
             self.input_ids.append(sentences_for_ref)
             self.attention_masks.append(attentions_for_ref)
-       
 
     def get_classes(self):
         return self.classes
@@ -89,15 +87,18 @@ class ReferDataset(data.Dataset):
 
     def __getitem__(self, index):
         this_ref_id = self.ref_ids[index]
-        this_img_id = self.refer.getImgIds(this_ref_id)
-        this_img = self.refer.Imgs[this_img_id[0]]
+        this_ann_id = self.refer.ref_to_ann[this_ref_id]
+        this_ann = self.refer.anns[this_ann_id]
+        this_img_id = this_ann["image_id"]
+        this_img = self.refer.imgs[this_img_id]
 
-        img = Image.open(os.path.join(self.refer.IMAGE_DIR, this_img['file_name'])).convert("RGB")
+        IMAGE_DIR = "datasets/refcoco/images"
+        img = Image.open(os.path.join(IMAGE_DIR, this_img["file_name"])).convert("RGB")
 
-        ref = self.refer.loadRefs(this_ref_id)
-        this_sent_ids = ref[0]['sent_ids']
+        ref = self.refer.load_refs(this_ref_id)
+        this_sent_ids = ref["sent_ids"]
 
-        ref_mask = np.array(self.refer.getMask(ref[0])['mask'])
+        ref_mask = self.refer.ann_to_mask(this_ann)
         annot = np.zeros(ref_mask.shape)
         annot[ref_mask == 1] = 1
 

@@ -43,9 +43,9 @@ def get_parser():
     parser.add_argument('--linear_lr', action='store_true', help='use linear learning rate schedule')
     parser.add_argument('--lr_specific', default=0.00003, type=float, help='specific lr for fixed lr configuration')
     parser.add_argument('--lr_specific_decrease', default=0.001, type=float, help='specific lr decrease for linear lr configuration')
-    
-    
-    #### Baseline 
+
+
+    #### Baseline
     parser.add_argument('--baseline_bilstm', action='store_true', help='baseline bidirectional LSTM')
 
 
@@ -58,12 +58,12 @@ def get_parser():
 
 
     #### Testing parameters
-    parser.add_argument('--results_folder',  default='./results/', help='results folder')
+    parser.add_argument('--results_folder',  default='../results/', help='results folder')
     parser.add_argument('--submission_path',  default='./results_submission/', help='submission results folder for DAVIS')
     parser.add_argument('--split',  default='test', help='split to run test')
     parser.add_argument('--display',  action='store_true', help='save output predictions')
 
-    
+
     #### Dataset specifics
 
     # pretraining
@@ -86,7 +86,7 @@ def get_parser():
     parser.add_argument('--size_a2d_y', default=427, type=int, help='y size for A2D images')
     parser.add_argument('--a2d_annotations_file', default='./datasets/Release/a2d_annotation.txt',  help='path of A2D annotations file')
 
-    
+
     return parser
 
 
