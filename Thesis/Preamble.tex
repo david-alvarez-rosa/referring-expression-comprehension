@@ -12,7 +12,7 @@
 \usepackage{geometry}
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{graphicx}
-\usepackage[dvipsnames, table]{xcolor}
+\usepackage[cmyk, dvipsnames, table]{xcolor}
 \usepackage{microtype}
 \usepackage{emptypage}
 \usepackage{fancyhdr}
@@ -40,14 +40,22 @@
 % Customize page layout.
 \geometry{
 	paper = b5paper,
-  top = 1in,
-  bottom = 1in,
-  inner = .75in,
-  outer = .75in,
-	bindingoffset = .25in,
-  headsep = 20pt,
-  footskip = 35pt,
+  top = .8in,
+  bottom = .8in,
+  inner = .65in,
+  outer = .65in,
+	bindingoffset = .2in,
+  headsep = 10pt,
+  % footskip = 25pt,
 	% showframe
+}
+
+\geometry {
+  paper = b5paper,
+  bindingoffset=6mm,
+  marginratio={4:6,5:7},
+  textwidth=117.3mm,
+  height=179.6mm
 }
 
 \captionsetup{
@@ -86,6 +94,7 @@
 \makeatletter
 \fancyfoot[CO]{\scshape\@author}
 \fancyfoot[CE]{\scshape\@title}
+\fancyfoot[CE]{\scshape A short version of Title related to Artificial Intelligence}
 \makeatother
 \renewcommand{\footrulewidth}{.4pt}
 \fancypagestyle{plain}{
@@ -144,6 +153,11 @@
 \renewcommand{\labelitemiv}{$\m@th\diamond$}
 \makeatother
 
+% Add command for footnote href.
+\newcommand\fhref[2]{
+  \href{#1}{#2}\footnote{\url{#1}}
+}
+
 % Customize bibliography (biblatex and biber).
 \addbibresource{References.bib}
 \ExecuteBibliographyOptions{minnames=5, maxnames=5}
@@ -154,7 +168,9 @@
 
 % Set minted style and font for line numbers.
 \usemintedstyle{tango}
-\renewcommand{\theFancyVerbLine}{\ttfamily\small\arabic{FancyVerbLine}}
+\renewcommand{\theFancyVerbLine}{
+  \ttfamily\scriptsize\arabic{FancyVerbLine}
+}
 
 % Tikz configuration.
 \usetikzlibrary{
@@ -246,16 +262,20 @@
   minted options = {
     autogobble,
     linenos,
+    % stepnumber = 5,
+    numbersep = 5pt,
     breaklines,
     fontfamily = tt,
-    fontsize = \small,
+    fontsize = \footnotesize,
     mathescape = true,
     samepage = false,
   },
   listing only,
   drop fuzzy shadow,
   breakable,
-  left = 22pt,
+  % left = 22pt,
+  left = 1pt,
+  right = 1pt,
   lefttitle = 4mm,
   enhanced,
   colbacktitle = RoyalBlue!50!black,
@@ -264,11 +284,11 @@
   colback = RoyalBlue!12,
   title = {Source code~\thetcbcounter : #3 \hfill \large\faCode},
   list entry = Source code~\thetcbcounter : #3,
-  underlay = {
-    \begin{tcbclipinterior}
-      \draw[linum] (frame.south west) rectangle ([xshift=20pt]frame.north west);
-    \end{tcbclipinterior}
-  },
+  % underlay = {
+  %   \begin{tcbclipinterior}
+  %     \draw[linum] (frame.south west) rectangle ([xshift=20pt]frame.north west);
+  %   \end{tcbclipinterior}
+  % },
   label = code:#4
 }
 
@@ -279,4 +299,4 @@
 \date{\today}
 
 
-% \includeonly{Chapter2}
+% \includeonly{Chapters/Chapter2}

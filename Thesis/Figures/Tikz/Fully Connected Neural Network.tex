@@ -52,8 +52,9 @@
 
   % Node output layer.
   \begin{scope}[shift={(0, -1)}]
-    \foreach \name in {1,...,2} \node[neuron] (O-\name) at (7.5, -\name)
-    {$\mathbf{x}_\name^{4}$};
+    \foreach \name in {1,...,2} {
+      \node[neuron] (O-\name) at (7.5, -\name) {$\mathbf{x}_\name^{4}$};
+    }
   \end{scope}
 
   % Connections between input and first hidden layers.

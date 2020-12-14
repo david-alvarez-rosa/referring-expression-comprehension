@@ -19,44 +19,53 @@ occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
 id est laborum.
 
 
-\section{Neural networks}
+\section{Fully Connected Neural networks}
 
-A neural network, more properl referred to as an \textit{artificial} neural
+A neural network, more properly referred to as an \textit{artificial} neural
 network (ANN) are computing systems vaguely inspired by the biological neural
-networks that constitute animal brains. Dr Robert hectH
+networks that constitute animal brains. Dr
+\fhref{https://en.wikipedia.org/wiki/Robert_Hecht-Nielsen}{Robert Hecht-Nielsen}
+(inventor of one of the first neurocomputers) defines a neural network as:
 
-% \begin{quote}
-%   \itshape
-%   \ldots a computing system made up of a number of simple, highly interconnected
-%   processing elements, which process information by their dynamic state response
-%   to external inputs. \\
-%   \flushright{\upshape Robert Hecht-Nielsen}
-% \end{quote}
-
-% \smallskip
 \begin{quoteBox}
   \itshape
   \ldots a computing system made up of a number of simple, highly interconnected
   processing elements, which process information by their dynamic state response
   to external inputs.
   \tcblower
-  \hfill \textup{Robert Hecht-Nielsen}
+  \hfill \upshape
+  ---\href{https://en.wikipedia.org/wiki/Robert_Hecht-Nielsen}
+  {Robert Hecht-Nielsen}
 \end{quoteBox}
 
-A neural network, more properl referred to as an \textit{artificial} neural
-network (ANN) are computing systems vaguely inspired by the biological neural
-networks that constitute animal brains. Dr Robert hectH
+An ANN is based on a collection of connected units, that are called
+\textit{artificial} neurons, which loosely model the neurons in a biological
+brain. Each connection, like he synapses in a biological brain, can transmit a
+signal to other neurons. An artificial neuron that receives a signal then
+processes it and can signal neurons connected to it.
 
-On the other hand, we denounce with righteous indignation and dislike men who
-are so beguiled and demoralized by the charms of pleasure of the moment, so
-blinded by desire, that they cannot foresee the pain and trouble that are bound
-to ensue; and equal blame belongs to those who fail in their duty through
-weakness of will, which is the same as saying through shrinking from toil and
-pain.
 
-On the other hand, we denounce with righteous indignation and dislike men who
-are so beguiled and demoralized by the charms of pleasure of the moment, so
-blinded by desire, that they cannot foresee the pain and trouble that are bound
-to ensue; and equal blame belongs to those who fail in their duty through
-weakness of will, which is the same as saying through shrinking from toil and
-pain.
+\subsubsection{Mathematical perspective}
+
+Although the analogy made above of an ANN with a biological brain, there is no
+need for this, we can just think of a neural network as a mathematical
+optimization problem. We can think of the whole network to be a function that
+takes some inputs to some outputs, and this function dependent on
+parameters. The idea is to adjust this parameters to get a function that works
+well with some known dataset, and we will trust that it will generalize well. If
+the network is big enough and we carefully adjust the parameters, we will be
+able to learn and calculate very complex functions.
+
+\subsubsection{Topology}
+
+
+\section{Convolutional Neural Networks}
+
+
+\section{Recurrent Neural Networks}
+
+
+\section{Transformers}
+
+
+\section{Deep Neural Network Architectures}
