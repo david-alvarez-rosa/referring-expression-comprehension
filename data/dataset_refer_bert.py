@@ -53,6 +53,9 @@ class ReferDataset(data.Dataset):
 
         self.eval_mode = eval_mode
 
+        self.sent_ids = self.refer.get_sent_ids()
+        print(self.sent_ids)
+
         for ref_id in ref_ids:
             ref = self.refer.refs[ref_id]
 
@@ -86,7 +89,9 @@ class ReferDataset(data.Dataset):
         return len(self.ref_ids)
 
     def __getitem__(self, index):
-        this_ref_id = self.ref_ids[index]
+        this_sent_id = self.sent_ids[index]
+        this_sent = self.refer.sents[this_sent_id]["raw"]
+        this_ref_id = self.refer.sent_to_ref[this_sent_id]
         this_ann_id = self.refer.ref_to_ann[this_ref_id]
         this_ann = self.refer.anns[this_ann_id]
         this_img_id = this_ann["image_id"]
@@ -96,35 +101,29 @@ class ReferDataset(data.Dataset):
         img = Image.open(os.path.join(IMAGE_DIR, this_img["file_name"])).convert("RGB")
 
         ref = self.refer.load_refs(this_ref_id)
-        this_sent_ids = ref["sent_ids"]
 
         ref_mask = self.refer.ann_to_mask(this_ann)
-        annot = np.zeros(ref_mask.shape)
-        annot[ref_mask == 1] = 1
-
-        annot = Image.fromarray(annot.astype(np.uint8), mode="P")
+        target = Image.fromarray(ref_mask.astype(np.uint8), mode="P")
 
         if self.image_transforms is not None:
             # involves transform from PIL to tensor and mean and std normalization
-            img, target = self.image_transforms(img, annot)
+            img, target = self.image_transforms(img, target)
 
-        if self.eval_mode:
 
-            embedding = []
-            att = []
-            for s in range(len(self.input_ids[index])):
-                e = self.input_ids[index][s]
-                a = self.attention_masks[index][s]
-                embedding.append(e.unsqueeze(-1))
-                att.append(a.unsqueeze(-1))
+        attention_mask = [0] * self.max_tokens
+        padded_input_ids = [0] * self.max_tokens
 
-            tensor_embeddings = torch.cat(embedding, dim=-1)
-            attention_mask = torch.cat(att, dim=-1)
+        input_ids = self.tokenizer.encode(text=this_sent,
+                                          add_special_tokens=True)
 
-        else:
+        # truncation of tokens
+        input_ids = input_ids[:self.max_tokens]
 
-            choice_sent = np.random.choice(len(self.input_ids[index]))
-            tensor_embeddings = self.input_ids[index][choice_sent]
-            attention_mask = self.attention_masks[index][choice_sent]
+        padded_input_ids[:len(input_ids)] = input_ids
+        attention_mask[:len(input_ids)] = [1]*len(input_ids)
 
-        return img, target, tensor_embeddings, attention_mask
+        tensor_embeddings = torch.tensor(padded_input_ids).unsqueeze(0)
+        attention_mask = torch.tensor(attention_mask).unsqueeze(0)
+
+
+        return img, target, tensor_embeddings, attention_mask, this_sent, this_img

@@ -13,15 +13,14 @@ from torch import nn
 from transformers import *
 import torchvision
 
+from PIL import Image
+
 from lib import segmentation
 
 import transforms as T
 import utils
 
 import numpy as np
-
-# from pycocotools import mask
-from imageio import imread
 
 
 def get_dataset(name, image_set, transform, args):
@@ -45,18 +44,13 @@ def get_dataset(name, image_set, transform, args):
     return ds, num_classes
 
 
-def evaluate(args, model, data_loader, ref_ids, refer, bert_model, device, num_classes, display=True, baseline_model=None,
-    objs_ids=None, num_objs_list=None):
-
-    print("dipslay: ", display)
+def evaluate(args, model, data_loader, ref_ids,
+             refer, bert_model, device, num_classes,
+             display=True, baseline_model=None,
+             objs_ids=None, num_objs_list=None):
 
     model.eval()
-    confmat = utils.ConfusionMatrix(num_classes)
-    metric_logger = utils.MetricLogger(delimiter="  ")
     refs_ids_list = []
-    outputs = []
-    # dict to save results for DAVIS
-    total_outputs = {}
 
     # evaluation variables
     cum_I, cum_U = 0, 0
@@ -65,181 +59,81 @@ def evaluate(args, model, data_loader, ref_ids, refer, bert_model, device, num_c
     seg_total = 0
     mean_IoU = []
 
-
-    header = 'Test:'
     with torch.no_grad():
-        k = 0
-        l = 0
+        for (k , (images, targets, sentences, attentions, sents, image_infos)) in enumerate(data_loader):
 
-        print("first")
-
-        for image, target, sentences, attentions in metric_logger.log_every(data_loader, 100, header):
-        # for image, target, sentences, attentions in data_loader:
-            print("inside")
-
-            image, target, sentences, attentions = image.to(device), target.to(device), sentences.to(device), attentions.to(device)
+            images, sentences, attentions = images.to(device), \
+                sentences.to(device), attentions.to(device)
 
             sentences = sentences.squeeze(1)
             attentions = attentions.squeeze(1)
 
-            if args.dataset == 'davis' or args.dataset == 'a2d':
-                sentences = sentences.unsqueeze(-1)
-                attentions = attentions.unsqueeze(-1)
+            targets = targets.cpu().data.numpy()
 
-            target = target.cpu().data.numpy()
+            last_hidden_states = bert_model(sentences,
+                                            attention_mask=attentions)[0]
 
+            embedding = last_hidden_states[:, 0, :]
 
-            print("size: ", sentences.size(-1))
+            outputs, _, _ = model(images, embedding.squeeze(1))
+            outputs = outputs['out'].cpu()
 
+            masks = outputs.argmax(1).data.numpy()
 
-            for j in range(sentences.size(-1)):
+            I, U = computeIoU(masks, targets)
 
-                refs_ids_list.append(k)
+            if U == 0:
+                this_iou = 0.0
+            else:
+                this_iou = I*1.0/U
 
-                if args.baseline_bilstm:
+            mean_IoU.append(this_iou)
 
-                    sent = sentences[:, :, :, j]
-                    att = attentions[:, :, j]
+            cum_I += I
+            cum_U += U
 
-                    num_tokens = torch.sum(att, dim=-1)
-                    processed_seqs = sent[:num_tokens, :]
-
-                    hidden_states, cell_states = baseline_model[0](processed_seqs)
-                    hidden_states = hidden_states[0]
-
-                    processed_hidden_states = hidden_states[:num_tokens, :]
-
-                    last_hidden_states = torch.mean(processed_hidden_states, dim=0)
-
-                    last_hidden_states = baseline_model[1](last_hidden_states)
-                    embedding = last_hidden_states.unsqueeze(1)
-
-                else:
-
-                    last_hidden_states = bert_model(sentences[:, :, j], attention_mask=attentions[:, :, j])[0]
-
-                embedding = last_hidden_states[:, 0, :]
-
-                output, _, _ = model(image, embedding.squeeze(1))
-
-                output = output['out'].cpu()
-                output_mask = output.argmax(1).data.numpy()
-                outputs.append(output_mask)
-
-                I, U = computeIoU(output_mask, target)
-
-                if U == 0:
-                    this_iou = 0.0
-                else:
-                    this_iou = I*1.0/U
-
-                mean_IoU.append(this_iou)
-
-                cum_I += I
-                cum_U += U
-
-                for n_eval_iou in range(len(eval_seg_iou_list)):
-                    eval_seg_iou = eval_seg_iou_list[n_eval_iou]
-                    seg_correct[n_eval_iou] += (this_iou >= eval_seg_iou)
+            for n_eval_iou in range(len(eval_seg_iou_list)):
+                eval_seg_iou = eval_seg_iou_list[n_eval_iou]
+                seg_correct[n_eval_iou] += (this_iou >= eval_seg_iou)
                 seg_total += 1
 
+            del targets, images, attentions
 
-            print("hllo")
-            del image, target, attentions
-
-
-            print("before loop")
-            print("display: ", display)
+            sent = sents[0]
+            mask = masks[0]
 
             if display:
-                print("inside displayloop")
 
                 plt.figure()
                 plt.axis('off')
 
-                if args.dataset == 'refcoco' or args.dataset == 'refcoco+':
-                    ref = refer.load_refs(ref_ids[k])
-                    image_info = refer.imgs[ref['image_id']]
+                sentence = sent
 
-                print(ref['sentences'])
-                print(len(ref['sentences']))
+                IMAGE_DIR = "datasets/refcoco/images"
+                image = Image.open(os.path.join(IMAGE_DIR,
+                                                image_infos["file_name"][0])
+                                   ).convert("RGB")
 
-                for p in range(len(ref['sentences'])):
+                plt.imshow(image)
 
-                    l += 1
+                plt.text(0, 0, sentence, fontsize=12)
 
-                    if  args.dataset == 'refcoco' or args.dataset == 'refcoco+':
-                        sentence = ref['sentences'][p]['raw']
-                        IMAGE_DIR = "datasets/refcoco/images"
-                        im_path = os.path.join(IMAGE_DIR, image_info['file_name'])
-                        print("im_path: ", im_path)
-                    elif args.dataset == 'davis':
-                        idx = ref_ids[k]
-                        sentence = refer[idx]
-                        im_path = os.path.join(args.davis_data_root, img_list[k])
-                    elif args.dataset == 'a2d':
-                        sentence = refer[k]
-                        image_name = ref_ids[k]
-                        im_path = os.path.join(args.a2d_root_dir, image_name)
+                ax = plt.gca()
+                ax.set_autoscale_on(False)
 
+                # mask definition
+                img = np.ones((image.size[1], image.size[0], 3))
+                color_mask = np.array([0, 255, 0]) / 255.0
+                for i in range(3):
+                    img[:, :, i] = color_mask[i]
+                ax.imshow(np.dstack((img, mask * 0.5)))
 
-                    im = imread(im_path)
-                    print("before imshow")
-                    plt.imshow(im)
-                    print("after imshow")
+                results_folder = args.results_folder
+                if not os.path.isdir(results_folder):
+                    os.makedirs(results_folder)
 
-                    if args.dataset == 'davis':
-                        if img_list[k] not in total_outputs:
-                            total_outputs[img_list[k]] = {}
-                            o_mask = output_mask.copy()
-                            o_mask = o_mask.astype(int)*int(idx.split('_')[-1])
-                            total_outputs[img_list[k]] = o_mask.squeeze(0)
-                        else:
-                            total_outputs[img_list[k]][output_mask.squeeze(0) == True] = int(idx.split('_')[-1])
-
-                    plt.text(0, 0, sentence, fontsize=12)
-
-                    ax = plt.gca()
-                    ax.set_autoscale_on(False)
-
-                    # mask definition
-                    img = np.ones((im.shape[0], im.shape[1], 3))
-                    color_mask = np.array([0, 255, 0]) / 255.0
-                    for i in range(3):
-                        img[:, :, i] = color_mask[i]
-
-                    if  args.dataset == 'refcoco' or args.dataset == 'refcoco+':
-                        output_mask = outputs[-len(ref['sentences'])+p].transpose(1, 2, 0)
-
-                    ax.imshow(np.dstack((img, output_mask * 0.5)))
-
-                    # TODO: fixme
-                    results_folder = args.results_folder
-                    print("results_folder: ", results_folder)
-                    # TODO: end
-                    if not os.path.isdir(results_folder):
-                        os.makedirs(results_folder)
-
-                    figname = os.path.join(args.results_folder, str(l) + '.png')
-                    plt.savefig(figname)
-                    plt.show()
-                    plt.close()
-
-            k += 1
-
-
-        if args.dataset == 'davis':
-
-            for r in total_outputs.keys():
-
-                new_im = Image.fromarray(total_outputs[r].astype(np.uint8))
-                file_name = r.split('/')[-1].split('.')[0]
-                folder_name = r.split('/')[-2]
-
-                if not os.path.isdir(os.path.join(submission_path, folder_name)):
-                    os.makedirs(os.path.join(submission_path, folder_name))
-
-                new_im.save(os.path.join(args.submission_path, folder_name, file_name + '.png'))
+                figname = os.path.join(args.results_folder, str(k) + '.png')
+                plt.savefig(figname)
 
 
     mean_IoU = np.array(mean_IoU)
@@ -264,7 +158,7 @@ def evaluate(args, model, data_loader, ref_ids, refer, bert_model, device, num_c
 
     print(results_str)
 
-    return refs_ids_list, outputs
+    return refs_ids_list
 
 
 def get_transform():
@@ -295,8 +189,7 @@ def main(args):
 
     test_sampler = torch.utils.data.SequentialSampler(dataset_test)
 
-    data_loader_test = torch.utils.data.DataLoader(dataset_test, batch_size=1, sampler=test_sampler,
-                                                   num_workers=args.workers, collate_fn=utils.collate_fn_emb_berts)
+    data_loader_test = torch.utils.data.DataLoader(dataset_test, batch_size=1, sampler=test_sampler, num_workers=args.workers)
 
     model = segmentation.__dict__[args.model](num_classes=2,
         aux_loss=False,
@@ -362,7 +255,7 @@ def main(args):
     else:
         baseline_model = None
 
-    refs_ids_list, outputs = evaluate(args, model, data_loader_test, ids, refer, bert_model, device=device,
+    refs_ids_list = evaluate(args, model, data_loader_test, ids, refer, bert_model, device=device,
         num_classes=2, baseline_model=baseline_model,  objs_ids=objs_ids, num_objs_list=num_objs_list)
 
 if __name__ == "__main__":

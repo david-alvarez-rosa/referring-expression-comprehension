@@ -219,7 +219,7 @@ def collate_fn(batch):
     return batched_imgs, batched_targets
 
 def collate_fn_emb_berts(batch):
-    images, targets, emb, attentions = list(zip(*batch))
+    images, targets, emb, attentions, _, _ = list(zip(*batch))
     batched_imgs = cat_list(images, fill_value=0)
     batched_targets = cat_list(targets, fill_value=255)
     batched_emb = cat_list(emb, fill_value=-1)

@@ -26,6 +26,8 @@ get_mask    - get mask and area of the referred object given ref
 showMask   - show mask of the referred object given ref
 """
 
+def has_duplicates(seq):
+    return len(seq) != len(set(seq))
 
 import json
 import pickle
@@ -123,7 +125,7 @@ class REFER:
         refs, sents = {}, {}
         ann_to_ref, ref_to_ann = {}, {}
         ref_to_sents = defaultdict(list)
-        sent_to_tokens = {} # TODO: check if this is being used.
+        sent_to_tokens, sent_to_ref = {}, {} # TODO: check if this is being used.
         for ref in self.ref_dataset:
             refs[ref["ref_id"]] = ref
             ann_to_ref[ref["ann_id"]] = ref["ref_id"]
@@ -131,7 +133,8 @@ class REFER:
             for sent in ref["sentences"]:
                 sents[sent["sent_id"]] = sent
                 sent_to_tokens[sent["sent_id"]] = sent["tokens"]
-                ref_to_sents["ref_id"].append(sent["sent_id"])
+                ref_to_sents[ref["ref_id"]].append(sent["sent_id"])
+                sent_to_ref[sent["sent_id"]] = ref["ref_id"]
 
         print("Done (t={:0.2f}s)".format(time.time() - tic))
 
@@ -146,6 +149,7 @@ class REFER:
         self.ann_to_ref = ann_to_ref
         self.ref_to_ann = ref_to_ann
         self.ref_to_sents = ref_to_sents
+        self.sent_to_ref = sent_to_ref
         self.sent_to_tokens = sent_to_tokens
 
     def ann_info(self):
@@ -271,6 +275,7 @@ class REFER:
                                    area_range=area_range,
                                    is_crowd=is_crowd,
                                    ann_ids=ann_ids)
+
         refs = [self.refs[self.ann_to_ref[ann_id]] for ann_id in ann_ids]
         if split is not None:
             refs = [ref for ref in refs if ref["split"] == split]
@@ -371,7 +376,8 @@ class REFER:
         if img_ids is not None:
             img_ids = img_ids if _is_array_like(img_ids) else [img_ids]
             ids = [id_ for id_ in ids if id_ in img_ids]
-        return ids
+
+        return list(set(ids))
 
     def get_cat_ids(self, cat_names=None, sup_names=None, cat_ids=None):
         """Get cat ids that satisfy given filter conditions.
