@@ -34,7 +34,7 @@ def get_dataset(name, image_set, transform, args):
         if args.baseline_bilstm:
             from data.dataset_refer_glove import ReferDataset
         else:
-            from data.dataset_refer_bert import ReferDataset
+            from dataset import ReferDataset
 
 
         ds = ReferDataset(args,

@@ -11,6 +11,7 @@ def get_parser():
 
     parser.add_argument('--aux-loss', action='store_true', help='auxiliar loss')
 
+
     parser.add_argument('-b', '--batch-size', default=6, type=int)
 
     parser.add_argument('--base_size', default=520, type=int, help='base_size')
@@ -70,8 +71,8 @@ def get_parser():
     parser.add_argument("--pretrained_refvos", dest="pretrained_refvos", help="Use pre-trained models for RefVOS", action="store_true",)
     parser.add_argument('--ck_pretrained_refvos',  default='./checkpoints/model_refcoco.pth', help='Pre-trained weights for RefVOS')
 
-    # REFER
-    parser.add_argument('--refer_data_root', default='./datasets/refer/data/', help='REFER dataset root directory')
+    # Refer
+    parser.add_argument('--refer_data_root', default='./datasets/refer/data/', help='Refer dataset root directory')
     parser.add_argument('--refer_dataset', default='refcoco', help='dataset name')
     parser.add_argument('--splitBy', default='unc', help='split By')
 

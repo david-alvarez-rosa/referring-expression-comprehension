@@ -28,14 +28,9 @@ def get_dataset(name, image_set, transform, args):
     if args.baseline_bilstm:
         from data.dataset_refer_glove import ReferDataset
     else:
-        from data.dataset_refer_bert import ReferDataset
+        from dataset import ReferDataset
 
-    ds = ReferDataset(args,
-                      split=image_set,
-                      image_transforms=transform,
-                      target_transforms=None,
-                      input_size=(256, 448),
-                      eval_mode=True)
+    ds = ReferDataset(args, transforms=transform)
 
     num_classes = 2
 
@@ -44,7 +39,7 @@ def get_dataset(name, image_set, transform, args):
     return ds, num_classes
 
 
-def evaluate(args, model, data_loader, ref_ids,
+def evaluate(args, model, dataset, data_loader,
              refer, bert_model, device, num_classes,
              display=True, baseline_model=None,
              objs_ids=None, num_objs_list=None):
@@ -60,7 +55,7 @@ def evaluate(args, model, data_loader, ref_ids,
     mean_IoU = []
 
     with torch.no_grad():
-        for (k , (images, targets, sentences, attentions, sents, image_infos)) in enumerate(data_loader):
+        for images, targets, sentences, attentions, sent_ids in data_loader:
 
             images, sentences, attentions = images.to(device), \
                 sentences.to(device), attentions.to(device)
@@ -99,41 +94,34 @@ def evaluate(args, model, data_loader, ref_ids,
 
             del targets, images, attentions
 
-            sent = sents[0]
+            sent_id = int(sent_ids[0])
+            sent = dataset.get_sent_raw(sent_id)
             mask = masks[0]
 
             if display:
+                sentence = sent
+
+                image = dataset.get_image(sent_id)
 
                 plt.figure()
                 plt.axis('off')
-
-                sentence = sent
-
-                IMAGE_DIR = "datasets/refcoco/images"
-                image = Image.open(os.path.join(IMAGE_DIR,
-                                                image_infos["file_name"][0])
-                                   ).convert("RGB")
-
                 plt.imshow(image)
-
                 plt.text(0, 0, sentence, fontsize=12)
-
-                ax = plt.gca()
-                ax.set_autoscale_on(False)
 
                 # mask definition
                 img = np.ones((image.size[1], image.size[0], 3))
                 color_mask = np.array([0, 255, 0]) / 255.0
                 for i in range(3):
                     img[:, :, i] = color_mask[i]
-                ax.imshow(np.dstack((img, mask * 0.5)))
+                plt.imshow(np.dstack((img, mask * 0.5)))
 
                 results_folder = args.results_folder
                 if not os.path.isdir(results_folder):
                     os.makedirs(results_folder)
 
-                figname = os.path.join(args.results_folder, str(k) + '.png')
+                figname = os.path.join(args.results_folder, str(sent_id) + '.png')
                 plt.savefig(figname)
+                plt.close()
 
 
     mean_IoU = np.array(mean_IoU)
@@ -152,7 +140,6 @@ def evaluate(args, model, data_loader, ref_ids,
     # TODO: fix me.
     cum_U += 1e-8
     # TODO: end.
-
 
     results_str += '    overall IoU = %.2f\n' % (cum_I * 100. / cum_U)
 
@@ -214,48 +201,13 @@ def main(args):
     bert_model.load_state_dict(checkpoint['bert_model'], strict=False)
     model.load_state_dict(checkpoint['model'])
 
-    if args.baseline_bilstm:
-        bilstm.load_state_dict(checkpoint['bilstm'])
-        fc_layer.load_state_dict(checkpoint['fc_layer'])
+    refer = dataset_test.refer
+    objs_ids = None
+    num_objs_list = None
 
-    if args.dataset == 'refcoco' or args.dataset == 'refcoco+':
-        ref_ids = dataset_test.ref_ids
-        refer = dataset_test.refer
-        ids = ref_ids
-        objs_ids = None
-        num_objs_list = None
-    elif args.dataset == 'davis':
-        ids = dataset_test.ids
-        objs_ids = None
-        num_objs_list = None
+    baseline_model = None
 
-        with open(args.davis_annotations_file) as f:
-            lines = f.readlines()
-
-    elif args.dataset == 'a2d':
-        ids = dataset_test.img_list
-        objs_ids = dataset_test.objs
-        num_objs_list = dataset_test.num_objs_list
-
-        with open(args.davis_annotations_file) as f:
-            lines = f.readlines()
-
-    if args.dataset == 'davis' or args.dataset == 'a2d':
-
-        refer = {}
-
-        for l in lines:
-            words = l.split()
-
-            refer[words[0] + '_' + words[1]] = {}
-            refer[words[0] + '_' + words[1]] = ' '.join(words[2:])[1:-1]
-
-    if args.baseline_bilstm:
-        baseline_model = [bilstm, fc_layer]
-    else:
-        baseline_model = None
-
-    refs_ids_list = evaluate(args, model, data_loader_test, ids, refer, bert_model, device=device,
+    refs_ids_list = evaluate(args, model, dataset_test, data_loader_test, refer, bert_model, device=device,
         num_classes=2, baseline_model=baseline_model,  objs_ids=objs_ids, num_objs_list=num_objs_list)
 
 if __name__ == "__main__":

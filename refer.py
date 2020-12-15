@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 
-"""Interface for accessing the Microsoft REFER ann_dataset.
+"""Interface for accessing the Microsoft Refer ann_dataset.
 
 This interface provides access to four datasets:
 1) refclef
@@ -11,7 +11,7 @@ This interface provides access to four datasets:
 split by unc and google
 
 The following API functions are defined:
-REFER      - REFER api class
+Refer      - Refer api class
 get_ref_ids  - get ref ids that satisfy given filter conditions.
 getAnnIds  - get ann ids that satisfy given filter conditions.
 get_img_ids  - get image ids that satisfy given filter conditions.
@@ -55,7 +55,7 @@ def _is_array_like(obj):
     return hasattr(obj, "__iter__") and hasattr(obj, "__len__")
 
 
-class REFER:
+class Refer:
     """Description of class.
 
     Longer description of class.
