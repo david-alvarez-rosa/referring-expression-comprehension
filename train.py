@@ -38,10 +38,7 @@ def get_dataset(name, image_set, transform, args):
 
 
         ds = ReferDataset(args,
-                          split=image_set,
-                          image_transforms=transform,
-                          target_transforms=None,
-                          input_size=(256, 448))
+                          transforms=transform)
 
         num_classes = 2
 
@@ -127,80 +124,113 @@ def criterion(inputs, target, args):
     return losses['out'] + 0.5 * losses['aux']
 
 
-def evaluate(model, data_loader, args, bert_model, device, num_classes, epoch, logger, baseline_model):
-    model.eval()
-    confmat = utils.ConfusionMatrix(num_classes)
-    metric_logger = utils.MetricLogger(delimiter="  ")
-    header = 'Test:'
-    val_loss = 0
-    seg_loss = 0
-    cos_loss = 0
-    total_its = 0
+def evaluate(args, model, dataset, data_loader,
+             refer, bert_model, device, num_classes,
+             display=True, baseline_model=None,
+             objs_ids=None, num_objs_list=None):
 
-    acc_ious = 0
+    model.eval()
+    refs_ids_list = []
+
+    # evaluation variables
+    cum_I, cum_U = 0, 0
+    eval_seg_iou_list = [.5, .6, .7, .8, .9]
+    seg_correct = np.zeros(len(eval_seg_iou_list), dtype=np.int32)
+    seg_total = 0
+    mean_IoU = []
 
     with torch.no_grad():
-        for data in metric_logger.log_every(data_loader, 100, header):
+        for images, targets, sentences, attentions, sent_ids in data_loader:
 
-            total_its += 1
-
-            image, target, sentences, attentions = data
-            image, target, sentences, attentions = image.to(device), target.to(device), sentences.to(
-                        device), attentions.to(device)
+            images, sentences, attentions = images.to(device), \
+                sentences.to(device), attentions.to(device)
 
             sentences = sentences.squeeze(1)
             attentions = attentions.squeeze(1)
 
+            targets = targets.cpu().data.numpy()
 
-            if args.baseline_bilstm:
-
-                num_tokens = torch.sum(attentions, dim=-1)
-
-                unbinded_sequences = list(torch.unbind(sentences, dim=0))
-                processed_seqs = [seq[:num_tokens[i], :] for i, seq in enumerate(unbinded_sequences)]
-
-                packed_sentences = torch.nn.utils.rnn.pack_sequence(processed_seqs, enforce_sorted=False)
-
-                hidden_states, cell_states = baseline_model[0](packed_sentences)
-                hidden_states = torch.nn.utils.rnn.pad_packed_sequence(hidden_states, batch_first=True,
-                                                                       total_length=20)
-                hidden_states = hidden_states[0]
-                unbinded_hidden_states = list(torch.unbind(hidden_states, dim=0))
-
-                processed_hidden_states = [seq[:num_tokens[i], :] for i, seq in enumerate(unbinded_hidden_states)]
-
-                mean_hidden_states = [torch.mean(seq, dim=0).unsqueeze(0) for seq in processed_hidden_states]
-                last_hidden_states = torch.cat(mean_hidden_states, dim=0)
-
-
-                last_hidden_states = baseline_model[1](last_hidden_states)
-                last_hidden_states = last_hidden_states.unsqueeze(1)
-
-            else:
-                last_hidden_states = bert_model(sentences, attention_mask=attentions)[0]
-
+            last_hidden_states = bert_model(sentences,
+                                            attention_mask=attentions)[0]
 
             embedding = last_hidden_states[:, 0, :]
-            output, vis_emb, lan_emb = model(image, embedding.squeeze(1))
 
-            iou = IoU(output['out'], target)
-            acc_ious += iou
+            outputs, _, _ = model(images, embedding.squeeze(1))
+            outputs = outputs['out'].cpu()
 
-            loss = criterion(output, target, args)
+            masks = outputs.argmax(1).data.numpy()
 
-            output = output['out']
-            confmat.update(target.flatten(), output.argmax(1).flatten())
+            I, U = computeIoU(masks, targets)
 
-        confmat.reduce_from_all_processes()
+            if U == 0:
+                this_iou = 0.0
+            else:
+                this_iou = I*1.0/U
 
-        val_loss = val_loss/total_its
-        iou = acc_ious / total_its
+            mean_IoU.append(this_iou)
 
-        logger.scalar_summary('loss', val_loss, epoch)
-        logger.scalar_summary('iou', iou, epoch)
+            cum_I += I
+            cum_U += U
+
+            for n_eval_iou in range(len(eval_seg_iou_list)):
+                eval_seg_iou = eval_seg_iou_list[n_eval_iou]
+                seg_correct[n_eval_iou] += (this_iou >= eval_seg_iou)
+                seg_total += 1
+
+            del targets, images, attentions
+
+            sent_id = int(sent_ids[0])
+            sent = dataset.get_sent_raw(sent_id)
+            mask = masks[0]
+
+            if display:
+                sentence = sent
+
+                image = dataset.get_image(sent_id)
+
+                plt.figure()
+                plt.axis('off')
+                plt.imshow(image)
+                plt.text(0, 0, sentence, fontsize=12)
+
+                # mask definition
+                img = np.ones((image.size[1], image.size[0], 3))
+                color_mask = np.array([0, 255, 0]) / 255.0
+                for i in range(3):
+                    img[:, :, i] = color_mask[i]
+                plt.imshow(np.dstack((img, mask * 0.5)))
+
+                results_folder = args.results_folder
+                if not os.path.isdir(results_folder):
+                    os.makedirs(results_folder)
+
+                figname = os.path.join(args.results_folder, str(sent_id) + '.png')
+                plt.savefig(figname)
+                plt.close()
 
 
-    return confmat, iou
+    mean_IoU = np.array(mean_IoU)
+    # TODO: fixme.
+    # mIoU = np.mean(mean_IoU)
+    mIoU = 20
+    # TODO: end
+
+    print('Final results:')
+    print('Mean IoU is %.2f\n' % (mIoU*100.))
+    results_str = ''
+    # for n_eval_iou in range(len(eval_seg_iou_list)):
+    #     results_str += '    precision@%s = %.2f\n' % \
+    #         (str(eval_seg_iou_list[n_eval_iou]), seg_correct[n_eval_iou] * 100. / seg_total)
+
+    # TODO: fix me.
+    cum_U += 1e-8
+    # TODO: end.
+
+    results_str += '    overall IoU = %.2f\n' % (cum_I * 100. / cum_U)
+
+    print(results_str)
+
+    return refs_ids_list
 
 
 def train_one_epoch(model, criterion, optimizer, data_loader, lr_scheduler, device, epoch, args, print_freq, logger,
@@ -414,17 +444,13 @@ def main(args):
 
     for epoch in range(args.epochs):
 
-        train_one_epoch(model, criterion, optimizer, data_loader, lr_scheduler, device, epoch, args, args.print_freq,
-                        logger_train, iterations, bert_model, baseline_model=baseline_model)
+        train_one_epoch(model, criterion, optimizer, data_loader, lr_scheduler, device, epoch, args, args.print_freq, logger_train, iterations, bert_model, baseline_model=baseline_model)
 
-        confmat, iou = evaluate(model, data_loader_test, args, bert_model, epoch=epoch, device=device,
-                                num_classes=num_classes, logger=logger_val, baseline_model=baseline_model)
-
-        print(confmat)
+        # refs_ids_list = evaluate(args, model, dataset_test, data_loader_test, refer, bert_model, device=device, num_classes=2, baseline_model=baseline_model,  objs_ids=objs_ids, num_objs_list=num_objs_list)
 
 
         # only save if checkpoint improves
-        if t_iou < iou:
+        if False and t_iou < iou: # TODO: recompute IoU.
             print('Better epoch: {}\n'.format(epoch))
 
             if args.baseline_bilstm:
