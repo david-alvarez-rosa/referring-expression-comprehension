@@ -1,6 +1,7 @@
 % -*- TeX-master: "Thesis.tex" -*-
 
 
+\RequirePackage[l2tabu, orthodox]{nag}
 \documentclass[11pt]{book}
 
 
@@ -20,6 +21,7 @@
 \usepackage{booktabs}
 \usepackage{caption}
 \usepackage[nottoc]{tocbibind}
+\usepackage[symbol, bottom, marginal, norule]{footmisc}
 \usepackage[type={CC}, modifier={by-nc-sa}, version={4.0}]{doclicense}
 \usepackage[backend=biber, style=alphabetic, citestyle=alphabetic]{biblatex}
 \usepackage{imakeidx}
@@ -28,8 +30,9 @@
 \usepackage{fontawesome}
 \usepackage[outputdir=Build, cachedir=Minted]{minted}
 \usepackage[most]{tcolorbox}
-\usepackage[pdfusetitle]{hyperref}
+\usepackage[shadow]{todonotes}
 \usepackage{hyperxmp}
+\usepackage[pdfusetitle]{hyperref}
 
 
 % Fallback to computer modern for sc + bf.
@@ -37,27 +40,18 @@
 \DeclareFontShape{T1}{lmr}{b}{sc}{<->ssub*cmr/bx/sc}{}
 \DeclareFontShape{T1}{lmr}{bx}{sc}{<->ssub*cmr/bx/sc}{}
 
-% Customize page layout.
+% % Customize page layout.
 \geometry{
-	paper = b5paper,
-  top = .8in,
-  bottom = .8in,
-  inner = .65in,
-  outer = .65in,
-	bindingoffset = .2in,
-  headsep = 10pt,
-  % footskip = 25pt,
-	% showframe
-}
-
-\geometry {
   paper = b5paper,
-  bindingoffset=6mm,
-  marginratio={4:6,5:7},
-  textwidth=117.3mm,
-  height=179.6mm
+  top = 1in,
+  bottom = .875in,
+  inner = .75in,
+  outer = .75in,
+  bindingoffset = .25in,
+  % showframe
 }
 
+% Customize captions for floating elements.
 \captionsetup{
   font = small,
   labelfont = {sc, bf},
@@ -83,6 +77,8 @@
   bookmarksopen,
   bookmarksnumbered,
   breaklinks,
+  % Write both PDF Info dictionary and XMP packet (from hyperxmp package).
+  keeppdfinfo
 }
 
 % Configure running headers and footers.
@@ -130,10 +126,6 @@
     \let\@evenfoot\@oddfoot}
   \thispagestyle{epigraph}}
 \makeatother
-
-% Don't use rule for footnotes (ugly with footer rule).
-\renewcommand\footnoterule{}
-
 % Set path for figures (relative to main document).
 \graphicspath{{./Figures/}}
 
@@ -209,6 +201,9 @@
   skipBox/.style = {
     before skip = .75em,
     after skip = 1em,
+  },
+  base/.style = {
+
   }
 }
 \tcbsetforeverylayer{shield externalize}
@@ -262,35 +257,41 @@
   minted options = {
     autogobble,
     linenos,
-    % stepnumber = 5,
-    numbersep = 5pt,
+    numbersep = 8pt,
     breaklines,
+    % breaksymbol = {},
     fontfamily = tt,
     fontsize = \footnotesize,
     mathescape = true,
     samepage = false,
   },
+  enhanced,
   listing only,
   drop fuzzy shadow,
   breakable,
-  % left = 22pt,
-  left = 1pt,
-  right = 1pt,
-  lefttitle = 4mm,
-  enhanced,
-  colbacktitle = RoyalBlue!50!black,
+  sharp corners,
+  colbacktitle = green!50!black,
+  colback = green!30!gray!15,
+  colframe = green!50!black,
   coltitle = white,
   fonttitle = \bfseries,
-  colback = RoyalBlue!12,
+  boxrule = 0pt,
+  leftrule = 3pt,
+  left = 2pt,
+  right = 2pt,
   title = {Source code~\thetcbcounter : #3 \hfill \large\faCode},
   list entry = Source code~\thetcbcounter : #3,
-  % underlay = {
-  %   \begin{tcbclipinterior}
-  %     \draw[linum] (frame.south west) rectangle ([xshift=20pt]frame.north west);
-  %   \end{tcbclipinterior}
-  % },
   label = code:#4
 }
+
+% Todonotes configuration (disable externalization).
+\setuptodonotes{inline}
+\makeatletter
+\renewcommand{\todo}[2][]{\tikzexternaldisable\@todo[#1]{#2}\tikzexternalenable}
+\renewcommand{\missingfigure}[2][]{
+  \tikzexternaldisable\@missingfigure[#1]{#2}\tikzexternalenable
+}
+\makeatother
 
 
 \title{An innecesarily long title related to Artifical Intelligence and in the
@@ -299,4 +300,4 @@
 \date{\today}
 
 
-% \includeonly{Chapters/Chapter2}
+% \includeonly{Chapters/Showcase}
