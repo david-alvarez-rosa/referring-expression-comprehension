@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+  <head>
+    <title>TODO</title>
+    <meta charset="UTF-8" />
+    <meta name="description" content="TODO" />
+    <meta name="keywords" content="TODO" />
+    <meta name="author" content="David Álvarez Rosa" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="canonical" href="TODO" />
+
+    <!-- CSS files. -->
+    <link rel="stylesheet" href="main.css" />
+
+    <!-- Javascript files. -->
+    <script defer src="main.js"></script>
+  </head>
+
+
+  <body>
+    <nav>
+      <p>
+        TODO: Here is the navigation bar.
+      </p>
+      <a href="default.asp">Home</a>
+      <a href="news.asp">News</a>
+      <a href="contact.asp">Contact</a>
+      <a href="about.asp">About</a>
+    </nav>
+
+    <main>
+      <h1>Web title</h1>
+
+      <p>
+        Hey there!
+      </p>
+
+      <h2>Select image</h2>
+
+      <h3>Demo images</h3>
+      <p>All these images are part of COCO dataset.</p>
+      <div id="gallery">
+        <img src="hey.png" alt="TODO" title="TODO: select me." />
+        <img src="hey.png" alt="TODO" title="TODO: select me." />
+        <img src="hey.png" alt="TODO" title="TODO: select me." />
+        <img src="hey.png" alt="TODO" title="TODO: select me." />
+        <img src="hey.png" alt="TODO" title="TODO: select me." />
+        <img src="hey.png" alt="TODO" title="TODO: select me." />
+        <img src="hey.png" alt="TODO" title="TODO: select me." />
+        <img src="hey.png" alt="TODO" title="TODO: select me." />
+      </div>
+
+      <h3>Upload images</h3>
+
+      <p>
+        It is posible to upload images both using an existing web URL or locally
+        from computer storage.
+      </p>
+
+      <h4>Via URL</h4>
+      <label for="img-url">Enter image web URL</label>
+      <input id="img-url" placeholder="Enter image web URL" />
+      <input type="button" value="Submit" onclick="testing();" />
+
+      <h4>Choose file locally from computer</h4>
+      <label for="img-local">Choose file locally from computer</label>
+		  <input id="img-local" type="file" accept="image/*" />
+      <input type="button" value="Submit" onclick="testing();" />
+
+      <h2>Results</h2>
+      <p>Here will appear the results of the evaluation code.</p>
+
+      <div id="results">
+        <img src="hey.png" alt="TODO" />
+        <div>
+          <p>
+            Some information about introducing the referring expresion.
+          </p>
+          <label for="referring-expression">Referring expression</label>
+          <input id="referring-expression" placeholder="TODO: placeholder" />
+          <input type="button" value="Submit" onclick="testing();" />
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      TODO: This is the footer.
+    </footer>
+  </body>
+</html>
