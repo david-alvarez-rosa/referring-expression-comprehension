@@ -28,6 +28,7 @@ class ReferDataset(data.Dataset):
 
         self.transforms = transforms
         self.dataset_root = dataset_root
+        self.image_root = args.image_root
         self.refer = Refer(dataset_root + ann_file, dataset_root + ref_file)
 
         self.max_tokens = 20
@@ -51,7 +52,7 @@ class ReferDataset(data.Dataset):
         # Get image.
         img_id = ann["image_id"]
         img_name = self.refer.imgs[img_id]["file_name"]
-        img = Image.open(self.dataset_root + "images/" + img_name)
+        img = Image.open(self.image_root + img_name)
 
         mask = self.refer.ann_to_mask(ann)
         mask = Image.fromarray(mask.astype(np.uint8), mode="P")
@@ -88,6 +89,6 @@ class ReferDataset(data.Dataset):
 
         img_id = ann["image_id"]
         img_name = self.refer.imgs[img_id]["file_name"]
-        img = Image.open(self.dataset_root + "images/" + img_name)
+        img = Image.open(self.image_root + img_name)
 
         return img

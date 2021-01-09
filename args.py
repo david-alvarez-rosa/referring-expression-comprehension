@@ -88,6 +88,21 @@ def get_parser():
     parser.add_argument('--a2d_annotations_file', default='./datasets/Release/a2d_annotation.txt',  help='path of A2D annotations file')
 
 
+
+
+
+
+
+    parser.add_argument('--image_root', default='./datasets/refcoco/', help='TODO: help sentence')
+
+
+
+
+
+
+
+
+
     return parser
 
 
