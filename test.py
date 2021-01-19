@@ -1,155 +1,61 @@
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
+"""TODO: this is the test.py file
 
-import datetime
-import os
-import time
-
+A more detailed explanation.
+"""
+import numpy as np
 import torch
-import torch.utils.data
-from torch import nn
-
-from transformers import *
-import torchvision
-
-from PIL import Image
-
-from lib import segmentation
-
+from transformers import BertModel
 import transforms as T
+from lib import segmentation
+from dataset import ReferDataset
 import utils
 
-import numpy as np
 
-
-def get_dataset(name, image_set, transform, args):
-
-    if args.baseline_bilstm:
-        from data.dataset_refer_glove import ReferDataset
-    else:
-        from dataset import ReferDataset
-
-    ds = ReferDataset(args, transforms=transform)
-
-    num_classes = 2
-
-    print(len(ds))
-
-    return ds, num_classes
-
-
-def evaluate(args, model, dataset, data_loader,
-             refer, bert_model, device, num_classes,
-             display=True, baseline_model=None,
-             objs_ids=None, num_objs_list=None):
+def evaluate(args, model, dataset, loader,
+             bert_model, device, display=True):
+    """Docs."""
 
     model.eval()
-    refs_ids_list = []
 
-    # evaluation variables
-    cum_I, cum_U = 0, 0
-    eval_seg_iou_list = [.5, .6, .7, .8, .9]
-    seg_correct = np.zeros(len(eval_seg_iou_list), dtype=np.int32)
-    seg_total = 0
-    mean_IoU = []
+    cum_intersection, cum_union = 0, 0
+    jaccard_indices = []
 
-    with torch.no_grad():
-        for images, targets, sentences, attentions, sent_ids in data_loader:
+    for imgs, targets, sents, attentions, sent_ids in loader:
+        imgs, attentions, sents = imgs.to(device), attentions.to(device), sents.to(device)
 
-            images, sentences, attentions = images.to(device), \
-                sentences.to(device), attentions.to(device)
+        sents = sents.squeeze(1)
+        attentions = attentions.squeeze(1)
+        targets = targets.cpu().data.numpy()
 
-            sentences = sentences.squeeze(1)
-            attentions = attentions.squeeze(1)
-
-            targets = targets.cpu().data.numpy()
-
-            last_hidden_states = bert_model(sentences,
+        with torch.no_grad():
+            last_hidden_states = bert_model(sents,
                                             attention_mask=attentions)[0]
-
             embedding = last_hidden_states[:, 0, :]
+            outputs, _, _ = model(imgs, embedding.squeeze(1))
 
-            outputs, _, _ = model(images, embedding.squeeze(1))
-            outputs = outputs['out'].cpu()
+        outputs = outputs["out"]
+        masks = outputs.argmax(1).cpu().data.numpy()
 
-            masks = outputs.argmax(1).data.numpy()
+        jaccard_indices_batch, intersection, union = \
+            utils.compute_jaccard_indices(masks, targets)
+        print("jaccard_indices_batch: ", jaccard_indices_batch)
 
-            I, U = computeIoU(masks, targets)
+        jaccard_indices += jaccard_indices_batch
+        cum_intersection += intersection
+        cum_union += union
 
-            if U == 0:
-                this_iou = 0.0
-            else:
-                this_iou = I*1.0/U
+        del targets, imgs, attentions
 
-            mean_IoU.append(this_iou)
+        if display:
+            utils.display_function(sent_ids, dataset, masks, args.results_folder)
 
-            cum_I += I
-            cum_U += U
-
-            for n_eval_iou in range(len(eval_seg_iou_list)):
-                eval_seg_iou = eval_seg_iou_list[n_eval_iou]
-                seg_correct[n_eval_iou] += (this_iou >= eval_seg_iou)
-                seg_total += 1
-
-            del targets, images, attentions
-
-            sent_id = int(sent_ids[0])
-            sent = dataset.get_sent_raw(sent_id)
-            mask = masks[0]
-
-            if display:
-                sentence = sent
-
-                image = dataset.get_image(sent_id)
-
-                plt.figure()
-                plt.axis('off')
-                plt.imshow(image)
-                plt.text(0, 0, sentence, fontsize=12)
-
-                # mask definition
-                img = np.ones((image.size[1], image.size[0], 3))
-                color_mask = np.array([0, 255, 0]) / 255.0
-                for i in range(3):
-                    img[:, :, i] = color_mask[i]
-                plt.imshow(np.dstack((img, mask * 0.5)))
-
-                results_folder = args.results_folder
-                if not os.path.isdir(results_folder):
-                    os.makedirs(results_folder)
-
-                figname = os.path.join(args.results_folder, str(sent_id) + '.png')
-                plt.savefig(figname)
-                plt.close()
-
-
-    mean_IoU = np.array(mean_IoU)
-    # TODO: fixme.
-    # mIoU = np.mean(mean_IoU)
-    mIoU = 20
-    # TODO: end
-
-    print('Final results:')
-    print('Mean IoU is %.2f\n' % (mIoU*100.))
-    results_str = ''
-    # for n_eval_iou in range(len(eval_seg_iou_list)):
-    #     results_str += '    precision@%s = %.2f\n' % \
-    #         (str(eval_seg_iou_list[n_eval_iou]), seg_correct[n_eval_iou] * 100. / seg_total)
-
-    # TODO: fix me.
-    cum_U += 1e-8
-    # TODO: end.
-
-    results_str += '    overall IoU = %.2f\n' % (cum_I * 100. / cum_U)
-
-    print(results_str)
-
-    return refs_ids_list
-
+    mIoU = np.mean(np.array(jaccard_indices))
+    print("Final results:")
+    print("Mean IoU is {:.4f}.".format(mIoU))
+    print("Overall IoU is {:.4f}.".format(cum_intersection/cum_union))
 
 def get_transform():
-
+    """Documentation."""
     transforms = []
     transforms.append(T.ToTensor())
     transforms.append(T.Normalize(mean=[0.485, 0.456, 0.406],
@@ -157,31 +63,21 @@ def get_transform():
     return T.Compose(transforms)
 
 
-# compute IoU
-def computeIoU(pred_seg, gd_seg):
-
-    I = np.sum(np.logical_and(pred_seg, gd_seg))
-    U = np.sum(np.logical_or(pred_seg, gd_seg))
-
-    return I, U
-
-
 def main(args):
-
     device = torch.device(args.device)
 
-    dataset_test, _ = get_dataset(args.dataset, args.split, get_transform(), args)
-
-    print(len(dataset_test))
-
-    test_sampler = torch.utils.data.SequentialSampler(dataset_test)
-
-    data_loader_test = torch.utils.data.DataLoader(dataset_test, batch_size=1, sampler=test_sampler, num_workers=args.workers)
+    dataset = ReferDataset(args, transforms=get_transform())
+    sampler = torch.utils.data.SequentialSampler(dataset)
+    loader = torch.utils.data.DataLoader(dataset,
+                                         batch_size=args.batch_size,
+                                         sampler=sampler,
+                                         num_workers=args.workers,
+                                         collate_fn=utils.collate_fn_emb_berts)
 
     model = segmentation.__dict__[args.model](num_classes=2,
-        aux_loss=False,
-        pretrained=False,
-        args=args)
+                                              aux_loss=False,
+                                              pretrained=False,
+                                              args=args)
 
     model.to(device)
     model_class = BertModel
@@ -189,26 +85,19 @@ def main(args):
     bert_model = model_class.from_pretrained(args.ck_bert)
     bert_model.to(device)
 
-
     if args.baseline_bilstm:
         bilstm = torch.nn.LSTM(input_size=300, hidden_size=1000, num_layers=1, bidirectional=True, batch_first=True)
         fc_layer = torch.nn.Linear(2000, 768)
         bilstm = bilstm.to(device)
         fc_layer = fc_layer.to(device)
 
-    checkpoint = torch.load(args.resume, map_location='cpu')
+    checkpoint = torch.load(args.resume, map_location="cpu")
 
-    bert_model.load_state_dict(checkpoint['bert_model'], strict=False)
-    model.load_state_dict(checkpoint['model'])
+    bert_model.load_state_dict(checkpoint["bert_model"], strict=False)
+    model.load_state_dict(checkpoint["model"])
 
-    refer = dataset_test.refer
-    objs_ids = None
-    num_objs_list = None
+    evaluate(args, model, dataset, loader, bert_model, device=device)
 
-    baseline_model = None
-
-    refs_ids_list = evaluate(args, model, dataset_test, data_loader_test, refer, bert_model, device=device,
-        num_classes=2, baseline_model=baseline_model,  objs_ids=objs_ids, num_objs_list=num_objs_list)
 
 if __name__ == "__main__":
     from args import get_parser

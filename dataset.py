@@ -59,11 +59,8 @@ class ReferDataset(data.Dataset):
 
         img, mask = self.transforms(img, mask)
 
-
-
         attention_mask = [0] * self.max_tokens
         padded_input_ids = [0] * self.max_tokens
-
 
         input_ids = self.tokenizer.encode(text=sent,
                                           add_special_tokens=True)

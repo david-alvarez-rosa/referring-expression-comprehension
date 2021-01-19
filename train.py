@@ -1,84 +1,30 @@
+"""Docs."""
+
 import datetime
 import os
 import time
-
 import torch
-import torch.utils.data
-from torch import nn
-
-from functools import reduce #python 3
+from functools import reduce
 import operator
-
-from transformers import *
-
-import torchvision
-
+from transformers import BertModel
 from lib import segmentation
-
-from coco_utils import get_coco
 import transforms as T
 import utils
-
 import numpy as np
-
-# to visualize the curves
-from logger import Logger
-
 import gc
-
-
-def get_dataset(name, image_set, transform, args):
-
-    if name == 'refcoco' or name == 'refcoco+':
-
-        if args.baseline_bilstm:
-            from data.dataset_refer_glove import ReferDataset
-        else:
-            from dataset import ReferDataset
-
-
-        ds = ReferDataset(args,
-                          transforms=transform)
-
-        num_classes = 2
-
-    elif name == 'a2d':
-
-        from data.a2d import A2DDataset
-
-        ds = A2DDataset(args,
-                        train= image_set == 'train',
-                        db_root_dir= args.a2d_data_root,
-                        transform=transform,
-                        inputRes=(args.size_a2d_x, args.size_a2d_y))
-
-        num_classes = 2
-
-    elif name == 'davis':
-
-        from data.davis2017 import DAVIS17
-
-        ds = DAVIS17(args,
-                    train= image_set == 'train',
-                    db_root_dir=args.davis_data_root,
-                    transform=transform,
-                    emb_type=args.emb_type)
-
-        num_classes = 2
-
-    return ds, num_classes
+from dataset import ReferDataset
 
 
 def adjust_learning_rate(optimizer, epoch, args):
     """Sets the learning rate to the initial LR decayed by 10 every 30 epochs"""
     lr = args.lr - args.lr_specific_decrease*epoch
     for param_group in optimizer.param_groups:
-        param_group['lr'] = lr
+        param_group["lr"] = lr
 
 
 # IoU calculation for proper validation
 def IoU(pred, gt):
-
+    """Docs."""
     pred = pred.argmax(1)
 
     intersection = torch.sum(torch.mul(pred, gt))
@@ -87,13 +33,13 @@ def IoU(pred, gt):
     if intersection == 0 or union == 0:
         iou = 0
     else:
-        iou = float(intersection) / float(union)
+        iou = float(intersection)/float(union)
 
     return iou
 
 
 def get_transform(train, base_size=520, crop_size=480):
-
+    """Docs."""
     min_size = int((0.8 if train else 1.0) * base_size)
     max_size = int((0.8 if train else 1.0) * base_size)
 
@@ -103,7 +49,6 @@ def get_transform(train, base_size=520, crop_size=480):
     if train:
         transforms.append(T.RandomCrop(crop_size))
 
-
     transforms.append(T.ToTensor())
     transforms.append(T.Normalize(mean=[0.485, 0.456, 0.406],
                                   std=[0.229, 0.224, 0.225]))
@@ -111,22 +56,20 @@ def get_transform(train, base_size=520, crop_size=480):
     return T.Compose(transforms)
 
 
-
-def criterion(inputs, target, args):
+def criterion(inputs, targets, args):
+    """Docs."""
     losses = {}
     for name, x in inputs.items():
-
-        losses[name] = nn.functional.cross_entropy(x, target, ignore_index=255)
+        losses[name] = torch.nn.functional.cross_entropy(x, targets, ignore_index=255)
 
     if len(losses) == 1:
-        return losses['out']
+        return losses["out"]
 
-    return losses['out'] + 0.5 * losses['aux']
+    return losses["out"] + 0.5 * losses["aux"]
 
 
 def evaluate(args, model, dataset, data_loader,
-             refer, bert_model, device, num_classes,
-             display=True, baseline_model=None,
+             refer, bert_model, device, display=True, baseline_model=None,
              objs_ids=None, num_objs_list=None):
 
     model.eval()
@@ -140,23 +83,23 @@ def evaluate(args, model, dataset, data_loader,
     mean_IoU = []
 
     with torch.no_grad():
-        for images, targets, sentences, attentions, sent_ids in data_loader:
+        for imgs, targets, sents, attentions, sent_ids in data_loader:
 
-            images, sentences, attentions = images.to(device), \
-                sentences.to(device), attentions.to(device)
+            imgs, sents, attentions = imgs.to(device), \
+                sents.to(device), attentions.to(device)
 
-            sentences = sentences.squeeze(1)
+            sents = sents.squeeze(1)
             attentions = attentions.squeeze(1)
 
-            targets = targets.cpu().data.numpy()
+            targets = targets.data.numpy()
 
-            last_hidden_states = bert_model(sentences,
+            last_hidden_states = bert_model(sents,
                                             attention_mask=attentions)[0]
 
             embedding = last_hidden_states[:, 0, :]
 
-            outputs, _, _ = model(images, embedding.squeeze(1))
-            outputs = outputs['out'].cpu()
+            outputs, _, _ = model(imgs, embedding.squeeze(1))
+            outputs = outputs["out"]
 
             masks = outputs.argmax(1).data.numpy()
 
@@ -177,7 +120,7 @@ def evaluate(args, model, dataset, data_loader,
                 seg_correct[n_eval_iou] += (this_iou >= eval_seg_iou)
                 seg_total += 1
 
-            del targets, images, attentions
+            del targets, imgs, attentions
 
             sent_id = int(sent_ids[0])
             sent = dataset.get_sent_raw(sent_id)
@@ -186,25 +129,25 @@ def evaluate(args, model, dataset, data_loader,
             if display:
                 sentence = sent
 
-                image = dataset.get_image(sent_id)
+                imgs = dataset.get_image(sent_id)
 
                 plt.figure()
-                plt.axis('off')
-                plt.imshow(image)
+                plt.axis("off")
+                plt.imshow(imgs)
                 plt.text(0, 0, sentence, fontsize=12)
 
                 # mask definition
-                img = np.ones((image.size[1], image.size[0], 3))
+                img = np.ones((imgs.size[1], imgs.size[0], 3))
                 color_mask = np.array([0, 255, 0]) / 255.0
                 for i in range(3):
                     img[:, :, i] = color_mask[i]
-                plt.imshow(np.dstack((img, mask * 0.5)))
+                    plt.imshow(np.dstack((img, mask * 0.5)))
 
                 results_folder = args.results_folder
                 if not os.path.isdir(results_folder):
                     os.makedirs(results_folder)
 
-                figname = os.path.join(args.results_folder, str(sent_id) + '.png')
+                figname = os.path.join(args.results_folder, str(sent_id) + ".png")
                 plt.savefig(figname)
                 plt.close()
 
@@ -215,79 +158,59 @@ def evaluate(args, model, dataset, data_loader,
     mIoU = 20
     # TODO: end
 
-    print('Final results:')
-    print('Mean IoU is %.2f\n' % (mIoU*100.))
-    results_str = ''
+    print("Final results:")
+    print("Mean IoU is %.2f\n" % (mIoU*100.))
+    results_str = ""
     # for n_eval_iou in range(len(eval_seg_iou_list)):
-    #     results_str += '    precision@%s = %.2f\n' % \
-    #         (str(eval_seg_iou_list[n_eval_iou]), seg_correct[n_eval_iou] * 100. / seg_total)
+    #     results_str += "    precision@%s = %.2f\n" % \
+        #         (str(eval_seg_iou_list[n_eval_iou]), seg_correct[n_eval_iou] * 100. / seg_total)
 
     # TODO: fix me.
     cum_U += 1e-8
     # TODO: end.
 
-    results_str += '    overall IoU = %.2f\n' % (cum_I * 100. / cum_U)
+    results_str += "    overall IoU = %.2f\n" % (cum_I * 100. / cum_U)
 
     print(results_str)
 
     return refs_ids_list
 
 
-def train_one_epoch(model, criterion, optimizer, data_loader, lr_scheduler, device, epoch, args, print_freq, logger,
-                    iterations, bert_model, baseline_model):
+class allModel():
+    def __init__(model, bert_model):
+        self.model = model
+        self.bert_model = bert_model
+
+    def forward():
+        last_hidden_states = self.bert_model(sents, attention_mask=attentions)[0]
+        embedding = last_hidden_states[:, 0, :]
+        output, vis_emb, lan_emb = model(imgs, embedding.squeeze(1))
+
+        return output
+
+
+def train_one_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch, args, print_freq, iterations, bert_model, baseline_model):
     model.train()
-    metric_logger = utils.MetricLogger(delimiter="  ")
-    metric_logger.add_meter('lr', utils.SmoothedValue(window_size=1, fmt='{value}'))
-    header = 'Epoch: [{}]'.format(epoch)
-    train_loss = 0
-    total_its = 0
-    train_emb_loss = 0
-    train_seg_loss = 0
+    loss = 0
+    num_its = 0
 
-    for data in metric_logger.log_every(data_loader, print_freq, header):
+    for imgs, targets, sents, attentions, sent_ids in data_loader:
+        num_its += 1
 
-        total_its += 1
+        imgs, targets, sents, attentions = imgs.to(device), targets.to(device), sents.to(device), attentions.to(device)
 
-        image, target, sentences, attentions = data
-        image, target, sentences, attentions = image.to(device), target.to(device), sentences.to(device), attentions.to(device)
-
-        sentences = sentences.squeeze(1)
+        sents = sents.squeeze(1)
         attentions = attentions.squeeze(1)
 
-        if args.baseline_bilstm:
-
-            num_tokens = torch.sum(attentions, dim=-1)
-            unbinded_sequences = list(torch.unbind(sentences, dim=0))
-            processed_seqs = [seq[:num_tokens[i], :] for i, seq in enumerate(unbinded_sequences)]
-
-            packed_sentences = torch.nn.utils.rnn.pack_sequence(processed_seqs, enforce_sorted=False)
-            hidden_states, cell_states = baseline_model[0](packed_sentences)
-            hidden_states = torch.nn.utils.rnn.pad_packed_sequence(hidden_states, batch_first=True, total_length=20)
-
-            hidden_states = hidden_states[0]
-
-            unbinded_hidden_states = list(torch.unbind(hidden_states, dim=0))
-
-            processed_hidden_states = [seq[:num_tokens[i], :] for i, seq in enumerate(unbinded_hidden_states)]
-
-            mean_hidden_states = [torch.mean(seq, dim=0).unsqueeze(0) for seq in processed_hidden_states]
-            last_hidden_states = torch.cat(mean_hidden_states, dim=0)
-
-
-            last_hidden_states = baseline_model[1](last_hidden_states)
-            last_hidden_states = last_hidden_states.unsqueeze(1)
-
-        else:
-
-            last_hidden_states = bert_model(sentences, attention_mask=attentions)[0]
+        last_hidden_states = bert_model(sents, attention_mask=attentions)[0]
 
         embedding = last_hidden_states[:, 0, :]
-        output, vis_emb, lan_emb = model(image, embedding.squeeze(1))
+        output, _, _ = model(imgs, embedding.squeeze(1))
 
-        loss = criterion(output, target, args)
+        loss_class = criterion(output, targets, args)
 
         optimizer.zero_grad()
-        loss.backward()
+        loss_class.backward()
         optimizer.step()
 
         if args.linear_lr:
@@ -295,109 +218,69 @@ def train_one_epoch(model, criterion, optimizer, data_loader, lr_scheduler, devi
         else:
             lr_scheduler.step()
 
-        train_loss += loss.item()
+        loss += loss_class.item()
         iterations += 1
 
-        metric_logger.update(loss=loss.item(), lr=optimizer.param_groups[0]["lr"])
-
-        del image, target, sentences, attentions, loss, embedding, output, vis_emb, lan_emb, last_hidden_states, data
+        del imgs, targets, sents, attentions, loss_class, embedding, output, last_hidden_states
 
         gc.collect()
         torch.cuda.empty_cache()
 
-    train_loss = train_loss/total_its
-
-    logger.scalar_summary('loss', train_loss, epoch)
-    logger.scalar_summary('lr', optimizer.param_groups[0]["lr"], epoch)
+        print(loss/num_its)
 
 
 def main(args):
-    if args.output_dir:
-        utils.mkdir(args.output_dir)
-
     device = torch.device(args.device)
 
-    dataset, num_classes = get_dataset(args.dataset, "train",
-        get_transform(train=True, base_size=args.base_size, crop_size=args.crop_size), args=args)
-
-    dataset_test, _ = get_dataset(args.dataset, "val",
-        get_transform(train=False, base_size=args.base_size, crop_size=args.crop_size), args=args)
-
+    # Train dataset.
+    dataset = ReferDataset(args, transforms=get_transform(train=True))
     train_sampler = torch.utils.data.RandomSampler(dataset)
-    test_sampler = torch.utils.data.SequentialSampler(dataset_test)
-
     data_loader = torch.utils.data.DataLoader(
-        dataset, batch_size=args.batch_size,
-        sampler=train_sampler, num_workers=args.workers,
-        collate_fn=utils.collate_fn_emb_berts, drop_last=True)
+        dataset,
+        batch_size=args.batch_size,
+        sampler=train_sampler,
+        num_workers=args.workers,
+        #collate_fn=utils.collate_fn_emb_berts,
+        drop_last=True)
 
+    # Validation dataset.
+    dataset_val = ReferDataset(args, transforms=get_transform(train=False))
+    val_sampler = torch.utils.data.SequentialSampler(dataset_val)
     data_loader_test = torch.utils.data.DataLoader(
-        dataset_test, batch_size=1,
-        sampler=test_sampler, num_workers=args.workers,
-        collate_fn=utils.collate_fn_emb_berts)
+        dataset_val, batch_size=1,
+        sampler=val_sampler, num_workers=args.workers,
+        #collate_fn=utils.collate_fn_emb_berts
+    )
 
-    model = segmentation.__dict__[args.model](num_classes=num_classes,
-        aux_loss=args.aux_loss,
-        pretrained=args.pretrained,
-        args=args)
-
+    # Model definition.
+    model = segmentation.__dict__[args.model](num_classes=2,
+                                              aux_loss=args.aux_loss,
+                                              pretrained=args.pretrained,
+                                              args=args)
     model_class = BertModel
     bert_model = model_class.from_pretrained(args.ck_bert)
 
-    if args.baseline_bilstm:
-
-        bilstm = torch.nn.LSTM(input_size=300, hidden_size=1000, num_layers=1, bidirectional=True, batch_first=True)
-        fc_layer = torch.nn.Linear(2000, 768)
-        bilstm = bilstm.cuda()
-        fc_layer = fc_layer.cuda()
-
     if args.pretrained_refvos:
         checkpoint = torch.load(args.ck_pretrained_refvos)
-        model.load_state_dict(checkpoint['model'])
-        bert_model.load_state_dict(checkpoint['bert_model'])
-
+        model.load_state_dict(checkpoint["model"])
+        bert_model.load_state_dict(checkpoint["bert_model"])
     elif args.resume:
-        checkpoint = torch.load(args.resume, map_location='cpu')
-        model.load_state_dict(checkpoint['model'])
-
-        if args.baseline_bilstm:
-            bilstm.load_state_dict(checkpoint['bilstm'])
-            fc_layer.load_state_dict(checkpoint['fc_layer'])
+        checkpoint = torch.load(args.resume, map_location="cpu")
+        model.load_state_dict(checkpoint["model"])
 
     model = model.cuda()
     bert_model = bert_model.cuda()
 
-    model_without_ddp = model
-    bert_model_without_ddp = bert_model
-
-    if args.test_only:
-        confmat = evaluate(model, data_loader_test, args, bert_model, epoch=0, device=device, num_classes=num_classes, baseline_model=[bilstm, fc_layer])
-        print(confmat)
-        return
-
-
-    if args.baseline_bilstm:
-
-        params_to_optimize = [
-            {"params": [p for p in model_without_ddp.backbone.parameters() if p.requires_grad]},
-            {"params": [p for p in model_without_ddp.classifier.parameters() if p.requires_grad]},
-
-            {"params": [p for p in bilstm.parameters() if p.requires_grad]},
-            {"params": [p for p in fc_layer.parameters() if p.requires_grad]}
-        ]
-
-    else:
-
-        params_to_optimize = [
-            {"params": [p for p in model_without_ddp.backbone.parameters() if p.requires_grad]},
-            {"params": [p for p in model_without_ddp.classifier.parameters() if p.requires_grad]},
-            # the following are the parameters of bert
-            {"params": reduce(operator.concat, [[p for p in bert_model_without_ddp.encoder.layer[i].parameters() if p.requires_grad] for i in range(10)])},
-            {"params": [p for p in bert_model_without_ddp.pooler.parameters() if p.requires_grad]}
-        ]
+    params_to_optimize = [
+        {"params": [p for p in model.backbone.parameters() if p.requires_grad]},
+        {"params": [p for p in model.classifier.parameters() if p.requires_grad]},
+        # the following are the parameters of bert
+        {"params": reduce(operator.concat, [[p for p in bert_model.encoder.layer[i].parameters() if p.requires_grad] for i in range(10)])},
+        {"params": [p for p in bert_model.pooler.parameters() if p.requires_grad]}
+    ]
 
     if args.aux_loss:
-        params = [p for p in model_without_ddp.aux_classifier.parameters() if p.requires_grad]
+        params = [p for p in model.aux_classifier.parameters() if p.requires_grad]
         params_to_optimize.append({"params": params, "lr": args.lr * 10})
 
     optimizer = torch.optim.SGD(
@@ -415,15 +298,7 @@ def main(args):
             optimizer,
             lambda x: (1 - x / (len(data_loader) * args.epochs)) ** 0.9)
 
-    model_dir = os.path.join('./models/', args.model_id)
-
-    if not os.path.isdir(model_dir):
-        os.makedirs(model_dir)
-        os.makedirs(os.path.join(model_dir, 'train'))
-        os.makedirs(os.path.join(model_dir, 'val'))
-
-    logger_train = Logger(os.path.join(model_dir, 'train'))
-    logger_val = Logger(os.path.join(model_dir, 'val'))
+    model_dir = os.path.join("./models/", args.model_id)
 
     start_time = time.time()
 
@@ -431,11 +306,11 @@ def main(args):
     t_iou = 0
 
     if args.resume:
-        optimizer.load_state_dict(checkpoint['optimizer'])
+        optimizer.load_state_dict(checkpoint["optimizer"])
 
         if not args.fixed_lr:
             if not args.linear_lr:
-                lr_scheduler.load_state_dict(checkpoint['lr_scheduler'])
+                lr_scheduler.load_state_dict(checkpoint["lr_scheduler"])
 
     if args.baseline_bilstm:
         baseline_model = [bilstm, fc_layer]
@@ -444,45 +319,44 @@ def main(args):
 
     for epoch in range(args.epochs):
 
-        train_one_epoch(model, criterion, optimizer, data_loader, lr_scheduler, device, epoch, args, args.print_freq, logger_train, iterations, bert_model, baseline_model=baseline_model)
+        train_one_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch, args, args.print_freq, iterations, bert_model, baseline_model=baseline_model)
 
-        # refs_ids_list = evaluate(args, model, dataset_test, data_loader_test, refer, bert_model, device=device, num_classes=2, baseline_model=baseline_model,  objs_ids=objs_ids, num_objs_list=num_objs_list)
-
+        # refs_ids_list = evaluate(args, model, dataset_val, data_loader_test, refer, bert_model, device=device, num_classes=2, baseline_model=baseline_model,  objs_ids=objs_ids, num_objs_list=num_objs_list)
 
         # only save if checkpoint improves
         if False and t_iou < iou: # TODO: recompute IoU.
-            print('Better epoch: {}\n'.format(epoch))
+            print("Better epoch: {}\n".format(epoch))
 
             if args.baseline_bilstm:
                 utils.save_on_master(
                     {
-                        'model': model_without_ddp.state_dict(),
-                        'optimizer': optimizer.state_dict(),
-                        'bilstm': bilstm.state_dict(),
-                        'fc_layer': fc_layer.state_dict(),
-                        'epoch': epoch,
-                        'args': args,
-                        'lr_scheduler': lr_scheduler.state_dict()
+                        "model": model.state_dict(),
+                        "optimizer": optimizer.state_dict(),
+                        "bilstm": bilstm.state_dict(),
+                        "fc_layer": fc_layer.state_dict(),
+                        "epoch": epoch,
+                        "args": args,
+                        "lr_scheduler": lr_scheduler.state_dict()
                     },
-                    os.path.join(args.output_dir, 'model_best_{}.pth'.format(args.model_id)))
+                    os.path.join(args.output_dir, "model_best_{}.pth".format(args.model_id)))
 
             else:
-                dict_to_save = {'model': model_without_ddp.state_dict(),
-                'bert_model': bert_model.state_dict(),
-                'optimizer': optimizer.state_dict(),
-                'epoch': epoch,
-                'args': args}
+                dict_to_save = {"model": model.state_dict(),
+                                "bert_model": bert_model.state_dict(),
+                                "optimizer": optimizer.state_dict(),
+                                "epoch": epoch,
+                                "args": args}
 
                 if not args.linear_lr:
-                    dict_to_save['lr_scheduler'] = lr_scheduler.state_dict()
+                    dict_to_save["lr_scheduler"] = lr_scheduler.state_dict()
 
-                utils.save_on_master(dict_to_save, os.path.join(args.output_dir, 'model_best_{}.pth'.format(args.model_id)))
+                utils.save_on_master(dict_to_save, os.path.join(args.output_dir, "model_best_{}.pth".format(args.model_id)))
 
             t_iou = iou
 
     total_time = time.time() - start_time
     total_time_str = str(datetime.timedelta(seconds=int(total_time)))
-    print('Training time {}'.format(total_time_str))
+    print("Training time {}".format(total_time_str))
 
 
 if __name__ == "__main__":
