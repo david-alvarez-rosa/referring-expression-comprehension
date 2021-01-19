@@ -51,10 +51,6 @@ def get_parser():
     parser.add_argument("--lr_specific_decrease", default=0.001, type=float, help="specific lr decrease for linear lr configuration")
 
 
-    #### Baseline
-    parser.add_argument("--baseline_bilstm", action="store_true", help="baseline bidirectional LSTM")
-
-
     #### Training configurations
     parser.add_argument("--load_optimizer", action="store_true", help="load optimizer")
     parser.add_argument("--resume", default="", help="resume from checkpoint")

@@ -11,7 +11,7 @@ from dataset import ReferDataset
 import utils
 
 
-def evaluate(args, model, dataset, loader, bert_model, device):
+def evaluate(args, dataset, loader, model, bert_model, device):
     """Docs."""
 
     model.eval()
@@ -54,6 +54,7 @@ def evaluate(args, model, dataset, loader, bert_model, device):
     print("Mean IoU is {:.4f}.".format(mean_jaccard_index))
     print("Overall IoU is {:.4f}.".format(cum_intersection/cum_union))
 
+
 def get_transform():
     """TODO"""
     transforms = []
@@ -66,6 +67,7 @@ def get_transform():
 def main(args):
     device = torch.device(args.device)
 
+    # Define dataset.
     dataset = ReferDataset(args, transforms=get_transform())
     sampler = torch.utils.data.SequentialSampler(dataset)
     loader = torch.utils.data.DataLoader(dataset,
@@ -74,22 +76,24 @@ def main(args):
                                          num_workers=args.workers,
                                          collate_fn=utils.collate_fn_emb_berts)
 
+    # Segmentation model.
     model = segmentation.__dict__[args.model](num_classes=2,
                                               aux_loss=False,
                                               pretrained=False,
                                               args=args)
 
     model.to(device)
-    model_class = BertModel
 
-    bert_model = model_class.from_pretrained(args.ck_bert)
+    # BERT model.
+    bert_model = BertModel.from_pretrained(args.ck_bert)
     bert_model.to(device)
 
+    # Load checkpoint.
     checkpoint = torch.load(args.resume, map_location="cpu")
     bert_model.load_state_dict(checkpoint["bert_model"], strict=False)
     model.load_state_dict(checkpoint["model"])
 
-    evaluate(args, model, dataset, loader, bert_model, device=device)
+    evaluate(args, dataset, loader, model, bert_model, device)
 
 
 if __name__ == "__main__":

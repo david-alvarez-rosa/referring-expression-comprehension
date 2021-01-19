@@ -180,45 +180,24 @@ def main(args):
             if not args.linear_lr:
                 lr_scheduler.load_state_dict(checkpoint["lr_scheduler"])
 
-    if args.baseline_bilstm:
-        baseline_model = [bilstm, fc_layer]
-    else:
-        baseline_model = None
 
     for epoch in range(args.epochs):
-
         train_one_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch, args, iterations, bert_model)
-
-        # refs_ids_list = evaluate(args, model, dataset_val, data_loader_test, refer, bert_model, device=device, num_classes=2, baseline_model=baseline_model,  objs_ids=objs_ids, num_objs_list=num_objs_list)
 
         # only save if checkpoint improves
         if False and t_iou < iou: # TODO: recompute IoU.
             print("Better epoch: {}\n".format(epoch))
 
-            if args.baseline_bilstm:
-                utils.save_on_master(
-                    {
-                        "model": model.state_dict(),
-                        "optimizer": optimizer.state_dict(),
-                        "bilstm": bilstm.state_dict(),
-                        "fc_layer": fc_layer.state_dict(),
-                        "epoch": epoch,
-                        "args": args,
-                        "lr_scheduler": lr_scheduler.state_dict()
-                    },
-                    args.output_dir + "model_best_{}.pth".format(args.model_id))
+            dict_to_save = {"model": model.state_dict(),
+                            "bert_model": bert_model.state_dict(),
+                            "optimizer": optimizer.state_dict(),
+                            "epoch": epoch,
+                            "args": args}
 
-            else:
-                dict_to_save = {"model": model.state_dict(),
-                                "bert_model": bert_model.state_dict(),
-                                "optimizer": optimizer.state_dict(),
-                                "epoch": epoch,
-                                "args": args}
+            if not args.linear_lr:
+                dict_to_save["lr_scheduler"] = lr_scheduler.state_dict()
 
-                if not args.linear_lr:
-                    dict_to_save["lr_scheduler"] = lr_scheduler.state_dict()
-
-                utils.save_on_master(dict_to_save, args.output_dir + "model_best_{}.pth".format(args.model_id))
+            utils.save_on_master(dict_to_save, args.output_dir + "model_best_{}.pth".format(args.model_id))
 
             t_iou = iou
 
