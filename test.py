@@ -11,21 +11,22 @@ from dataset import ReferDataset
 import utils
 
 
-def evaluate(args, model, dataset, loader,
-             bert_model, device, display=True):
+def evaluate(args, model, dataset, loader, bert_model, device):
     """Docs."""
 
     model.eval()
+    bert_model.eval()
 
     cum_intersection, cum_union = 0, 0
     jaccard_indices = []
 
     for imgs, targets, sents, attentions, sent_ids in loader:
-        imgs, attentions, sents = imgs.to(device), attentions.to(device), sents.to(device)
+        imgs, attentions, sents, targets = \
+            imgs.to(device), attentions.to(device), \
+            sents.to(device), targets.to(device)
 
         sents = sents.squeeze(1)
         attentions = attentions.squeeze(1)
-        targets = targets.cpu().data.numpy()
 
         with torch.no_grad():
             last_hidden_states = bert_model(sents,
@@ -34,7 +35,7 @@ def evaluate(args, model, dataset, loader,
             outputs, _, _ = model(imgs, embedding.squeeze(1))
 
         outputs = outputs["out"]
-        masks = outputs.argmax(1).cpu().data.numpy()
+        masks = outputs.argmax(1)
 
         jaccard_indices_batch, intersection, union = \
             utils.compute_jaccard_indices(masks, targets)
@@ -46,16 +47,15 @@ def evaluate(args, model, dataset, loader,
 
         del targets, imgs, attentions
 
-        if display:
-            utils.display_function(sent_ids, dataset, masks, args.results_folder)
+        utils.save_output(dataset, sent_ids, masks, args.results_folder)
 
-    mIoU = np.mean(np.array(jaccard_indices))
+    mean_jaccard_index = np.mean(np.array(jaccard_indices))
     print("Final results:")
-    print("Mean IoU is {:.4f}.".format(mIoU))
+    print("Mean IoU is {:.4f}.".format(mean_jaccard_index))
     print("Overall IoU is {:.4f}.".format(cum_intersection/cum_union))
 
 def get_transform():
-    """Documentation."""
+    """TODO"""
     transforms = []
     transforms.append(T.ToTensor())
     transforms.append(T.Normalize(mean=[0.485, 0.456, 0.406],
@@ -85,14 +85,7 @@ def main(args):
     bert_model = model_class.from_pretrained(args.ck_bert)
     bert_model.to(device)
 
-    if args.baseline_bilstm:
-        bilstm = torch.nn.LSTM(input_size=300, hidden_size=1000, num_layers=1, bidirectional=True, batch_first=True)
-        fc_layer = torch.nn.Linear(2000, 768)
-        bilstm = bilstm.to(device)
-        fc_layer = fc_layer.to(device)
-
     checkpoint = torch.load(args.resume, map_location="cpu")
-
     bert_model.load_state_dict(checkpoint["bert_model"], strict=False)
     model.load_state_dict(checkpoint["model"])
 
@@ -102,5 +95,4 @@ def main(args):
 if __name__ == "__main__":
     from args import get_parser
     parser = get_parser()
-    args = parser.parse_args()
-    main(args)
+    main(parser.parse_args())

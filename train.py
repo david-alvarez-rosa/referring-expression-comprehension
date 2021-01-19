@@ -1,8 +1,5 @@
-"""Docs."""
+"""TODO"""
 
-import datetime
-import os
-import time
 import torch
 from functools import reduce
 import operator
@@ -10,7 +7,6 @@ from transformers import BertModel
 from lib import segmentation
 import transforms as T
 import utils
-import numpy as np
 import gc
 from dataset import ReferDataset
 
@@ -22,24 +18,8 @@ def adjust_learning_rate(optimizer, epoch, args):
         param_group["lr"] = lr
 
 
-# IoU calculation for proper validation
-def IoU(pred, gt):
-    """Docs."""
-    pred = pred.argmax(1)
-
-    intersection = torch.sum(torch.mul(pred, gt))
-    union = torch.sum(torch.add(pred, gt)) - intersection
-
-    if intersection == 0 or union == 0:
-        iou = 0
-    else:
-        iou = float(intersection)/float(union)
-
-    return iou
-
-
 def get_transform(train, base_size=520, crop_size=480):
-    """Docs."""
+    """TODO"""
     min_size = int((0.8 if train else 1.0) * base_size)
     max_size = int((0.8 if train else 1.0) * base_size)
 
@@ -56,8 +36,8 @@ def get_transform(train, base_size=520, crop_size=480):
     return T.Compose(transforms)
 
 
-def criterion(inputs, targets, args):
-    """Docs."""
+def criterion(inputs, targets):
+    """TODO"""
     losses = {}
     for name, x in inputs.items():
         losses[name] = torch.nn.functional.cross_entropy(x, targets, ignore_index=255)
@@ -68,128 +48,20 @@ def criterion(inputs, targets, args):
     return losses["out"] + 0.5 * losses["aux"]
 
 
-def evaluate(args, model, dataset, data_loader,
-             refer, bert_model, device, display=True, baseline_model=None,
-             objs_ids=None, num_objs_list=None):
-
-    model.eval()
-    refs_ids_list = []
-
-    # evaluation variables
-    cum_I, cum_U = 0, 0
-    eval_seg_iou_list = [.5, .6, .7, .8, .9]
-    seg_correct = np.zeros(len(eval_seg_iou_list), dtype=np.int32)
-    seg_total = 0
-    mean_IoU = []
-
-    with torch.no_grad():
-        for imgs, targets, sents, attentions, sent_ids in data_loader:
-
-            imgs, sents, attentions = imgs.to(device), \
-                sents.to(device), attentions.to(device)
-
-            sents = sents.squeeze(1)
-            attentions = attentions.squeeze(1)
-
-            targets = targets.data.numpy()
-
-            last_hidden_states = bert_model(sents,
-                                            attention_mask=attentions)[0]
-
-            embedding = last_hidden_states[:, 0, :]
-
-            outputs, _, _ = model(imgs, embedding.squeeze(1))
-            outputs = outputs["out"]
-
-            masks = outputs.argmax(1).data.numpy()
-
-            I, U = computeIoU(masks, targets)
-
-            if U == 0:
-                this_iou = 0.0
-            else:
-                this_iou = I*1.0/U
-
-            mean_IoU.append(this_iou)
-
-            cum_I += I
-            cum_U += U
-
-            for n_eval_iou in range(len(eval_seg_iou_list)):
-                eval_seg_iou = eval_seg_iou_list[n_eval_iou]
-                seg_correct[n_eval_iou] += (this_iou >= eval_seg_iou)
-                seg_total += 1
-
-            del targets, imgs, attentions
-
-            sent_id = int(sent_ids[0])
-            sent = dataset.get_sent_raw(sent_id)
-            mask = masks[0]
-
-            if display:
-                sentence = sent
-
-                imgs = dataset.get_image(sent_id)
-
-                plt.figure()
-                plt.axis("off")
-                plt.imshow(imgs)
-                plt.text(0, 0, sentence, fontsize=12)
-
-                # mask definition
-                img = np.ones((imgs.size[1], imgs.size[0], 3))
-                color_mask = np.array([0, 255, 0]) / 255.0
-                for i in range(3):
-                    img[:, :, i] = color_mask[i]
-                    plt.imshow(np.dstack((img, mask * 0.5)))
-
-                results_folder = args.results_folder
-                if not os.path.isdir(results_folder):
-                    os.makedirs(results_folder)
-
-                figname = os.path.join(args.results_folder, str(sent_id) + ".png")
-                plt.savefig(figname)
-                plt.close()
-
-
-    mean_IoU = np.array(mean_IoU)
-    # TODO: fixme.
-    # mIoU = np.mean(mean_IoU)
-    mIoU = 20
-    # TODO: end
-
-    print("Final results:")
-    print("Mean IoU is %.2f\n" % (mIoU*100.))
-    results_str = ""
-    # for n_eval_iou in range(len(eval_seg_iou_list)):
-    #     results_str += "    precision@%s = %.2f\n" % \
-        #         (str(eval_seg_iou_list[n_eval_iou]), seg_correct[n_eval_iou] * 100. / seg_total)
-
-    # TODO: fix me.
-    cum_U += 1e-8
-    # TODO: end.
-
-    results_str += "    overall IoU = %.2f\n" % (cum_I * 100. / cum_U)
-
-    print(results_str)
-
-    return refs_ids_list
-
-
-class allModel():
-    def __init__(model, bert_model):
+class AllModel():
+    def __init__(self, model, bert_model):
         self.model = model
         self.bert_model = bert_model
 
-    def forward():
+    def forward(sents, attentions, imgs):
         last_hidden_states = self.bert_model(sents, attention_mask=attentions)[0]
         embedding = last_hidden_states[:, 0, :]
-        output, vis_emb, lan_emb = model(imgs, embedding.squeeze(1))
+        output, _, _ = model(imgs, embedding.squeeze(1))
 
         return output
 
 
-def train_one_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch, args, print_freq, iterations, bert_model, baseline_model):
+def train_one_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch, args, iterations, bert_model):
     model.train()
     loss = 0
     num_its = 0
@@ -207,7 +79,7 @@ def train_one_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch, 
         embedding = last_hidden_states[:, 0, :]
         output, _, _ = model(imgs, embedding.squeeze(1))
 
-        loss_class = criterion(output, targets, args)
+        loss_class = criterion(output, targets)
 
         optimizer.zero_grad()
         loss_class.backward()
@@ -298,10 +170,6 @@ def main(args):
             optimizer,
             lambda x: (1 - x / (len(data_loader) * args.epochs)) ** 0.9)
 
-    model_dir = os.path.join("./models/", args.model_id)
-
-    start_time = time.time()
-
     iterations = 0
     t_iou = 0
 
@@ -319,7 +187,7 @@ def main(args):
 
     for epoch in range(args.epochs):
 
-        train_one_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch, args, args.print_freq, iterations, bert_model, baseline_model=baseline_model)
+        train_one_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch, args, iterations, bert_model)
 
         # refs_ids_list = evaluate(args, model, dataset_val, data_loader_test, refer, bert_model, device=device, num_classes=2, baseline_model=baseline_model,  objs_ids=objs_ids, num_objs_list=num_objs_list)
 
@@ -338,7 +206,7 @@ def main(args):
                         "args": args,
                         "lr_scheduler": lr_scheduler.state_dict()
                     },
-                    os.path.join(args.output_dir, "model_best_{}.pth".format(args.model_id)))
+                    args.output_dir + "model_best_{}.pth".format(args.model_id))
 
             else:
                 dict_to_save = {"model": model.state_dict(),
@@ -350,18 +218,11 @@ def main(args):
                 if not args.linear_lr:
                     dict_to_save["lr_scheduler"] = lr_scheduler.state_dict()
 
-                utils.save_on_master(dict_to_save, os.path.join(args.output_dir, "model_best_{}.pth".format(args.model_id)))
+                utils.save_on_master(dict_to_save, args.output_dir + "model_best_{}.pth".format(args.model_id))
 
             t_iou = iou
-
-    total_time = time.time() - start_time
-    total_time_str = str(datetime.timedelta(seconds=int(total_time)))
-    print("Training time {}".format(total_time_str))
-
 
 if __name__ == "__main__":
     from args import get_parser
     parser = get_parser()
-    args = parser.parse_args()
-
-    main(args)
+    main(parser.parse_args())

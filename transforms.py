@@ -73,7 +73,7 @@ class CenterCrop(object):
 class ToTensor(object):
     def __call__(self, image, target):
         image = F.to_tensor(image)
-        target = torch.as_tensor(np.asarray(target), dtype=torch.int64)
+        target = torch.from_numpy(np.asarray(target, dtype=np.int64))
         return image, target
 
 class RandomAffine(object):
@@ -100,4 +100,3 @@ class Normalize(object):
     def __call__(self, image, target):
         image = F.normalize(image, mean=self.mean, std=self.std)
         return image, target
-
