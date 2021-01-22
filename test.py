@@ -11,11 +11,15 @@ from dataset import ReferDataset
 import utils
 
 
-def evaluate(args, dataset, loader, model, bert_model, device):
-    """Docs."""
 
+from aux import Model
+
+
+
+
+def evaluate(args, dataset, loader, model, device):
+    """Docs."""
     model.eval()
-    bert_model.eval()
 
     cum_intersection, cum_union = 0, 0
     jaccard_indices = []
@@ -29,13 +33,8 @@ def evaluate(args, dataset, loader, model, bert_model, device):
         attentions = attentions.squeeze(1)
 
         with torch.no_grad():
-            last_hidden_states = bert_model(sents,
-                                            attention_mask=attentions)[0]
-            embedding = last_hidden_states[:, 0, :]
-            outputs, _, _ = model(imgs, embedding.squeeze(1))
-
-        outputs = outputs["out"]
-        masks = outputs.argmax(1)
+            outputs = model(sents, attentions, imgs)
+            mask = outputs.argmax(1)
 
         jaccard_indices_batch, intersection, union = \
             utils.compute_jaccard_indices(masks, targets)
@@ -69,31 +68,29 @@ def main(args):
 
     # Define dataset.
     dataset = ReferDataset(args, transforms=get_transform())
-    sampler = torch.utils.data.SequentialSampler(dataset)
     loader = torch.utils.data.DataLoader(dataset,
                                          batch_size=args.batch_size,
-                                         sampler=sampler,
                                          num_workers=args.workers,
                                          collate_fn=utils.collate_fn_emb_berts)
 
     # Segmentation model.
-    model = segmentation.__dict__[args.model](num_classes=2,
+    seg_model = segmentation.__dict__[args.seg_model](num_classes=2,
                                               aux_loss=False,
                                               pretrained=False,
                                               args=args)
 
-    model.to(device)
-
     # BERT model.
     bert_model = BertModel.from_pretrained(args.ck_bert)
-    bert_model.to(device)
 
     # Load checkpoint.
     checkpoint = torch.load(args.resume, map_location="cpu")
     bert_model.load_state_dict(checkpoint["bert_model"], strict=False)
-    model.load_state_dict(checkpoint["model"])
+    seg_model.load_state_dict(checkpoint["model"], strict=False)
 
-    evaluate(args, dataset, loader, model, bert_model, device)
+    model = Model(seg_model, bert_model)
+    model.to(device)
+
+    evaluate(args, dataset, loader, model, device)
 
 
 if __name__ == "__main__":

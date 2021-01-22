@@ -11,8 +11,21 @@ import gc
 from dataset import ReferDataset
 
 
+
+
+import time
+
+
+
+
+from aux import Model
+
+
+
+
 def adjust_learning_rate(optimizer, epoch, args):
-    """Sets the learning rate to the initial LR decayed by 10 every 30 epochs"""
+    """Sets the learning rate to the initial LR decayed by 10 every 30
+    epochs"""
     lr = args.lr - args.lr_specific_decrease*epoch
     for param_group in optimizer.param_groups:
         param_group["lr"] = lr
@@ -36,7 +49,7 @@ def get_transform(train, base_size=520, crop_size=480):
     return T.Compose(transforms)
 
 
-def criterion(inputs, targets):
+def criterion(maks, targets):
     """TODO"""
     losses = {}
     for name, x in inputs.items():
@@ -48,41 +61,30 @@ def criterion(inputs, targets):
     return losses["out"] + 0.5 * losses["aux"]
 
 
-class AllModel():
-    def __init__(self, model, bert_model):
-        self.model = model
-        self.bert_model = bert_model
-
-    def forward(sents, attentions, imgs):
-        last_hidden_states = self.bert_model(sents, attention_mask=attentions)[0]
-        embedding = last_hidden_states[:, 0, :]
-        output, _, _ = model(imgs, embedding.squeeze(1))
-
-        return output
-
-
-def train_one_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch, args, iterations, bert_model):
+def train_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch, args):
     model.train()
-    loss = 0
+    loss_value = 0
     num_its = 0
 
     for imgs, targets, sents, attentions, sent_ids in data_loader:
+        tic = time.time()
+
         num_its += 1
 
-        imgs, targets, sents, attentions = imgs.to(device), targets.to(device), sents.to(device), attentions.to(device)
+        imgs, attentions, sents, targets = \
+            imgs.to(device), attentions.to(device), \
+            sents.to(device), targets.to(device)
 
         sents = sents.squeeze(1)
         attentions = attentions.squeeze(1)
 
-        last_hidden_states = bert_model(sents, attention_mask=attentions)[0]
+        outputs = model(sents, attentions, imgs)
+        # masks = outputs.argmax(1)
 
-        embedding = last_hidden_states[:, 0, :]
-        output, _, _ = model(imgs, embedding.squeeze(1))
-
-        loss_class = criterion(output, targets)
+        loss = torch.nn.functional.cross_entropy(outputs, targets, ignore_index=255)
 
         optimizer.zero_grad()
-        loss_class.backward()
+        loss.backward()
         optimizer.step()
 
         if args.linear_lr:
@@ -90,15 +92,18 @@ def train_one_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch, 
         else:
             lr_scheduler.step()
 
-        loss += loss_class.item()
-        iterations += 1
+        loss_value += loss.item()
 
-        del imgs, targets, sents, attentions, loss_class, embedding, output, last_hidden_states
+        del imgs, targets, sents, attentions, loss, outputs
 
         gc.collect()
         torch.cuda.empty_cache()
 
-        print(loss/num_its)
+        print(loss_value/num_its)
+        print(time.time() - tic)
+
+    print("="*79)
+    print(loss_value/num_its)
 
 
 def main(args):
@@ -124,35 +129,36 @@ def main(args):
         #collate_fn=utils.collate_fn_emb_berts
     )
 
-    # Model definition.
-    model = segmentation.__dict__[args.model](num_classes=2,
+    # Segmentation model.
+    seg_model = segmentation.__dict__[args.seg_model](num_classes=2,
                                               aux_loss=args.aux_loss,
                                               pretrained=args.pretrained,
                                               args=args)
-    model_class = BertModel
-    bert_model = model_class.from_pretrained(args.ck_bert)
+
+    # BERT model.
+    bert_model = BertModel.from_pretrained(args.ck_bert)
 
     if args.pretrained_refvos:
         checkpoint = torch.load(args.ck_pretrained_refvos)
-        model.load_state_dict(checkpoint["model"])
+        seg_model.load_state_dict(checkpoint["seg_model"])
         bert_model.load_state_dict(checkpoint["bert_model"])
     elif args.resume:
         checkpoint = torch.load(args.resume, map_location="cpu")
-        model.load_state_dict(checkpoint["model"])
-
-    model = model.cuda()
-    bert_model = bert_model.cuda()
+        seg_model.load_state_dict(checkpoint["seg_model"])
 
     params_to_optimize = [
-        {"params": [p for p in model.backbone.parameters() if p.requires_grad]},
-        {"params": [p for p in model.classifier.parameters() if p.requires_grad]},
+        {"params": [p for p in seg_model.backbone.parameters() if p.requires_grad]},
+        {"params": [p for p in seg_model.classifier.parameters() if p.requires_grad]},
         # the following are the parameters of bert
         {"params": reduce(operator.concat, [[p for p in bert_model.encoder.layer[i].parameters() if p.requires_grad] for i in range(10)])},
         {"params": [p for p in bert_model.pooler.parameters() if p.requires_grad]}
     ]
 
+    model = Model(seg_model, bert_model)
+    model.to(device)
+
     if args.aux_loss:
-        params = [p for p in model.aux_classifier.parameters() if p.requires_grad]
+        params = [p for p in seg_model.aux_classifier.parameters() if p.requires_grad]
         params_to_optimize.append({"params": params, "lr": args.lr * 10})
 
     optimizer = torch.optim.SGD(
@@ -170,7 +176,6 @@ def main(args):
             optimizer,
             lambda x: (1 - x / (len(data_loader) * args.epochs)) ** 0.9)
 
-    iterations = 0
     t_iou = 0
 
     if args.resume:
@@ -182,13 +187,13 @@ def main(args):
 
 
     for epoch in range(args.epochs):
-        train_one_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch, args, iterations, bert_model)
+        train_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch, args)
 
         # only save if checkpoint improves
         if False and t_iou < iou: # TODO: recompute IoU.
             print("Better epoch: {}\n".format(epoch))
 
-            dict_to_save = {"model": model.state_dict(),
+            dict_to_save = {"seg_model": seg_model.state_dict(),
                             "bert_model": bert_model.state_dict(),
                             "optimizer": optimizer.state_dict(),
                             "epoch": epoch,

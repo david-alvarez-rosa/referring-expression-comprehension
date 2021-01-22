@@ -11,9 +11,9 @@ def get_parser():
     parser.add_argument("--dataset",
                         default="refcoco",
                         help="choose one of the following datasets: refcoco, refcoco+, davis or a2d")
-    parser.add_argument("--model",
+    parser.add_argument("--seg-model",
                         default="deeplabv3_resnet101",
-                        help="model")
+                        help="seg_model")
 
     parser.add_argument("--aux-loss", action="store_true", help="auxiliar loss")
 
