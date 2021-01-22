@@ -1,5 +1,6 @@
 """TODO"""
 
+import time
 import torch
 from functools import reduce
 import operator
@@ -9,18 +10,7 @@ import transforms as T
 import utils
 import gc
 from dataset import ReferDataset
-
-
-
-
-import time
-
-
-
-
-from aux import Model
-
-
+from model import Model
 
 
 def adjust_learning_rate(optimizer, epoch, args):
@@ -47,18 +37,6 @@ def get_transform(train, base_size=520, crop_size=480):
                                   std=[0.229, 0.224, 0.225]))
 
     return T.Compose(transforms)
-
-
-def criterion(maks, targets):
-    """TODO"""
-    losses = {}
-    for name, x in inputs.items():
-        losses[name] = torch.nn.functional.cross_entropy(x, targets, ignore_index=255)
-
-    if len(losses) == 1:
-        return losses["out"]
-
-    return losses["out"] + 0.5 * losses["aux"]
 
 
 def train_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch, args):
@@ -130,10 +108,10 @@ def main(args):
     )
 
     # Segmentation model.
-    seg_model = segmentation.__dict__[args.seg_model](num_classes=2,
-                                              aux_loss=args.aux_loss,
-                                              pretrained=args.pretrained,
-                                              args=args)
+    seg_model = segmentation.deeplabv3_resnet101(num_classes=2,
+                                                 aux_loss=args.aux_loss,
+                                                 pretrained=args.pretrained,
+                                                 args=args)
 
     # BERT model.
     bert_model = BertModel.from_pretrained(args.ck_bert)

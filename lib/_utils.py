@@ -5,7 +5,7 @@ from torch import nn
 from torch.nn import functional as F
 
 
-# segmentation model with embedding 
+# segmentation model with embedding
 class _SimpleSegmentationModelEmb(nn.Module):
     def __init__(self, backbone, classifier, aux_classifier=None, inference_backbone=False):
         super(_SimpleSegmentationModelEmb, self).__init__()
@@ -35,13 +35,13 @@ class _SimpleSegmentationModelEmb(nn.Module):
             x = features["out"]
 
         x, v, l = self.classifier(x, emb)
-        x = F.interpolate(x, size=input_shape, mode='bilinear', align_corners=False)
+        x = F.interpolate(x, size=input_shape, mode="bilinear", align_corners=False)
         result["out"] = x
 
         if self.aux_classifier is not None:
             x = features["aux"]
             x = self.aux_classifier(x)
-            x = F.interpolate(x, size=input_shape, mode='bilinear', align_corners=False)
+            x = F.interpolate(x, size=input_shape, mode="bilinear", align_corners=False)
             result["aux"] = x
 
         # return result

@@ -1,7 +1,8 @@
-"""TODO: this is the test.py file
+"""File for testing the model.
 
 A more detailed explanation.
 """
+
 import numpy as np
 import torch
 from transformers import BertModel
@@ -9,16 +10,11 @@ import transforms as T
 from lib import segmentation
 from dataset import ReferDataset
 import utils
-
-
-
-from aux import Model
-
-
+from model import Model
 
 
 def evaluate(args, dataset, loader, model, device):
-    """Docs."""
+    """Evaluate the model in the given dataset."""
     model.eval()
 
     cum_intersection, cum_union = 0, 0
@@ -34,7 +30,7 @@ def evaluate(args, dataset, loader, model, device):
 
         with torch.no_grad():
             outputs = model(sents, attentions, imgs)
-            mask = outputs.argmax(1)
+            masks = outputs.argmax(1)
 
         jaccard_indices_batch, intersection, union = \
             utils.compute_jaccard_indices(masks, targets)
@@ -55,7 +51,8 @@ def evaluate(args, dataset, loader, model, device):
 
 
 def get_transform():
-    """TODO"""
+    """Returns transformations for input images. """
+
     transforms = []
     transforms.append(T.ToTensor())
     transforms.append(T.Normalize(mean=[0.485, 0.456, 0.406],
@@ -64,8 +61,6 @@ def get_transform():
 
 
 def main(args):
-    device = torch.device(args.device)
-
     # Define dataset.
     dataset = ReferDataset(args, transforms=get_transform())
     loader = torch.utils.data.DataLoader(dataset,
@@ -74,10 +69,10 @@ def main(args):
                                          collate_fn=utils.collate_fn_emb_berts)
 
     # Segmentation model.
-    seg_model = segmentation.__dict__[args.seg_model](num_classes=2,
-                                              aux_loss=False,
-                                              pretrained=False,
-                                              args=args)
+    seg_model = segmentation.deeplabv3_resnet101(num_classes=2,
+                                                 aux_loss=False,
+                                                 pretrained=False,
+                                                 args=args)
 
     # BERT model.
     bert_model = BertModel.from_pretrained(args.ck_bert)
@@ -87,7 +82,9 @@ def main(args):
     bert_model.load_state_dict(checkpoint["bert_model"], strict=False)
     seg_model.load_state_dict(checkpoint["model"], strict=False)
 
+    # Define model and sent to device.
     model = Model(seg_model, bert_model)
+    device = torch.device(args.device)
     model.to(device)
 
     evaluate(args, dataset, loader, model, device)

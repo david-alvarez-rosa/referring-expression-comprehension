@@ -66,7 +66,7 @@ class ASPPPooling(nn.Sequential):
     def forward(self, x):
         size = x.shape[-2:]
         x = super(ASPPPooling, self).forward(x)
-        return F.interpolate(x, size=size, mode='bilinear', align_corners=False)
+        return F.interpolate(x, size=size, mode="bilinear", align_corners=False)
 
 
 class ASPP_v4(nn.Module):
@@ -129,7 +129,7 @@ class ASPP_v4(nn.Module):
         if self.multiply_feats:
             res = torch.mul(visual_feats, p_emb)
         # addition of feats
-        elif self.addition:       
+        elif self.addition:
             res = torch.add(visual_feats, p_emb)/2
         # concatanation of feats
         else:
@@ -138,4 +138,3 @@ class ASPP_v4(nn.Module):
         res = self.project_final(res)
 
         return res, visual_feats, p_emb
-
