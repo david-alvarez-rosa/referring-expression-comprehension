@@ -6,11 +6,15 @@ from functools import reduce
 import operator
 from transformers import BertModel
 from lib import segmentation
-import transforms as T
+import transforms
 import utils
 import gc
 from dataset import ReferDataset
 from model import Model
+
+
+
+import test
 
 
 def adjust_learning_rate(optimizer, epoch, args):
@@ -21,89 +25,110 @@ def adjust_learning_rate(optimizer, epoch, args):
         param_group["lr"] = lr
 
 
-def get_transform(train, base_size=520, crop_size=480):
-    """TODO"""
-    min_size = int((0.8 if train else 1.0) * base_size)
-    max_size = int((0.8 if train else 1.0) * base_size)
-
-    transforms = []
-    transforms.append(T.RandomResize(min_size, max_size))
-
-    if train:
-        transforms.append(T.RandomCrop(crop_size))
-
-    transforms.append(T.ToTensor())
-    transforms.append(T.Normalize(mean=[0.485, 0.456, 0.406],
-                                  std=[0.229, 0.224, 0.225]))
-
-    return T.Compose(transforms)
-
-
 def train_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch, args):
+    """Train and compute loss and accuracy on train dataset_train.
+    """
+
     model.train()
-    loss_value = 0
-    num_its = 0
 
     for imgs, targets, sents, attentions, sent_ids in data_loader:
-        tic = time.time()
-
-        num_its += 1
-
+        # Sent data to device.
         imgs, attentions, sents, targets = \
             imgs.to(device), attentions.to(device), \
             sents.to(device), targets.to(device)
-
         sents = sents.squeeze(1)
         attentions = attentions.squeeze(1)
 
+        # Compute model output and loss.
         outputs = model(sents, attentions, imgs)
-        # masks = outputs.argmax(1)
-
         loss = torch.nn.functional.cross_entropy(outputs, targets, ignore_index=255)
 
+        # Backpropagate.
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
 
+        # Adjust learning rate.
         if args.linear_lr:
             adjust_learning_rate(optimizer, epoch, args)
         else:
             lr_scheduler.step()
 
-        loss_value += loss.item()
-
+        # Release memory.
         del imgs, targets, sents, attentions, loss, outputs
-
         gc.collect()
         torch.cuda.empty_cache()
 
-        print(loss_value/num_its)
-        print(time.time() - tic)
 
-    print("="*79)
-    print(loss_value/num_its)
+def new_epoch(model, optimizer, dataset_train, dataset_val, data_loader_train, data_loader_val, lr_scheduler, device, epoch, args):
+    time_start_epoch = time.time()
+
+    # Train.
+    time_start_train = time.time()
+    train_epoch(model=model,
+                optimizer=optimizer,
+                data_loader=data_loader_train,
+                lr_scheduler=lr_scheduler,
+                device=device,
+                epoch=epoch,
+                args=args)
+    time_end_train = time.time()
+
+    # # Evaluate in train dataset.
+    # print("--- Train ---")
+    # time_start_evaluate_train = time.time()
+    # test.evaluate(data_loader=data_loader_train,
+    #               model=model,
+    #               device=device,
+    #               dataset=dataset_train,
+    #               results_dir=args.results_dir + str(epoch + 1) + "/")
+    # time_end_evaluate_train = time.time()
+
+    # Evaluate in validation dataset.
+    print("\n--- Validation ---")
+    time_start_evaluate_val = time.time()
+    test.evaluate(data_loader=data_loader_val,
+                  model=model,
+                  device=device,
+                  dataset=dataset_train,
+                  results_dir=args.results_dir + str(epoch + 1) + "/")
+    time_end_evaluate_val = time.time()
+
+    # Times.
+    time_end_epoch = time.time()
+
+    print("\n--- Time ---")
+    print("time_train: {:.2f}s".format(time_end_train - time_start_train))
+    # print("time_evaluate_train: {:.2f}s".format(time_end_evaluate_train - time_start_evaluate_train))
+    print("time_evaluate_test: {:.2f}s".
+          format(time_end_evaluate_val - time_start_evaluate_val))
+    print("time_epoch: {:.2f}s".format(time_end_epoch - time_start_epoch))
 
 
 def main(args):
     device = torch.device(args.device)
 
     # Train dataset.
-    dataset = ReferDataset(args, transforms=get_transform(train=True))
-    train_sampler = torch.utils.data.RandomSampler(dataset)
-    data_loader = torch.utils.data.DataLoader(
-        dataset,
+    dataset_train = ReferDataset(args,
+                                 transforms=transforms.get_transform(train=True))
+    data_sampler_train = torch.utils.data.RandomSampler(dataset_train)
+    data_loader_train = torch.utils.data.DataLoader(
+        dataset=dataset_train,
         batch_size=args.batch_size,
-        sampler=train_sampler,
+        sampler=data_sampler_train,
         num_workers=args.workers,
         #collate_fn=utils.collate_fn_emb_berts,
         drop_last=True)
 
     # Validation dataset.
-    dataset_val = ReferDataset(args, transforms=get_transform(train=False))
-    val_sampler = torch.utils.data.SequentialSampler(dataset_val)
-    data_loader_test = torch.utils.data.DataLoader(
-        dataset_val, batch_size=1,
-        sampler=val_sampler, num_workers=args.workers,
+    dataset_val = ReferDataset(args,
+                               transforms=transforms.get_transform())
+    sampler_val = torch.utils.data.SequentialSampler(dataset_val)
+    data_loader_val = torch.utils.data.DataLoader(
+        dataset=dataset_val,
+        batch_size=1,
+        sampler=sampler_val,
+        num_workers=args.workers,
         #collate_fn=utils.collate_fn_emb_berts
     )
 
@@ -152,7 +177,7 @@ def main(args):
     else:
         lr_scheduler = torch.optim.lr_scheduler.LambdaLR(
             optimizer,
-            lambda x: (1 - x / (len(data_loader) * args.epochs)) ** 0.9)
+            lambda x: (1 - x / (len(data_loader_train) * args.epochs)) ** 0.9)
 
     t_iou = 0
 
@@ -165,7 +190,17 @@ def main(args):
 
 
     for epoch in range(args.epochs):
-        train_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch, args)
+        print(("="*25 + " Epoch {}/{} " + "="*25).format(epoch + 1, args.epochs))
+        new_epoch(model=model,
+                  optimizer=optimizer,
+                  dataset_train=dataset_train,
+                  dataset_val=dataset_val,
+                  data_loader_train=data_loader_train,
+                  data_loader_val=data_loader_val,
+                  lr_scheduler=lr_scheduler,
+                  device=device,
+                  epoch=epoch,
+                  args=args)
 
         # only save if checkpoint improves
         if False and t_iou < iou: # TODO: recompute IoU.

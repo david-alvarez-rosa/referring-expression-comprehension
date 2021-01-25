@@ -6,9 +6,16 @@ import numpy as np
 import torch
 import matplotlib.pyplot as plt
 
+import errno
+import os
+
+
 
 def save_output(dataset, sent_ids, masks, directory):
     """TODO"""
+
+    # Ensure directory exists.
+    mkdir(directory)
 
     for sent_id, mask in zip(sent_ids, masks):
         sent = dataset.get_sent_raw(sent_id)
@@ -21,7 +28,7 @@ def save_output(dataset, sent_ids, masks, directory):
         plt.imshow(image)
         plt.text(0, 0, sent, fontsize=12)
 
-        # mask definition
+        # Mask definition.
         img = np.ones((image.size[1], image.size[0], 3))
         color_mask = np.array([0, 255, 0]) / 255.0
         for i in range(3):
@@ -78,3 +85,29 @@ def collate_fn_emb_berts(batch):
     batched_attentions = cat_list(attentions, fill_value=0)
     sents = torch.stack(sents)
     return batched_imgs, batched_targets, sents, batched_attentions, sent_ids
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def mkdir(path):
+    """Creates a directory. equivalent to using mkdir -p on the command line"""
+    try:
+        os.makedirs(path)
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise

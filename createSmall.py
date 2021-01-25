@@ -11,10 +11,10 @@ import os
 from collections import defaultdict
 
 
-annotation_file = "data/instances.json"
+annotation_file = "datasets/refcoco/annotations.json"
 dataset_anns = json.load(open(annotation_file, "r"))
 
-ref_file = "data/refs(unc).p"
+ref_file = "datasets/refcoco/refs(unc).p"
 dataset_refs = pickle.load(open(ref_file, "rb"))
 
 print(dataset_refs[0].keys())
@@ -37,7 +37,7 @@ for img in dataset_anns["images"]:
     imgs[img["id"]] = img
 
 
-for i in range(10):
+for i in range(1):
     ref = dataset_refs[i]
     out_refs.append(ref)
 

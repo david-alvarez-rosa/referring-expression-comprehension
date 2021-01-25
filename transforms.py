@@ -100,3 +100,53 @@ class Normalize(object):
     def __call__(self, image, target):
         image = F.normalize(image, mean=self.mean, std=self.std)
         return image, target
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def get_transform(train=False, base_size=520, crop_size=480):
+    """TODO"""
+    transforms = []
+
+    if train:
+        min_size = int((0.8 if train else 1.0) * base_size)
+        max_size = int((0.8 if train else 1.0) * base_size)
+        transforms.append(RandomResize(min_size, max_size))
+        transforms.append(RandomCrop(crop_size))
+
+    transforms.append(ToTensor())
+    transforms.append(Normalize(mean=[0.485, 0.456, 0.406],
+                                  std=[0.229, 0.224, 0.225]))
+
+    return Compose(transforms)

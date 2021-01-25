@@ -6,21 +6,23 @@ A more detailed explanation.
 import numpy as np
 import torch
 from transformers import BertModel
-import transforms as T
+import transforms
 from lib import segmentation
 from dataset import ReferDataset
 import utils
 from model import Model
 
 
-def evaluate(args, dataset, loader, model, device):
+def evaluate(data_loader, model, device, dataset=None, results_dir=None):
     """Evaluate the model in the given dataset."""
+
     model.eval()
 
+    loss_value = 0
     cum_intersection, cum_union = 0, 0
     jaccard_indices = []
 
-    for imgs, targets, sents, attentions, sent_ids in loader:
+    for imgs, targets, sents, attentions, sent_ids in data_loader:
         imgs, attentions, sents, targets = \
             imgs.to(device), attentions.to(device), \
             sents.to(device), targets.to(device)
@@ -30,40 +32,35 @@ def evaluate(args, dataset, loader, model, device):
 
         with torch.no_grad():
             outputs = model(sents, attentions, imgs)
+            loss = torch.nn.functional.cross_entropy(outputs, targets, ignore_index=255)
             masks = outputs.argmax(1)
+
+        loss_value += loss.item()
 
         jaccard_indices_batch, intersection, union = \
             utils.compute_jaccard_indices(masks, targets)
-        print("jaccard_indices_batch: ", jaccard_indices_batch)
-
         jaccard_indices += jaccard_indices_batch
         cum_intersection += intersection
         cum_union += union
 
-        del targets, imgs, attentions
+        if results_dir is not None:
+            utils.save_output(dataset, sent_ids.tolist(), masks, results_dir)
 
-        utils.save_output(dataset, sent_ids, masks, args.results_folder)
+        # Release memory.
+        del imgs, targets, sents, attentions, sent_ids
 
+
+    print("loss: {:.4f}".format(loss_value/len(data_loader)))
+    print("jaccard_indices: ", jaccard_indices)
     mean_jaccard_index = np.mean(np.array(jaccard_indices))
-    print("Final results:")
     print("Mean IoU is {:.4f}.".format(mean_jaccard_index))
     print("Overall IoU is {:.4f}.".format(cum_intersection/cum_union))
 
 
-def get_transform():
-    """Returns transformations for input images. """
-
-    transforms = []
-    transforms.append(T.ToTensor())
-    transforms.append(T.Normalize(mean=[0.485, 0.456, 0.406],
-                                  std=[0.229, 0.224, 0.225]))
-    return T.Compose(transforms)
-
-
 def main(args):
     # Define dataset.
-    dataset = ReferDataset(args, transforms=get_transform())
-    loader = torch.utils.data.DataLoader(dataset,
+    dataset = ReferDataset(args, transforms=transforms.get_transform())
+    data_loader = torch.utils.data.DataLoader(dataset,
                                          batch_size=args.batch_size,
                                          num_workers=args.workers,
                                          collate_fn=utils.collate_fn_emb_berts)
@@ -87,7 +84,7 @@ def main(args):
     device = torch.device(args.device)
     model.to(device)
 
-    evaluate(args, dataset, loader, model, device)
+    evaluate(dataset, data_loader, model, device, args.results_dir)
 
 
 if __name__ == "__main__":
