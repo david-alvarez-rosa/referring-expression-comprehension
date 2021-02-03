@@ -35,7 +35,7 @@ class ReferDataset(data.Dataset):
 
         self.tokenizer = BertTokenizer.from_pretrained(args.bert_tokenizer)
 
-        self.sent_ids = self.refer.get_sent_ids()
+        self.sent_ids = self.refer.get_sent_ids(split=args.split)
 
     def __len__(self):
         """Size of dataset."""

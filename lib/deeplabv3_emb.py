@@ -123,7 +123,7 @@ class ASPP_v4(nn.Module):
         # repeat i every spatial position
         p_emb = p_emb.unsqueeze(-1)
         p_emb = p_emb.repeat(1, 1, res[0].size(-2)*res[0].size(-1))
-        p_emb = p_emb.resize(p_emb.size(0), p_emb.size(1), visual_feats[0].size(-2), visual_feats[0].size(-1))
+        p_emb = p_emb.reshape(p_emb.size(0), p_emb.size(1), visual_feats[0].size(-2), visual_feats[0].size(-1))
 
         # multiply feats
         if self.multiply_feats:

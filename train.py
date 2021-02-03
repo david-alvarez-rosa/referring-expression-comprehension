@@ -60,48 +60,52 @@ def train_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch, args
         torch.cuda.empty_cache()
 
 
-def new_epoch(model, optimizer, dataset_train, dataset_val, data_loader_train, data_loader_val, lr_scheduler, device, epoch, args):
+def evaluate_epoch(results_dir, device, model, loader_train, loader_val, dataset_val):
+    # Evaluate in train dataset.
+    print("--- Train ---")
+    test.evaluate(data_loader=loader_train,
+                  model=model,
+                  device=device)
+
+    # Evaluate in validation dataset.
+    print("\n--- Validation ---")
+    test.evaluate(data_loader=loader_val,
+                  model=model,
+                  device=device,
+                  dataset=dataset_val,
+                  results_dir=results_dir)
+
+
+def new_epoch(model, optimizer, dataset_train, dataset_val, loader_train, loader_val, lr_scheduler, device, epoch, args):
     time_start_epoch = time.time()
 
     # Train.
     time_start_train = time.time()
     train_epoch(model=model,
                 optimizer=optimizer,
-                data_loader=data_loader_train,
+                data_loader=loader_train,
                 lr_scheduler=lr_scheduler,
                 device=device,
                 epoch=epoch,
                 args=args)
     time_end_train = time.time()
 
-    # # Evaluate in train dataset.
-    # print("--- Train ---")
-    # time_start_evaluate_train = time.time()
-    # test.evaluate(data_loader=data_loader_train,
-    #               model=model,
-    #               device=device,
-    #               dataset=dataset_train,
-    #               results_dir=args.results_dir + str(epoch + 1) + "/")
-    # time_end_evaluate_train = time.time()
-
-    # Evaluate in validation dataset.
-    print("\n--- Validation ---")
-    time_start_evaluate_val = time.time()
-    test.evaluate(data_loader=data_loader_val,
-                  model=model,
-                  device=device,
-                  dataset=dataset_train,
-                  results_dir=args.results_dir + str(epoch + 1) + "/")
-    time_end_evaluate_val = time.time()
+    # Evaluate.
+    time_start_evaluate = time.time()
+    evaluate_epoch(results_dir=args.results_dir + str(epoch+ 1) + "/",
+                   device=device,
+                   model=model,
+                   loader_train=loader_train,
+                   loader_val=loader_val,
+                   dataset_val=dataset_val)
+    time_end_evaluate = time.time()
 
     # Times.
     time_end_epoch = time.time()
 
     print("\n--- Time ---")
     print("time_train: {:.2f}s".format(time_end_train - time_start_train))
-    # print("time_evaluate_train: {:.2f}s".format(time_end_evaluate_train - time_start_evaluate_train))
-    print("time_evaluate_test: {:.2f}s".
-          format(time_end_evaluate_val - time_start_evaluate_val))
+    print("time_evaluate: {:.2f}s".format(time_end_evaluate - time_start_evaluate))
     print("time_epoch: {:.2f}s".format(time_end_epoch - time_start_epoch))
 
 
@@ -111,26 +115,25 @@ def main(args):
     # Train dataset.
     dataset_train = ReferDataset(args,
                                  transforms=transforms.get_transform(train=True))
-    data_sampler_train = torch.utils.data.RandomSampler(dataset_train)
-    data_loader_train = torch.utils.data.DataLoader(
+    sampler_train = torch.utils.data.RandomSampler(dataset_train)
+    loader_train = torch.utils.data.DataLoader(
         dataset=dataset_train,
         batch_size=args.batch_size,
-        sampler=data_sampler_train,
+        sampler=sampler_train,
         num_workers=args.workers,
-        #collate_fn=utils.collate_fn_emb_berts,
+        collate_fn=utils.collate_fn_emb_berts,
         drop_last=True)
 
     # Validation dataset.
     dataset_val = ReferDataset(args,
                                transforms=transforms.get_transform())
     sampler_val = torch.utils.data.SequentialSampler(dataset_val)
-    data_loader_val = torch.utils.data.DataLoader(
+    loader_val = torch.utils.data.DataLoader(
         dataset=dataset_val,
         batch_size=1,
         sampler=sampler_val,
         num_workers=args.workers,
-        #collate_fn=utils.collate_fn_emb_berts
-    )
+        collate_fn=utils.collate_fn_emb_berts)
 
     # Segmentation model.
     seg_model = segmentation.deeplabv3_resnet101(num_classes=2,
@@ -177,7 +180,7 @@ def main(args):
     else:
         lr_scheduler = torch.optim.lr_scheduler.LambdaLR(
             optimizer,
-            lambda x: (1 - x / (len(data_loader_train) * args.epochs)) ** 0.9)
+            lambda x: (1 - x / (len(loader_train) * args.epochs)) ** 0.9)
 
     t_iou = 0
 
@@ -190,13 +193,13 @@ def main(args):
 
 
     for epoch in range(args.epochs):
-        print(("="*25 + " Epoch {}/{} " + "="*25).format(epoch + 1, args.epochs))
+        print(("\n" + "="*25 + " Epoch {}/{} " + "="*25).format(epoch + 1, args.epochs))
         new_epoch(model=model,
                   optimizer=optimizer,
                   dataset_train=dataset_train,
                   dataset_val=dataset_val,
-                  data_loader_train=data_loader_train,
-                  data_loader_val=data_loader_val,
+                  loader_train=loader_train,
+                  loader_val=loader_val,
                   lr_scheduler=lr_scheduler,
                   device=device,
                   epoch=epoch,

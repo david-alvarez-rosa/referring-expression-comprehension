@@ -26,9 +26,6 @@ get_mask    - get mask and area of the referred object given ref
 showMask   - show mask of the referred object given ref
 """
 
-def has_duplicates(seq):
-    return len(seq) != len(set(seq))
-
 import json
 import pickle
 import time
@@ -125,7 +122,7 @@ class Refer:
         refs, sents = {}, {}
         ann_to_ref, ref_to_ann = {}, {}
         ref_to_sents = defaultdict(list)
-        sent_to_tokens, sent_to_ref = {}, {} # TODO: check if this is being used.
+        sent_to_tokens, sent_to_ref = {}, {}
         for ref in self.ref_dataset:
             refs[ref["ref_id"]] = ref
             ann_to_ref[ref["ann_id"]] = ref["ref_id"]
@@ -276,7 +273,8 @@ class Refer:
                                    is_crowd=is_crowd,
                                    ann_ids=ann_ids)
 
-        refs = [self.refs[self.ann_to_ref[ann_id]] for ann_id in ann_ids]
+        refs = [self.refs[self.ann_to_ref[ann_id]] for ann_id in ann_ids
+                if ann_id in self.ann_to_ref]
         if split is not None:
             refs = [ref for ref in refs if ref["split"] == split]
         if ref_ids is not None:

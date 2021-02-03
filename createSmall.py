@@ -37,7 +37,7 @@ for img in dataset_anns["images"]:
     imgs[img["id"]] = img
 
 
-for i in range(1):
+for i in range(len(dataset_refs)):
     ref = dataset_refs[i]
     out_refs.append(ref)
 

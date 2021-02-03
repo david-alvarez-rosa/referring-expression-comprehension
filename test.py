@@ -44,7 +44,7 @@ def evaluate(data_loader, model, device, dataset=None, results_dir=None):
         cum_union += union
 
         if results_dir is not None:
-            utils.save_output(dataset, sent_ids.tolist(), masks, results_dir)
+            utils.save_output(dataset, sent_ids, masks, results_dir)
 
         # Release memory.
         del imgs, targets, sents, attentions, sent_ids
@@ -84,7 +84,11 @@ def main(args):
     device = torch.device(args.device)
     model.to(device)
 
-    evaluate(dataset, data_loader, model, device, args.results_dir)
+    evaluate(data_loader=data_loader,
+             model=model,
+             device=device,
+             dataset=dataset,
+             results_dir=args.results_dir)
 
 
 if __name__ == "__main__":

@@ -42,7 +42,9 @@ def _segm_resnet_emb(name, backbone_name, num_classes, aux, args, pretrained_bac
 
 def _load_model(arch_type, backbone, pretrained, progress, num_classes, aux_loss, args, embedding_model, aspp_option, **kwargs):
     if pretrained:
-        aux_loss = True
+        # aux_loss = True
+        # TODO: Check this.
+        aux_loss = False
     # model = _segm_resnet(arch_type, backbone, num_classes, aux_loss, **kwargs)
     # TODO: I changed this to see if the embedding thing works
     model = _segm_resnet_emb(arch_type, backbone, num_classes, aux_loss, args, embedding_model=embedding_model, aspp_option=aspp_option, **kwargs)
@@ -54,7 +56,7 @@ def _load_model(arch_type, backbone, pretrained, progress, num_classes, aux_loss
             raise NotImplementedError("pretrained {} is not supported as of now".format(arch))
         else:
             state_dict = load_state_dict_from_url(model_url, progress=progress)
-            model.load_state_dict(state_dict)
+            model.load_state_dict(state_dict, strict=False)
     return model
 
 
