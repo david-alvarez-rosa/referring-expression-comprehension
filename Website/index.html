@@ -12,10 +12,14 @@
     <link rel="canonical" href="TODO" />
 
     <!-- CSS files. -->
-    <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/audio.css" />
 
     <!-- Javascript files. -->
-    <script defer src="main.js"></script>
+    <script defer src="css/main.js"></script>
+    <script defer src="js/audiodisplay.js"></script>
+    <script defer src="js/recorderjs/recorder.js"></script>
+    <script defer src="js/audio.js"></script>
   </head>
 
 
@@ -83,6 +87,47 @@
           <input type="button" value="Submit" onclick="testing();" />
         </div>
       </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div id="viz">
+        <canvas id="analyser" width="1024" height="500"></canvas>
+        <canvas id="wavedisplay" width="1024" height="500"></canvas>
+      </div>
+      <div id="controls">
+        <img id="record" src="img/mic128.png" onclick="toggleRecording(this);">
+        <a id="save" href="index.html#"><img src="img/save.svg"></a>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </main>
 
     <footer>

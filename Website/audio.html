@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+  <head>
+    <title>TODO</title>
+    <meta charset="UTF-8" />
+    <meta name="description" content="TODO" />
+    <meta name="keywords" content="TODO" />
+    <meta name="author" content="David Álvarez Rosa" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="canonical" href="TODO" />
+
+    <!-- CSS files. -->
+    <link rel="stylesheet" href="main.css" />
+
+    <!-- Javascript files. -->
+    <script defer src="js/audiodisplay.js"></script>
+    <script defer src="js/recorderjs/recorder.js"></script>
+    <script defer src="js/main.js"></script>
+  </head>
+
+
+  <body>
+    <div id="viz">
+      <canvas id="analyser" width="1024" height="500"></canvas>
+      <canvas id="wavedisplay" width="1024" height="500"></canvas>
+    </div>
+    <div id="controls">
+      <img id="record" src="img/mic128.png" onclick="toggleRecording(this);">
+      <a id="save" href="index.html#"><img src="img/save.svg"></a>
+    </div>
+  </body>
+</html>

@@ -30,8 +30,7 @@ main {
     max-width: 750px;
     margin: auto;
     padding: 10px;
-
-    background-color: red;
+    background-color: blue;
 }
 
 main p {
