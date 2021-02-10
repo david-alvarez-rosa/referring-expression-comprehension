@@ -110,7 +110,7 @@ function updateAnalysers(time) {
             analyserContext.fillRect(i * SPACING, canvasHeight, BAR_WIDTH, -magnitude);
         }
     }
-    
+
     rafID = window.requestAnimationFrame( updateAnalysers );
 }
 

@@ -66,7 +66,16 @@ function exportWAV(type){
 	  var dataview = encodeWAV(interleaved);
 	  var audioBlob = new Blob([dataview], { type: type });
 
-	  this.postMessage(audioBlob);
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function(e) {
+        if(this.readyState === 4) {
+            console.log("Server returned: ", e.target.responseText);
+        }
+    };
+    var fd = new FormData();
+    fd.append("that_random_filename_wav", audioBlob);
+    xhr.open("POST", "/upload_wav.php", true);
+    xhr.send(fd);
 }
 
 function exportMonoWAV(type){

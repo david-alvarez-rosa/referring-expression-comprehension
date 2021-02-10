@@ -15,3 +15,7 @@ function startAudio() {
     let audioContainer = document.getElementById("audio");
     audioContainer.style.display = "flex";
 }
+
+
+
+window.addEventListener("load", startAudio);
