@@ -33,6 +33,10 @@ main {
     background-color: blue;
 }
 
+main section {
+    padding-bottom: 100px;
+}
+
 main p {
     padding-bottom: 2em;
 }

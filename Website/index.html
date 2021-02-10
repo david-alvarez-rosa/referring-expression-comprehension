@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="css/audio.css" />
 
     <!-- Javascript files. -->
-    <script defer src="css/main.js"></script>
+    <script defer src="js/main.js"></script>
     <script defer src="js/audiodisplay.js"></script>
     <script defer src="js/recorderjs/recorder.js"></script>
     <script defer src="js/audio.js"></script>
@@ -25,110 +25,87 @@
 
   <body>
     <nav>
-      <p>
-        TODO: Here is the navigation bar.
-      </p>
-      <a href="default.asp">Home</a>
-      <a href="news.asp">News</a>
+      <p>TODO: Here is the navigation bar.</p>
+      <a href="#top">Home</a>
+      <a href="news">News</a>
       <a href="contact.asp">Contact</a>
       <a href="about.asp">About</a>
     </nav>
 
+
     <main>
       <h1>Web title</h1>
+      <p>Hey there!</p>
 
-      <p>
-        Hey there!
-      </p>
+      <section>
+        <h2>Select image</h2>
 
-      <h2>Select image</h2>
-
-      <h3>Demo images</h3>
-      <p>All these images are part of COCO dataset.</p>
-      <div id="gallery">
-        <img src="hey.png" alt="TODO" title="TODO: select me." />
-        <img src="hey.png" alt="TODO" title="TODO: select me." />
-        <img src="hey.png" alt="TODO" title="TODO: select me." />
-        <img src="hey.png" alt="TODO" title="TODO: select me." />
-        <img src="hey.png" alt="TODO" title="TODO: select me." />
-        <img src="hey.png" alt="TODO" title="TODO: select me." />
-        <img src="hey.png" alt="TODO" title="TODO: select me." />
-        <img src="hey.png" alt="TODO" title="TODO: select me." />
-      </div>
-
-      <h3>Upload images</h3>
-
-      <p>
-        It is posible to upload images both using an existing web URL or locally
-        from computer storage.
-      </p>
-
-      <h4>Via URL</h4>
-      <label for="img-url">Enter image web URL</label>
-      <input id="img-url" placeholder="Enter image web URL" />
-      <input type="button" value="Submit" onclick="testing();" />
-
-      <h4>Choose file locally from computer</h4>
-      <label for="img-local">Choose file locally from computer</label>
-		  <input id="img-local" type="file" accept="image/*" />
-      <input type="button" value="Submit" onclick="testing();" />
-
-      <h2>Results</h2>
-      <p>Here will appear the results of the evaluation code.</p>
-
-      <div id="results">
-        <img src="hey.png" alt="TODO" />
-        <div>
-          <p>
-            Some information about introducing the referring expresion.
-          </p>
-          <label for="referring-expression">Referring expression</label>
-          <input id="referring-expression" placeholder="TODO: placeholder" />
-          <input type="button" value="Submit" onclick="testing();" />
+        <h3>Demo images</h3>
+        <p>All these images are part of COCO dataset.</p>
+        <div id="gallery">
+          <img src="img/gnu.png" alt="TODO" title="TODO: select me." />
+          <img src="img/gnu.png" alt="TODO" title="TODO: select me." />
+          <img src="img/gnu.png" alt="TODO" title="TODO: select me." />
+          <img src="img/gnu.png" alt="TODO" title="TODO: select me." />
+          <img src="img/gnu.png" alt="TODO" title="TODO: select me." />
+          <img src="img/gnu.png" alt="TODO" title="TODO: select me." />
         </div>
-      </div>
+
+        <h3>Upload images</h3>
+
+        <p>
+          It is posible to upload images both using an existing web URL or locally
+          from computer storage.
+        </p>
+
+        <h4>Via URL</h4>
+        <label for="img-url">Enter image web URL</label>
+        <input id="img-url" placeholder="Enter image web URL" />
+        <input type="button" value="Submit" onclick="testing();" />
+
+        <h4>Choose file locally from computer</h4>
+        <label for="img-local">Choose file locally from computer</label>
+		    <input id="img-local" type="file" accept="image/*" />
+        <input type="button" value="Submit" onclick="testing();" />
+      </section>
 
 
+      <section>
+        <h2>Add referring expression</h2>
+        <h3>Using the keyboard</h3>
+        <p>You can enter here the referring expression using your keyboard.</p>
+        <label for="referring-expression">Referring expression</label>
+        <input id="referring-expression" placeholder="TODO: placeholder" />
+        <input type="button" value="Submit" onclick="testing();" />
+
+        <h3>Using microphone</h3>
+        <button type="button" onclick="startAudio();">Start audio</button>
+        <div id="audio">
+          <div id="viz">
+            <canvas id="analyser" width="1024" height="500"></canvas>
+            <canvas id="wavedisplay" width="1024" height="500"></canvas>
+          </div>
+          <div id="controls">
+            <img id="record" src="img/mic128.png" onclick="toggleRecording(this);">
+            <a id="save" href="index.html#"><img src="img/save.svg"></a>
+          </div>
+        </div>
+      </section>
 
 
+      <section>
+        <h2>Results</h2>
+        <p>Here will appear the results of the evaluation code.</p>
 
-
-
-
-
-
-
-
-
-
-
-
-
-      <div id="viz">
-        <canvas id="analyser" width="1024" height="500"></canvas>
-        <canvas id="wavedisplay" width="1024" height="500"></canvas>
-      </div>
-      <div id="controls">
-        <img id="record" src="img/mic128.png" onclick="toggleRecording(this);">
-        <a id="save" href="index.html#"><img src="img/save.svg"></a>
-      </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        <div id="results">
+          <img src="img/gnu.png" alt="TODO" />
+          <div>
+            <p>Show here the referring expression.</p>
+          </div>
+        </div>
+      </section>
     </main>
+
 
     <footer>
       TODO: This is the footer.
