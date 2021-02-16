@@ -9,23 +9,15 @@
   {---Lewis Carroll\\ \textit{Alice in Wonderland}}
 }
 
-
-\lettrine{L}{orem} ipsum dolor sit amet, consectetur
-adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-id est laborum.
+% \minitoc
 
 
-\section{Fully Connected Neural networks}
-
-A neural network, more properly referred to as an \textit{artificial} neural
-network (ANN) are computing systems vaguely inspired by the biological neural
-networks that constitute animal brains. Dr
-\fhref{https://en.wikipedia.org/wiki/Robert_Hecht-Nielsen}{Robert Hecht-Nielsen}
-(inventor of one of the first neurocomputers) defines a neural network as:
+\lettrine{A}{neural} network, more properly referred to as an \gls{ann} are
+computing systems vaguely inspired by the biological neural networks that
+constitute animal brains. Dr
+\fhref{https://en.wikipedia.org/wiki/Robert_Hecht-Nielsen}{Robert
+  Hecht-Nielsen} (inventor of one of the first neurocomputers) defines a neural
+network as:
 
 \begin{quoteBox}
   \itshape
@@ -38,34 +30,198 @@ networks that constitute animal brains. Dr
   {Robert Hecht-Nielsen}
 \end{quoteBox}
 
-An ANN is based on a collection of connected units, that are called
-\textit{artificial} neurons, which loosely model the neurons in a biological
-brain. Each connection, like he synapses in a biological brain, can transmit a
-signal to other neurons. An artificial neuron that receives a signal then
-processes it and can signal neurons connected to it.
-
-
 \subsubsection{Mathematical perspective}
-
-Although the analogy made above of an ANN with a biological brain, there is no
-need for this, we can just think of a neural network as a mathematical
+Although the analogy made above of an \gls{ann} with a biological brain, there
+is no need for this, we can just think of a neural network as a mathematical
 optimization problem. We can think of the whole network to be a function that
 takes some inputs to some outputs, and this function dependent on
 parameters. The idea is to adjust this parameters to get a function that works
-well with some known dataset, and we will trust that it will generalize well. If
-the network is big enough and we carefully adjust the parameters, we will be
-able to learn and calculate very complex functions.
+well with some known dataset, and we will trust that it will generalize
+well. If the network is big enough and we carefully adjust the parameters, we
+will be able to learn and calculate very complex functions.
 
-\subsubsection{Topology}
+\subsubsection{Tipos de redes neuronales}
+Durante los últimos años, se han producido avances significativos en el ámbito
+de la inteligencia artificial y han aparecido múltiples modelos nuevos de redes
+neuronales. En una clasificación muy general de modelos neuronales podemos
+encontrar diferentes.
+
+\begin{itemize}
+  \item \textbf{Fully connected layered neural networks}. Estas redes son el
+  tipo de modelo neuronales maś sencillo que existe y sobre el que se
+  construyen modelos más complejos. Una descripción más detallada sobre este
+  tipo de redes puede ser encontrado en la sección~\ref{sec:fully-conn-layer}
+  (página~\pageref{sec:fully-conn-layer}).
+  \item \textbf{\acrlong*{cnn}}. Este tipo de redes neuronales son
+  especialmente útiles en el procesado de imágenes, ya que permiten preservar
+  la información espacial de relación entre píxeles. Serán estudiadas en la
+  sección~\ref{sec:conv-neur-netw}
+  (página~sección~\pageref{sec:conv-neur-netw}).
+  \item \textbf{\acrlong*{rnn}}. Modelos neuronales ideales para el análisis
+  de series temporales (como puede ser texto o audio). Serán estudiadas en la
+  sección~\ref{sec:recurr-neur-netw}
+  (página~sección~\pageref{sec:recurr-neur-netw}).
+  \item \textbf{Transformers}. Los modelos basados en transformadores forman
+  parte del \acrlong{sota} actual\footnote{En 2021, fecha actual del
+    documento.}. Están siendo usados de manera extensiva en \gls{nlp} y
+  estudiando sus posibles aplicaciones en visión por computadores y procesado
+  de imágen. Serán descritos en la sección~\ref{sec:transformers}
+  (página~\pageref{sec:transformers}).
+\end{itemize}
+
+
+\section{Fully Connected Layered Neural networks}
+\label{sec:fully-conn-layer}
+
+Las fully connected layered neural networks son el tipo de modelo neuronal más
+sencillo que existe y que consitutye la base para estructuras neuronales más
+complejas.
+
+\subsection{Topology}
+\label{sec:topology}
+
+Este tipo de redes neuronales se caracteriza por una estructura de neuronales
+organizada en diferentes capas, de manera que las neuronas entre capas
+adyacentes están conectadas entre ellas por arcos. En la
+figura~\ref{fig:fully-conn-network} se muestra un ejemplo de este tipo de
+arquitectura.
+
+\begin{figure}[ht]
+  \centering
+  \input{Figures/Tikz/Fully Connected Neural Network.tex}
+  \caption[Fully Connected Neural Network topology]{Ejemplo de fully connected
+    layered neural network. Consta de 4 capas diferenciadas de neuronas y se
+    muestran las conexiones entre ellas de manera gráfica con flechas.}
+  \label{fig:fully-conn-network}
+\end{figure}
+
+A continuación discutiremos las partes principales constituyentes de este tipo
+de redes neuronales: layers, neurons and connections.
+
+\subsubsection{Layers}
+The layers are just a collection of neurons, we will distinguish between three
+types depending on its position in the network.
+
+\begin{itemize}
+  \item Input layer: patterns are presented to the network via this layer.
+  \item Hidden layers: all the inner layers.
+  \item Output layer: is the last layer, where the answer is obtained.
+\end{itemize}
+
+We will denote with \(L\) the number of layers and with \(n_l\) the size of the
+\(l\)-th layer.
+
+To gain some intuition on how this work, let's think about the handwritten
+recognition problem. Suppose we have a set of images with handwritten digits in
+it and that we will like to implement an ANN that is capable of recognizing
+that digits. In this case, if the digits images are of \(28 \times 28\) pixels,
+the input layer will consists of 784 (\(28 \times 28\)) neurons and each neuron
+will hold the grayscale value of a pixel. For the output layer we will need 10
+neurons (one for each number between 0 and 9), and we will like that when we
+feed our network with an image holding a handwritten number 3, then the ouput
+is one 1 in the position corresponding to the number 3 and the rest of zeros.
+\todo{quizá borrar este párrafo que es innecesario}.
+
+\subsubsection{Neurons}
+Neurons are the core component of any neural network. Basically there are three
+subparts that form a neuron.
+
+\begin{itemize}
+  \item Value: each neuron holds a value, it will be denoted by \(x_i^l \in \R\)
+  for the \(i\)-th neuron in the \(l\)-th layer. Of course, it should be satisfied
+  \(1 \leq i \leq n_l\). We will use use the notation \(\mathbf{x}^l\) for the
+  vector of all the values in the \(l\)-th level. When we speak of the input
+  vector, we may ommit the superindex, i.e.\ we will use \(\mathbf{x}\) to denote
+  \(\mathbf{x}^0\). Similarly, for the output layer, we will use
+  \(\mathbf{\hat{y}}\) to refer to \(\mathbf{x}^L\).
+  \item Bias: also each neuron has a bias, denoted as \(b_i^l\) for the
+  \(i\)-th neuron in the \(l\)-th layer. Is then true that
+  \(1 \leq i \leq n_l\). The vector of all biases in the \(l\)-th layer will be
+  denoted by \(\mathbf{b}^l\).
+  \item Activation function: all neurons have an activation function
+  \(f_i^l \in \mathcal{C}^1(\R, \R)\) for the \(i\)-th neuron in the \(l\)-th
+  layer\footnote{Usually all the activation functions are neuron-independent
+    (i.e.\ \(f_i^l\) does not really depend on \(i\) or \(l\)).}. Of course, it is
+  needed \(1 \leq i \leq n_l\). The regularity assummed for this functions is
+  important, since we will be optimizing in the future by taking derivatives.
+\end{itemize}
+
+\subsubsection{Connections}
+As we discussed in the topology section (\ref{sec:topology}), all neurons
+between adjacent layers are required to be connected, this are the connections,
+that should have associated a \emph{weight}. For the connection between the
+\(i\)-th neuron in the \(l\)-th layer and the \(j\)-th neuron in the
+\(l + 1\)-th layer, we will denote this weight by \(w_{ij}^l \in \R\). The set of
+all this weights is as follows,
+\begin{equation}
+   \{w_{ij}^l \mid 1 \leq i \leq n_{l}, \, 1 \leq j \leq n_{l+1}, \, 1 \leq l <
+   L \} \subset \R.
+ \end{equation}
+
+The \emph{matrix} of all weights in the \(l\)-th layer will be denoted by
+\(\mathbf{W}^l\). This is, \((\mathbf{W}^l)_{ij} = w_{ij}^l\).
+
+\subsection{Forward}
+\label{subsec:forward}
+
+From now on let's suppose we are working with a fully-connected neural network,
+with different layers and we will be using the same notation used before. The
+values of the neurons can be computed with
+\begin{equation}
+  x_i^l = f_i^l \left( \sum_{k=1}^{n_{l-1}} w_{ik}^{l-1} x_{k}^{l-1} + b_i^l \right).
+\end{equation}
+
+This formula is sometimes referred to as the feed-forward formula or forward
+propagation. It's important to note that it's a recursive formula, once the
+values the neurons in the the input layer are known, we can iterate computing
+the values of the neurons in the the next adjacent layer, until we reach the
+output layer. In this network we can think of information travelling in one
+direction, forward, from the input layer, through the hidden layers to the
+output neurons.
+
+\subsection{Backward}
+\label{sec:backward}
+
+In order to being able to train our neural network, is mandatory to define an
+error function (also known as loss function) that quantifies how good or bad
+the neural network is performing when feeded with a particular dataset. We will
+you the below notation.
+\begin{itemize}
+  \item \textbf{Dataset}: will be denoted by and consists in input-output pairs
+  \((\mathbf{x}, \mathbf{y})\), where \(\mathbf{x}\) represents the input and
+  \(\mathbf{y}\) the \emph{desired} output. We shall denote the size (cardinal)
+  of the dataset by \(N\). Of course, in terms of our ANN \(x\) corresponds to
+  the values of the first (or input) layer and \(\mathbf{y}\) to the output (or
+  last) layer.
+  \item \textbf{Parameters}: the parameters of our ANN are both the connection
+  weights \(w_{ij}^l\) and the biases \(b_i^l\), we will denote the set of all
+  parameters by \(\bm{\theta}\). Keep in mind that \(\bm{\theta}\) is just a
+  set of real vectors of \(\R^D\) where \(D\) denotes the number of weigths and
+  biases.
+\end{itemize}
+
+The error function quantifies how different is the desired output
+\(\mathbf{y}\) and the calculated (\emph{predicted}) output
+\(\mathbf{\hat{y}}\) of the neural network on input \(\mathbf{x}\) for a set of
+input-output pairs \((\mathbf{x}, \mathbf{y}) \in \Omega\) and a particular
+value of the parameters \(\bm{\theta}\). We will denote the error funcion by
+\(E(\Omega, \theta)\) and we will assume that is continuosly differentiable
+(i.e.\ \(\mathcal{C}^1\)).
 
 
 \section{Convolutional Neural Networks}
+\label{sec:conv-neur-netw}
+
+\glspl{cnn} son una clase de \glspl{dnn} que son ampliamente utilizadas en
+computer vision.
 
 
 \section{Recurrent Neural Networks}
+\label{sec:recurr-neur-netw}
 
 
 \section{Transformers}
+\label{sec:transformers}
 
 
 \section{Deep Neural Network Architectures}

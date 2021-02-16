@@ -258,27 +258,27 @@ source, are made by the author using Ipe, the extensible drawing editor.
   \makeatletter
   \MakeUppercase{\href{https://href.com}{University Name}} \\
   \bigskip
-  {\huge\itshape Abstract} \\
+  \huge{\textit{Abstract}} \\
   \bigskip
-  \href{https://href.com}{Faculty Name} \\
-  \href{https://href.com}{Department Name} \\
+  {\normalsize \href{https://href.com}{Faculty Name} \par}
+  {\normalsize \href{https://href.com}{Department Name} \par}
   \bigskip
-  Degree Name \\
+  {\normalsize Degree Name \par}
   \bigskip
-  \textbf{\@title} \\
+  {\normalsize\bfseries \@title \par}
   \medskip
-  by \@author \\
+  {\normalsize by \@author \par}
   \bigskip
   \makeatother
+  \small{The Thesis Abstract is written here (and usually kept to just this
+    page). The page is kept centered vertically so can expand into the blank space
+    above the title too\ldots}
 \end{center}
-{\small The Thesis Abstract is written here (and usually kept to just this
-  page). The page is kept centered vertically so can expand into the blank space
-  above the title too\ldots}
 \vfill
 \null
 
 
-\cleardoublepage
+\clearpage
 \thispagestyle{plain}
 \null
 \vfill
@@ -287,7 +287,7 @@ source, are made by the author using Ipe, the extensible drawing editor.
   \makeatletter
   \MakeUppercase{\href{https://href.com}{University Name}} \\
   \bigskip
-  \huge{\textit{Abstract}} \\
+  \huge{\textit{Resumen}} \\
   \bigskip
   {\normalsize \href{https://href.com}{Faculty Name} \par}
   {\normalsize \href{https://href.com}{Department Name} \par}
@@ -307,7 +307,7 @@ source, are made by the author using Ipe, the extensible drawing editor.
 \null
 
 
-\cleardoublepage
+\clearpage
 \thispagestyle{plain}
 \null
 \vfill
@@ -373,6 +373,8 @@ especially my sister for always being an inspiration for me with her limitless
 strength and creativity.
 
 
+% \dominitoc
 \tableofcontents
 \listoftables
 \listoffigures
+\printglossaries

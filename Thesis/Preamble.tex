@@ -12,6 +12,7 @@
 \usepackage[main=english, spanish, catalan]{babel}
 \usepackage{geometry}
 \usepackage{amsmath, amsthm, amssymb}
+\usepackage{bm}
 \usepackage{graphicx}
 \usepackage[cmyk, dvipsnames, table]{xcolor}
 \usepackage{microtype}
@@ -21,7 +22,7 @@
 \usepackage{booktabs}
 \usepackage{caption}
 \usepackage[nottoc]{tocbibind}
-\usepackage[symbol, bottom, marginal, norule]{footmisc}
+\usepackage[symbol*, bottom, marginal, norule]{footmisc}
 \usepackage[type={CC}, modifier={by-nc-sa}, version={4.0}]{doclicense}
 \usepackage[backend=biber, style=alphabetic, citestyle=alphabetic]{biblatex}
 \usepackage{imakeidx}
@@ -33,6 +34,7 @@
 \usepackage[shadow]{todonotes}
 \usepackage{hyperxmp}
 \usepackage[pdfusetitle]{hyperref}
+\usepackage[toc, acronym, nomain]{glossaries}
 
 
 % Fallback to computer modern for sc + bf.
@@ -67,9 +69,12 @@
     Multimodal Learning},
   % Colors.
   colorlinks,
+  % hidelinks,
   linkcolor = blue,
   citecolor = magenta,
   urlcolor = red!50!black,
+  % For ToC.
+  % linktoc = all,
   % Displaying.
   pdfpagelayout = TwoPageRight,
   pdfstartview = FitV,
@@ -128,6 +133,10 @@
 \makeatother
 % Set path for figures (relative to main document).
 \graphicspath{{./Figures/}}
+
+% Glosary configuration.
+\makeglossaries
+\input{Acronyms}
 
 % Alphabetical index customization.
 \makeindex[columns=2, intoc, options={-s Index.ist}]
@@ -293,6 +302,9 @@
 }
 \makeatother
 
+% Some basic math definitions.
+\newcommand{\R}{\mathbb{R}}
+
 
 \title{An innecesarily long title related to Artifical Intelligence and in the
   topic of Multimodal Learning}
@@ -300,4 +312,43 @@
 \date{\today}
 
 
-% \includeonly{Chapters/Showcase}
+% \includeonly{Chapters/Chapter2}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% \usepackage[titles]{tocloft}
+% \renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+% \renewcommand \cftchapdotsep{\cftdotsep}
+
+
+
+% \usepackage{minitoc}
