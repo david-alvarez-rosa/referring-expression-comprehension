@@ -25,12 +25,11 @@ nav a {
   background-color: #dddddd;
 }
 
-
 main {
-    max-width: 750px;
+    max-width: 900px;
     margin: auto;
     padding: 10px;
-    background-color: blue;
+    background-color: green;
 }
 
 main section {
@@ -41,6 +40,9 @@ main p {
     padding-bottom: 2em;
 }
 
+#popullate-gallery {
+    float: right;
+}
 
 #gallery {
     width: 100%;
@@ -51,9 +53,12 @@ main p {
 }
 
 #gallery > img {
-    width: 200px;
+    width: 150px;
+    height: 150px;
     max-width: 100%;
     margin: 10px;
+    object-fit: cover;
+    object-position: center;
 }
 
 #gallery > img:hover {
@@ -74,7 +79,6 @@ main p {
     max-width: 100%;
 }
 
-
 input {
     padding: 10px;
 }
@@ -88,4 +92,10 @@ input {
 
 #re-selected {
     display: none;
+}
+
+
+
+input[type=submit] {
+    cursor: pointer;
 }

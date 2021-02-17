@@ -34,79 +34,69 @@
     </nav>
 
 
+    <div id="audio">
+      <div id="viz">
+        <canvas id="analyser" width="1024" height="500"></canvas>
+        <canvas id="wavedisplay" width="1024" height="500"></canvas>
+      </div>
+      <div id="controls">
+        <img id="record" src="img/mic128.png" onclick="toggleRecording(this);">
+      </div>
+      <button onclick="stopAudio();">Stop audio</button>
+    </div>
+
+
     <main>
       <h1>Web title</h1>
       <p>Hey there!</p>
 
-      <section>
-        <h2>Image</h2>
-
-        <h3>Demo images</h3>
-        <p>All these images are part of COCO dataset.</p>
-        <div id="gallery"></div>
-        <button onclick="populateGallery();">More images</button>
-
-        <h3>Upload images</h3>
-
+      <section id="sec:img">
+        <h2>Choose Image</h2>
         <p>
-          It is posible to upload images both using an existing web URL or locally
-          from computer storage.
+          Select one of these images by clicking on it.
+          <button id="popullate-gallery" onclick="populateGallery();">
+            More images
+          </button>
         </p>
+        <div id="gallery"></div>
 
-        <h4>Via URL</h4>
-        <label for="img-url">Enter image web URL</label>
-        <input id="img-url" placeholder="Enter image web URL" />
-        <input type="button" value="Submit" onclick="addImg();" />
-
-        <h4>Choose file locally from computer</h4>
-        <label for="img-local">Choose file locally from computer</label>
-		    <input id="img-local" type="file" accept="image/*" />
-        <input type="button" value="Submit" onclick="uploadImg();" />
-
-        <h3>Selected image</h3>
-        <p id="img-selected-warn">Please, select or upload image.</p>
-        <img id="img-selected" alt="Selected image." />
-      </section>
-
-
-      <section>
-        <h2>Referring Expression</h2>
-        <h3>Using the keyboard</h3>
-        <p>You can enter here the referring expression using your keyboard.</p>
-        <form onsubmit="return addReferringExpression();">
-          <label for="referring-expression">Referring expression</label>
-          <input id="referring-expression" placeholder="TODO: placeholder" />
-          <input type="submit" value="Submit" />
+        <form onsubmit="return addImg();">
+          <label for="img-url">or enter image web URL</label>
+          <input id="img-url" placeholder="Image URL" />
+          <input type="submit" />
         </form>
 
-        <h3>Using microphone</h3>
-        <button type="button" onclick="startAudio();">Start audio</button>
-        <div id="audio">
-          <div id="viz">
-            <canvas id="analyser" width="1024" height="500"></canvas>
-            <canvas id="wavedisplay" width="1024" height="500"></canvas>
-          </div>
-          <div id="controls">
-            <img id="record" src="img/mic128.png" onclick="toggleRecording(this);">
-          </div>
-        </div>
-        <button onclick="stopAudio();">Stop audio</button>
-
-        <h3>Selected referring expression</h3>
-        <p id="re-selected-warn">Please, enter a referring expression.</p>
-        <p id="re-selected"></p>
+        <form onsubmit="return uploadImg();">
+          <label for="img-local">or choose file locally from computer</label>
+		      <input id="img-local" type="file" accept="image/*" />
+          <input type="submit" />
+        </form>
       </section>
 
 
-      <section>
+      <section id="sec:results">
         <h2>Results</h2>
-        <p>Here will appear the results of the evaluation code.</p>
 
-        <div id="results">
-          <img src="img/gnu.png" alt="TODO" />
-          <div>
-            <p>Show here the referring expression.</p>
-          </div>
+        <p id="img-selected-warn">
+          Please, <a href="#sec:img">choose image</a>.
+        </p>
+        <img id="img-selected" alt="Selected image." />
+
+        <div>
+          <form onsubmit="return addReferringExpression();">
+            <label for="referring-expression">
+              Enter referring expression using your keyboard
+            </label>
+            <input id="referring-expression" placeholder="Referring expression" />
+            <input type="submit" />
+          </form>
+
+          <p>or use microphone</p>
+          <button type="button" onclick="startAudio();">Start audio</button>
+
+          <h3>Selected referring expression</h3>
+          <p id="re-selected-warn">Please, enter a referring expression.</p>
+          <p id="re-selected"></p>
         </div>
       </section>
     </main>

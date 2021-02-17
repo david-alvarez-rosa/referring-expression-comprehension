@@ -5,6 +5,9 @@ function showSelectedImg(src) {
     imgSelected.style.display = "block";
     let imgSelectedWarn = document.getElementById("img-selected-warn");
     imgSelectedWarn.style.display = "none";
+    // Scroll to results section.
+    let resultsSection = document.getElementById("sec:results")
+    resultsSection.scrollIntoView({ behavior: "smooth" });
 }
 
 
@@ -20,6 +23,7 @@ function addImg() {
     let imgUrl = document.getElementById("img-url").value;
     console.log(imgUrl);
     showSelectedImg(imgUrl);
+    return false; // Prevent form to be submitted.
 }
 
 
@@ -33,6 +37,8 @@ function uploadImg() {
         showSelectedImg(this.result);
     });
     fileReader.readAsDataURL(uploadedImg);
+
+    return false; // Prevent form to be submitted.
 }
 
 
@@ -47,13 +53,13 @@ function addReferringExpression() {
     let reSelectedWarn = document.getElementById("re-selected-warn");
     reSelectedWarn.style.display = "none";
 
-    return false; // We do not want our form to be submitted.
+    return false; // Prevent form to be submitted.
 }
 
 
 // Populate website gallery with random images from MSCOCO dataset.
 function populateGallery() {
-    const gallerySize = 9;
+    const gallerySize = 10;
     let gallery = document.getElementById("gallery");
     gallery.innerHTML = "";
     for (let i = 0; i < gallerySize; ++i) {
@@ -62,6 +68,8 @@ function populateGallery() {
         let imgSrc = "datasets/refcoco/images/" + imgFileName;
         let galleryImg = document.createElement("img");
         galleryImg.setAttribute("src", imgSrc);
+        galleryImg.setAttribute("alt", imgFileName);
+        galleryImg.setAttribute("title", "Select image " + imgFileName);
         galleryImg.onclick = selectImg;
         gallery.appendChild(galleryImg);
     }
@@ -77,3 +85,9 @@ function startAudio() {
     audioContainer.style.display = "block";
 }
 // window.addEventListener("load", startAudio);
+
+// Stop audio recording.
+function stopAudio() {
+    let audioContainer = document.getElementById("audio");
+    audioContainer.style.display = "none";
+}
