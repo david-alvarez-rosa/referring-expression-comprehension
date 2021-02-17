@@ -1,7 +1,7 @@
 // Show selected image (from gallery, url or local storage).
 function showSelectedImg(src) {
     let imgSelected = document.getElementById("img-selected");
-    imgSelected.src = src;
+    imgSelected.setAttribute("src", src);
     imgSelected.style.display = "block";
     let imgSelectedWarn = document.getElementById("img-selected-warn");
     imgSelectedWarn.style.display = "none";
@@ -69,6 +69,7 @@ function populateGallery() {
         let galleryImg = document.createElement("img");
         galleryImg.setAttribute("src", imgSrc);
         galleryImg.setAttribute("alt", imgFileName);
+        galleryImg.classList.add("rounded");
         galleryImg.setAttribute("title", "Select image " + imgFileName);
         galleryImg.onclick = selectImg;
         gallery.appendChild(galleryImg);
