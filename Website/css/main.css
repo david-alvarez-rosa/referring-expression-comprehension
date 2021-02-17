@@ -47,6 +47,7 @@ main p {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
 }
 
 #gallery > img {
@@ -76,4 +77,15 @@ main p {
 
 input {
     padding: 10px;
+}
+
+#img-selected {
+    width: 350px;
+    max-width: 100%;
+    margin: auto;
+    display: none;
+}
+
+#re-selected {
+    display: none;
 }

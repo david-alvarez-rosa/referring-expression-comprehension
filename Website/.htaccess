@@ -1,0 +1,4 @@
+# Browser caching using cache-control headers.
+<ifModule mod_headers.c>
+    Header set Cache-Control "max-age=0, public"
+</ifModule>
