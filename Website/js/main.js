@@ -59,7 +59,7 @@ function addReferringExpression() {
 
 // Populate website gallery with random images from MSCOCO dataset.
 function populateGallery() {
-    const gallerySize = 10;
+    const gallerySize = 12;
     let gallery = document.getElementById("gallery");
     gallery.innerHTML = "";
     for (let i = 0; i < gallerySize; ++i) {
@@ -70,6 +70,7 @@ function populateGallery() {
         galleryImg.setAttribute("src", imgSrc);
         galleryImg.setAttribute("alt", imgFileName);
         galleryImg.classList.add("rounded");
+        galleryImg.setAttribute("data-toggle", "tooltip");
         galleryImg.setAttribute("title", "Select image " + imgFileName);
         galleryImg.onclick = selectImg;
         gallery.appendChild(galleryImg);
@@ -92,3 +93,8 @@ function stopAudio() {
     let audioContainer = document.getElementById("audio");
     audioContainer.style.display = "none";
 }
+
+// Activate all tooltips.
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})

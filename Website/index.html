@@ -8,7 +8,7 @@
     <meta name="description" content="TODO" />
     <meta name="keywords" content="TODO" />
     <meta name="author" content="David Álvarez Rosa" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="canonical" href="TODO" />
 
     <!-- CSS files. -->
@@ -25,13 +25,7 @@
 
 
     <!-- Bootstrap testing. -->
-
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
   </head>
 
 
@@ -90,16 +84,21 @@
 
       <section id="sec:img">
         <h2>Choose Image</h2>
-        <p>Select one of these images by clicking on it.</p>
-        <button class="btn btn-primary" onclick="populateGallery();">
-          More images
-        </button>
-        <div id="gallery" class="container"></div>
+        <p>
+          Select one of these images by clicking on it.
+          <button class="btn btn-secondary float-right"
+                  onclick="populateGallery();"
+                  data-toggle="tooltip"
+                  title="Load more images">
+            More images
+          </button>
+        </p>
+        <div id="gallery"></div>
 
-        <form onsubmit="return addImg();">
+        <form class="form-group mt-5" onsubmit="return addImg();">
           <label for="img-url">or enter image web URL</label>
           <input id="img-url" placeholder="Image URL" />
-          <input class="btn btn-default" type="submit" />
+          <input class="btn btn-primary" type="submit" />
         </form>
 
         <form onsubmit="return uploadImg();">
@@ -112,10 +111,9 @@
 
       <section id="sec:results">
         <h2>Results</h2>
-
-        <p id="img-selected-warn">
+        <div id="img-selected-warn" class="alert alert-warning">
           Please, <a href="#sec:img">choose image</a>.
-        </p>
+        </div>
         <img id="img-selected" alt="Selected image." />
 
         <div>
@@ -131,7 +129,9 @@
           <button type="button" onclick="startAudio();">Start audio</button>
 
           <h3>Selected referring expression</h3>
-          <p id="re-selected-warn">Please, enter a referring expression.</p>
+          <div id="re-selected-warn" class="alert alert-warning">
+            Please, enter a referring expression.
+          </div>
           <p id="re-selected"></p>
         </div>
       </section>
@@ -283,6 +283,88 @@
       </div>
       <!-- Copyright -->
     </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   </body>
 </html>

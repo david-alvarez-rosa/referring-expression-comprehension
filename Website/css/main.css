@@ -2,19 +2,29 @@ html {
     scroll-behavior: smooth;
 }
 
+#gallery {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-content: flex-start;
+    margin: 25px -5px 25px -5px;
+    max-height: 500px;
+    overflow-y: auto;
+}
 
 #gallery > img {
-    width: 150px;
-    height: 150px;
+    width: 175px;
+    height: 175px;
     max-width: 100%;
-    margin: 10px;
+    margin: 5px;
     object-fit: cover;
     object-position: center;
 }
 
 #gallery > img:hover {
     cursor: pointer;
-    border: 2px solid black;
+    border: thick solid black;
 }
 
 #img-selected {
