@@ -74,18 +74,6 @@ def get_parser():
     parser.add_argument("--refer_dataset", default="refcoco", help="dataset name")
     parser.add_argument("--splitBy", default="unc", help="split By")
 
-    # DAVIS
-    parser.add_argument("--davis_data_root", default="./datasets/davis2017", help="DAVIS dataset root directory")
-    parser.add_argument("--davis_annotations_file", default="./datasets/davis2017/davis_text_annotations/Davis17_annot1_full_video.txt", help="path of DAVIS annotations file")
-    parser.add_argument("--emb_type", default="first_mask", help="first_mask or full_video for DAVIS")
-
-    # A2D
-    parser.add_argument("--a2d_data_root", default="./datasets/Release/", help="A2D dataset root directory")
-    parser.add_argument("--size_a2d_x", default=240, type=int, help="x size for A2D images")
-    parser.add_argument("--size_a2d_y", default=427, type=int, help="y size for A2D images")
-    parser.add_argument("--a2d_annotations_file", default="./datasets/Release/a2d_annotation.txt",  help="path of A2D annotations file")
-
-
 
 
 
@@ -102,8 +90,8 @@ def get_parser():
 
 
 
-    parser.add_argument("--file_name", help="file name TODO")
-    parser.add_argument("--sent", default="", help="sent TODO")
+    parser.add_argument("--img_name", help="file name TODO")
+    parser.add_argument("--sent", help="sent TODO")
 
 
 

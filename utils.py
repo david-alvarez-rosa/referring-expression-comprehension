@@ -10,6 +10,25 @@ import errno
 import os
 
 
+def save_figure(img, sent, mask):
+    """TODO"""
+    plt.figure()
+    plt.axis("off")
+    plt.imshow(img)
+    plt.text(0, 0, sent, fontsize=12)
+
+
+    color = np.array([0, 102, 255]) / 255.0
+    color_mask = color * np.ones((img.size[1], img.size[0], 3))
+    plt.imshow(np.dstack((color_mask, mask * 0.5)))
+
+    figname = "hola.png"
+    plt.savefig(figname)
+    plt.close()
+
+
+
+
 
 def save_output(dataset, sent_ids, masks, directory):
     """TODO"""
