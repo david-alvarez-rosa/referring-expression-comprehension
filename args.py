@@ -90,8 +90,10 @@ def get_parser():
 
 
 
-    parser.add_argument("--img_name", help="file name TODO")
+    parser.add_argument("--img", help="file name TODO")
     parser.add_argument("--sent", help="sent TODO")
+    parser.add_argument("--output_file", help="output file TODO")
+
 
 
 

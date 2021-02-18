@@ -45,7 +45,7 @@ def main(args):
     model.eval()
 
 
-    img_raw = PIL.Image.open(args.img_name)
+    img_raw = PIL.Image.open(args.img)
 
 
     max_tokens = 20
@@ -83,7 +83,7 @@ def main(args):
 
     mask = masks.squeeze(0).cpu()
 
-    utils.save_figure(img_raw, args.sent, mask)
+    utils.save_figure(img_raw, args.sent, mask, args.output_file)
 
 
 

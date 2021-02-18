@@ -4,26 +4,29 @@ TODO
 """
 import numpy as np
 import torch
+import matplotlib
 import matplotlib.pyplot as plt
 
 import errno
 import os
 
 
-def save_figure(img, sent, mask):
+
+
+def save_figure(img, sent, mask, file_name, color="#0066ff"):
     """TODO"""
+
     plt.figure()
     plt.axis("off")
     plt.imshow(img)
     plt.text(0, 0, sent, fontsize=12)
 
 
-    color = np.array([0, 102, 255]) / 255.0
-    color_mask = color * np.ones((img.size[1], img.size[0], 3))
+    color_rgb = np.array(matplotlib.colors.to_rgb(color))
+    color_mask = color_rgb * np.ones((img.size[1], img.size[0], 3))
     plt.imshow(np.dstack((color_mask, mask * 0.5)))
 
-    figname = "hola.png"
-    plt.savefig(figname)
+    plt.savefig(file_name)
     plt.close()
 
 
