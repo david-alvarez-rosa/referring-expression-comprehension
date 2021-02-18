@@ -17,12 +17,12 @@
     <link rel="stylesheet" href="css/bootstrap.min.css" />
 
     <!-- Javascript files. -->
+    <script defer src="js/jquery-3.5.1.slim.min.js"></script>
     <script defer src="js/imgFileNames.js"></script>
     <script defer src="js/main.js"></script>
     <script defer src="js/audiodisplay.js"></script>
     <script defer src="js/recorderjs/recorder.js"></script>
     <script defer src="js/audio.js"></script>
-    <script defer src="js/jquery-3.5.1.slim.min.js"></script>
     <script defer src="js/bootstrap.bundle.min.js"></script>
   </head>
 

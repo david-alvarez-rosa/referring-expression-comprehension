@@ -1,7 +1,8 @@
 // Show selected image (from gallery, url or local storage).
-function showSelectedImg(src) {
+function showSelectedImg(src, method) {
     let imgSelected = document.getElementById("img-selected");
     imgSelected.setAttribute("src", src);
+    imgSelected.setAttribute("data-method", method);
     imgSelected.style.display = "block";
     let imgSelectedWarn = document.getElementById("img-selected-warn");
     imgSelectedWarn.style.display = "none";
@@ -14,15 +15,14 @@ function showSelectedImg(src) {
 // Select image from website gallery.
 function selectImg(event) {
     let selectedImgSrc = event.target.src;
-    showSelectedImg(selectedImgSrc);
+    showSelectedImg(selectedImgSrc, "gallery");
 }
 
 
 // Add image via URL.
 function addImg() {
     let imgUrl = document.getElementById("img-url").value;
-    console.log(imgUrl);
-    showSelectedImg(imgUrl);
+    showSelectedImg(imgUrl, "url");
     return false; // Prevent form to be submitted.
 }
 
@@ -34,7 +34,7 @@ function uploadImg() {
 
     const fileReader = new FileReader();
     fileReader.addEventListener("load", function () {
-        showSelectedImg(this.result);
+        showSelectedImg(this.result, "local");
     });
     fileReader.readAsDataURL(uploadedImg);
 
@@ -42,8 +42,25 @@ function uploadImg() {
 }
 
 
+// Checks if an image have been already selected.
+function isImgSelected() {
+    let imgSelected = document.getElementById("img-selected");
+    if (imgSelected.src === "")
+        return false;
+    return true;
+}
+
+
 // Enter referring expression.
 function addReferringExpression() {
+    if (!isImgSelected()) {
+        let imgSelectedWarn = document.getElementById("img-selected-warn");
+        imgSelectedWarn.classList.remove("alert-warning");
+        imgSelectedWarn.classList.add("alert-danger");
+        imgSelectedWarn.scrollIntoView({ behavior: "smooth" });
+        return false;
+    }
+
     let referringExpression = document.getElementById("referring-expression");
     if (referringExpression.value === "")
         return false;
@@ -52,6 +69,9 @@ function addReferringExpression() {
     reSelected.style.display = "block";
     let reSelectedWarn = document.getElementById("re-selected-warn");
     reSelectedWarn.style.display = "none";
+
+    // Execute code.
+    prueba();
 
     return false; // Prevent form to be submitted.
 }
@@ -86,7 +106,9 @@ function startAudio() {
     let audioContainer = document.getElementById("audio");
     audioContainer.style.display = "block";
 }
+
 // window.addEventListener("load", startAudio);
+
 
 // Stop audio recording.
 function stopAudio() {
@@ -94,7 +116,39 @@ function stopAudio() {
     audioContainer.style.display = "none";
 }
 
+
 // Activate all tooltips.
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
+
+
+
+
+
+
+
+
+
+
+function prueba() {
+    let imgSelected = document.getElementById("img-selected");
+    let imgSrc = imgSelected.src;
+    let reSelected = document.getElementById("re-selected");
+    let referringExpression = reSelected.innerText;
+
+    let formData = new FormData();
+    formData.append("referringExpression", referringExpression);
+    formData.append("imgMethod", imgSelected.dataset.method);
+    formData.append("imgSrc", imgSrc);
+
+    fetch("prueba.php", {
+        method: "POST",
+        body: formData
+    }).then(response => response.json())
+        .then(response => {
+            console.log(response);
+        });
+}
+
+prueba();
