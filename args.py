@@ -15,7 +15,7 @@ def get_parser():
     parser.add_argument("--aux-loss", action="store_true", help="auxiliar loss")
 
 
-    parser.add_argument("-b", "--batch-size", default=6, type=int)
+    parser.add_argument("-b", "--batch_size", default=6, type=int)
 
     parser.add_argument("--base_size", default=520, type=int, help="base_size")
     parser.add_argument("--crop_size", default=480, type=int, help="crop_size")
@@ -57,7 +57,7 @@ def get_parser():
 
 
     #### Testing parameters
-    parser.add_argument("--results_dir",  default="../results/", help="results folder")
+    parser.add_argument("--results_dir", help="results folder")
     parser.add_argument("--submission_path",  default="./results_submission/", help="submission results folder for DAVIS")
     parser.add_argument("--split",  default="test", help="split to run test")
     parser.add_argument("--display",  action="store_true", help="save output predictions")
