@@ -98,6 +98,30 @@
           </div>
           <p id="re-selected"></p>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <img id="prueba" />
       </section>
     </main>
 

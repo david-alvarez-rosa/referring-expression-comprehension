@@ -83,7 +83,7 @@ def main(args):
 
     mask = masks.squeeze(0).cpu()
 
-    utils.save_figure(img_raw, args.sent, mask, args.output_file)
+    utils.save_figure(img_raw, args.sent, mask, args.output)
 
 
 

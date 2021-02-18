@@ -119,7 +119,7 @@ function stopAudio() {
 
 // Activate all tooltips.
 $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip();
 })
 
 
@@ -148,7 +148,9 @@ function prueba() {
     }).then(response => response.json())
         .then(response => {
             console.log(response);
+            let img = document.getElementById("prueba");
+            img.setAttribute("src", response);
         });
 }
 
-prueba();
+// prueba();
