@@ -1,0 +1,19 @@
+#!/bin/bash
+
+
+# Update to vector
+
+rsync -avzhP \
+      --exclude datasets/refcoco/images/ \
+      --exclude checkpoints/ \
+      --exclude .git \
+      --exclude __pycache__ \
+      --exclude Thesis/ \
+      --exclude '.#*' \
+      --exclude 'flycheck_*' \
+      --exclude Website/ \
+      --exclude .gitignore \
+      --exclude .venv \
+      --exclude README.org \
+      /home/david/Documents/UPC/Cuatrimestre\ 9/Bachelor\'s\ Thesis/ \
+      dalvarez@q.vectorinstitute.ai:~/"Bachelor\'s\ Thesis/"

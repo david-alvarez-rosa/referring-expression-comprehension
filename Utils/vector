@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Update to vector
+
+rsync --progress -v -l -r \
+      --exclude datasets/refcoco/images/ \
+      --exclude checkpoints/ \
+      --exclude .git \
+      --exclude __pycache__ \
+      --exlude Thesis/ \
+      /home/david/Documents/UPC/Cuatrimestre\ 9/Bachelor\'s\ Thesis/ \
+      dalvarez@q.vectorinstitute.ai:~/"Bachelor\'s\ Thesis/" && \
+    ssh dalvarez@q.vectorinstitute.ai "cd Bachelor\'s\ Thesis && sbatch launch"
