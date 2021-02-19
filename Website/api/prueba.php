@@ -1,7 +1,7 @@
 <?php
 header('Content-Type:application/json');
 
-$baseFileName = 'tmp/' . uniqid();
+$baseFileName = 'results/' . uniqid();
 
 switch ($_POST['imgMethod']) {
     case 'gallery':
@@ -36,12 +36,14 @@ $command = 'source Code/.venv/bin/activate &&'.
          ' --output ' . $baseFileName . '.out.jpg 2>&1';
 
 
-exec($command);
+exec($command, $outputCommand);
 
-// exec($command, $output);
-// var_dump($output);
+$output = [
+    'outputCommand' => $outputCommand,
+    'resultImgSrc' => 'api/' . $baseFileName . '.out.jpg'
+];
 
-echo json_encode($baseFileName . '.out.jpg');
+echo json_encode($output);
 
 
 // TODO: should I delete the file?

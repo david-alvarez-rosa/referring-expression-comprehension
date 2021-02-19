@@ -35,13 +35,6 @@ def main(args):
     device = torch.device(args.device)
     model.to(device)
 
-
-
-
-
-
-
-
     model.eval()
 
 
@@ -84,8 +77,6 @@ def main(args):
     mask = masks.squeeze(0).cpu()
 
     utils.save_figure(img_raw, args.sent, mask, args.output)
-
-
 
 
 

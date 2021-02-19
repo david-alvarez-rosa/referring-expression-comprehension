@@ -142,14 +142,14 @@ function prueba() {
     formData.append("imgMethod", imgSelected.dataset.method);
     formData.append("imgSrc", imgSrc);
 
-    fetch("prueba.php", {
+    fetch("api/prueba.php", {
         method: "POST",
         body: formData
     }).then(response => response.json())
         .then(response => {
             console.log(response);
             let img = document.getElementById("prueba");
-            img.setAttribute("src", response);
+            img.setAttribute("src", response['resultImgSrc']);
         });
 }
 

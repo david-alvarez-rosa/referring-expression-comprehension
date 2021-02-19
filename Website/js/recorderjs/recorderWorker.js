@@ -74,7 +74,7 @@ function exportWAV(type){
     };
     var fd = new FormData();
     fd.append("that_random_filename_wav", audioBlob);
-    xhr.open("POST", "/upload_wav.php", true);
+    xhr.open("POST", "/api/upload_wav.php", true);
     xhr.send(fd);
 }
 

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+  <head>
+    <title>TODO</title>
+    <meta charset="UTF-8" />
+    <meta name="description" content="TODO" />
+    <meta name="keywords" content="TODO" />
+    <meta name="author" content="David Álvarez Rosa" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="canonical" href="TODO" />
+
+    <!-- CSS files. -->
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/audio.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+
+    <!-- Javascript files. -->
+    <script defer src="js/jquery-3.5.1.slim.min.js"></script>
+    <script defer src="js/imgFileNames.js"></script>
+    <script defer src="js/main.js"></script>
+    <script defer src="js/audiodisplay.js"></script>
+    <script defer src="js/recorderjs/recorder.js"></script>
+    <script defer src="js/audio.js"></script>
+    <script defer src="js/bootstrap.bundle.min.js"></script>
+  </head>
+
+
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarCollapse"
+                aria-controls="navbarCollapse"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <div class="navbar-nav mr-auto">
+            <a class="nav-item nav-link active" href="#">
+              Home <span class="sr-only">(current)</span>
+            </a>
+            <a class="nav-item nav-link" href="#">Features</a>
+            <a class="nav-item nav-link" href="#">Pricing</a>
+            <a class="nav-item nav-link disabled" href="#">Disabled</a>
+          </div>
+
+          <form class="form-inline mt-2 mt-md-0">
+            <input class="form-control mr-sm-2"
+                   type="text"
+                   placeholder="Search"
+                   aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+              Search
+            </button>
+          </form>
+        </div>
+      </nav>
+    </header>
+
+
+    <div id="audio">
+      <div id="viz">
+        <canvas id="analyser" width="1024" height="500"></canvas>
+        <canvas id="wavedisplay" width="1024" height="500"></canvas>
+      </div>
+      <div id="controls">
+        <img id="record" src="img/mic128.png" onclick="toggleRecording(this);">
+      </div>
+      <button onclick="stopAudio();">Stop audio</button>
+    </div>
+
+
+    <main role="main" class="container">
+      <h1 class="mt-5">Web title</h1>
+      <p>Hey there!</p>
+
+      <section id="sec:img">
+        <h2>Choose Image</h2>
+        <p>
+          Select one of these images by clicking on it.
+          <button class="btn btn-secondary float-right"
+                  onclick="populateGallery();"
+                  data-toggle="tooltip"
+                  title="Load more images">
+            More images
+          </button>
+        </p>
+        <div id="gallery"></div>
+
+        <form class="form-group mt-5" onsubmit="return addImg();">
+          <label for="img-url">or enter image web URL</label>
+          <input id="img-url" placeholder="Image URL" />
+          <input class="btn btn-primary" type="submit" />
+        </form>
+
+        <form onsubmit="return uploadImg();">
+          <label for="img-local">or choose file locally from computer</label>
+		      <input id="img-local" type="file" accept="image/*" />
+          <input type="submit" />
+        </form>
+      </section>
+
+
+      <section id="sec:results">
+        <h2>Results</h2>
+        <div id="img-selected-warn" class="alert alert-warning">
+          Please, <a href="#sec:img">choose image</a>.
+        </div>
+        <img id="img-selected" alt="Selected image." />
+
+        <div>
+          <form onsubmit="return addReferringExpression();">
+            <label for="referring-expression">
+              Enter referring expression using your keyboard
+            </label>
+            <input id="referring-expression" placeholder="Referring expression" />
+            <input type="submit" />
+          </form>
+
+          <p>or use microphone</p>
+          <button type="button" onclick="startAudio();">Start audio</button>
+
+          <h3>Selected referring expression</h3>
+          <div id="re-selected-warn" class="alert alert-warning">
+            Please, enter a referring expression.
+          </div>
+          <p id="re-selected"></p>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <img id="prueba" />
+      </section>
+    </main>
+
+
+    <footer class="page-footer font-small unique-color-dark">
+
+      <div style="background-color: #6351ce;">
+        <div class="container">
+
+          <!-- Grid row-->
+          <div class="row py-4 d-flex align-items-center">
+
+            <!-- Grid column -->
+            <div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0">
+              <h6 class="mb-0">Get connected with us on social networks!</h6>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-6 col-lg-7 text-center text-md-right">
+
+              <!-- Facebook -->
+              <a class="fb-ic">
+                <i class="fab fa-facebook-f white-text mr-4"> </i>
+              </a>
+              <!-- Twitter -->
+              <a class="tw-ic">
+                <i class="fab fa-twitter white-text mr-4"> </i>
+              </a>
+              <!-- Google +-->
+              <a class="gplus-ic">
+                <i class="fab fa-google-plus-g white-text mr-4"> </i>
+              </a>
+              <!--Linkedin -->
+              <a class="li-ic">
+                <i class="fab fa-linkedin-in white-text mr-4"> </i>
+              </a>
+              <!--Instagram-->
+              <a class="ins-ic">
+                <i class="fab fa-instagram white-text"> </i>
+              </a>
+
+            </div>
+            <!-- Grid column -->
+
+          </div>
+          <!-- Grid row-->
+
+        </div>
+      </div>
+
+      <!-- Footer Links -->
+      <div class="container text-center text-md-left mt-5">
+
+        <!-- Grid row -->
+        <div class="row mt-3">
+
+          <!-- Grid column -->
+          <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+
+            <!-- Content -->
+            <h6 class="text-uppercase font-weight-bold">Company name</h6>
+            <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+            <p>Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit amet,
+              consectetur
+              adipisicing elit.</p>
+
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+
+            <!-- Links -->
+            <h6 class="text-uppercase font-weight-bold">Products</h6>
+            <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+            <p>
+              <a href="#!">MDBootstrap</a>
+            </p>
+            <p>
+              <a href="#!">MDWordPress</a>
+            </p>
+            <p>
+              <a href="#!">BrandFlow</a>
+            </p>
+            <p>
+              <a href="#!">Bootstrap Angular</a>
+            </p>
+
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+
+            <!-- Links -->
+            <h6 class="text-uppercase font-weight-bold">Useful links</h6>
+            <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+            <p>
+              <a href="#!">Your Account</a>
+            </p>
+            <p>
+              <a href="#!">Become an Affiliate</a>
+            </p>
+            <p>
+              <a href="#!">Shipping Rates</a>
+            </p>
+            <p>
+              <a href="#!">Help</a>
+            </p>
+
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+
+            <!-- Links -->
+            <h6 class="text-uppercase font-weight-bold">Contact</h6>
+            <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+            <p>
+              <i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
+            <p>
+              <i class="fas fa-envelope mr-3"></i> info@example.com</p>
+            <p>
+              <i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
+            <p>
+              <i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
+
+          </div>
+          <!-- Grid column -->
+
+        </div>
+        <!-- Grid row -->
+
+      </div>
+      <!-- Footer Links -->
+
+      <!-- Copyright -->
+      <div class="footer-copyright text-center py-3">© 2020 Copyright:
+        <a href="https://mdbootstrap.com/"> MDBootstrap.com</a>
+      </div>
+      <!-- Copyright -->
+    </footer>
+
+  </body>
+</html>
