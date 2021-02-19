@@ -1,11 +1,1 @@
-checkpoints/
-checkpoints_bert/
-datasets/
-results/
-mio/
-
-__pycache__
-*.cpython*
-_mask.c
-
-flycheck_*
+Dataset/
