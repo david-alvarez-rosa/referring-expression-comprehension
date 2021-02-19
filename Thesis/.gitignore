@@ -120,6 +120,7 @@ acs-*.bib
 
 # uncomment this for glossaries-extra (will ignore makeindex's style files!)
 # *.ist
+Thesis.ist
 
 # gnuplottex
 *-gnuplottex-*
