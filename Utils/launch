@@ -8,7 +8,7 @@
 #SBATCH --mem=4G                 # total memory per node (4 GB per cpu-core is default)
 #SBATCH --gres=gpu:1             # number of gpus per node
 #SBATCH --partition=gpu          # partition requested
-#SBATCH --time=00:05:00          # total run time limit (HH:MM:SS)
+#SBATCH --time=08:00:00          # total run time limit (HH:MM:SS)
 #SBATCH --output=out.txt         # file for script's standard output
 #SBATCH --mail-type=begin        # send mail when job begins
 #SBATCH --mail-type=end          # send mail when job ends
@@ -17,5 +17,5 @@
 
 
 source .venv/bin/activate
-python3 train.py --dataset refcoco --model_id model --image_root /scratch/gobi1/datasets/MSCOCO/images/train2014/ --workers 1 --batch-size 2
+python train.py --dataset refcoco --model_id model --image_root /scratch/gobi1/datasets/MSCOCO/images/train2014/ --pretrained --workers 4 --batch_size 16
 #python3 -u test.py --dataset refcoco --resume ./checkpoints/model_refcoco.pth --workers 1 --batch-size 2 --split train --image_root /scratch/gobi1/datasets/MSCOCO/images/train2014/

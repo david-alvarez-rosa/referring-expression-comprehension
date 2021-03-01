@@ -113,7 +113,8 @@ def main(args):
     device = torch.device(args.device)
 
     # Train dataset.
-    dataset_train = ReferDataset(args,
+    dataset_train = ReferDataset(args=args,
+                                 split="train",
                                  transforms=transforms.get_transform(train=True))
     sampler_train = torch.utils.data.RandomSampler(dataset_train)
     loader_train = torch.utils.data.DataLoader(
@@ -125,7 +126,8 @@ def main(args):
         drop_last=True)
 
     # Validation dataset.
-    dataset_val = ReferDataset(args,
+    dataset_val = ReferDataset(args=args,
+                               split="val",
                                transforms=transforms.get_transform())
     sampler_val = torch.utils.data.SequentialSampler(dataset_val)
     loader_val = torch.utils.data.DataLoader(

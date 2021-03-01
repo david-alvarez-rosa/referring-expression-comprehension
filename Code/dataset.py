@@ -19,8 +19,8 @@ class ReferDataset(data.Dataset):
 
     """
 
-    def __init__(self, args, transforms, dataset_root="./datasets/refcoco/",
-                 ref_file="refs(unc).p", ann_file="annotations.json"):
+    def __init__(self, args, split, transforms, dataset_root="./datasets/refcoco/",
+                 ref_file="refs(unc).p", ann_file="instances.json"):
         """Creates class.
 
         More comments.

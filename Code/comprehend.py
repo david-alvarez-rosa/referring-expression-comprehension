@@ -14,29 +14,42 @@ import PIL
 
 import utils
 
+import time
+
 
 def main(args):
+    tic = time.time()
+
     # Segmentation model.
     seg_model = segmentation.deeplabv3_resnet101(num_classes=2,
                                                  aux_loss=False,
                                                  pretrained=False,
                                                  args=args)
 
+    print("hey from here: ", time.time() - tic)
     # BERT model.
     bert_model = BertModel.from_pretrained(args.ck_bert)
 
+
+
     # Load checkpoint.
-    checkpoint = torch.load(args.resume, map_location="cpu")
+    device = torch.device(args.device)
+    ticAux = time.time()
+    checkpoint = torch.load(args.resume, map_location=device)
+    print("extra time", time.time() - ticAux)
+
     bert_model.load_state_dict(checkpoint["bert_model"], strict=False)
     seg_model.load_state_dict(checkpoint["model"], strict=False)
 
     # Define model and sent to device.
     model = Model(seg_model, bert_model)
-    device = torch.device(args.device)
+
     model.to(device)
 
     model.eval()
 
+    print("loading of model time: ", time.time() - tic)
+    tic = time.time()
 
     img_raw = PIL.Image.open(args.img)
 
@@ -70,13 +83,25 @@ def main(args):
     imgs, attentions, sents = \
         imgs.to(device), attention_mask.to(device), sents.to(device)
 
+    print("prepare inputs: ", time.time() - tic)
+    tic = time.time()
+
+
     with torch.no_grad():
         outputs = model(sents, attentions, imgs)
         masks = outputs.argmax(1)
 
     mask = masks.squeeze(0).cpu()
 
+    print("forward model with no_grad: ", time.time() - tic)
+    tic = time.time()
+
+
     utils.save_figure(img_raw, args.sent, mask, args.output)
+
+    print("savefigure: ", time.time() - tic)
+    tic = time.time()
+
 
 
 

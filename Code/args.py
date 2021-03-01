@@ -59,7 +59,7 @@ def get_parser():
     #### Testing parameters
     parser.add_argument("--results_dir", help="results folder")
     parser.add_argument("--submission_path",  default="./results_submission/", help="submission results folder for DAVIS")
-    parser.add_argument("--split",  default="test", help="split to run test")
+    parser.add_argument("--split",  default="train", help="split to run test")
     parser.add_argument("--display",  action="store_true", help="save output predictions")
 
 
@@ -80,7 +80,6 @@ def get_parser():
 
 
     parser.add_argument("--image_root", default="./datasets/refcoco/", help="TODO: help sentence")
-
 
 
 

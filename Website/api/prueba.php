@@ -43,7 +43,14 @@ $output = [
     'resultImgSrc' => 'api/' . $baseFileName . '.out.jpg'
 ];
 
-echo json_encode($output);
+if (isset($_POST['debug'])) {
+    print_r($_POST);
+    echo $outputCommand;
+    print_r($outputCommand);
+    // var_dump($outputCommand);
+}
+else
+    echo json_encode($output);
 
 
 // TODO: should I delete the file?
