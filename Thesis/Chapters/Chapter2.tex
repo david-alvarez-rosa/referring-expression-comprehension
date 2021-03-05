@@ -159,7 +159,7 @@ all this weights is as follows,
 The \emph{matrix} of all weights in the \(l\)-th layer will be denoted by
 \(\mathbf{W}^l\). This is, \((\mathbf{W}^l)_{ij} = w_{ij}^l\).
 
-\subsection{Forward}
+\subsection{Model: feed forward}
 \label{subsec:forward}
 
 From now on let's suppose we are working with a fully-connected neural network,
@@ -177,7 +177,7 @@ output layer. In this network we can think of information travelling in one
 direction, forward, from the input layer, through the hidden layers to the
 output neurons.
 
-\subsection{Backward}
+\subsection{Trainning: backpropagation}
 \label{sec:backward}
 
 In order to being able to train our neural network, is mandatory to define an
@@ -246,14 +246,15 @@ tipo de arquitecturas.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{Architecture LeNet-5.png}
-  \caption[Ejemplo de topología de una \gls{cnn} (LeNet-5)]{Ejemplo de la
+  \caption[Ejemplo de topología de una \acrshort{cnn} (LeNet-5)]{Ejemplo de la
     topología de una \gls{cnn}. Concretamente es
-    \fhref{http://yann.lecun.com/exdb/lenet/}{LeNet-5}, una red convolucional
-    creada por Yann LeCun.}
+    \href{http://yann.lecun.com/exdb/lenet}{LeNet-5} (ver
+    \url{http://yann.lecun.com/exdb/lenet}), una red convolucional creada por
+    Yann LeCun.}
   \label{fig:lenet-5}
 \end{figure}
 
-\subsubsection*{Convolutional layers}
+\subsubsection{Convolutional layers}
 El nombre proviene del hecho de que estas capas utilizan la operación
 matemática de la
 \fhref{https://en.wikipedia.org/wiki/Convolution}{convolución}. Esta operación
@@ -292,7 +293,7 @@ dependerá del \emph{padding}\footnote{Hay diferentes técnicas para definir el
   consiste en añadir alrededor de la imagen vectores de 0 hasta completarla
   para poder realizar las convoluciones deseadas.} de la imagen de entrada).
 
-\subsubsection*{Pooling Layers}
+\subsubsection{Pooling Layers}
 Otro tipo de capas que se usa en este tipo de redes son las de pooling. Las
 capas de pooling reducen la dimensión de la red combinando la salida de las
 neuronas de una capa en una única neurona en la capa siguiente. Este tipo de
@@ -316,12 +317,32 @@ medio. En la figura~\ref{fig:max-pool} podemos ver una representación de un
 \(2 \times 2\) max-pool. En este caso concreto, la operación matemática a
 realizar viene dada por la siguiente expresión,
 \begin{equation}
-  f_{X,Y}(S) = \max _{a,b=0}^{1}S_{2X+a,2Y+b}.
+  f_{X,Y}(S) = \max _{a,b=0}^{1}S_{2X+a,2Y+b},
 \end{equation}
+where \(S\) is every depth slice in the input. This discharges 75\% of the
+activations.
+
+\subsection{Activation functions}
+Analogamente a las fully connected neural networks, en este caso también es
+común el uso de funciones de activación con el objetivo de introducir
+no-linealidades en el modelo sin afectar los campos receptivos de las
+convoluciones. Típicamente se añaden justo después de realizar la convolución.
+
+Las principales funciones que se usan son las siguientes:
+\begin{itemize}
+  \item \textbf{\gls*{relu}}. Es la función \(f(x) = \max \{0, x\}\), que es la
+  más usada. Elimina los valores negativos del mapa de características y los
+  pone a cero.
+  \item \textbf{Tangente hiperbolica}. \(f(x) = \tanh x\)
+  \item \textbf{Sigmoid function}. \(\sigma(x) = {(1 + e^{-x})}^{-1}\).
+  \item \(f(x) = |\tanh x|\)
+\end{itemize}
 
 
 \section{Recurrent Neural Networks}
 \label{sec:recurr-neur-netw}
+
+
 
 \todo{Aquí hablar por encima de lo que añaden este tipo de redes, pero no
   comentar demasiado porque no las vamos a usar después.}

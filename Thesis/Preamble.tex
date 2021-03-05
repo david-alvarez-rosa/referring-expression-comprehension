@@ -13,21 +13,21 @@
 \usepackage{geometry}
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{bm}
-\usepackage{graphicx}
+\usepackage{graphicx, float}
 \usepackage[cmyk, dvipsnames, table]{xcolor}
 \usepackage{microtype}
 \usepackage{emptypage}
 \usepackage{fancyhdr}
 \usepackage{lettrine}
 \usepackage{booktabs}
-\usepackage{caption}
+\usepackage{caption, subcaption}
 \usepackage[nottoc]{tocbibind}
 \usepackage[symbol*, bottom, marginal, norule]{footmisc}
 \usepackage[type={CC}, modifier={by-nc-sa}, version={4.0}]{doclicense}
 \usepackage[backend=biber, style=alphabetic, citestyle=alphabetic]{biblatex}
 \usepackage{imakeidx}
 \usepackage{epigraph}
-\usepackage{tikz}
+\usepackage{tikz, pgfplots}
 \usepackage{fontawesome}
 \usepackage[outputdir=Build, cachedir=Minted]{minted}
 \usepackage[most]{tcolorbox}
@@ -199,6 +199,37 @@
     draw = tcbcolframe,
     fill = tcbcolback!80!black,
     line width = .5mm,
+  },
+  myPlot/.style = {
+    smooth,
+    ultra thick,
+    blue,
+    samples = 200
+  }
+}
+
+% Pgfplots configuration.
+\pgfplotsset{compat=newest}
+\pgfplotsset{%
+  activationFunction/.style = {%
+    xlabel = {$x$}, ylabel = {$y$},
+    legend style = {
+      at = {(0.5, 1.05)},
+      anchor = south,
+    },
+    grid = both,
+    xtick distance = 1, ytick distance = 1,
+    minor tick num = 1,
+    major grid style = {thin, dashed, gray!60},
+    minor grid style = {thin, dashed, gray!20},
+    axis lines = center,
+    axis line style = {
+      very thick,
+      -latex
+    },
+    enlargelimits,
+    width = \textwidth,
+    scale only axis,
   }
 }
 
@@ -313,4 +344,5 @@
 \date{\today}
 
 
-\includeonly{Chapters/Chapter2}
+% \includeonly{Chapters/Chapter2}
+\includeonly{Appendices/AppendixA}
