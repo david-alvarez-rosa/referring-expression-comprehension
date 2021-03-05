@@ -33,8 +33,11 @@
 \usepackage[most]{tcolorbox}
 \usepackage[shadow]{todonotes}
 \usepackage{hyperxmp}
+\usepackage{svg}
+\usepackage{varioref}
 \usepackage[pdfusetitle]{hyperref}
 \usepackage[toc, acronym, nomain]{glossaries}
+\usepackage[noabbrev]{cleveref}
 
 
 % Fallback to computer modern for sc + bf.
@@ -131,6 +134,7 @@
     \let\@evenfoot\@oddfoot}
   \thispagestyle{epigraph}}
 \makeatother
+
 % Set path for figures (relative to main document).
 \graphicspath{{./Figures/}}
 
@@ -156,7 +160,7 @@
 
 % Add command for footnote href.
 \newcommand\fhref[2]{
-  \href{#1}{#2}\footnote{\url{#1}}
+  \href{#1}{#2}\footnote{Full link for ``#2'': \url{#1}}
 }
 
 % Customize bibliography (biblatex and biber).
@@ -288,7 +292,7 @@
   colbacktitle = ForestGreen!36
   % colback = RoyalBlue!12,
   % colbacktitle = RoyalBlue!36
-}{hola}
+p}{hola}
 % Input code file.
 \newtcbinputlisting[auto counter, number within=chapter, list inside=code]{\codeLst}[4]{
   listing engine = minted,
@@ -328,10 +332,13 @@
 \setuptodonotes{inline}
 \makeatletter
 \renewcommand{\todo}[2][]{\tikzexternaldisable\@todo[#1]{#2}\tikzexternalenable}
-\renewcommand{\missingfigure}[2][]{
-  \tikzexternaldisable\@missingfigure[#1]{#2}\tikzexternalenable
-}
 \makeatother
+
+% Configuration for SVG package.
+\svgsetup{
+  svgpath = Figures/SVGs/,
+  inkscapepath = Build/SVG/
+}
 
 % Some basic math definitions.
 \newcommand{\Z}{\mathbb{Z}}
@@ -345,4 +352,4 @@
 
 
 % \includeonly{Chapters/Chapter2}
-\includeonly{Appendices/AppendixA}
+% \includeonly{Appendices/AppendixA}

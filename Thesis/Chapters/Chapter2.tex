@@ -48,23 +48,19 @@ encontrar diferentes.
   \item \textbf{Fully connected layered neural networks}. Estas redes son el
   tipo de modelo neuronales maś sencillo que existe y sobre el que se
   construyen modelos más complejos. Una descripción más detallada sobre este
-  tipo de redes puede ser encontrado en la sección~\ref{sec:fully-conn-layer}
-  (página~\pageref{sec:fully-conn-layer}).
+  tipo de redes puede ser encontrado en la \vref{sec:fully-conn-layer}.
   \item \textbf{\acrlong*{cnn}}. Este tipo de redes neuronales son
   especialmente útiles en el procesado de imágenes, ya que permiten preservar
   la información espacial de relación entre píxeles. Serán estudiadas en la
-  sección~\ref{sec:conv-neur-netw}
-  (página~sección~\pageref{sec:conv-neur-netw}).
+  \vref{sec:conv-neur-netw}.
   \item \textbf{\acrlong*{rnn}}. Modelos neuronales ideales para el análisis
   de series temporales (como puede ser texto o audio). Serán estudiadas en la
-  sección~\ref{sec:recurr-neur-netw}
-  (página~sección~\pageref{sec:recurr-neur-netw}).
+  \vref{sec:recurr-neur-netw}.
   \item \textbf{Transformers}. Los modelos basados en transformadores forman
   parte del \acrlong{sota} actual\footnote{En 2021, fecha actual del
     documento.}. Están siendo usados de manera extensiva en \gls{nlp} y
   estudiando sus posibles aplicaciones en visión por computadores y procesado
-  de imágen. Serán descritos en la sección~\ref{sec:transformers}
-  (página~\pageref{sec:transformers}).
+  de imágen. Serán descritos en la \vref{sec:transformers}.
 \end{itemize}
 
 
@@ -81,7 +77,7 @@ complejas.
 Este tipo de redes neuronales se caracteriza por una estructura de neuronales
 organizada en diferentes capas, de manera que las neuronas entre capas
 adyacentes están conectadas entre ellas por arcos. En la
-figura~\ref{fig:fully-conn-network} se muestra un ejemplo de este tipo de
+\vref{fig:fully-conn-network} se muestra un ejemplo de este tipo de
 arquitectura.
 
 \begin{figure}[ht]
@@ -214,8 +210,8 @@ value of the parameters \(\bm{\theta}\). We will denote the error funcion by
 computer vision. Son comúnmente aplicadas en el análisis de imágenes, ya que
 tienen la característica principal de tener la capacidad de preservar la
 relación espacial entre píxeles. Así mismo, son versiones regularizadas de las
-fully connected networks (explicadas en la sección~\ref{sec:fully-conn-layer}),
-esto es, es menos probable overfitear en los datos.
+fully connected networks (explicadas en la \vref{sec:fully-conn-layer}), esto
+es, es menos probable overfitear en los datos.
 
 \fhref{http://yann.lecun.com/index.html}{Yann LeCun}, un reconocido científico
 conocido como el padre de las \glspl{cnn}, las define de la siguiente manera:
@@ -231,7 +227,7 @@ conocido como el padre de las \glspl{cnn}, las define de la siguiente manera:
 \end{quoteBox}
 
 Por tanto, estudiaremos la arquitectura o topología de este tipo de redes a
-continuación en la sección~\ref{sec:topology-1}.
+continuación en la \vref{sec:topology-1}.
 
 \subsection{Topology} \label{sec:topology-1}
 
@@ -240,12 +236,12 @@ consiste en una capa de entrada, capas ocultas y una capa de salida. En una
 \gls{cnn} las capas ocultas incluyen capas que calculan convoluciones. Estas
 capas convolucionales están seguidas por otras diferentes, entre las que
 destacan los pooling layers, fully connected layers and normalization
-layers. En la figura~\ref{fig:lenet-5} se puede observar un ejemplo de este
+layers. En la \vref{fig:lenet-5} se puede observar un ejemplo de este
 tipo de arquitecturas.
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=\textwidth]{Architecture LeNet-5.png}
+  \includegraphics[width=\textwidth]{Images/Architecture LeNet-5.png}
   \caption[Ejemplo de topología de una \acrshort{cnn} (LeNet-5)]{Ejemplo de la
     topología de una \gls{cnn}. Concretamente es
     \href{http://yann.lecun.com/exdb/lenet}{LeNet-5} (ver
@@ -262,13 +258,13 @@ se define (en su versión discreta) de la siguiente manera: dado un par de
 funciones \(f, g\) definidas en el conjunto de los enteros \(\Z\), la
 convolución discreta entre \(f\) y \(g\) viene dada por,
 \begin{equation} \label{eq:math-conv}
-  (f \star g)[n] = \sum_{-\infty}^{\infty} f[m]g[n - m],
+  (f \star g)[n] = \sum_{m=-\infty}^{\infty} f[m]g[n - m],
 \end{equation}
 donde \(\star\) es el operador de convolución.
 
 Esta es la definición matemática de la convolución discreta. Ahora bien, el uso
 de la convolución en el tratamiento de imágenes no funciona exactamente como se
-ha definido en~\eqref{eq:math-conv}. En la práctica, las imágenes de
+ha definido en \vref{eq:math-conv}. En la práctica, las imágenes de
 entrada\footnote{En niveles más profundos de una \gls{cnn} dejaremos de
   entender las capas como imágenes y las llamares como mapas de
   características} son tensores tridimensionales para las imágenes
@@ -283,7 +279,7 @@ convolucionales de la siguiente manera. Sea \(\mathbf{X}\) el
 mapa de características de entrada, \(\mathbf{Y}\) el mapa de características
 de salida y el filtro \(\mathbf{F}\). La convolución se define entonces de la
 siguiente manera,
-\begin{equation}
+\begin{equation} \label{eq:convolution}
   \mathbf{Y}_{i, j, k} =
   \sum_{l, m, n} \mathbf{X}_{l, j + m, k + n}\mathbf{F}_{i, l, m, n},
 \end{equation}
@@ -292,6 +288,20 @@ dependerá del \emph{padding}\footnote{Hay diferentes técnicas para definir el
   padding de una imagen. El más típico es el conocido como zero-padding, que
   consiste en añadir alrededor de la imagen vectores de 0 hasta completarla
   para poder realizar las convoluciones deseadas.} de la imagen de entrada).
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=.75\textwidth]{Images/Convolution.png}
+  \caption[Example of a convolution]{Example of a convolution with a kernel
+    (filter) of dimensions \((3, 3, 1)\) and an input feature map (tensor) of
+    size \((8, 8, 1)\).}
+  \label{fig:convolution}
+\end{figure}
+
+En la \vref{fig:convolution} se muestra gráficamente un ejemplo de
+convolución. Como se puede ver para cada uno de los elementos del tensor de
+salida se realiza el cálculo de la \vref{eq:convolution} con el filtro
+mostrado.
 
 \subsubsection{Pooling Layers}
 Otro tipo de capas que se usa en este tipo de redes son las de pooling. Las
@@ -302,7 +312,7 @@ menos sensibles a pequeños cambios locales en la localización espacial.
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=.75\textwidth]{Max pooling.png}
+  \includegraphics[width=.75\textwidth]{Images/Max pooling.png}
   \caption[Pooling layer example: max pooling]{Pooling layer example:
     \(2 \times 2\) max pooling. El tensor de entrada se divide en bloques
     \(2 \times 2\) y el max pool devuelve un tensor de salida con el valor
@@ -313,7 +323,7 @@ menos sensibles a pequeños cambios locales en la localización espacial.
 Hay diferentes tipos de pooling. Los más conocidos son \emph{max} pooling y
 \emph{average} pooling. El primero usa el valor máximo de cada cluster de
 neuronas en el nivel anterior. Average pooling, sin embargo, usa el valor
-medio. En la figura~\ref{fig:max-pool} podemos ver una representación de un
+medio. En la \vref{fig:max-pool} podemos ver una representación de un
 \(2 \times 2\) max-pool. En este caso concreto, la operación matemática a
 realizar viene dada por la siguiente expresión,
 \begin{equation}
@@ -341,6 +351,8 @@ Las principales funciones que se usan son las siguientes:
 
 \section{Recurrent Neural Networks}
 \label{sec:recurr-neur-netw}
+
+
 
 
 

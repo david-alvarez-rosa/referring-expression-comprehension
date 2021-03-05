@@ -10,19 +10,77 @@
 }
 
 
-\lettrine{L}{orem} ipsum dolor sit amet, consectetur
-adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-id est laborum.
+\lettrine{R}{eferring} expression comprehension is the task of, given a
+linguistic phrase (referring expression) and an image, generate binary masks
+for the object which the phrase refers to. Este tipo de tareas quedan
+enmarcadas dentro del campo del aprendizaje multimodal: en la intersección
+entre computer vision y \gls{nlp}.
+
+\begin{figure}[ht]
+  \centering
+  \missingfigure{Hey there!}
+  \caption[TODO]{TODO: ejemplos de comprehension}
+  \label{fig:demo}
+\end{figure}
+
+En la \vref{fig:demo} podemos ver unos ejemplos de este tipo de tareas.
+\todo{explicar aquí los ejemplos que se muestran}.
 
 
 \section{Objectives}
 
+Este trabajo fin de grado tiene varios objetivos diferenciados.
+
+
+\section{Aplicaciones}
+
+El uso de referring expression comprehension puede tener aplicaciones de
+diversa índole. En los últimos años están cobrando una gran importancia la
+robótica y la domótica. Este trabajo facilita la interacción entre humano y
+robot/ordenador. Por ejemplo, podría facilitar la comprensión de órdenes de un
+humano por parte de una máquina. Una posible aplicación sería la mostrada en la
+\vref{fig:robot}
+
+\begin{figure}[ht]
+  \centering
+  \missingfigure{Show a figure of a robot picking objects}
+  \caption[TODO]{TODO: ejemplos de comprehension}
+  \label{fig:robot}
+\end{figure}
+
+Otro posible aplicación sería la usado por la policía en el control de la
+seguridad en las carreteras. En la \vref{fig:dgt} podemos ver uno de los drones
+usados actualmente por\ldots\ldots
+
+\begin{figure}[ht]
+  \centering
+  \missingfigure{Mostra una figura de un dron siguiendo a coches, de la DGT.}
+  \caption[TODO]{TODO}
+  \label{fig:dgt}
+\end{figure}
+
+\todo{Una vez puesta la imagen revisar este párrafo.}
+
+Este tipo de drones podrían incorporar sistemas como el presentado en este
+trabajo fin de grado para poder realizar seguimiento de vehículos mediante
+comandos por voz. Por ejemplo se podrían usar estructuras sintácticas
+compuestas por acción y \gls{re}, como podrían ser las siguientes.
+
+\begin{itemize}
+  \item \textbf{Acciones}: seguir, grabar, tomar velocidad, etc.
+  \item \textbf{\gls*{re}}: coche azul/negro/rojo/\ldots, camión grande, coche
+  deportivo, furgoneta de la derecha, etc.
+\end{itemize}
+
+De esta manera, combinaciones como: ``toma velocidad del coche negro'' o
+``graba al coche deportivo'' podrían ayudar al control de la seguridad en las
+carreteras. Este trabajo, como ya se ha comentado anteriormente, se centra en
+comprender las \gls{re}.
+
 
 \section{State of the Art}
+
+Hay diferentes
 
 
 \section{Contributions}
