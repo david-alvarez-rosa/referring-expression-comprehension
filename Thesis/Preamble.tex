@@ -24,7 +24,7 @@
 \usepackage[nottoc]{tocbibind}
 \usepackage[symbol*, bottom, marginal, norule]{footmisc}
 \usepackage[type={CC}, modifier={by-nc-sa}, version={4.0}]{doclicense}
-\usepackage[backend=biber, style=alphabetic, citestyle=alphabetic]{biblatex}
+\usepackage[backend=biber, citestyle=verbose, bibstyle=alphabetic]{biblatex}
 \usepackage{imakeidx}
 \usepackage{epigraph}
 \usepackage{tikz, pgfplots}
@@ -62,7 +62,6 @@
   labelfont = {sc, bf},
   labelsep = period,
   width = .75\textwidth,
-  tableposition = top,
 }
 
 \hypersetup{
@@ -170,6 +169,11 @@
 \renewbibmacro*{finentry}{\printfield{annotation}\finentry}
 \DeclareFieldFormat{labelalpha}{\mkbibbold{#1}}
 \DeclareFieldFormat{extraalpha}{\mkbibbold{\mknumalph{#1}}}
+% prints author names as small caps
+\renewcommand{\mkbibnamefirst}[1]{\textsc{#1}}
+\renewcommand{\mkbibnamelast}[1]{\textsc{#1}}
+\renewcommand{\mkbibnameprefix}[1]{\textsc{#1}}
+\renewcommand{\mkbibnameaffix}[1]{\textsc{#1}}
 
 % Set minted style and font for line numbers.
 \usemintedstyle{tango}
@@ -338,6 +342,15 @@ p}{hola}
 \svgsetup{
   svgpath = Figures/SVGs/,
   inkscapepath = Build/SVG/
+}
+
+% Show copyright note source for floats.
+\newcommand{\source}[1]{
+  \vspace{-8pt} \caption*{
+    \footnotesize
+    \hfill
+    From {#1}\footnotemark
+  }
 }
 
 % Some basic math definitions.

@@ -57,7 +57,7 @@ encontrar diferentes.
   de series temporales (como puede ser texto o audio). Serán estudiadas en la
   \vref{sec:recurr-neur-netw}.
   \item \textbf{Transformers}. Los modelos basados en transformadores forman
-  parte del \acrlong{sota} actual\footnote{En 2021, fecha actual del
+  parte del \acrlong{sota} actual\footnote{En \today, fecha actual del
     documento.}. Están siendo usados de manera extensiva en \gls{nlp} y
   estudiando sus posibles aplicaciones en visión por computadores y procesado
   de imágen. Serán descritos en la \vref{sec:transformers}.
@@ -352,12 +352,26 @@ Las principales funciones que se usan son las siguientes:
 \section{Recurrent Neural Networks}
 \label{sec:recurr-neur-netw}
 
+\glspl{rnn} son una clase de \glspl{ann} que son ampliamente utilizadas con
+secuencias temporales (como por ejemplo en el ámbito de
+\gls{nlp}). Analogamente a las \glspl{cnn} que son adecuadas para el tratamiento
+de imágenes, las \glspl{rnn} son un tipo de red neuronal especializada para
+procesar secuencias de valores del tipo \(\mathbf{x}^1, \ldots
+\mathbf{x}^{\tau}\) con \(\mathbf{x}^i \in \R^n\).
 
-
-
-
-\todo{Aquí hablar por encima de lo que añaden este tipo de redes, pero no
-  comentar demasiado porque no las vamos a usar después.}
+\begin{figure}[ht]
+  \begin{subfigure}[b]{.25\textwidth}
+    \centering
+    \includegraphics[height=4cm]{Images/RNN.png}
+    \caption{Basic \gls{rnn}.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{.75\textwidth}
+    \centering
+    \includegraphics[height=4cm]{Images/Unfolded RNN.png}
+    \caption{Unfolded basic \gls{rnn}.}
+  \end{subfigure}
+  \caption[Basic topology of \acrfull{rnn}]{TODO. Basic topology of \acrfull{rnn}.}
+\end{figure}
 
 
 \section{Transformers}
