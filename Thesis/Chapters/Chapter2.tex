@@ -357,21 +357,139 @@ secuencias temporales (como por ejemplo en el ámbito de
 \gls{nlp}). Analogamente a las \glspl{cnn} que son adecuadas para el tratamiento
 de imágenes, las \glspl{rnn} son un tipo de red neuronal especializada para
 procesar secuencias de valores del tipo \(\mathbf{x}^1, \ldots
-\mathbf{x}^{\tau}\) con \(\mathbf{x}^i \in \R^n\).
+\mathbf{x}^{\tau}\) con \(\mathbf{x}^t \in \R^n\).
+
+\subsection{Topology}
+
+Viendo la \vref{fig:rnn}, podemos ver la arquitectura de una \gls{rnn}. Los
+valores de entrada \(\mathbf{x}^1, \ldots \mathbf{x}^\tau\) son alimentados a
+la red de manera ordenada. Por ello, para obtener el vector de salida
+\(\mathbf{y}^t\), es necesario el hidden state \(\mathbf{h}^{t - 1}\) y la
+entrada \(\mathbf{y}^{t}\). Prior inputs
+\(\mathbf{x}^1, \ldots \mathbf{x}^{t - 1}\) are represented by the hidden state
+\(\mathbf{h}^{t - 1}\), therefore the output \(\mathbf{y}^t\), depends exactly
+of all the inputs until time \(t\).
 
 \begin{figure}[ht]
   \begin{subfigure}[b]{.25\textwidth}
     \centering
     \includegraphics[height=4cm]{Images/RNN.png}
     \caption{Basic \gls{rnn}.}
+    \label{fig:rnn-a}
   \end{subfigure}\hfill
   \begin{subfigure}[b]{.75\textwidth}
     \centering
     \includegraphics[height=4cm]{Images/Unfolded RNN.png}
     \caption{Unfolded basic \gls{rnn}.}
+    \label{fig:rnn-b}
   \end{subfigure}
-  \caption[Basic topology of \acrfull{rnn}]{TODO. Basic topology of \acrfull{rnn}.}
+  \caption[Basic topology of \acrfull{rnn}]{Basic topology of
+    \acrfull{rnn}. Two versions of the same network are shown, one is the
+    compact version and the other is the same network but unfolded in time.}
+  \label{fig:rnn}
+  \source{TODO. Citar es de stanford también}
 \end{figure}
+\footnotetext{TODO. Citar}
+
+\subsubsection{Different types of \gls*{rnn}}
+Las feedforward networks envían una entrada a una salida\footnote{La entrada y
+  la salida puede ser vectorial. No significa, por tanto, que son solo un
+  número, significa que solo son \emph{un} vector multidimensional de
+  \(\R^n\)}, pero en el caso de las \glspl{rnn} no es así. Existen diferentes
+posibilidades, en las que la longitud de la entrada y de la salida pueden
+variar. Todos los tipos diferentes de architecturas que pueden existir están
+recogidos en la \vref{fig:rnn-types}.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{Images/RNN types.png}
+  \caption[Types of architectures for \gls{rnn}]{Types of architectures for
+    \gls{rnn}. All posibilities are considered (i.e.\ all combinations are
+    presented).}
+  \label{fig:rnn-types}
+  \source{TODO. Es de Stanford curso}
+\end{figure}
+\footnotetext{TODO. de stanford.}
+
+Estas diferentes posibilidades tienen luego su aplicación en diversos ámbitos
+como pueden ser: image captioning (``one to many''), action prediction (``many
+to one``), video captioning (``many to many'' first option), and video
+classification on frame label (``many to many'' second option). El caso extremo
+de ``one to one'' se corresponde precisamente con una fully connected layered
+neural network normal como la estudiada en la \vref{sec:fully-conn-layer}.
+
+\subsection{Model: feed forward}
+
+Podemos calcular el valor de las neuronas con una fórmula recurrente, en la que
+intervienen los hidden states \(\mathbf{h}^t\) y los valores de los vectores de
+entrada \(\mathbf{x}^t\). En el caso más sencillo de una \gls{rnn}
+\emph{simple}, este cálculo consiste en,
+\begin{equation} \label{eq:rnn-hidden}
+  \mathbf{h}^t = f_{W} (\mathbf{h}^{t - 1}, \mathbf{x}^t),
+\end{equation}
+y a continuación se puede calcular el vector de salida \(\mathbf{y}^t\) usando
+la siguiente expresión,
+\begin{equation} \label{eq:rnn-out}
+  \mathbf{y}^t = W_{hy}\mathbf{h}^t,
+\end{equation}
+donde \(W_{hy}\) es una matriz de parámetros (entrenables).
+
+\subsubsection{Variant \gls*{rnn} architectures}
+El modelo definido anteriormente es la versión más simple para una
+\gls{rnn}. El cálculo de los valores de salida con las
+\vref{eq:rnn-hidden,eq:rnn-out} puede traer problemas con los gradientes y, por
+tanto, limitar la capacidad de la información de viajar en el
+tiempo\footnotetext{This problems are know as vanishing/exploding gradient. The
+  problem of \emph{exploding} gradients can be solve by gradient clipping
+  (scaling it if the norm is too big). However for the \emph{vanishing}
+  gradient problem, it is neccesary to change the \gls{rnn}
+  architecture.}. Introducimos dos variantes nuevas para solucionar estos
+problemas:
+\begin{itemize}
+  \item \textbf{\gls*{lstm}}. Una unidad de \gls{lstm} está compuesta de
+  diferentes gates que definen su comportamiento. Su nombre viene dado por la
+  función que realizan: \emph{input} gate (\(i\)), \emph{output} gate (\(o\))
+  and \emph{forget} gate (\(f\)). En la \vref{fig:lstm} se muestra una
+  representación gráfica de este tipo de elementos.
+  \begin{figure}[ht]
+    \centering
+    \includesvg[width=.6\textwidth]{LSTM.svg}
+    \caption[\acrlong*{lstm}]{\acrfull{lstm} representation. Input (\(i\)),
+      output (\(o\)) and forget (\(f\)) gates are shown in the image.}
+    \label{fig:lstm}
+    \source{\citetitle{enwiki:1005032489}}
+  \end{figure}
+  \footnotetext{\cite{enwiki:1005032489}}
+
+  Su funcionamiento viene descrito por el siguiente conjunto de ecuaciones,
+  \begin{equation}
+    \begin{aligned}
+      \begin{pmatrix}
+        i \\
+        f \\
+        o \\
+        g
+      \end{pmatrix} &=
+      \begin{pmatrix}
+        \sigma \\
+        \sigma \\
+        \sigma \\
+        \tanh
+      \end{pmatrix}
+      W
+      \begin{pmatrix}
+        h^{t-1} \\
+        x^t
+      \end{pmatrix}, \\
+      c_t &= f \odot c_{t-1} + i \odot g, \\
+      h_t &= o \odot \tanh c_{t}. \\
+    \end{aligned}
+  \end{equation}
+  \item \textbf{\gls*{gru}}. Son otro tipo de gating mechanism introducido por
+  \autocite{cho14:learn_rnn} TODO. me he quedado aquí
+  \todo{estaba mirando \url{https://en.wikipedia.org/wiki/Gated_recurrent_unit}}
+\end{itemize}
+
 
 
 \section{Transformers}
