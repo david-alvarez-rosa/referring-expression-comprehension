@@ -36,8 +36,8 @@ grandes clases: joint embedding (see \vref{sec:joint}), modelos modulares (see
 \vref{sec:modular}) and graph convolution based models (see
 \vref{sec:graph}).
 
-\subsection{Joint embedding} \label{sec:joint}
-Los métodos de joint embedding son muy típicos en cualquiera de las tareas del
+\subsection{Multimodal embedding} \label{sec:joint}
+Los métodos de multimodal embedding son muy típicos en cualquiera de las tareas del
 aprendizaje multimodal. En ellos lo que se busca es encontrar un espacio
 multidimensional donde puedan ``convivir''\footnote{Este espacio
 multidmensional será típicamente \(\R^n\), que es un espacio normado. Una de
@@ -49,9 +49,9 @@ representada de manera gráfica en la \vref{fig:joint}.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=.75\textwidth]{Images/Joint.png}
-  \caption[Joint embedding technique]{Joint embedding into visual-semantic
-    space. Como se puede ver, las matching pairs quedan más cerca (en términos
-    de norma) que las non-matching pairs en el joint space.}
+  \caption[Multimodal embedding technique]{Multimodal embedding into
+    visual-semantic space. Como se puede ver, las matching pairs quedan más
+    cerca (en términos de norma) que las non-matching pairs en el joint space.}
   \label{fig:joint}
 \end{figure}
 
@@ -62,7 +62,43 @@ las features más relevantes) y para la codificación de frases se usan \gls{rnn
 (con, por ejemplo, \gls{lstm}) y transformers.
 
 El primer modelo de deep learning para referring expression generation and
-comprehension, es de \myCite{mao16:gener}.
+comprehension, es de \myCite{mao16:gener}, donde usan un modelo \gls{cnn} con
+el que extraen las features visuales y una red de tipo \gls{lstm} para
+\emph{generar} la referring expression. También da una solución para el
+problema inverso de \emph{comprehension}.
+
+Dentro de este tipo de modelos encaja el propuesto por
+\myCite{bellver20:refvos} donde también se usa una red neuronal de tipo
+\gls{cnn} para la codificación de la imagen, pero como codificador de lenguaje
+se usa el transformer. Después para conseguir el multimodal embedding, se
+convierte la frase linguistica codificada en un vector 256-dimensional y se
+multiplica element-wise con las features visuales. Este modelo será estudiado
+en profundidad en \vref{cha:model}.
+
+\todo{Aquí se puede hablar de otros attention mechanism.}
 
 \subsection{Modelos modulares} \label{sec:modular}
+Los modelos modulares han sido usado con éxito en muchas tareas tanto en el
+ámbito de \gls{cv}, como en \gls{nlp}. La técnica usada en estos casos, es la
+de descomponer la \gls{re} en diferentes componentes, en los que se busca
+atacar diferentes razonamientos.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=.75\textwidth]{Images/MattNet.png}
+  \caption[\gls*{mattnet}]{\gls{mattnet}: given an expression, it is divided
+    into three phrase embeddings, which are input to three visual modules that
+    process the described visual region in different ways and compute
+    individual matching scores.}
+  \label{fig:mattnet}
+  \source{From \cite{yu18:mattn}}
+\end{figure}
+
+Un ejemplo de estos modelos modulares es el presentado por \myCite{yu18:mattn},
+que se encuentra representado gráficamente en la \vref{fig:mattnet}. En este
+caso hay tres módulos diferenciados: el \emph{subject} module, el
+\emph{location} module y el módulo de \emph{relationship}. Cada uno de ellos
+computa diferentes scores, que después son usados para el cálculo de un overall
+score.
+
 \subsection{Graph convolution} \label{sec:graph}
