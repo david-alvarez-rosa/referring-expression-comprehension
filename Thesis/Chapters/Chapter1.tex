@@ -6,7 +6,7 @@
 \epigraphhead[75]{
   \epigraph{\itshape Begin at the beginning, the King said
     gravely, ``and go on till you come to the end: then stop.''}
-  {---Lewis Carroll\\ \textit{Alice in Wonderland}}
+  {---\textsc{Lewis Carroll}\\ \textit{Alice in Wonderland}}
 }
 
 
@@ -27,9 +27,15 @@ En la \vref{fig:demo} podemos ver unos ejemplos de este tipo de tareas.
 \todo{explicar aquí los ejemplos que se muestran}.
 
 
-\section{Objectives}
+\section{Description and motivation}
+
+\subsection{Objectives}
 
 Este trabajo fin de grado tiene varios objetivos diferenciados.
+
+\todo{Objetivos de conocimiento de lo aprendido, objetivos de mejorar modelos
+  existentes, objetivos de añadir herramientas de visualización, objetivos de
+  eficiencia de hacer más rápido el procesado de imágenes, \ldots}
 
 
 \section{Aplicaciones}
@@ -38,28 +44,74 @@ El uso de referring expression comprehension puede tener aplicaciones de
 diversa índole. En los últimos años están cobrando una gran importancia la
 robótica y la domótica. Este trabajo facilita la interacción entre humano y
 robot/ordenador. Por ejemplo, podría facilitar la comprensión de órdenes de un
-humano por parte de una máquina. Una posible aplicación sería la mostrada en la
-\vref{fig:robot}
+humano por parte de una máquina.
+
+\subsubsection{Teóricas}
+La creación y estudio de modelos en el ámbito del aprendizaje multimodal usando
+deep learning puede terminar teniendo aplicaciones en ámbitos diferentes. La
+transferencia de conocimiento entre ámbitos en la \gls{ai} es algo típico:
+muchas veces \gls{cv} y \gls{nlp} terminan compartiendo técnicas similares.
+
+En este caso concreto, tenemos precisamente la interacción entre modelos para
+lenguaje y para visión. Esto podría ser útil en el desarrollo de nuevos modelos
+en el futuro en el ámbito del aprendizaje multimodal.
+
+\subsubsection{Industria}
+En el ámbito industrial, el modelo aquí presentado podría tener aplicaciones en
+diversos ámbitos. Podrían facilitar la interacción entre operario/máquina,
+mejorando así la eficiencia de una determinada empresa y optimizando los
+procesos.
 
 \begin{figure}[ht]
   \centering
-  \missingfigure{Show a figure of a robot picking objects}
-  \caption[TODO]{TODO: ejemplos de comprehension}
+  \includegraphics[width=.75\textwidth]{Images/Robots.png}
+  \caption[Robots en fábrica de automóviles]{Robots en funcionamiento dentro de
+  una fábica de automóviles. Estos procesos suelen estar completamente
+  automizados y controlados en tiempo real.}
+  \label{fig:robots}
+\end{figure}
+
+Entre ellos podría ser el del mundo automovilístico, como se
+muestra en la \vref{fig:robots}, donde varios brazos robóticos operan sobre un
+vehículo en fabricación. Poder referirse a objetos/partes del vehículo usando
+frases lingüisticas sería de gran utilidad.
+
+\subsubsection{Domótica y \acrshort*{iot}}
+En el mundo de la domótica y de \gls{iot}, tan de moda a día de hoy.
+
+\begin{figure}[ht]
+  \centering
+  \begin{subfigure}[b]{.55\textwidth}
+    \centering
+    \includegraphics[height=4.5cm]{Images/Robot.jpg}
+    \caption{Cubos de diferentes colores.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{.4\textwidth}
+    \centering
+    \includegraphics[height=4.5cm]{Images/Robot2.jpg}
+    \caption{Alimentos y medicamentos.}
+  \end{subfigure}
+  \caption[Ejemplos de aplicaciones en robótica]{Ejemplos de aplicaciones en
+    robótica. Pueden facilitar muchas interacciones y tareas del día a día.}
   \label{fig:robot}
 \end{figure}
 
+Robot cogiendo alimentos y medicamentos de una estantería y apilando los
+seleccionados en una caja.
+
+
+\subsubsection{Seguridad}
+
 Otro posible aplicación sería la usado por la policía en el control de la
-seguridad en las carreteras. En la \vref{fig:dgt} podemos ver uno de los drones
-usados actualmente por\ldots\ldots
+seguridad en las carreteras. En la \vref{fig:dgt} podemos ver uno de estos
+drones.
 
 \begin{figure}[ht]
   \centering
-  \missingfigure{Mostra una figura de un dron siguiendo a coches, de la DGT.}
+  \includegraphics[width=.75\textwidth]{Images/Drone.jpg}
   \caption[TODO]{TODO}
   \label{fig:dgt}
 \end{figure}
-
-\todo{Una vez puesta la imagen revisar este párrafo.}
 
 Este tipo de drones podrían incorporar sistemas como el presentado en este
 trabajo fin de grado para poder realizar seguimiento de vehículos mediante
@@ -78,9 +130,27 @@ carreteras. Este trabajo, como ya se ha comentado anteriormente, se centra en
 comprender las \gls{re}.
 
 
-\section{State of the Art}
+\section{Overview of chapters}
 
-Hay diferentes
+Aquí se presentará una descripción de los diferentes capítulos que componen
+esta tesis.
 
+\begin{description}
+  \item[Chapter 1] Hey
+  \item[Chapter 2] Hey
+  \item[Chapter 3] More hey.
+  \item[Chapter 4] Hey
+  \item[Chapter 5] More hey.
+  \item[Chapter 6] Hey
+  \item[Chapter 7] More hey.
+\end{description}
 
-\section{Contributions}
+También se incluirá material suplementario en los anexos.
+
+\begin{description}
+  \item[Appendix A] Hey
+  \item[Appendix B] Hey
+\end{description}
+
+También comentar que se pueden encontrar al final las referencias, una lista de
+acrónimos y un índice alfabético.

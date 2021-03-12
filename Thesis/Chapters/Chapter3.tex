@@ -1,213 +1,68 @@
 % -*- TeX-master: "../Thesis.tex" -*-
 
 
-\chapter{Model}
+\chapter{Referring Expression Comprehension}
 
 \epigraphhead[75]{
   \epigraph{\itshape Begin at the beginning, the King said
     gravely, ``and go on till you come to the end: then stop.''}
-  {---Lewis Carroll\\ \textit{Alice in Wonderland}}
+  {---\textsc{Lewis Carroll}\\ \textit{Alice in Wonderland}}
 }
 
 
-\lettrine{E}{l} modelo.
+\lettrine{L}{anguage} ipsum dolor sit amet, consectetur
+adipiscing elit, sed do eiusmod and incididunt ut labore et dolore magna
+aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+id est laborum.
 
 
-\section{Definition}
+\section{Problem formulation}
+
+Hey
 
 
-\section{Trainning}
+\section{Datasets and Evaluation}
 
-Los diferentes modelos han sido entrenados.
-
-\subsection{Datasets}
-
-Para entrenar estos diferentes modelos.
-
-\subsection{Loss functions}
-
-Para entrenar los modelos es necesario tener unas funciones de pérdida, que
-deberán ser diferenciables ya que en el proceso de optimización necesitaremos
-usar las derivadas parciales de la función de pérdida respecto a los diferentes
-parámetros a entrenar.
-
-En nuestro caso, siempre trataremos con dos clases (la segmentación será una
-máscara binaria).
-
-\subsubsection{Cross Entropy}
-Una de las funciones de pérdida más conocidas en la segmentación de imágenes es
-la de \gls{ce}. Tenemos dos distribuciones de probabilidad
-
-\begin{enumerate}
-  \item La \textbf{predicción} puede ser \(P(\hat{Y} = 0) = \hat{p}\) or
-  \(P(\hat{Y} = 1) = 1 - \hat{p}\).
-  \item The \textbf{ground truth} can either be \(P(Y = 0) = p\) or
-  \(P(Y = 1) = 1 - p\). Siempre se cumplirá \(p \in \{0, 1\}\).
-\end{enumerate}
-
-La función de pérdida se define entonces como
-\begin{equation}
-  \text{CE}(p, \hat{p}) = -(p\log\hat{p} + (1 - p)\log(1 - \hat{p})).
-\end{equation}
-Teniendo en cuenta que \(p \in \{0, 1\}\), la función de pérdida puede ser
-reescrita de la siguiente manera,
-\begin{equation}
-  \text{\gls*{ce}}(p, \hat{p}) =
-  \begin{cases}
-    -\log(1 - \hat{p}) & p = 0 \\
-    -\log\hat{p} & p = 1.
-  \end{cases}
-\end{equation}
-Es decir, si \(p = 1\), la función de pérdida será \(0\) \gls{iff} \(\hat{p} =
-1\) y será más grande cuanto más diferentes sean \(p\) y \(\hat{p}\). La
-penalización crecerá exponencialmente hasta hacerse infinita para el valor
-\(\hat{p} = 0\). El caso \(p = 0\) es simétrico.
-
-A continuación se discutirán diversas variaciones de esta función de pérdida
-que pueden ser útiles para entrenar diversos modelos neuronales.
-
-\begin{itemize}
-  \item \textbf{\gls*{wce}}. Es una variante de \gls{ce} en la que los ejemplos
-  positivos son weighted por un coeficiente \(\beta\). Se define de la
-  siguiente manera,
-  \begin{equation}
-    \text{\gls*{wce}}(p, \hat{p}) =
-    -(\beta p\log\hat{p} + (1 - p)\log(1 - \hat{p})).
-  \end{equation}
-  Típicamente se usa cuando aparecen clases desequilibradas. No es demasiado
-  interesante para este caso.
-  \item \textbf{\gls*{bce}}. Es similar a \gls{wce} con la única diferencia que
-  también se añade un peso a los ejemplos negativos. Se define de la siguiente
-  manera,
-  \begin{equation}
-    \text{\gls*{bce}}(p, \hat{p}) =
-    -(\beta p\log\hat{p} + (1 - \beta)(1 - p)\log(1 - \hat{p})).
-  \end{equation}
-  \item \textbf{\gls*{fl}}. Es una variante de \gls{ce} en la que se incide aún
-  más en los elementos del dataset más \emph{complicados}. Estos son los que
-  tienen un valor de \(\hat{p}\) intermedio entre \(0\) y \(1\). Se define de
-  la siguiente manera,
-  \begin{equation}
-    \text{\gls*{fl}}(p, \hat{p}) =
-    -(\alpha (1 - \hat{p})^\gamma p\log\hat{p} +
-    (1 - \alpha)p^\gamma (1 - p)\log(1 - \hat{p})).
-  \end{equation}
-  Cuando \(\gamma = 0\) obtenemos \gls{bce}.
-  \todo{No sé si merecerá la pena explicar esto. Es de
-    https://lars76.github.io/2018/09/27/loss-functions-for-segmentation.html}
-  \item \textbf{\gls*{dnc}}.
-\end{itemize}
-
-\subsubsection{Overlap measures}
-Otro tipo de medidades surgen con el uso de la intersección y la unión de la
-segmentación predicha y el ground truth. Este tipo de funciones de pérdida nos
-aportan información \emph{global}. El conocido Jaccard index o coeficiente \gls{iou},
-\begin{equation}
-  J(A,B) = \frac{|A \cap B|}{|A \cup B|}
-  = \frac{|A \cap B|}{|A| + |B| - |A \cap B|},
-\end{equation}
-es típicamente usado para medir el accuracy de un modelo, pero no puede ser
-usado como función de pérdida al no ser una aplicación diferenciable. Sí que
-será usado para la evaluación del modelo en la \vref{sec:evaluation}
-
-\begin{itemize}
-  \item \textbf{\gls*{dl}}. Se basa en el \gls{dc}, un coeficiente similar a
-  \gls{iou}, que se define de la siguiente manera,
-  \begin{equation}
-    \text{\gls*{dc}}(X, Y) = \frac{2|X \cap Y|}{|X| + |Y|}.
-  \end{equation}
-  Este dice coefficiente puede ser definido como una función de pérdida,
-  \begin{equation}
-    \text{\gls*{dl}}(p, \hat{p})
-    = 1 - \frac{2\sum p_{h, w}\hat{p}_{h, w}}{\sum p_{h, w} + \sum \hat{p}_{h, w}},
-  \end{equation}
-  donde \(p_{h, w} \in \{0, 1\}\), \(0 \leq \hat{p}_{h, w} \leq 1\) y los
-  sumatorios se extienden por toda la imagen en el width \(w\) y el height
-  \(h\).
-  \item \textbf{\gls*{ti}}. Es una generalización de \gls{dl}. Se define de la
-  siguiente manera,
-  \begin{equation}
-    \text{\gls*{ti}}(p, \hat{p})
-    = 1 - \frac{p\hat{p}}{p\hat{p} + \beta(1 - p)\hat{p} + (1 - \beta)p(1 - \hat{p})}.
-  \end{equation}
-  Con el valor \(\beta = \frac{1}{2}\), recuperamos la función anterior
-  \gls{dl}.
-\end{itemize}
+Hey
 
 
-\subsubsection{\gls*{iou} loss}
+\section{Related work}
 
-\cite{yu16:unitb}
+Los métodos actuales \gls{sota} para \gls{rec} se pueden dividir en tres
+grandes clases: joint embedding (see \vref{sec:joint}), modelos modulares (see
+\vref{sec:modular}) and graph convolution based models (see
+\vref{sec:graph}).
 
-
-\subsubsection{Combinations}
-Muchas más funciones de pérdida pueden ser obtenidas por simple combinación
-lineal de las anteriores. La combinación,
-\begin{equation}
-  \text{\gls*{ce}}(p, \hat{p}) + \text{\gls*{dl}}(p, \hat{p}),
-\end{equation}
-es bastante popular, ya que combina información local (\gls{ce}) con
-información global (\gls{dl}).
-
-
-\section{Results}
-Hey, results here.
-
-\subsection{Numerical Evaluation} \label{sec:evaluation}
-
-Para la evaluación del modelo se usará el concepto de intersección y de unión
-entre la segmentación predecida (que es una máscara \emph{binaria}) y el ground
-truth (en la \vref{fig:sets} se muestran unos diagramas con estos
-conceptos).
+\subsection{Joint embedding} \label{sec:joint}
+Los métodos de joint embedding son muy típicos en cualquiera de las tareas del
+aprendizaje multimodal. En ellos lo que se busca es encontrar un espacio
+multidimensional donde puedan ``convivir''\footnote{Este espacio
+multidmensional será típicamente \(\R^n\), que es un espacio normado. Una de
+las caracterísitcas deseables sería que las codificaciones de imágnes y
+lenguaje similares entre ellas quedasen ``cerca'' en este espacio (en términos
+de norma).} codificaciones de imagen y lenguaje en común. Esta idea viene
+representada de manera gráfica en la \vref{fig:joint}.
 
 \begin{figure}[ht]
-  \begin{subfigure}[b]{.5\textwidth}
-    \centering
-    \includesvg[width=.55\textwidth]{Union_of_sets_A_and_B.svg}
-    \caption{Union of sets \(A\) and \(B\).}
-  \end{subfigure}
-  \begin{subfigure}[b]{.5\textwidth}
-    \centering
-    \includesvg[width=.55\textwidth]{Intersection_of_sets_A_and_B.svg}
-    \caption{Intersection of sets \(A\) and \(B\).}
-  \end{subfigure}
-  \caption[Union and intersection of sets \(A\) and \(B\)]{Union and
-    intersection of sets \(A\) and \(B\).}
-  \label{fig:sets}
+  \centering
+  \includegraphics[width=.75\textwidth]{Images/Joint.png}
+  \caption[Joint embedding technique]{Joint embedding into visual-semantic
+    space. Como se puede ver, las matching pairs quedan más cerca (en términos
+    de norma) que las non-matching pairs en el joint space.}
+  \label{fig:joint}
 \end{figure}
 
-De aquí surge el conocido Jaccard index o coeficiente \gls{iou},
-\begin{equation}
-  J(A,B) = \frac{|A \cap B|}{|A \cup B|}
-  = \frac{|A \cap B|}{|A| + |B| - |A \cap B|},
-\end{equation}
-que es típicamente usado para medir el accuracy de un modelo, pero ---como
-hemos comentado anteriormente--- no puede ser usado como función de pérdida al
-no ser una aplicación diferenciable.
+Por tanto, aquí, para realizar \gls{rec}, lo primero que haremos es codificar
+la imagen y la \gls{re} por separado en un mismo espacio vectorial. Para ello,
+\gls{cnn} son muy útiles para generar representaciones de la imagen (extrayendo
+las features más relevantes) y para la codificación de frases se usan \gls{rnn}
+(con, por ejemplo, \gls{lstm}) y transformers.
 
-\begin{figure}[ht]
-  \begin{subfigure}[b]{.45\textwidth}
-    \centering
-    \includegraphics[width=.8\textwidth]{Images/Object detection Bounding Boxes.jpg}
-    \caption{Bounding boxes example.}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{.45\textwidth}
-    \centering
-    \includegraphics[width=.8\textwidth]{Images/Intersection over Union.png}
-    \caption{\gls{iou} visual equation.}
-  \end{subfigure}
-  \caption[Explicación del Jaccard Index]{Explicación y ejemplo del Jaccard
-    Index en el caso de bounding boxes.}
-\end{figure}
+El primer modelo de deep learning para referring expression generation and
+comprehension, es de \myCite{mao16:gener}.
 
-Este índice aporta información relevante sobre cómo de ajustada está una
-bounding box\footnote{Se estudia el caso de bounding box por simplicidad, pero
-  el mismo concepto aplica en el caso de segmentación pixel a pixel.}. Es
-evidente que el Jaccard index toma un valor entre \(0\) y \(1\), siendo \(0\)
-cuando no hay intersección entre las bounding boxes y tomando el valor de \(1\)
-cuando la correspondencia es exacta.
-
-\subsection{Visual Evaluation}
-
-Aquí mostraremos de una manera visual diferentes ejemplos y patologías
-encontradas en el procesado del sistema.
+\subsection{Modelos modulares} \label{sec:modular}
+\subsection{Graph convolution} \label{sec:graph}

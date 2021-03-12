@@ -3,11 +3,19 @@
 
 \chapter{Theoretical Background}
 
-\epigraphhead[75]{
-  \epigraph{\itshape Begin at the beginning, the King said
-    gravely, ``and go on till you come to the end: then stop.''}
-  {---Lewis Carroll\\ \textit{Alice in Wonderland}}
+\epigraphhead[70]{
+  \epigraph{\itshape
+    Wwithout theory, there is nothing to revise. \\
+    Without theory, experience has no meaning. \\
+    Without theory, one has no questions to ask. \\
+    Hence, without theory, there is no learning.}
+{---\href{https://en.wikipedia.org/wiki/W._Edwards_Deming}
+  {\scshape William Edwards}\footnotemark}
 }
+
+\footnotetext{Dr.\ William Edwards Deming (October 14, 1900 -– December 20, 1993)
+  was an American engineer, statistician, professor, author, lecturer, and
+  management consultant.}
 
 
 \lettrine{A}{neural} network, more properly referred to as an \gls{ann} are
@@ -371,13 +379,13 @@ entrada \(\mathbf{y}^{t}\). Prior inputs
 of all the inputs until time \(t\).
 
 \begin{figure}[ht]
-  \begin{subfigure}[b]{.25\textwidth}
+  \begin{subfigure}[b]{.2\textwidth}
     \centering
     \includegraphics[height=4cm]{Images/RNN.png}
     \caption{Basic \gls{rnn}.}
     \label{fig:rnn-a}
   \end{subfigure}\hfill
-  \begin{subfigure}[b]{.75\textwidth}
+  \begin{subfigure}[b]{.8\textwidth}
     \centering
     \includegraphics[height=4cm]{Images/Unfolded RNN.png}
     \caption{Unfolded basic \gls{rnn}.}
@@ -454,46 +462,116 @@ problemas:
   \begin{figure}[ht]
     \centering
     \includesvg[width=.6\textwidth]{LSTM.svg}
-    \caption[\acrlong*{lstm}]{\acrfull{lstm} representation. Input (\(i\)),
+    \caption[\acrfull*{lstm}]{\acrfull{lstm} representation. Input (\(i\)),
       output (\(o\)) and forget (\(f\)) gates are shown in the image.}
     \label{fig:lstm}
-    \source{\citetitle{enwiki:1005032489}}
+    \source{From \citetitle{enwiki:1005032489}}
   \end{figure}
   \footnotetext{\cite{enwiki:1005032489}}
 
-  Su funcionamiento viene descrito por el siguiente conjunto de ecuaciones,
+  El valor de los diferentes gates viene descrito por la ecuación siguiente,
   \begin{equation}
-    \begin{aligned}
-      \begin{pmatrix}
-        i \\
-        f \\
-        o \\
-        g
-      \end{pmatrix} &=
-      \begin{pmatrix}
-        \sigma \\
-        \sigma \\
-        \sigma \\
-        \tanh
-      \end{pmatrix}
-      W
-      \begin{pmatrix}
-        h^{t-1} \\
-        x^t
-      \end{pmatrix}, \\
+    \begin{pmatrix}
+      i \\
+      f \\
+      o \\
+      g
+    \end{pmatrix} =
+    \begin{pmatrix}
+      \sigma \\
+      \sigma \\
+      \sigma \\
+      \tanh
+    \end{pmatrix}
+    W
+    \begin{pmatrix}
+      h^{t-1} \\
+      x^t
+    \end{pmatrix}.
+  \end{equation}
+  Y, a continuación, se puede calcular el valor de la celda y del hidden state con,
+  \begin{equation}
+    \begin{cases}
       c_t &= f \odot c_{t-1} + i \odot g, \\
       h_t &= o \odot \tanh c_{t}. \\
-    \end{aligned}
+    \end{cases}
   \end{equation}
+  El operador \(\odot\) es la multiplicación element wise conocido como
+  Hadamard product.
   \item \textbf{\gls*{gru}}. Son otro tipo de gating mechanism introducido por
-  \autocite{cho14:learn_rnn} TODO. me he quedado aquí
-  \todo{estaba mirando \url{https://en.wikipedia.org/wiki/Gated_recurrent_unit}}
+  \myCite{cho14:learn_rnn}. Su funcionamiento se rige por el siguiente sistema
+  de ecuaciones,
+  \begin{equation}
+    \begin{cases}
+      z_{t}&=\sigma _{g}(W_{z}x_{t}+U_{z}h_{t-1}+b_{z}), \\
+      r_{t}&=\sigma _{g}(W_{r}x_{t}+U_{r}h_{t-1}+b_{r}), \\
+      {\hat {h}}_{t}&=\phi _{h}(W_{h}x_{t}+U_{h}(r_{t}\odot h_{t-1})+b_{h}), \\
+      h_{t}&=(1-z_{t})\odot h_{t-1}+z_{t}\odot {\hat {h}}_{t}.
+    \end{cases}
+  \end{equation}
+  Donde \(\hat{h}_t\) se le conoce como candidate activation vector, \(z_t\) es
+  el update gate vector y \(r_t\) es el reset gate vector. Las funciones de
+  activación \(\sigma_g\) se corresponde con la sigmoid function y
+  \(\phi_{h}\) es la tangente hiperbólica. Otras funciones de activación
+  también serían posibles.
 \end{itemize}
 
+\subsection{Trainning: \acrlong*{bptt}}
+
+Analogamente a otros modelos, aquí el entrenamiento de las \gls{rnn} también se
+realiza haciendo uso de métodos de optimización de primer orden, i.e.\
+calculando las derivadas parciales de la función de error respecto los
+parámetros del modelo.
+
+En este caso concreto de \gls{rnn}, el proceso de backpropagation es conocido
+como \gls{bptt}, que es una generalización de backpropagation en las
+feed-forward networks.
 
 
-\section{Transformers}
-\label{sec:transformers}
+\section{Transformers} \label{sec:transformers}
 
+The Transformer es un modelo de deep learning introducido recientemente en el
+paper \citetitle{vaswani17:atten_all_you_need}
+\footcite{vaswani17:atten_all_you_need}. Aquí presentaban la idea de que
+recurrent building blocks no son necesarios en un modelo para funcionar bien en
+tareas de \gls{nlp}. En palabras de sus autores:
 
-\section{Deep Neural Network Architectures}
+\begin{quoteBox}
+  \itshape
+  \ldots the Transformer, the first sequence transduction model based entirely
+  on attention, replacing the recurrent layers most commonly used in
+  encoder-decoder architectures with multi-headed self-attention.
+  \tcblower
+  \hfill \upshape
+  ---Ashish Vaswani et al.
+\end{quoteBox}
+
+Proponen una nueva arquitectura que es capaz de mantener un mecanismo de
+atención mientras procesa secuencias temporales en paralelo: toda la secuencia
+en su conjunto en vez de ir elemento a elemento.
+
+\begin{figure}[p]
+  \centering
+  \includegraphics[height=.65\textheight]{Images/Transformer.png}
+  \caption[Transformer model architecture]{Transformer model
+    architecture/topology. Aquí se pueden observar los dos segmentos
+    principales: el encoder y el decoder.}
+  \label{fig:transformer}
+  \source{From \citetitle{vaswani17:atten_all_you_need}}
+\end{figure}
+\footnotetext{\cite{vaswani17:atten_all_you_need}}
+
+En la actualidad existen diferentes tipos de arquitecturas basadas en esta
+idea. La arquitectura original del modelo del Transformer es la mostrada en la
+\vref{fig:transformer}. Como se puede ver se pueden distinguir dos segmentos
+diferenciados:
+\begin{itemize}
+  \item \textbf{Encoder segment}. Toma las entradas, genera un embedding de
+  ellas, codifica las posiciones, computes where each word has to attend to in
+  a multi-context setting y después genera como salida una representación nueva
+  intermedia.
+  \item \textbf{Decoder segment}. Take the entries in the target language,
+  generate an embedding for them with encoded positions, calculate in which
+  each word has to attend, and then combines the output of the encoder with the
+  output so far. The result is a prediction for the next token.
+\end{itemize}
