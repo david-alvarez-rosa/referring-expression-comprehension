@@ -1,0 +1,18 @@
+#!/bin/bash
+
+
+# Update to vector
+
+rsync -avzhP \
+      --exclude checkpoints/ \
+      --exclude .git \
+      --exclude __pycache__ \
+      --exclude '.#*' \
+      --exclude 'flycheck_*' \
+      --exclude .gitignore \
+      --exclude .venv \
+      --exclude .cache \
+      --exclude results \
+      --exclude images \
+      /home/david/Documents/UPC/Cuatrimestre\ 9/Bachelor\'s\ Thesis/ \
+      51.75.163.95:~/"Bachelor\'s\ Thesis/"

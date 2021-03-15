@@ -26,7 +26,7 @@ switch ($_POST['imgMethod']) {
 $referringExpression = $_POST['referringExpression'];
 
 // TODO: remember to check if it's neccesary to set XDG_CACHE_HOME
-$command = 'source Code/.venv/bin/activate &&'.
+$command = '. Code/.venv/bin/activate 2>&1 &&'.
          ' XDG_CACHE_HOME=.cache/ MPLCONFIGDIR=.cache/' .
          ' python Code/comprehend.py' .
          ' --resume Code/checkpoints/model_refcoco.pth' .
@@ -39,12 +39,14 @@ $command = 'source Code/.venv/bin/activate &&'.
 exec($command, $outputCommand);
 
 $output = [
+    'command' => $command,
     'outputCommand' => $outputCommand,
     'resultImgSrc' => 'api/' . $baseFileName . '.out.jpg'
 ];
 
 if (isset($_POST['debug'])) {
     print_r($_POST);
+    echo $command;
     echo $outputCommand;
     print_r($outputCommand);
     // var_dump($outputCommand);
