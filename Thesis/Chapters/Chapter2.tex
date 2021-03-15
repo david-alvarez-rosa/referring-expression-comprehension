@@ -57,15 +57,15 @@ encontrar diferentes.
   tipo de modelo neuronales maś sencillo que existe y sobre el que se
   construyen modelos más complejos. Una descripción más detallada sobre este
   tipo de redes puede ser encontrado en la \vref{sec:fully-conn-layer}.
-  \item \textbf{\acrlong*{cnn}}. Este tipo de redes neuronales son
-  especialmente útiles en el procesado de imágenes, ya que permiten preservar
-  la información espacial de relación entre píxeles. Serán estudiadas en la
+  \item \textbf{\acl*{cnn}}. Este tipo de redes neuronales son especialmente
+  útiles en el procesado de imágenes, ya que permiten preservar la información
+  espacial de relación entre píxeles. Serán estudiadas en la
   \vref{sec:conv-neur-netw}.
-  \item \textbf{\acrlong*{rnn}}. Modelos neuronales ideales para el análisis
-  de series temporales (como puede ser texto o audio). Serán estudiadas en la
+  \item \textbf{\acl*{rnn}}. Modelos neuronales ideales para el análisis de
+  series temporales (como puede ser texto o audio). Serán estudiadas en la
   \vref{sec:recurr-neur-netw}.
   \item \textbf{Transformers}. Los modelos basados en transformadores forman
-  parte del \acrlong{sota} actual\footnote{En \today, fecha actual del
+  parte del \acl{sota} actual\footnote{En \today, fecha actual del
     documento.}. Están siendo usados de manera extensiva en \gls{nlp} y
   estudiando sus posibles aplicaciones en visión por computadores y procesado
   de imágen. Serán descritos en la \vref{sec:transformers}.
@@ -250,7 +250,7 @@ tipo de arquitecturas.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{Images/Architecture LeNet-5.png}
-  \caption[Ejemplo de topología de una \acrshort{cnn} (LeNet-5)]{Ejemplo de la
+  \caption[Ejemplo de topología de una \acs*{cnn} (LeNet-5)]{Ejemplo de la
     topología de una \gls{cnn}. Concretamente es
     \href{http://yann.lecun.com/exdb/lenet}{LeNet-5} (ver
     \url{http://yann.lecun.com/exdb/lenet}), una red convolucional creada por
@@ -276,7 +276,7 @@ ha definido en \vref{eq:math-conv}. En la práctica, las imágenes de
 entrada\footnote{En niveles más profundos de una \gls{cnn} dejaremos de
   entender las capas como imágenes y las llamares como mapas de
   características} son tensores tridimensionales para las imágenes
-\acrshort{rgb}. En las capas convolucionales se hace una convolución
+\acs{rgb}. En las capas convolucionales se hace una convolución
 bidimensional con un filtro (también llamado kernel) tridimensional sobre cada
 canal de la imagen de entrada y después se apilan todas estos mapas de
 características en el tensor de salida, donde el número de canales de salida
@@ -391,9 +391,9 @@ of all the inputs until time \(t\).
     \caption{Unfolded basic \gls{rnn}.}
     \label{fig:rnn-b}
   \end{subfigure}
-  \caption[Basic topology of \acrfull{rnn}]{Basic topology of
-    \acrfull{rnn}. Two versions of the same network are shown, one is the
-    compact version and the other is the same network but unfolded in time.}
+  \caption[Basic topology of \acl*{rnn}]{Basic topology of \acf{rnn}. Two
+    versions of the same network are shown, one is the compact version and the
+    other is the same network but unfolded in time.}
   \label{fig:rnn}
   \source{TODO. Citar es de stanford también}
 \end{figure}
@@ -411,8 +411,8 @@ recogidos en la \vref{fig:rnn-types}.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{Images/RNN types.png}
-  \caption[Types of architectures for \gls{rnn}]{Types of architectures for
-    \gls{rnn}. All posibilities are considered (i.e.\ all combinations are
+  \caption[Types of architectures for \acl*{rnn}]{Types of architectures
+    for \gls{rnn}. All posibilities are considered (i.e.\ all combinations are
     presented).}
   \label{fig:rnn-types}
   \source{TODO. Es de Stanford curso}
@@ -462,8 +462,8 @@ problemas:
   \begin{figure}[ht]
     \centering
     \includesvg[width=.6\textwidth]{LSTM.svg}
-    \caption[\acrfull*{lstm}]{\acrfull{lstm} representation. Input (\(i\)),
-      output (\(o\)) and forget (\(f\)) gates are shown in the image.}
+    \caption[\acl*{lstm}]{\acf{lstm} representation. Input (\(i\)), output
+      (\(o\)) and forget (\(f\)) gates are shown in the image.}
     \label{fig:lstm}
     \source{From \citetitle{enwiki:1005032489}}
   \end{figure}
@@ -516,7 +516,7 @@ problemas:
   también serían posibles.
 \end{itemize}
 
-\subsection{Trainning: \acrlong*{bptt}}
+\subsection{Trainning: \acl*{bptt}}
 
 Analogamente a otros modelos, aquí el entrenamiento de las \gls{rnn} también se
 realiza haciendo uso de métodos de optimización de primer orden, i.e.\

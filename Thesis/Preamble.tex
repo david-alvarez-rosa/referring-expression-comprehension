@@ -24,14 +24,7 @@
 \usepackage[nottoc]{tocbibind}
 \usepackage[symbol*, bottom, marginal, norule]{footmisc}
 \usepackage[type={CC}, modifier={by-nc-sa}, version={4.0}]{doclicense}
-
-
-
-% \usepackage[backend=biber, citestyle=verbose, bibstyle=alphabetic]{biblatex}
 \usepackage[backend=biber, style=alphabetic]{biblatex}
-
-
-
 \usepackage{imakeidx}
 \usepackage{epigraph}
 \usepackage{tikz, pgfplots}
@@ -43,7 +36,7 @@
 \usepackage{svg}
 \usepackage{varioref}
 \usepackage[pdfusetitle]{hyperref}
-\usepackage[toc, acronym, nomain, style=super]{glossaries}
+\usepackage[toc, acronym, nomain, style=super, shortcuts]{glossaries}
 \usepackage[noabbrev]{cleveref}
 
 
@@ -60,7 +53,7 @@
   inner = .75in,
   outer = .75in,
   bindingoffset = .25in,
-  % showframe
+  showframe
 }
 
 % Customize captions for floating elements.
@@ -359,6 +352,7 @@ p}{hola}
 % Change ToC title name.
 \addto\captionsenglish{
   \renewcommand{\contentsname}{Table of Contents}
+  \renewcommand{\acronymname}{List of Acronyms} % TODO change theses?
 }
 
 % Cite configuration.
