@@ -1,7 +1,7 @@
 % -*- TeX-master: "../Thesis.tex" -*-
 
 
-\chapter{Introduction}
+\chapter{Introduction} \label{cha:intro}
 
 \epigraphhead[75]{
   \epigraph{\itshape Begin at the beginning, the King said
@@ -19,23 +19,24 @@ entre computer vision y \gls{nlp}.
 \begin{figure}[ht]
   \centering
   \missingfigure{Hey there!}
-  \caption[TODO]{TODO: ejemplos de comprehension}
+  \caption[Examples of \acl*{rec}]{TODO: ejemplos de comprehension}
   \label{fig:demo}
 \end{figure}
 
 En la \vref{fig:demo} podemos ver unos ejemplos de este tipo de tareas.
-\todo{explicar aquí los ejemplos que se muestran}.
 
 
 \section{Description and motivation}
+
+Mirar el capítulo de motivation del Jordi Fortuny.
 
 \subsection{Objectives}
 
 Este trabajo fin de grado tiene varios objetivos diferenciados.
 
-\todo{Objetivos de conocimiento de lo aprendido, objetivos de mejorar modelos
-  existentes, objetivos de añadir herramientas de visualización, objetivos de
-  eficiencia de hacer más rápido el procesado de imágenes, \ldots}
+Objetivos de conocimiento de lo aprendido, objetivos de mejorar modelos
+existentes, objetivos de añadir herramientas de visualización, objetivos de
+eficiencia de hacer más rápido el procesado de imágenes.
 
 
 \section{Aplicaciones}
@@ -66,18 +67,24 @@ procesos.
   \centering
   \includegraphics[width=.75\textwidth]{Images/Robots.png}
   \caption[Robots en fábrica de automóviles]{Robots en funcionamiento dentro de
-  una fábica de automóviles. Estos procesos suelen estar completamente
-  automizados y controlados en tiempo real.}
+    una fábica de automóviles. Estos procesos suelen estar completamente
+    automizados y controlados en tiempo real.}
   \label{fig:robots}
+  \source{From \cite{online21:china_no}}
 \end{figure}
 
 Entre ellos podría ser el del mundo automovilístico, como se
 muestra en la \vref{fig:robots}, donde varios brazos robóticos operan sobre un
 vehículo en fabricación. Poder referirse a objetos/partes del vehículo usando
-frases lingüisticas sería de gran utilidad.
+frases lingüisticas sería de gran utilidad. Por ejemplo, un operario podría ver
+de manera visual que una de las soldaduras está mal realizada y ordenar al
+brazo robótico rehacerla con una \gls{re} del tipo: ``soldadura inferior de la
+puerta delantera derecha''.
 
 \subsubsection{Domótica y \acs*{iot}}
-En el mundo de la domótica y de \gls{iot}, tan de moda a día de hoy.
+En el mundo de la domótica y de \gls{iot}, tan de moda a día de hoy, también
+podría ser de utilidad el tema que concierne esta tesis. Principalmente por la
+facilidad que añade a la interacción entre máquinas y humanos.
 
 \begin{figure}[ht]
   \centering
@@ -94,14 +101,25 @@ En el mundo de la domótica y de \gls{iot}, tan de moda a día de hoy.
   \caption[Ejemplos de aplicaciones en robótica]{Ejemplos de aplicaciones en
     robótica. Pueden facilitar muchas interacciones y tareas del día a día.}
   \label{fig:robot}
+  \source{From \cite{limited21:china_arduin_robot_arm} and
+    \cite{iam21:futur_mater_handl}}
 \end{figure}
 
-Robot cogiendo alimentos y medicamentos de una estantería y apilando los
-seleccionados en una caja.
+En la \vref{fig:robot} podemos ver algunos ejemplos en los que se podría
+facilitar la interacción en tareas del día a día. En ella se ve un robot
+cogiendo cubos de diferentes colores y otro brazo robótico cogiendo alimentos y
+medicamentos de una estantería y apilando los seleccionados en una caja.
 
+No tan solo por la facilidad que esto podría añadir a la vida de muchas
+personas, sino también por el interés añadido que supondría para personas con
+discapacidad. Por ejemplo, una persona con algún tipo de dicapacidad física (o
+una persona mayor), podría necesitar ayuda para elegir productos en un
+supermercado. En este caso, un brazo robótico podría ayudarle, y este trabajo
+serviría de enlace entre los dos y facilitaría la interacción. La persona
+podría referirse a los productos que desea adquirir usando simplemente la voz y
+refiriendose a ello en un lenguaje \emph{natural}.
 
 \subsubsection{Seguridad}
-
 Otro posible aplicación sería la usado por la policía en el control de la
 seguridad en las carreteras. En la \vref{fig:dgt} podemos ver uno de estos
 drones.
@@ -109,8 +127,11 @@ drones.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=.75\textwidth]{Images/Drone.jpg}
-  \caption[TODO]{TODO}
+  \caption[Drones empleados para la seguridad vial]{Imagen de uno de los drones
+    que pueden ser empleados por las autoridades con el fin de garantizar la
+    seguridad vial.}
   \label{fig:dgt}
+  \source{TODO}
 \end{figure}
 
 Este tipo de drones podrían incorporar sistemas como el presentado en este
@@ -119,30 +140,47 @@ comandos por voz. Por ejemplo se podrían usar estructuras sintácticas
 compuestas por acción y \gls{re}, como podrían ser las siguientes.
 
 \begin{itemize}
-  \item \textbf{Acciones}: seguir, grabar, tomar velocidad, etc.
-  \item \textbf{\gls*{re}}: coche azul/negro/rojo/\ldots, camión grande, coche
-  deportivo, furgoneta de la derecha, etc.
+  \item \textbf{Acciones}. Diferentes acciones podrían ser deseadas para
+  controlar y garantizar la seguridad vial como: seguir, grabar, tomar
+  velocidad, etc.
+  \item \textbf{\gls*{re}}. Se correspondería con frases linguisticas que
+  identificaran al vehículo a estudiar o al infractor al que perseguir: coche
+  azul/negro/rojo/\ldots, camión grande, coche deportivo, furgoneta de la
+  derecha, etc.
 \end{itemize}
 
 De esta manera, combinaciones como: ``toma velocidad del coche negro'' o
 ``graba al coche deportivo'' podrían ayudar al control de la seguridad en las
 carreteras. Este trabajo, como ya se ha comentado anteriormente, se centra en
-comprender las \gls{re}.
+\gls{rec} y no en el uso que se hace de esa comprehension a posteriori.
 
 
-\section{Overview of chapters}
+\section{Overview of thesis}
 
 Aquí se presentará una descripción de los diferentes capítulos que componen
 esta tesis.
 
 \begin{description}
-  \item[Chapter 1] Hey
-  \item[Chapter 2] Hey
-  \item[Chapter 3] More hey.
-  \item[Chapter 4] Hey
-  \item[Chapter 5] More hey.
-  \item[Chapter 6] Hey
-  \item[Chapter 7] More hey.
+  \item[Chapter 1] Es este capítulo y se trata de un capítulo introductorio a
+  nivel general de la materia que se tratará en esta tesis. Se tratarán la
+  motivación detrás de este trabajo, sus objetivos y sus posibles
+  aplicaciones. \chapRef{cha:intro}
+  \item[Chapter 2] Este capítulo se centrará en los fundamentos teóricos
+  generales en el ámbito de la \gls{ai}, de manera que los capítulos siguientes
+  puedan entenderse. \chapRef{cha:theory}
+  \item[Chapter 3] Tratará el tema central de esta tesis. Se formulará de
+  manera concreta el problema, se presentarán el dataset que se usará y las
+  técnicas de evaluación y se discutirán los modelos existentes
+  actualmente. \chapRef{cha:rec}
+  \item[Chapter 4] Este capítulo introducirá el modelo concreto usado, como se
+  ha entrenado, las diferentes versiones que se han estudiado del mismo, cómo
+  se ha comportado y qué resultados se han obtenido. \chapRef{cha:model}
+  \item[Chapter 5] Presentará todo el código desarrollado para conseguir una
+  aplicación web interactiva con la que se permitirá evaluar y validar el
+  modelo de manera sencilla. \chapRef{cha:web}
+  \item[Chapter 6] Se resumirá de manera concisa la tesis, se discutirán los
+  resultados obtenidos, se presentará una conclusión global y se aportarán
+  futuras lineas de investigación. \chapRef{cha:concl}
 \end{description}
 
 También se incluirá material suplementario en los anexos.

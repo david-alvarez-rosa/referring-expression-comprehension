@@ -1,21 +1,16 @@
 % -*- TeX-master: "../Thesis.tex" -*-
 
 
-\chapter{Theoretical Background}
+\chapter{Theoretical Background} \label{cha:theory}
 
-\epigraphhead[70]{
+\epigraphhead[75]{
   \epigraph{\itshape
     Wwithout theory, there is nothing to revise. \\
     Without theory, experience has no meaning. \\
     Without theory, one has no questions to ask. \\
     Hence, without theory, there is no learning.}
-{---\href{https://en.wikipedia.org/wiki/W._Edwards_Deming}
-  {\scshape William Edwards}\footnotemark}
+  {---\scshape William Edwards}
 }
-
-\footnotetext{Dr.\ William Edwards Deming (October 14, 1900 -– December 20, 1993)
-  was an American engineer, statistician, professor, author, lecturer, and
-  management consultant.}
 
 
 \lettrine{A}{neural} network, more properly referred to as an \gls{ann} are
@@ -95,6 +90,7 @@ arquitectura.
     layered neural network. Consta de 4 capas diferenciadas de neuronas y se
     muestran las conexiones entre ellas de manera gráfica con flechas.}
   \label{fig:fully-conn-network}
+  \source{Created by the author.}
 \end{figure}
 
 A continuación discutiremos las partes principales constituyentes de este tipo
@@ -102,13 +98,10 @@ de redes neuronales: layers, neurons and connections.
 
 \subsubsection{Layers}
 The layers are just a collection of neurons, we will distinguish between three
-types depending on its position in the network.
-
-\begin{itemize}
-  \item Input layer: patterns are presented to the network via this layer.
-  \item Hidden layers: all the inner layers.
-  \item Output layer: is the last layer, where the answer is obtained.
-\end{itemize}
+types depending on its position in the network: \emph{input} layer (patterns
+are presented to the network via this layer), \emph{hidden} layer (all the
+inner layers) and \emph{output} layer (is the last layer, where the answer is
+obtained).
 
 We will denote with \(L\) the number of layers and with \(n_l\) the size of the
 \(l\)-th layer.
@@ -122,30 +115,30 @@ will hold the grayscale value of a pixel. For the output layer we will need 10
 neurons (one for each number between 0 and 9), and we will like that when we
 feed our network with an image holding a handwritten number 3, then the ouput
 is one 1 in the position corresponding to the number 3 and the rest of zeros.
-\todo{quizá borrar este párrafo que es innecesario}.
 
 \subsubsection{Neurons}
 Neurons are the core component of any neural network. Basically there are three
 subparts that form a neuron.
 
 \begin{itemize}
-  \item Value: each neuron holds a value, it will be denoted by \(x_i^l \in \R\)
-  for the \(i\)-th neuron in the \(l\)-th layer. Of course, it should be satisfied
-  \(1 \leq i \leq n_l\). We will use use the notation \(\mathbf{x}^l\) for the
-  vector of all the values in the \(l\)-th level. When we speak of the input
-  vector, we may ommit the superindex, i.e.\ we will use \(\mathbf{x}\) to denote
-  \(\mathbf{x}^0\). Similarly, for the output layer, we will use
-  \(\mathbf{\hat{y}}\) to refer to \(\mathbf{x}^L\).
-  \item Bias: also each neuron has a bias, denoted as \(b_i^l\) for the
-  \(i\)-th neuron in the \(l\)-th layer. Is then true that
+  \item \textbf{Value}. Each neuron holds a value, it will be denoted by
+  \(x_i^l \in \R\) for the \(i\)-th neuron in the \(l\)-th layer. Of course, it
+  should be satisfied \(1 \leq i \leq n_l\). We will use use the notation
+  \(\mathbf{x}^l\) for the vector of all the values in the \(l\)-th level. When
+  we speak of the input vector, we may ommit the superindex, i.e.\ we will use
+  \(\mathbf{x}\) to denote \(\mathbf{x}^0\). Similarly, for the output layer,
+  we will use \(\mathbf{\hat{y}}\) to refer to \(\mathbf{x}^L\).
+  \item \textbf{Bias}. Also each neuron has a bias, denoted as \(b_i^l\) for
+  the \(i\)-th neuron in the \(l\)-th layer. Is then true that
   \(1 \leq i \leq n_l\). The vector of all biases in the \(l\)-th layer will be
   denoted by \(\mathbf{b}^l\).
-  \item Activation function: all neurons have an activation function
+  \item \textbf{Activation function}. All neurons have an activation function
   \(f_i^l \in \mathcal{C}^1(\R, \R)\) for the \(i\)-th neuron in the \(l\)-th
   layer\footnote{Usually all the activation functions are neuron-independent
-    (i.e.\ \(f_i^l\) does not really depend on \(i\) or \(l\)).}. Of course, it is
-  needed \(1 \leq i \leq n_l\). The regularity assummed for this functions is
-  important, since we will be optimizing in the future by taking derivatives.
+    (i.e.\ \(f_i^l\) does not really depend on \(i\) or \(l\)).}. Of course, it
+  is needed \(1 \leq i \leq n_l\). The regularity assummed for this functions
+  is important, since we will be optimizing in the future by taking
+  derivatives.
 \end{itemize}
 
 \subsubsection{Connections}
@@ -189,13 +182,13 @@ error function (also known as loss function) that quantifies how good or bad
 the neural network is performing when feeded with a particular dataset. We will
 you the below notation.
 \begin{itemize}
-  \item \textbf{Dataset}: will be denoted by and consists in input-output pairs
+  \item \textbf{Dataset}. Will be denoted by and consists in input-output pairs
   \((\mathbf{x}, \mathbf{y})\), where \(\mathbf{x}\) represents the input and
   \(\mathbf{y}\) the \emph{desired} output. We shall denote the size (cardinal)
   of the dataset by \(N\). Of course, in terms of our ANN \(x\) corresponds to
   the values of the first (or input) layer and \(\mathbf{y}\) to the output (or
   last) layer.
-  \item \textbf{Parameters}: the parameters of our ANN are both the connection
+  \item \textbf{Parameters}. Parameters of our ANN are both the connection
   weights \(w_{ij}^l\) and the biases \(b_i^l\), we will denote the set of all
   parameters by \(\bm{\theta}\). Keep in mind that \(\bm{\theta}\) is just a
   set of real vectors of \(\R^D\) where \(D\) denotes the number of weigths and
@@ -326,6 +319,7 @@ menos sensibles a pequeños cambios locales en la localización espacial.
     \(2 \times 2\) y el max pool devuelve un tensor de salida con el valor
     máximo de cada bloque.}
   \label{fig:max-pool}
+  \source{From \cite{wiki18:max_poolin}}
 \end{figure}
 
 Hay diferentes tipos de pooling. Los más conocidos son \emph{max} pooling y
@@ -397,7 +391,6 @@ of all the inputs until time \(t\).
   \label{fig:rnn}
   \source{TODO. Citar es de stanford también}
 \end{figure}
-\footnotetext{TODO. Citar}
 
 \subsubsection{Different types of \gls*{rnn}}
 Las feedforward networks envían una entrada a una salida\footnote{La entrada y
@@ -417,7 +410,6 @@ recogidos en la \vref{fig:rnn-types}.
   \label{fig:rnn-types}
   \source{TODO. Es de Stanford curso}
 \end{figure}
-\footnotetext{TODO. de stanford.}
 
 Estas diferentes posibilidades tienen luego su aplicación en diversos ámbitos
 como pueden ser: image captioning (``one to many''), action prediction (``many
@@ -447,7 +439,7 @@ El modelo definido anteriormente es la versión más simple para una
 \gls{rnn}. El cálculo de los valores de salida con las
 \vref{eq:rnn-hidden,eq:rnn-out} puede traer problemas con los gradientes y, por
 tanto, limitar la capacidad de la información de viajar en el
-tiempo\footnotetext{This problems are know as vanishing/exploding gradient. The
+tiempo\footnote{This problems are know as vanishing/exploding gradient. The
   problem of \emph{exploding} gradients can be solve by gradient clipping
   (scaling it if the norm is too big). However for the \emph{vanishing}
   gradient problem, it is neccesary to change the \gls{rnn}
@@ -465,9 +457,8 @@ problemas:
     \caption[\acl*{lstm}]{\acf{lstm} representation. Input (\(i\)), output
       (\(o\)) and forget (\(f\)) gates are shown in the image.}
     \label{fig:lstm}
-    \source{From \citetitle{enwiki:1005032489}}
+    \source{From \cite{enwiki:1005032489}}
   \end{figure}
-  \footnotetext{\cite{enwiki:1005032489}}
 
   El valor de los diferentes gates viene descrito por la ecuación siguiente,
   \begin{equation}
@@ -530,9 +521,8 @@ feed-forward networks.
 
 \section{Transformers} \label{sec:transformers}
 
-The Transformer es un modelo de deep learning introducido recientemente en el
-paper \citetitle{vaswani17:atten_all_you_need}
-\footcite{vaswani17:atten_all_you_need}. Aquí presentaban la idea de que
+The Transformer es un modelo de deep learning introducido recientemente por
+\myCite{vaswani17:atten_all_you_need}. Aquí presentaban la idea de que
 recurrent building blocks no son necesarios en un modelo para funcionar bien en
 tareas de \gls{nlp}. En palabras de sus autores:
 
@@ -557,9 +547,8 @@ en su conjunto en vez de ir elemento a elemento.
     architecture/topology. Aquí se pueden observar los dos segmentos
     principales: el encoder y el decoder.}
   \label{fig:transformer}
-  \source{From \citetitle{vaswani17:atten_all_you_need}}
+  \source{From \cite{vaswani17:atten_all_you_need}}
 \end{figure}
-\footnotetext{\cite{vaswani17:atten_all_you_need}}
 
 En la actualidad existen diferentes tipos de arquitecturas basadas en esta
 idea. La arquitectura original del modelo del Transformer es la mostrada en la

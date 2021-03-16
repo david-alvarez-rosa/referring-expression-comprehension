@@ -1,12 +1,12 @@
 % -*- TeX-master: "../Thesis.tex" -*-
 
 
-\chapter{Referring Expression Comprehension}
+\chapter{Referring Expression Comprehension} \label{cha:rec}
 
 \epigraphhead[75]{
-  \epigraph{\itshape Begin at the beginning, the King said
-    gravely, ``and go on till you come to the end: then stop.''}
-  {---\textsc{Lewis Carroll}\\ \textit{Alice in Wonderland}}
+  \epigraph{\itshape We may hope that machines will eventually compete with men
+    in all purely intellectual fields.}
+  {---\scshape Alan Turing}
 }
 
 
@@ -26,7 +26,27 @@ Hey
 
 \section{Datasets and Evaluation}
 
-Hey
+Para el desarrollo y validación de los modelos presentados para la resolución
+del problema de \gls{rec}, son necesarias dos cosas principalmente: datasets y
+evaluation measures. Todo modelo neuronal necesitará de una base de datos con
+la que poder entrenar (ajustar) los parámetros de los que dispone. Así mismo,
+será necesario reservar parte de este dataset para poder realizar una
+evaluación del mismo haciendo uso de diferentes medidas, esto es lo que hará
+posible la comparación entre diferentes modelos.
+
+En este apartado se presentarán los \emph{datasets} más importantes existentes en la
+actualidad en la \vref{sec:datasets} y las \emph{evaluation measures}
+más utilizadas en la \vref{sec:eval-measure}.
+
+\subsection{Datasets} \label{sec:datasets}
+
+Existen diferentes datasets creados exclusivamente para el entrenamiento y
+evaluación de modelos neuronales creados para resolver el problema aquí
+tratado.
+
+
+\subsection{Evaluation measures} \label{sec:eval-measure}
+
 
 
 \section{Related work}
@@ -36,15 +56,15 @@ grandes clases: joint embedding (see \vref{sec:joint}), modelos modulares (see
 \vref{sec:modular}) and graph convolution based models (see
 \vref{sec:graph}).
 
-\subsection{Multimodal embedding} \label{sec:joint}
-Los métodos de multimodal embedding son muy típicos en cualquiera de las tareas del
-aprendizaje multimodal. En ellos lo que se busca es encontrar un espacio
-multidimensional donde puedan ``convivir''\footnote{Este espacio
+\subsection{Multimodal embedding} \label{sec:joint} Los métodos de multimodal
+embedding son muy típicos en cualquiera de las tareas del aprendizaje
+multimodal. En ellos lo que se busca es encontrar un espacio multidimensional
+donde puedan ``convivir'' codificaciones de imagen y lenguaje en común. Esta
+idea viene representada de manera gráfica en la \vref{fig:joint}. Este espacio
 multidmensional será típicamente \(\R^n\), que es un espacio normado. Una de
 las caracterísitcas deseables sería que las codificaciones de imágnes y
 lenguaje similares entre ellas quedasen ``cerca'' en este espacio (en términos
-de norma).} codificaciones de imagen y lenguaje en común. Esta idea viene
-representada de manera gráfica en la \vref{fig:joint}.
+de norma).
 
 \begin{figure}[ht]
   \centering
@@ -53,6 +73,7 @@ representada de manera gráfica en la \vref{fig:joint}.
     visual-semantic space. Como se puede ver, las matching pairs quedan más
     cerca (en términos de norma) que las non-matching pairs en el joint space.}
   \label{fig:joint}
+  \source{From \cite{cornia18:towar_cycle_consis_model_text_image_retriev}}
 \end{figure}
 
 Por tanto, aquí, para realizar \gls{rec}, lo primero que haremos es codificar
@@ -74,8 +95,6 @@ se usa el transformer. Después para conseguir el multimodal embedding, se
 convierte la frase linguistica codificada en un vector 256-dimensional y se
 multiplica element-wise con las features visuales. Este modelo será estudiado
 en profundidad en \vref{cha:model}.
-
-\todo{Aquí se puede hablar de otros attention mechanism.}
 
 \subsection{Modelos modulares} \label{sec:modular}
 Los modelos modulares han sido usado con éxito en muchas tareas tanto en el
@@ -101,4 +120,64 @@ caso hay tres módulos diferenciados: el \emph{subject} module, el
 computa diferentes scores, que después son usados para el cálculo de un overall
 score.
 
-\subsection{Graph convolution} \label{sec:graph}
+Partiendo de la base de \gls{mattnet},
+\myCite{liu19:improv_refer_expres_groun_cross_atten_erasin} proponen
+\gls{cmatterase}, que es una estrategia de entrenamiento para este tipo de
+tareas. Se base en la idea de borrar la parte más usada por el modelo de la
+parte lingüistica o visual, de manera que se fuerza al modelo a aprender
+estructuras más complejas\footnote{Es en parte similar a la estrategia de
+  \emph{dropout} usada en el entrenamiento de fully connected neural networks,
+  que se usa para evitar la dependencia en nueronas concretas y así prevenir el
+  overfitting del modelo.}. Así mismo, modifica el modelo inicial
+(\gls{mattnet}), considerando la imagen global como una característica más.
+
+\subsection{Graph generation} \label{sec:graph}
+En la tarea que nos concierne, es fundamental la comprensión por parte del
+modelo de la \gls{re}. Este tipo de expresiones contienen diferentes objetos y
+relaciones entre ellos. Es decir, es habitual referirse a un objeto no solo por
+sus propiedades intrínsecas, sino también por su relación con los objetos que
+lo rodean. La herramienta matemática que mejor representa este fenómeno es el
+de un grafo: los nodos representan diferentes objetos y las diferentes arisas
+son la relación entre objetos existente (ver \vref{fig:graph}).
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=.75\textwidth]{Images/Graph model.png}
+  \caption[Graph based model representation]{Representación resumida de los
+    modelos basados en grafos. De la imagen se construye la representación en
+    forma de grafo, que después es actualizada con el embedding de la expresión
+    y computado un matching score entre objetos y expresión.}
+  \label{fig:graph}
+  \source{From \cite{qiao20:refer_expres_compr}}
+\end{figure}
+
+El uso de grafos en la tarea de \gls{rec} ha sido usado con éxito por diversos
+autores. Entre ellos \myCite{wang19:neigh}, propone \gls{lgran}. Este modelo
+consiste en tres modulos diferenciados: language-self attention module,
+language-guided graph attention module, and matching module. El primero de
+estos modulos se encarga en descomponer las \gls{re} en tres partes diferentes
+(subject description, intra-class relationships, and inter-class
+relationships). El modulo de language-guided graph attention es el que se
+encarga de generar la representación en forma de grafo de la imagen (los nodos
+que genera serán los objetos candidatos). Por último, el matching module es el
+que compute el matching score entre \gls{re} y objeto (para cada uno de los
+objetos candidatos).
+
+Otros autores en explotar los grafos en este contexto son
+\myCite{yang19:dynam}, que crean el modelo \gls{dga}, que permite el
+razonamiento multi-step. En un comienzo, el modelo funciona igual que otros con
+la generación de un grafo desde la imagen y con la mezcla de un embedding de la
+expresión en el grafo. Pero a partir de aquí utilizan un módulo que llaman
+``analyzer'' y que es capaz de explorar la estructura linguistica de la
+\gls{re} y dividirla en una secuencia de expresiones constituyentes. De esta
+manera \gls{dga} es capaz de realizar un proceso de razonamiento paso a paso
+sobre estas expresiones constituyentes. Finalmente, como es común en estos
+modelos (ver \vref{fig:graph}) se computa un matching score entre objetos y
+expresión.
+
+\myCite{yang19:cross_modal_relat_infer_groun_refer_expres} también crean un
+modelo basado en grafos al que llaman \gls{cmrin}. Esta red consiste en un
+\gls{cmre}, que se encarga de obtener la información para la construción del
+grafo con ``cross-modal attention'', y de un \gls{ggcn} que usa la información
+del grafo anterior y propaga la información (que es multi-modal) para poder
+computar el matching score.

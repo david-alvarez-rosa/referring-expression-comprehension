@@ -22,7 +22,7 @@
 \usepackage{booktabs}
 \usepackage{caption, subcaption}
 \usepackage[nottoc]{tocbibind}
-\usepackage[symbol*, bottom, marginal, norule]{footmisc}
+\usepackage[bottom, marginal, norule]{footmisc}
 \usepackage[type={CC}, modifier={by-nc-sa}, version={4.0}]{doclicense}
 \usepackage[backend=biber, style=alphabetic]{biblatex}
 \usepackage{imakeidx}
@@ -36,7 +36,7 @@
 \usepackage{svg}
 \usepackage{varioref}
 \usepackage[pdfusetitle]{hyperref}
-\usepackage[toc, acronym, nomain, style=super, shortcuts]{glossaries}
+\usepackage[nomain, acronym, style=super3col]{glossaries}
 \usepackage[noabbrev]{cleveref}
 
 
@@ -53,7 +53,7 @@
   inner = .75in,
   outer = .75in,
   bindingoffset = .25in,
-  showframe
+  % showframe
 }
 
 % Customize captions for floating elements.
@@ -138,9 +138,16 @@
 \graphicspath{{./Figures/}}
 
 % Glosary configuration.
+\setupglossaries{
+  toc,
+  shortcuts,
+  ucmark
+}
 \makeglossaries
 \input{Acronyms}
 \renewcommand{\glsnamefont}[1]{\textbf{#1}}
+\setlength\glspagelistwidth{.25\textwidth}
+\setlength\glsdescwidth{.5\textwidth}
 
 % Alphabetical index customization.
 \makeindex[columns=2, intoc, options={-s Index.ist}]
@@ -159,6 +166,9 @@
 \renewcommand{\labelitemiii}{$\m@th\circ$}
 \renewcommand{\labelitemiv}{$\m@th\diamond$}
 \makeatother
+
+% Footnote configuration.
+% \setlength\footnotemargin{-1.25em} TODO. check this or remove it.
 
 % Add command for footnote href.
 \newcommand\fhref[2]{
@@ -353,6 +363,7 @@ p}{hola}
 \addto\captionsenglish{
   \renewcommand{\contentsname}{Table of Contents}
   \renewcommand{\acronymname}{List of Acronyms} % TODO change theses?
+  \renewcommand{\indexname}{Alphabetical Index}
 }
 
 % Cite configuration.
@@ -360,7 +371,12 @@ p}{hola}
 
 % Show copyright note source for floats.
 \newcommand{\source}[1]{
-  \vspace{-8pt}\caption*{\footnotesize\hfill{#1}\footnotemark}
+  \vspace{-8pt}\caption*{\footnotesize\hfill{#1}}
+}
+
+% Custom reference to chapter.
+\newcommand{\chapRef}[1]{%
+Este capítulo, titulado ``\nameref*{#1}'', comienza en la página~\pageref{#1}.
 }
 
 % Some basic math definitions.
