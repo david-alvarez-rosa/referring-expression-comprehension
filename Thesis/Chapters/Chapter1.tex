@@ -9,37 +9,111 @@
   {---\textsc{Lewis Carroll}\\ \textit{Alice in Wonderland}}
 }
 
+\lettrine{A}{rtificial} Intelligence es uno de los temas relacionados con
+\gls{cs} que más están de actualidad\footnote{En \today, fecha actual del
+  documento.} en los últimos años. Ha cobrado gran importancia debido
+principalmente a sus aplicaciones en el mundo industrial y cotidiano, como
+puede ser el de la condución autónoma.
 
-\lettrine{R}{eferring} expression comprehension is the task of, given a
-linguistic phrase (referring expression) and an image, generate binary masks
-for the object which the phrase refers to. Este tipo de tareas quedan
-enmarcadas dentro del campo del aprendizaje multimodal: en la intersección
-entre computer vision y \gls{nlp}.
+Es un area de investigación en la que, curiosamente, no existe una definición
+precisa y universalmente aceptada por la comunidad de investigadores y
+desarrolladores que trabajan cada día en el ámbito de la
+\gls{ai}. \myCite{nilsson09:quest_artif_intel} provee una definición útil:
+
+\begin{quoteBox}
+  Artificial intelligence is that activity devoted to making machines
+  intelligent, and intelligence is that quality that enables an entity to
+  function appropriately and with foresight in its environment.
+  \tcblower
+  ---Nils J. Nilsson
+\end{quoteBox}
+
+Dentro del amplio mundo de la \gls{ai} se encuentra \gls{dl} (que es parte de
+un ámbito más amplio llamado \gls{ml}). \gls{dl} consiste en aprender de
+datacon el uso de redes neuronales profundas. Estos datos pueden ser de
+diferente índole: imágenes, texto, audio, video, etc. Esta tesis mezclará tres
+de estos medios (audio \(\rightarrow\) texto e imagen), por lo que formará
+parte del area conocida como \emph{multimodal learning}. A continuación en la
+\vref{sec:description} se describirá el trabajo de esta tesis: \gls{rec}.
+
+
+\section{Description and motivation} \label{sec:description}
+
+\gls{rec} is the task of, given a linguistic phrase (referring expression) and
+an image, generate binary masks for the object which the phrase refers to. Este
+tipo de tareas quedan enmarcadas dentro del campo del aprendizaje multimodal:
+en la intersección entre computer vision y \gls{nlp}.
 
 \begin{figure}[ht]
   \centering
-  \missingfigure{Hey there!}
-  \caption[Examples of \acl*{rec}]{TODO: ejemplos de comprehension}
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Man with cap.}
+    \includegraphics[width=\textwidth]{Images/Man with cap.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Laptop on the right.}
+    \includegraphics[width=\textwidth]{Images/Laptop on the right.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Army officer white suit.}
+    \includegraphics[width=\textwidth]{Images/Army officer.jpg}
+  \end{subfigure}
+  \caption[Examples of \acl*{rec}]{Examples of \acl{rec}. Como se puede ver,
+    podemos referirnos a objetos de la imagen con \gls{re} en lenguaje natural
+    y se produce la segmentación.}
   \label{fig:demo}
+  \source{Created by the author}
 \end{figure}
 
-En la \vref{fig:demo} podemos ver unos ejemplos de este tipo de tareas.
+En la \vref{fig:demo} podemos ver unos ejemplos de este tipo de tareas. Como
+vemos, la entrada consistirá en dos entidades: una \gls{re} y una imagen. El
+modelo será el encargado de generar la segmentación del objeto al que la frase
+se refiere. Vemos que las \gls{re} mostradas son diversos tipos: relación del
+objeto a segmentar con \emph{otro objeto} (``man with a cap''), tipo de objeto
++ \emph{posicionamiento} relativo (``laptop on the right'') y descripción del
+objeto + \emph{color} distintitvo (``army officer white suit'').
 
+De manera opcional esta tarea puede ser explotada y ampliada de diversas
+maneras. Entre ellas ampliando el conjunto de entrada y el de salida que el
+modelo puede obtener.
+\begin{itemize}
+  \item \textbf{Entrada}. Podemos proponer modelos más generales que sean capaz
+  de entender la \gls{re} desde audio, sin necesidad de tener que introducir la
+  frase de manera manual. Así mismo, se puede ampliar el modelo aceptando
+  además de imágenes, vídeos. En esta tesis se trabajará en la parte del
+  \emph{audio}.
+  \item \textbf{Salida}. La salida también puede ser ampliada generando, además
+  de la máscara binaria de la segmentación, una bounding box.
+\end{itemize}
 
-\section{Description and motivation}
-
-Mirar el capítulo de motivation del Jordi Fortuny.
+Este trabajo añadirá una gran facilidad principalmente en la interacción
+human-computer, por lo que presenta un gran interés práctico. Se discutirán
+diferentes aplicaciones de este modelo en la \vref{sec:aplicaciones}.
 
 \subsection{Objectives}
 
-Este trabajo fin de grado tiene varios objetivos diferenciados.
+Esta tesis de investigación tiene diferentes objetivos diferenciados. El
+primero de ellos es el de aprender el funcionamiento de la \gls{ai}, sin ningún
+conocimiento previo. Principalmente en el ámbito del \gls{dl}, que es donde el
+modelo presentado queda encajado. Es fundamental conocer los fundamentos de los
+modelos neuronales para poder entender en profundidad cómo es posible resolver
+el problema de \gls{rec}.
 
-Objetivos de conocimiento de lo aprendido, objetivos de mejorar modelos
-existentes, objetivos de añadir herramientas de visualización, objetivos de
-eficiencia de hacer más rápido el procesado de imágenes.
+\begin{itemize}
+  \item Search for a model that performs well in \gls{rec}.
+  \item Estudiar el funcionamiento del modelo y tratar de mejorarlo.
+  \item Presentar una interfaz web interactiva en la cual se presenten los
+  resultados del trabajo.
+  \item Escribir esta memoria.
+\end{itemize}
+
+Es importante que este modelo funcione rápido.
 
 
-\section{Aplicaciones}
+\section{Aplicaciones} \label{sec:aplicaciones}
 
 El uso de referring expression comprehension puede tener aplicaciones de
 diversa índole. En los últimos años están cobrando una gran importancia la
@@ -81,6 +155,20 @@ de manera visual que una de las soldaduras está mal realizada y ordenar al
 brazo robótico rehacerla con una \gls{re} del tipo: ``soldadura inferior de la
 puerta delantera derecha''.
 
+\begin{remarkBox}
+  Para algunos puede existir preocupación sobre si este tipo de aplicaciones de
+  la inteligencia artificial pueden ser perjudicial para el futuro profesional
+  de la sociedad en su conjunto. Es un debate abierto, pero, en palabras de
+  \citeauthor*{contributor18:artif_intel_will_replac_tasks_not_jobs}
+  \cite{contributor18:artif_intel_will_replac_tasks_not_jobs}, ``\itshape
+  Artificial Intelligence Will Replace Tasks, Not Jobs''.
+\end{remarkBox}
+
+Este es tan solo un ejemplo de las muchas aplicaciones que podrían tener estos
+modelos en la industria. La inmensa mayoría de los sectores se podrían
+beneficiar con la implementación de sistemas de interacción entre sus operarios
+y sus máquinas por medio de voz y usando \gls{re}.
+
 \subsubsection{Domótica y \acs*{iot}}
 En el mundo de la domótica y de \gls{iot}, tan de moda a día de hoy, también
 podría ser de utilidad el tema que concierne esta tesis. Principalmente por la
@@ -88,15 +176,15 @@ facilidad que añade a la interacción entre máquinas y humanos.
 
 \begin{figure}[ht]
   \centering
-  \begin{subfigure}[b]{.55\textwidth}
+  \begin{subfigure}[t]{.55\textwidth}
     \centering
-    \includegraphics[height=4.5cm]{Images/Robot.jpg}
     \caption{Cubos de diferentes colores.}
+    \includegraphics[height=4.5cm]{Images/Robot.jpg}
   \end{subfigure}\hfill
-  \begin{subfigure}[b]{.4\textwidth}
+  \begin{subfigure}[t]{.4\textwidth}
     \centering
-    \includegraphics[height=4.5cm]{Images/Robot2.jpg}
     \caption{Alimentos y medicamentos.}
+    \includegraphics[height=4.5cm]{Images/Robot2.jpg}
   \end{subfigure}
   \caption[Ejemplos de aplicaciones en robótica]{Ejemplos de aplicaciones en
     robótica. Pueden facilitar muchas interacciones y tareas del día a día.}
@@ -178,7 +266,8 @@ esta tesis.
   \item[Chapter 5] Presentará todo el código desarrollado para conseguir una
   aplicación web interactiva con la que se permitirá evaluar y validar el
   modelo de manera sencilla. \chapRef{cha:web}
-  \item[Chapter 6] Se resumirá de manera concisa la tesis, se discutirán los
+  \item[Chapter 6] TODO. \chapRef{cha:analysis}
+  \item[Chapter 7] Se resumirá de manera concisa la tesis, se discutirán los
   resultados obtenidos, se presentará una conclusión global y se aportarán
   futuras lineas de investigación. \chapRef{cha:concl}
 \end{description}
@@ -186,9 +275,30 @@ esta tesis.
 También se incluirá material suplementario en los anexos.
 
 \begin{description}
-  \item[Appendix A] Hey
-  \item[Appendix B] Hey
+  \item[Appendix A] Hey. \chapRef{cha:introduction}
+  \item[Appendix B] He. \chapRef{cha:license}
 \end{description}
 
 También comentar que se pueden encontrar al final las referencias, una lista de
 acrónimos y un índice alfabético.
+
+\subsubsection{How to read this thesis}
+A lo largo de la tesis se usarán tres tipos de cajas para incluir contenido
+extra: \emph{quote} box, \emph{example} box and \emph{remark} box.
+
+\begin{quoteBox}
+  This will be a quote box.
+  \tcblower
+  ---Author Name
+\end{quoteBox}
+
+\begin{exampleBox}
+  This will be an example box.
+\end{exampleBox}
+
+\begin{remarkBox}
+  This will be a remark/alert box.
+\end{remarkBox}
+
+Todas las figuras que aparecen en esta tesis muestran la fuente de la cuál se
+han extraído o, en su defecto, han sido creadas por el autor.

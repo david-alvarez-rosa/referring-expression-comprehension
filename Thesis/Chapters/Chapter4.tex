@@ -4,8 +4,7 @@
 \chapter{Model} \label{cha:model}
 
 \epigraphhead[75]{
-  \epigraph{\itshape All models are wrong, \\
-    but some are useful.}
+  \epigraph{\itshape All models are wrong, but some are useful.}
   {---\scshape George E. P. Box}
 }
 
@@ -93,9 +92,9 @@ que pueden ser útiles para entrenar diversos modelos neuronales.
     (1 - \alpha)p^\gamma (1 - p)\log(1 - \hat{p})).
   \end{equation}
   Cuando \(\gamma = 0\) obtenemos \gls{bce}.
-  \todo{No sé si merecerá la pena explicar esto. Es de
-    https://lars76.github.io/2018/09/27/loss-functions-for-segmentation.html}
-  \item \textbf{\gls*{dnc}}.
+  \item \textbf{\gls*{dnc}}. TODO:
+  \url{https://lars76.github.io/2018/09/27/loss-functions-for-segmentation.html} Esto
+  faltaría por explicar.
 \end{itemize}
 
 \subsubsection{Overlap measures}
@@ -111,27 +110,27 @@ usado como función de pérdida al no ser una aplicación diferenciable. Sí que
 será usado para la evaluación del modelo en la \vref{sec:evaluation}
 
 \begin{itemize}
-  \item \textbf{\gls*{dl}}. Se basa en el \gls{dc}, un coeficiente similar a
+  \item \textbf{\gls*{dil}}. Se basa en el \gls{dc}, un coeficiente similar a
   \gls{iou}, que se define de la siguiente manera,
   \begin{equation}
     \text{\gls*{dc}}(X, Y) = \frac{2|X \cap Y|}{|X| + |Y|}.
   \end{equation}
   Este dice coefficiente puede ser definido como una función de pérdida,
   \begin{equation}
-    \text{\gls*{dl}}(p, \hat{p})
+    \text{\gls*{dil}}(p, \hat{p})
     = 1 - \frac{2\sum p_{h, w}\hat{p}_{h, w}}{\sum p_{h, w} + \sum \hat{p}_{h, w}},
   \end{equation}
   donde \(p_{h, w} \in \{0, 1\}\), \(0 \leq \hat{p}_{h, w} \leq 1\) y los
   sumatorios se extienden por toda la imagen en el width \(w\) y el height
   \(h\).
-  \item \textbf{\gls*{ti}}. Es una generalización de \gls{dl}. Se define de la
+  \item \textbf{\gls*{ti}}. Es una generalización de \gls{dil}. Se define de la
   siguiente manera,
   \begin{equation}
     \text{\gls*{ti}}(p, \hat{p})
     = 1 - \frac{p\hat{p}}{p\hat{p} + \beta(1 - p)\hat{p} + (1 - \beta)p(1 - \hat{p})}.
   \end{equation}
   Con el valor \(\beta = \frac{1}{2}\), recuperamos la función anterior
-  \gls{dl}.
+  \gls{dil}.
 \end{itemize}
 
 
@@ -144,10 +143,10 @@ será usado para la evaluación del modelo en la \vref{sec:evaluation}
 Muchas más funciones de pérdida pueden ser obtenidas por simple combinación
 lineal de las anteriores. La combinación,
 \begin{equation}
-  \text{\gls*{ce}}(p, \hat{p}) + \text{\gls*{dl}}(p, \hat{p}),
+  \text{\gls*{ce}}(p, \hat{p}) + \text{\gls*{dil}}(p, \hat{p}),
 \end{equation}
 es bastante popular, ya que combina información local (\gls{ce}) con
-información global (\gls{dl}).
+información global (\gls{dil}).
 
 
 \section{Results}
@@ -161,18 +160,18 @@ truth (en la \vref{fig:sets} se muestran unos diagramas con estos
 conceptos).
 
 \begin{figure}[ht]
-  \begin{subfigure}[b]{.5\textwidth}
+  \begin{subfigure}[t]{.5\textwidth}
     \centering
-    \includesvg[width=.55\textwidth]{Union_of_sets_A_and_B.svg}
     \caption{Union of sets \(A\) and \(B\).}
+    \includesvg[width=.55\textwidth]{Union_of_sets_A_and_B.svg}
   \end{subfigure}
-  \begin{subfigure}[b]{.5\textwidth}
+  \begin{subfigure}[t]{.5\textwidth}
     \centering
-    \includesvg[width=.55\textwidth]{Intersection_of_sets_A_and_B.svg}
     \caption{Intersection of sets \(A\) and \(B\).}
+    \includesvg[width=.55\textwidth]{Intersection_of_sets_A_and_B.svg}
   \end{subfigure}
-  \caption[Union and intersection of sets \(A\) and \(B\)]{Union and
-    intersection of sets \(A\) and \(B\).}
+  \caption[Union and intersection of sets \(A\) and \(B\)]{Graphic
+    representation of union and intersection of sets \(A\) and \(B\).}
   \label{fig:sets}
 \end{figure}
 
@@ -186,15 +185,15 @@ hemos comentado anteriormente--- no puede ser usado como función de pérdida al
 no ser una aplicación diferenciable.
 
 \begin{figure}[ht]
-  \begin{subfigure}[b]{.45\textwidth}
+  \begin{subfigure}[t]{.45\textwidth}
     \centering
-    \includegraphics[width=.8\textwidth]{Images/Object detection Bounding Boxes.jpg}
     \caption{Bounding boxes example.}
+    \includegraphics[width=.8\textwidth]{Images/Object detection Bounding Boxes.jpg}
   \end{subfigure}\hfill
-  \begin{subfigure}[b]{.45\textwidth}
+  \begin{subfigure}[t]{.45\textwidth}
     \centering
-    \includegraphics[width=.8\textwidth]{Images/Intersection over Union.png}
     \caption{\gls{iou} visual equation.}
+    \includegraphics[width=.8\textwidth]{Images/Intersection over Union.png}
   \end{subfigure}
   \caption[Explicación del Jaccard Index]{Explicación y ejemplo del Jaccard
     Index en el caso de bounding boxes.}

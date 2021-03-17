@@ -21,7 +21,6 @@ def save_figure(img, sent, mask, file_name, color="#0066ff"):
     plt.imshow(img)
     plt.text(0, 0, sent, fontsize=12)
 
-
     color_rgb = np.array(matplotlib.colors.to_rgb(color))
     color_mask = color_rgb * np.ones((img.size[1], img.size[0], 3))
     plt.imshow(np.dstack((color_mask, mask * 0.5)))

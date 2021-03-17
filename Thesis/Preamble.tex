@@ -31,7 +31,6 @@
 \usepackage{fontawesome}
 \usepackage[outputdir=Build, cachedir=Minted]{minted}
 \usepackage[most]{tcolorbox}
-\usepackage[shadow]{todonotes}
 \usepackage{hyperxmp}
 \usepackage{svg}
 \usepackage{varioref}
@@ -63,6 +62,10 @@
   labelsep = period,
   width = .75\textwidth,
 }
+% \captionsetup[sub]{
+%   list,
+%   listformat = simple,
+% }
 
 \hypersetup{
   % Info.
@@ -96,9 +99,8 @@
 \fancyfoot{}
 \makeatletter
 \fancyfoot[CO]{\scshape\@author}
-\fancyfoot[CE]{\scshape\@title}
-\fancyfoot[CE]{\scshape A short version of Title related to Artificial Intelligence}
 \makeatother
+\fancyfoot[CE]{\scshape\shortTitle}
 \renewcommand{\footrulewidth}{.4pt}
 \fancypagestyle{plain}{
   \fancyhf{}
@@ -262,53 +264,53 @@
     before skip = .75em,
     after skip = 1em,
   },
-  base/.style = {
-
+  baseBox/.style = {
+    enhanced,
+    lower separated = false,
+    left = 3mm,
+    right = 4mm,
+    top = 1mm,
+    bottom = 2mm,
+    middle = 0pt,
+    sharp corners,
+    rounded corners = southeast,
+    arc is angular,
+    arc = 3mm,
+    leftrule = 5pt,
+    underlay = {
+      \path[quoteDecoration] ([shift={(.01, .3)}]interior.south east) --
+      ++(-.4, -.1) -- ++(.1, -.2);
+    },
+    drop fuzzy shadow,
   }
 }
 \tcbsetforeverylayer{shield externalize}
 % Quote box.
 \newtcolorbox{quoteBox}[1][]{
+  baseBox,
   skipBox,
-  enhanced,
-  lower separated = false,
-  left = 3mm,
-  right = 4mm,
-  top = 1mm,
-  bottom = 2mm,
-  middle = 0pt,
   colback = RoyalBlue!10,
   colframe = RoyalBlue!50!black,
-  sharp corners,
-  rounded corners = southeast,
-  arc is angular,
-  arc = 3mm,
-  leftrule = 5pt,
-  underlay = {
-    \path[quoteDecoration] ([shift={(.01, .3)}]interior.south east) --
-    ++(-.4, -.1) -- ++(.1, -.2);
-  },
-  drop fuzzy shadow,
+  fontupper=\itshape,
+  fontlower=\scshape\small\hfill,
   #1
 }
-% Basic remark box.
-\newtcbtheorem[no counter]{hola}{}{
+% Example box.
+\newtcolorbox{exampleBox}[1][]{
+  baseBox,
   skipBox,
-  lower separated = false,
-  colframe = black,
-  fonttitle = \bfseries,
-  separator sign = {},
-  coltitle = black,
-  enhanced,
-  top = 4.5mm,
-  drop fuzzy shadow,
-  boxed title style = { colframe = black },
-  attach boxed title to top left = { xshift = 5mm, yshift = -2mm },
-  colback = ForestGreen!12,
-  colbacktitle = ForestGreen!36
-  % colback = RoyalBlue!12,
-  % colbacktitle = RoyalBlue!36
-p}{hola}
+  colback = OliveGreen!10,
+  colframe = OliveGreen!50!black,
+  #1
+}
+% Remark box.
+\newtcolorbox{remarkBox}[1][]{
+  baseBox,
+  skipBox,
+  colback = RedOrange!10,
+  colframe = RedOrange!50!black,
+  #1
+}
 % Input code file.
 \newtcbinputlisting[auto counter, number within=chapter, list inside=code]{\codeLst}[4]{
   listing engine = minted,
@@ -330,9 +332,9 @@ p}{hola}
   drop fuzzy shadow,
   breakable,
   sharp corners,
-  colbacktitle = green!50!black,
-  colback = green!30!gray!15,
-  colframe = green!50!black,
+  colbacktitle = Gray!50!black,
+  colback = Gray!30!gray!15,
+  colframe = Gray!50!black,
   coltitle = white,
   fonttitle = \bfseries,
   boxrule = 0pt,
@@ -344,14 +346,11 @@ p}{hola}
   label = code:#4
 }
 
-% Todonotes configuration.
-\setuptodonotes{inline}
-
 % Configuration for SVG package.
 \svgsetup{
-  svgpath = Figures/SVGs/,
   inkscapepath = Build/SVG/
 }
+\svgpath{Figures/SVGs/}
 
 % Configuration for Lettrine.
 \renewcommand{\LettrineFontHook}{\bfseries}
@@ -371,12 +370,12 @@ p}{hola}
 
 % Show copyright note source for floats.
 \newcommand{\source}[1]{
-  \vspace{-8pt}\caption*{\footnotesize\hfill{#1}}
+  \vspace{-1em}\caption*{\footnotesize\hfill{#1}}
 }
 
 % Custom reference to chapter.
 \newcommand{\chapRef}[1]{%
-Este capítulo, titulado ``\nameref*{#1}'', comienza en la página~\pageref{#1}.
+Este \namecref{#1}, titulado ``\nameref*{#1}'', comienza en la página~\pageref{#1}.
 }
 
 % Some basic math definitions.
@@ -386,9 +385,10 @@ Este capítulo, titulado ``\nameref*{#1}'', comienza en la página~\pageref{#1}.
 
 \title{An innecesarily long title related to Artifical Intelligence and in the
   topic of Multimodal Learning}
+\newcommand{\shortTitle}{Referring Expression Comprehension}
 \author{David Álvarez Rosa}
 \date{\today}
 
 
-% \includeonly{Chapters/Chapter3}
+% \includeonly{Chapters/Chapter1}
 % \includeonly{Appendices/AppendixA}
