@@ -12,7 +12,36 @@
 \lettrine{E}{l} modelo.
 
 
-\section{Definition}
+\section{Base architecture}
+
+En la \vref{fig:model} se muestra una representación gráfica del modelo
+usado. Tiene dos partes diferenciadas con las cuales se produce la extración de
+features de la parte visual y del lenguaje. Estas features son después
+combiadas para conseguir un embedding \emph{multimodal} y de esta manera ser
+capaz de generar la segmentación.
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \node[red, fill] {Test};
+  \end{tikzpicture}
+  \caption{TODO.}
+  \label{fig:model}
+\end{figure}
+
+\subsubsection{Image encoder}
+Para extraer las features de las imágenes se usa un modelo \gls{sota} llamado
+DeepLab, que es una red neuronal creada por \myCite{chen17:rethin} y basada en
+atrous convolutions.
+
+TODO. Aquí hablar sobre el modelo de DeepLab.
+
+
+\subsubsection{Language encoder}
+TODO. Hablar aquí sobre BERT.
+
+\subsubsection{Multimodal embedding}
+TODO.
 
 
 \section{Trainning}
@@ -147,6 +176,27 @@ lineal de las anteriores. La combinación,
 \end{equation}
 es bastante popular, ya que combina información local (\gls{ce}) con
 información global (\gls{dil}).
+
+
+\section{Model iterations}
+
+1. He estado trabajando con el modelo de RefVOS, pero no he conseguido obtener
+ninguna mejora significativa. Hasta ahora lo que he probado ha sido: -- Cambiar
+la manera en la que se unen las neuronas que provienen de la imagen y las que
+provienen del texto (en el modelo se usa multiplicación). He probado a entrenar
+con suma, resta, concatenación y proyectando usando una aplicación lineal
+(multiplicándolas por una matriz y luego combinándolas).  -- Probar diferentes
+funciones de error: "weighted cross entropy", "balanced cross entropy", "focal
+loss". Quiero probar también con otras como: "dice loss", "tversky index", "IoU
+loss"...  Las variaciones que he probado partiendo de parámetros pre-entrenados
+apenas varían el modelo (<1\% mejora), posiblemente porque ya esté el modelo en
+cierto mínimo local de la función de error (al final son todas similares) y los
+gradientes son prácticamente nulos.  Y probando variaciones con parámetros
+no-entrenados no consigo llegar a la precisión de RefVOS (entreno con
+train/validation/test y guardo los parámetros de la época con mejores
+resultados en validación).  Por otro lado, he tratado de crear algún modelo
+desde 0, sin basarme en RefVOS, pero he obtenido resultados nefastos (cercanos
+a la aleatoriedad).
 
 
 \section{Results}
