@@ -10,21 +10,112 @@
 }
 
 
-\lettrine{L}{anguage} ipsum dolor sit amet, consectetur
-adipiscing elit, sed do eiusmod and incididunt ut labore et dolore magna
-aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-id est laborum.
+\lettrine{R}{eferring} expression comprehension is the task of, given a
+linguistic phrase (\gls{re}) and an image, generate binary masks for the object
+which the phrase refers to. En esta capítulo formularemos de manera concreta el
+problema a resolver (\vref{sec:formulation}), analizaremos los datasets
+existentes y las medidas de evaluación (\vref{sec:data-eval}) y por último,
+haremos un estudio exhaustivo del \gls{sota} en este ámbito revisando la
+literatura más reciente (\vref{sec:sota}).
 
 
-\section{Problem formulation}
+\section{Problem formulation} \label{sec:formulation}
 
-Hey
+En la tarea de \gls{rec} se deben dar dos entradas diferenciadas, una de ella
+relacionada con lenguaje y la otra con visión.
+\begin{itemize}
+  \item \textbf{Vision}. Puede ser una imagen o un video. En nuestro caso
+  trataremos únicamente con imágenes\footnote{El mismo modelo también aplicaría
+  en el caso de vídeo si se trabajra frame por frame, pero no ofreceremos un
+  modelo que tenga en cuenta la evolución temporal de los frames.}.
+  \item \textbf{\gls{re}}. Es un frase linguistica que se refiere a un
+  objeto. Puede darse en dos medios: audio y texto. En este tesis se admitirán
+  ambas dos representaciones.
+\end{itemize}
+Y, la salida de este problema será la generación de una máscara binaria de
+segmentación con el objeto referido o una bounding box (en esta tesis se
+añadirá funcionalidad para generar ambas).
+
+Para poder entenderlo se muestra en la \vref{fig:rec-examples} múltiples
+ejemplos de este problema. Se han intentado mostrar todas las posibilidades,
+desde las más simples a las más complejas.
+\begin{itemize}
+  \item \textbf{Multiple objects}. En la \vref{fig:rec-man} se muestra un
+  ejemplo con dos personas en las que se diferencia una de otra por un elemento
+  diferenciador (``cap''). En la \vref{fig:rec-laptop} se diferencian los
+  diferentes objetos por su posición relativa (``right''). En la
+  \vref{fig:rec-army} se diferencian por una cualidad (``white suit'').
+  \item \textbf{Categorías multiples}. Como se puede ver en las
+  \vref{fig:rec-umbrella,fig:rec-parent,fig:rec-girl}, se puede referrir tanto
+  a objetos como personas dentro de una misma imagen.
+  \item \textbf{Vocabulario especializado}. En la \vref{fig:rec-elephant} nos
+  referimos a un tipo de animal concreto (``elephant'') y en la
+  \vref{fig:rec-couch} se usa la expresión de ``couch''.
+  \item \textbf{Objetos secundarios}. En la \vref{fig:rec-car} nos referimos a
+  un objeto secundario y pequeño de la imagen (``car''), que forma parte de la
+  misma categoría (automóvil) que el objeto principal (autobús).
+\end{itemize}
+
+\begin{figure}[tp]
+  \centering
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Man with cap.} \label{fig:rec-man}
+    \includegraphics[width=\textwidth]{Images/Man with cap.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Laptop on the right.} \label{fig:rec-laptop}
+    \includegraphics[width=\textwidth]{Images/Laptop on the right.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Army officer white suit.} \label{fig:rec-army}
+    \includegraphics[width=\textwidth]{Images/Army officer.jpg}
+  \end{subfigure}
+
+  \bigskip
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Black car.} \label{fig:rec-car}
+    \includegraphics[width=\textwidth]{Images/Black car.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Small middle elephant.} \label{fig:rec-elephant}
+    \includegraphics[width=\textwidth]{Images/Small middle elephant.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Two seat couch.} \label{fig:rec-couch}
+    \includegraphics[width=\textwidth]{Images/Couch.jpg}
+  \end{subfigure}
+
+  \bigskip
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Umbrella.} \label{fig:rec-umbrella}
+    \includegraphics[width=\textwidth]{Images/Umbrella.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Parent holding umbrella.} \label{fig:rec-parent}
+    \includegraphics[width=\textwidth]{Images/Parent.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Little girl pink coat.} \label{fig:rec-girl}
+    \includegraphics[width=\textwidth]{Images/Little girl.jpg}
+  \end{subfigure}
+  \caption[Examples of \acl*{rec}]{Examples of \acl{rec}. Como se puede ver,
+    podemos referirnos a objetos de la imagen con \gls{re} en lenguaje natural
+    y se produce la segmentación.}
+  \label{fig:rec-examples}
+  \source{Created by the author}
+\end{figure}
 
 
-\section{Datasets and Evaluation}
+\section{Datasets and Evaluation} \label{sec:data-eval}
 
 Para el desarrollo y validación de los modelos presentados para la resolución
 del problema de \gls{rec}, son necesarias dos cosas principalmente: datasets y
@@ -103,6 +194,7 @@ datasets.
     and RefCOCO+ datasets. Se puede observar que en RefCOCO+ no se permite el
     uso de location information, mientras que en RefCOCO sí que es válida.}
   \label{fig:refcoco}
+  \source{Modified from \cite{kazemzadeh14:refer_game}}
 \end{figure}
 
 La diferencia entre RefCOCOg y estos dos anteriores es que, contiene solo
@@ -127,11 +219,16 @@ imágenes no-ficticias y lenguaje natural.
 
 Esto se corresponde con una evaluación del modelo de manera numérica. Las
 diferentes evaluation measures usadas típicamente para abordar este problema
-son: TODO\ldots\ldots. En la sección \vref{sec:evaluation} será explicado en
-profundidad el uso de \gls{iou}.
+están relacionadas con el cálculo del \gls{iou} (en la \vref{sec:evaluation}
+será explicado en profundidad).
+
+También es posible definir un índice de accuracy de la siguiente manera: si el
+\gls{iou} es más grande que \num{0.5} la predicción se considera un true
+positivie, y, si no, se considera como un false positive. Después se puede
+hacer una media sobre todo el dataset.
 
 
-\section{Related work}
+\section{Related work} \label{sec:sota}
 
 Los métodos actuales \gls{sota} para \gls{rec} se pueden dividir en tres
 grandes clases: joint embedding (see \vref{sec:joint}), modelos modulares (see

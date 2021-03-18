@@ -1,0 +1,66 @@
+% -*- TeX-master: "../../Thesis.tex" -*-
+
+
+\noindent
+\begin{tikzpicture}[
+  hexagon/.style = {
+    rounded corners,
+    draw,
+    regular polygon,
+    regular polygon sides = 6,
+    ultra thick
+  },
+  coverText/.style = {
+    text width = .6\paperwidth,
+  },
+  title/.style = {
+    font = \Huge\bfseries\scshape,
+  },
+  subtitle/.style = {
+    font = \huge\itshape,
+  },
+  author/.style = {
+    font = \LARGE\scshape,
+  }
+  ]
+
+  \clip (0, 0) rectangle (\paperwidth, \paperheight);
+
+  % Background.
+  \fill[Dandelion] (current page.south west) rectangle (current page.north
+  east);
+
+  % Background Polygon.
+  \foreach \i in {0.08,0.12,...,0.75} {
+    \node[hexagon, Dandelion!60, minimum size=\i\paperheight] at ($(current page.west)+(2,-5)$) {};
+  }
+  \foreach \i in {0.08,0.12,...,0.75} {
+    \node[hexagon, Dandelion!60, minimum size=\i\paperheight] at ($(current page.north
+    west)+(2,0)$) {};
+  }
+  \foreach \i in {0.08,0.12,...,0.75} {
+    \node[hexagon, Dandelion!90, minimum size=\i\paperheight] at ($(current page.north
+    east)+(0,-9.5)$) {};
+  }
+  \foreach \i in {0.08,0.12,...,0.75} {
+    \node[hexagon, Dandelion!85, minimum size=\i\paperheight] at ($(current page.south
+    east)+(-0.2,-0.45)$) {};
+  }
+
+  % Title of the Report.
+
+  \node[coverText, title] at (12, 16) {\shortTitle};
+
+  % Subtitle.
+  \node[coverText, subtitle] at (12, 12) {Subtitle of the Report};
+
+  % Author Name.
+  \makeatletter
+  \node[coverText, author] at (12, 11) {\@author};
+  \makeatother
+
+  % Year.
+  \node[rounded corners,fill=Dandelion!70, regular polygon,regular
+  polygon sides=6, minimum size=2.5 cm,inner sep=0,ultra thick] at
+  ($(current page.west)+(2,-5)$) {\LARGE\bfseries \the\year{}};
+\end{tikzpicture}
