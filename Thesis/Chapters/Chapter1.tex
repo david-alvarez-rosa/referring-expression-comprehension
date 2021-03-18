@@ -3,46 +3,46 @@
 
 \chapter{Introduction} \label{cha:intro}
 
-\epigraphhead[75]{
+\epigraphhead [75]{
   \epigraph{\itshape Begin at the beginning, the King said
     gravely, ``and go on till you come to the end: then stop.''}
-  {---\textsc{Lewis Carroll}\\ \textit{Alice in Wonderland}}
+  {---\textsc{Lewis Carroll} \ \ \textit{Alice in Wonderland}}
 }
 
-\lettrine{A}{rtificial} Intelligence es uno de los temas relacionados con
-\gls{cs} que más están de actualidad\footnote{En \today, fecha actual del
-  documento.} en los últimos años. Ha cobrado gran importancia debido
-principalmente a sus aplicaciones en el mundo industrial y cotidiano, como
-puede ser el de la condución autónoma.
+\lettrine{A}{rtificial} Intelligence is one of the topics related to
+\gls{cs} most current \footnote{In \today, current date of
+  document.} in recent years. It has become very important due
+mainly to its applications in the industrial and everyday world, such as
+it may be that of autonomous driving.
 
-Es un area de investigación en la que, curiosamente, no existe una definición
-precisa y universalmente aceptada por la comunidad de investigadores y
-desarrolladores que trabajan cada día en el ámbito de la
-\gls{ai}. \myCite{nilsson09:quest_artif_intel} provee una definición útil:
+It is an area of   research in which, curiously, there is no definition
+accurately and universally accepted by the research community and
+developers who work every day in the field of
+\gls{ai}. \myCite{nilsson09:quest_artif_intel} provides a useful definition:
 
 \begin{quoteBox}
   Artificial intelligence is that activity devoted to making machines
   intelligent, and intelligence is that quality that enables an entity to
   function appropriately and with foresight in its environment.
   \tcblower
-  ---Nils J. Nilsson
+  --- Nils J. Nilsson
 \end{quoteBox}
 
-Dentro del amplio mundo de la \gls{ai} se encuentra \gls{dl} (que es parte de
-un ámbito más amplio llamado \gls{ml}). \gls{dl} consiste en aprender de
-datacon el uso de redes neuronales profundas. Estos datos pueden ser de
-diferente índole: imágenes, texto, audio, video, etc. Esta tesis mezclará tres
-de estos medios (audio \(\rightarrow\) texto e imagen), por lo que formará
-parte del area conocida como \emph{multimodal learning}. A continuación en la
-\vref{sec:description} se describirá el trabajo de esta tesis: \gls{rec}.
+Within the broad world of \gls{ai} is \gls{dl} (which is part of
+a broader scope called \gls{ml}). \gls{dl} consists of learning from
+data with the use of deep neural networks. These data can be from
+different nature: images, text, audio, video, etc. This thesis will mix three
+of these media (audio \(\rightarrow\) text and image), so it will form
+part of the area known as \emph{multimodal learning}. Next in the
+\vref{sec:description} the work of this thesis will be described: \gls{rec}.
 
 
 \section{Description and motivation} \label{sec:description}
 
 \gls{rec} is the task of, given a linguistic phrase (\gls{re}) and an image,
-generate binary masks for the object which the phrase refers to. Este tipo de
-tareas quedan enmarcadas dentro del campo del aprendizaje multimodal: en la
-intersección entre computer vision y \gls{nlp}.
+generate binary masks for the object which the phrase refers to. This type of
+tasks are framed within the field of multimodal learning: in the
+intersection between computer vision and \gls{nlp}.
 
 \begin{figure}[ht]
   \centering
@@ -68,81 +68,81 @@ intersección entre computer vision y \gls{nlp}.
   \source{Created by the author}
 \end{figure}
 
-En la \vref{fig:demo} podemos ver unos ejemplos de este tipo de tareas. Como
-vemos, la entrada consistirá en dos entidades: una \gls{re} y una imagen. El
-modelo será el encargado de generar la segmentación del objeto al que la frase
-se refiere. Vemos que las \gls{re} mostradas son diversos tipos: relación del
-objeto a segmentar con \emph{otro objeto} (``man with a cap''), tipo de objeto
-+ \emph{posicionamiento} relativo (``laptop on the right'') y descripción del
-objeto + \emph{color} distintitvo (``army officer white suit'').
+In \vref{fig:demo} we can see some examples of this type of task. What
+We see, the input will consist of two entities: a \gls{re} and an image. The
+The model will be in charge of generating the segmentation of the object to which the phrase
+it means. We see that the \gls{re} shown are different types: relation of the
+object to segment with \emph{otro objeto} (`` man with a cap ''), type of object
++ \emph{posicionamiento} relative (`` laptop on the right '') and description of the
+object + \emph{color} distinctive (`` army officer white suit '').
 
-De manera opcional esta tarea puede ser explotada y ampliada de diversas
-maneras. Entre ellas ampliando el conjunto de entrada y el de salida que el
-modelo puede obtener.
+Optionally, this task can be exploited and expanded in various ways.
+ways. Among them by expanding the input and output set that the
+model can get.
 \begin{itemize}
-  \item \textbf{Entrada}. Podemos proponer modelos más generales que sean capaz
-  de entender la \gls{re} desde audio, sin necesidad de tener que introducir la
-  frase de manera manual. Así mismo, se puede ampliar el modelo aceptando
-  además de imágenes, vídeos. En esta tesis se trabajará en la parte del
+  \item \textbf{Entrada}. We can propose more general models that are capable
+  to understand \gls{re} from audio, without having to enter the
+  phrase manually. Likewise, the model can be extended by accepting
+  in addition to images, videos. In this thesis we will work on the part of
   \emph{audio}.
-  \item \textbf{Salida}. La salida también puede ser ampliada generando, además
-  de la máscara binaria de la segmentación, una bounding box.
+  \item \textbf{Salida}. The output can also be extended by generating, in addition
+  from the binary mask of the segmentation, a bounding box.
 \end{itemize}
 
-Este trabajo añadirá una gran facilidad principalmente en la interacción
-human-computer, por lo que presenta un gran interés práctico. Se discutirán
-diferentes aplicaciones de este modelo en la \vref{sec:aplicaciones}.
+This work will add a great facility mainly in the interaction
+human-computer, so it is of great practical interest. Will be discussed
+different applications of this model in \vref{sec:aplicaciones}.
 
 \subsection{Objectives}
 
-Esta tesis de investigación tiene diferentes objetivos diferenciados. El
-primero de ellos es el de aprender el funcionamiento de la \gls{ai}, sin ningún
-conocimiento previo. Principalmente en el ámbito del \gls{dl}, que es donde el
-modelo presentado queda encajado. Es fundamental conocer los fundamentos de los
-modelos neuronales para poder entender en profundidad cómo es posible resolver
-el problema de \gls{rec}.
+This research thesis has different different objectives. The
+The first of these is to learn the operation of \gls{ai}, without any
+prior knowledge. Mainly in the field of \gls{dl}, which is where the
+model presented is fitted. It is essential to know the fundamentals of
+neural models to be able to understand in depth how it is possible to solve
+the problem of \gls{rec}.
 
 \begin{itemize}
   \item \textbf{Model}. Search for a model that performs well in \gls{rec},
-  estudiar su funcionamiento y tratar de mejorarlo.
-  \item \textbf{Visualization}. Presentar una interfaz web interactiva en la
-  cual se presenten los resultados del trabajo. Aquí será de vital importancia
-  que el modelo funcione suficientemente rápido.
-  \item \textbf{Academic}. Escribir esta memoria y presentar el trabajo.
+  study its operation and try to improve it.
+  \item \textbf{Visualization}. Present an interactive web interface on the
+  which will present the results of the work. Here it will be of vital importance
+  that the model works fast enough.
+  \item \textbf{Academic}. Write this report and present the work.
 \end{itemize}
 
-Para conseguir hacer realidad estos objetivos, muchos otros objetivos
-intermedios han tenido que ser alcanzados. Entre ellos el de leer, comprender y
-analizar los resultados \gls{sota} de la literatura reciente. Además de ello,
-ha sido necesario mejorar las programming skills y aprender lenguajes de
-programación nuevos, tanto para el desarrollo del modelo en Pytorch, como para
-el desarrollo de la interfaz web: frontend con HTML, CSS, JS y backend con PHP
-y Python.
+To achieve these goals, many other goals
+intermediates have had to be reached. Among them that of reading, understanding and
+analyze the results \gls{sota} of the recent literature. Besides that,
+it has been necessary to improve programming skills and learn languages   of
+new programming, both for the development of the model in Pytorch, and for
+the development of the web interface: frontend with HTML, CSS, JS and backend with PHP
+and Python.
 
 
-\section{Aplicaciones} \label{sec:aplicaciones}
+\section{Applications} \label{sec:aplicaciones}
 
-El uso de referring expression comprehension puede tener aplicaciones de
-diversa índole. En los últimos años están cobrando una gran importancia la
-robótica y la domótica. Este trabajo facilita la interacción entre humano y
-robot/ordenador. Por ejemplo, podría facilitar la comprensión de órdenes de un
-humano por parte de una máquina.
+The use of referring expression comprehension can have applications of
+diverse nature. In recent years, the
+robotics and home automation. This work facilitates the interaction between human and
+robot / computer. For example, it could make it easier to understand orders from a
+human on the part of a machine.
 
-\subsubsection{Teóricas}
-La creación y estudio de modelos en el ámbito del aprendizaje multimodal usando
-deep learning puede terminar teniendo aplicaciones en ámbitos diferentes. La
-transferencia de conocimiento entre ámbitos en la \gls{ai} es algo típico:
-muchas veces \gls{cv} y \gls{nlp} terminan compartiendo técnicas similares.
+\subsubsection{Theoretical}
+The creation and study of models in the field of multimodal learning using
+deep learning can end up having applications in different domains. The
+knowledge transfer between fields in \gls{ai} is typical:
+many times \gls{cv} and \gls{nlp} end up sharing similar techniques.
 
-En este caso concreto, tenemos precisamente la interacción entre modelos para
-lenguaje y para visión. Esto podría ser útil en el desarrollo de nuevos modelos
-en el futuro en el ámbito del aprendizaje multimodal.
+In this specific case, we have precisely the interaction between models for
+language and vision. This could be useful in the development of new models
+in the future in the field of multimodal learning.
 
-\subsubsection{Industria}
-En el ámbito industrial, el modelo aquí presentado podría tener aplicaciones en
-diversos ámbitos. Podrían facilitar la interacción entre operario/máquina,
-mejorando así la eficiencia de una determinada empresa y optimizando los
-procesos.
+\subsubsection{Industry}
+In the industrial field, the model presented here could have applications in
+various fields. They could facilitate the interaction between operator / machine,
+thus improving the efficiency of a certain company and optimizing the
+processes.
 
 \begin{figure}[ht]
   \centering
@@ -154,32 +154,32 @@ procesos.
   \source{From \cite{online21:china_no}}
 \end{figure}
 
-Entre ellos podría ser el del mundo automovilístico, como se
-muestra en la \vref{fig:robots}, donde varios brazos robóticos operan sobre un
-vehículo en fabricación. Poder referirse a objetos/partes del vehículo usando
-frases lingüisticas sería de gran utilidad. Por ejemplo, un operario podría ver
-de manera visual que una de las soldaduras está mal realizada y ordenar al
-brazo robótico rehacerla con una \gls{re} del tipo: ``soldadura inferior de la
-puerta delantera derecha''.
+Among them it could be that of the automotive world, as
+shown in \vref{fig:robots}, where several robotic arms operate on a
+vehicle in manufacture. Be able to refer to objects / parts of the vehicle using
+Linguistic phrases would be of great use. For example, an operator might see
+visually that one of the welds is incorrectly performed and order the
+robotic arm remake it with a \gls{re} of the type: `` lower weld of the
+right front door ''.
 
 \begin{remarkBox}
-  Para algunos puede existir preocupación sobre si este tipo de aplicaciones de
-  la inteligencia artificial pueden ser perjudicial para el futuro profesional
-  de la sociedad en su conjunto. Es un debate abierto, pero, en palabras de
-  \citeauthor*{contributor18:artif_intel_will_replac_tasks_not_jobs}
-  \cite{contributor18:artif_intel_will_replac_tasks_not_jobs}, ``\itshape
-  Artificial Intelligence Will Replace Tasks, Not Jobs''.
+  For some, there may be concern about whether this type of application
+  artificial intelligence can be detrimental to the future professional
+  of society as a whole. It is an open debate, but, in the words of
+  \citeauthor *{contributor18: artif_intel_will_replac_tasks_not_jobs}
+  \cite{contributor18:artif_intel_will_replac_tasks_not_jobs}, `` \itshape
+  Artificial Intelligence Will Replace Tasks, Not Jobs. ''
 \end{remarkBox}
 
-Este es tan solo un ejemplo de las muchas aplicaciones que podrían tener estos
-modelos en la industria. La inmensa mayoría de los sectores se podrían
-beneficiar con la implementación de sistemas de interacción entre sus operarios
-y sus máquinas por medio de voz y usando \gls{re}.
+This is just one example of the many applications that these could have.
+models in the industry. The vast majority of sectors could be
+benefit from the implementation of interaction systems between your operators
+and their machines by voice and using \gls{re}.
 
-\subsubsection{Domótica y \acs*{iot}}
-En el mundo de la domótica y de \gls{iot}, tan de moda a día de hoy, también
-podría ser de utilidad el tema que concierne esta tesis. Principalmente por la
-facilidad que añade a la interacción entre máquinas y humanos.
+\subsubsection{Domotics and \acs *{iot}}
+In the world of home automation and \gls{iot}, so fashionable today, also
+the subject that concerns this thesis could be useful. Mainly because of the
+ease that adds to the interaction between machines and humans.
 
 \begin{figure}[ht]
   \centering
@@ -200,23 +200,23 @@ facilidad que añade a la interacción entre máquinas y humanos.
     \cite{iam21:futur_mater_handl}}
 \end{figure}
 
-En la \vref{fig:robot} podemos ver algunos ejemplos en los que se podría
-facilitar la interacción en tareas del día a día. En ella se ve un robot
-cogiendo cubos de diferentes colores y otro brazo robótico cogiendo alimentos y
-medicamentos de una estantería y apilando los seleccionados en una caja.
+In \vref{fig:robot} we can see some examples in which one could
+facilitate interaction in day-to-day tasks. In it you see a robot
+picking up different colored cubes and another robotic arm picking up food and
+medications from a shelf and stacking the selected ones in a box.
 
-No tan solo por la facilidad que esto podría añadir a la vida de muchas
-personas, sino también por el interés añadido que supondría para personas con
-discapacidad. Por ejemplo, una persona con algún tipo de dicapacidad física (o
-una persona mayor), podría necesitar ayuda para elegir productos en un
-supermercado. En este caso, un brazo robótico podría ayudarle, y este trabajo
-serviría de enlace entre los dos y facilitaría la interacción. La persona
-podría referirse a los productos que desea adquirir usando simplemente la voz y
-refiriendose a ello en un lenguaje \emph{natural}.
+Not only because of the ease that this could add to the lives of many
+people, but also because of the added interest it would bring to people with
+disability. For example, a person with some type of physical disability (or
+an older person), you may need help choosing products in a
+Supermarket. In this case, a robotic arm could help you, and this job
+It would serve as a link between the two and facilitate interaction. Person
+you could refer to the products you want to purchase by simply using your voice and
+referring to it in language \emph{natural}.
 
-\subsubsection{Seguridad}
-Otro posible aplicación sería la usado por la policía en el control de la
-seguridad en las carreteras. En la \vref{fig:dgt} podemos ver uno de estos
+\subsubsection{Security}
+Another possible application would be that used by the police in the control of the
+road safety. In \vref{fig:dgt} we can see one of these
 drones.
 
 \begin{figure}[ht]
@@ -229,74 +229,74 @@ drones.
   \source{TODO}
 \end{figure}
 
-Este tipo de drones podrían incorporar sistemas como el presentado en este
-trabajo fin de grado para poder realizar seguimiento de vehículos mediante
-comandos por voz. Por ejemplo se podrían usar estructuras sintácticas
-compuestas por acción y \gls{re}, como podrían ser las siguientes.
+This type of drones could incorporate systems like the one presented in this
+final degree project to be able to track vehicles through
+voice commands. For example syntactic structures could be used
+composed of share and \gls{re}, such as the following.
 
 \begin{itemize}
-  \item \textbf{Acciones}. Diferentes acciones podrían ser deseadas para
-  controlar y garantizar la seguridad vial como: seguir, grabar, tomar
-  velocidad, etc.
-  \item \textbf{\gls*{re}}. Se correspondería con frases linguisticas que
-  identificaran al vehículo a estudiar o al infractor al que perseguir: coche
-  azul/negro/rojo/\ldots, camión grande, coche deportivo, furgoneta de la
-  derecha, etc.
+  \item \textbf{Acciones}. Different actions could be desired for
+  control and guarantee road safety such as: follow, record, take
+  speed, etc.
+  \item \textbf{\gls*{re}}. It would correspond to linguistic phrases that
+  identify the vehicle to study or the offender to pursue: car
+  blue / black / red / \ldots, big truck, sports car, van
+  right, etc.
 \end{itemize}
 
-De esta manera, combinaciones como: ``toma velocidad del coche negro'' o
-``graba al coche deportivo'' podrían ayudar al control de la seguridad en las
-carreteras. Este trabajo, como ya se ha comentado anteriormente, se centra en
-\gls{rec} y no en el uso que se hace de esa comprehension a posteriori.
+In this way, combinations such as: `` take the speed of the black car '' or
+`` record the sports car '' could help control security in
+roads. This work, as mentioned above, focuses on
+\gls{rec} and not in the use made of that comprehension a posteriori.
 
 
 \section{Overview of thesis}
 
-Aquí se presentará una descripción de los diferentes capítulos que componen
-esta tesis.
+Here will be presented a description of the different chapters that make up
+this thesis.
 
 \begin{description}
-  \item[Chapter 1] Es este capítulo y se trata de un capítulo introductorio a
-  nivel general de la materia que se tratará en esta tesis. Se tratarán la
-  motivación detrás de este trabajo, sus objetivos y sus posibles
-  aplicaciones. \chapRef{cha:intro}
-  \item[Chapter 2] Este capítulo se centrará en los fundamentos teóricos
-  generales en el ámbito de la \gls{ai}, de manera que los capítulos siguientes
-  puedan entenderse. \chapRef{cha:theory}
-  \item[Chapter 3] Tratará el tema central de esta tesis. Se formulará de
-  manera concreta el problema, se presentarán el dataset que se usará y las
-  técnicas de evaluación y se discutirán los modelos existentes
-  actualmente. \chapRef{cha:rec}
-  \item[Chapter 4] Este capítulo introducirá el modelo concreto usado, como se
-  ha entrenado, las diferentes versiones que se han estudiado del mismo, cómo
-  se ha comportado y qué resultados se han obtenido. \chapRef{cha:model}
-  \item[Chapter 5] Presentará todo el código desarrollado para conseguir una
-  aplicación web interactiva con la que se permitirá evaluar y validar el
-  modelo de manera sencilla. \chapRef{cha:web}
-  \item[Chapter 6] TODO. \chapRef{cha:analysis}
-  \item[Chapter 7] Se resumirá de manera concisa la tesis, se discutirán los
-  resultados obtenidos, se presentará una conclusión global y se aportarán
-  futuras lineas de investigación. \chapRef{cha:concl}
+  \item [Chapter 1] It is this chapter and it is an introductory chapter to
+  general level of the subject that will be treated in this thesis. The
+  motivation behind this work, its objectives and its possible
+  Applications. \chapRef{cha:intro}
+  \item [Chapter 2] This chapter will focus on the theoretical foundations
+  in the field of \gls{ai}, so that the following chapters
+  can be understood. \chapRef{cha:theory}
+  \item [Chapter 3] It will deal with the central theme of this thesis. It will be formulated from
+  concretely the problem, the dataset that will be used and the
+  evaluation techniques and existing models will be discussed
+  actually. \chapRef{cha:rec}
+  \item [Chapter 4] This chapter will introduce the concrete model used, as
+  has trained, the different versions that have been studied of it, how
+  has behaved and what results have been obtained. \chapRef{cha:model}
+  \item [Chapter 5] Will present all the code developed to achieve a
+  interactive web application with which it will be possible to evaluate and validate the
+  model in a simple way. \chapRef{cha:web}
+  \item [Chapter 6] EVERYTHING. \chapRef{cha:analysis}
+  \item [Chapter 7] The thesis will be summarized concisely, the
+  results obtained, a global conclusion will be presented and
+  future lines of research. \chapRef{cha:concl}
 \end{description}
 
-También se incluirá material suplementario en los anexos.
+Supplementary material will also be included in the annexes.
 
 \begin{description}
-  \item[Appendix A] Hey. \chapRef{cha:introduction}
-  \item[Appendix B] He. \chapRef{cha:license}
+  \item [Appendix A] Hey. \chapRef{cha:introduction}
+  \item [Appendix B] He. \chapRef{cha:license}
 \end{description}
 
-También comentar que se pueden encontrar al final las referencias, una lista de
-acrónimos y un índice alfabético.
+Also comment that you can find at the end the references, a list of
+acronyms and an alphabetical index.
 
 \subsubsection{How to read this thesis}
-A lo largo de la tesis se usarán tres tipos de cajas para incluir contenido
+Throughout the thesis, three types of boxes will be used to include content
 extra: \emph{quote} box, \emph{example} box and \emph{remark} box.
 
 \begin{quoteBox}
   This will be a quote box.
   \tcblower
-  ---Author Name
+  --- Author Name
 \end{quoteBox}
 
 \begin{exampleBox}
@@ -304,8 +304,8 @@ extra: \emph{quote} box, \emph{example} box and \emph{remark} box.
 \end{exampleBox}
 
 \begin{remarkBox}
-  This will be a remark/alert box.
+  This will be a remark / alert box.
 \end{remarkBox}
 
-Todas las figuras que aparecen en esta tesis muestran la fuente de la cuál se
-han extraído o, en su defecto, han sido creadas por el autor.
+All the figures that appear in this thesis show the source from which
+have been extracted or, failing that, have been created by the author.
