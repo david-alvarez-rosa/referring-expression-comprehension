@@ -4,45 +4,44 @@
 \chapter{Introduction} \label{cha:intro}
 
 \epigraphhead [75]{
-  \epigraph{\itshape Begin at the beginning, the King said
-    gravely, ``and go on till you come to the end: then stop.''}
-  {---\textsc{Lewis Carroll} \ \ \textit{Alice in Wonderland}}
-}
+  \epigraph{\itshape Begin at the beginning, the King said gravely, ``and go on
+    till you come to the end: then stop.''}
+  {---\textsc{Lewis Carroll} \\
+    \textit{Alice in Wonderland}}}
 
-\lettrine{A}{rtificial} Intelligence is one of the topics related to
-\gls{cs} most current \footnote{In \today, current date of
-  document.} in recent years. It has become very important due
-mainly to its applications in the industrial and everyday world, such as
-it may be that of autonomous driving.
+\lettrine{A}{rtificial} Intelligence is one of the topics related to \gls{cs}
+that are most current\footnote{In \today, current date of the document.} in
+recent years. It has gained great importance mainly due to its applications in
+industry and everyday world, such as autonomous driving.
 
-It is an area of   research in which, curiously, there is no definition
-accurately and universally accepted by the research community and
-developers who work every day in the field of
-\gls{ai}. \myCite{nilsson09:quest_artif_intel} provides a useful definition:
+It is an area of research in which, curiously, there is no precise definition
+universally accepted by the community of researchers and developers who work
+every day in the field of \gls{ai}. \myCite{nilsson09:quest_artif_intel},
+however, provides a useful definition:
 
 \begin{quoteBox}
   Artificial intelligence is that activity devoted to making machines
   intelligent, and intelligence is that quality that enables an entity to
   function appropriately and with foresight in its environment.
   \tcblower
-  --- Nils J. Nilsson
+  ---Nils J. Nilsson
 \end{quoteBox}
 
-Within the broad world of \gls{ai} is \gls{dl} (which is part of
-a broader scope called \gls{ml}). \gls{dl} consists of learning from
-data with the use of deep neural networks. These data can be from
-different nature: images, text, audio, video, etc. This thesis will mix three
-of these media (audio \(\rightarrow\) text and image), so it will form
-part of the area known as \emph{multimodal learning}. Next in the
-\vref{sec:description} the work of this thesis will be described: \gls{rec}.
+Within the larger world of \gls{ai} is \gls{dl} (which is part of a larger
+scope called \gls{ml}). \gls{dl} consists of learning from data with the use of
+deep neural networks. This data can be of a different nature: images, text,
+audio, video, etc. This thesis will mix three of these media (audio
+\(\rightarrow\) text and image), so it will form part of the area known as
+\emph{multimodal learning}. Next in \vref{sec:description} the work of this
+thesis will be described: \gls{rec}.
 
 
 \section{Description and motivation} \label{sec:description}
 
 \gls{rec} is the task of, given a linguistic phrase (\gls{re}) and an image,
 generate binary masks for the object which the phrase refers to. This type of
-tasks are framed within the field of multimodal learning: in the
-intersection between computer vision and \gls{nlp}.
+task is framed within the field of multimodal learning: at the intersection
+between computer vision and \gls{nlp}.
 
 \begin{figure}[ht]
   \centering
@@ -68,235 +67,224 @@ intersection between computer vision and \gls{nlp}.
   \source{Created by the author}
 \end{figure}
 
-In \vref{fig:demo} we can see some examples of this type of task. What
-We see, the input will consist of two entities: a \gls{re} and an image. The
-The model will be in charge of generating the segmentation of the object to which the phrase
-it means. We see that the \gls{re} shown are different types: relation of the
-object to segment with \emph{otro objeto} (`` man with a cap ''), type of object
-+ \emph{posicionamiento} relative (`` laptop on the right '') and description of the
-object + \emph{color} distinctive (`` army officer white suit '').
+In \vref{fig:demo} we can see some examples of this type of task. As we can
+see, the input will consist of two entities: one \gls{re} and an image. The
+model will be in charge of generating the segmentation of the object to which
+the phrase refers. We see that the \gls{re} shown are different types: relation
+of the object to segment with \emph{other object} (`` man with a cap ''), type
+of object + relative \emph{positioning} (`` laptop on the right '') and object
+description + \emph{color} distinctive (`` army officer white suit '').
 
-Optionally, this task can be exploited and expanded in various ways.
-ways. Among them by expanding the input and output set that the
-model can get.
+Optionally this task can be exploited and expanded in various ways. Among them,
+expanding the input and output set that the model can obtain.
 \begin{itemize}
-  \item \textbf{Entrada}. We can propose more general models that are capable
-  to understand \gls{re} from audio, without having to enter the
-  phrase manually. Likewise, the model can be extended by accepting
-  in addition to images, videos. In this thesis we will work on the part of
-  \emph{audio}.
-  \item \textbf{Salida}. The output can also be extended by generating, in addition
-  from the binary mask of the segmentation, a bounding box.
+  \item \textbf{Input}. We can propose more general models that are capable
+  of understanding \gls{re} from audio, without having to enter the phrase
+  manually. Likewise, the model can be expanded accepting in addition to
+  images, videos. In this thesis we will work on the part of \emph{audio}.
+  \item \textbf{Output}. The output can also be extended by generating, in
+  addition to the binary mask of the segmentation, a bounding box.
 \end{itemize}
 
-This work will add a great facility mainly in the interaction
-human-computer, so it is of great practical interest. Will be discussed
-different applications of this model in \vref{sec:aplicaciones}.
+This work will add a great facility mainly in the human-computer interaction,
+so it is of great practical interest. Different applications of this model will
+be discussed in \vref{sec:aplicaciones}.
 
 \subsection{Objectives}
 
-This research thesis has different different objectives. The
-The first of these is to learn the operation of \gls{ai}, without any
-prior knowledge. Mainly in the field of \gls{dl}, which is where the
-model presented is fitted. It is essential to know the fundamentals of
-neural models to be able to understand in depth how it is possible to solve
-the problem of \gls{rec}.
+This research thesis has different different objectives. The first one is to
+learn the operation of \gls{ai}, without any prior knowledge. Mainly in the
+area of \gls{dl}, which is where the presented model fits. It is essential to
+know the fundamentals of neural models to be able to understand in depth how it
+is possible to solve the problem of \gls{rec}.
 
 \begin{itemize}
   \item \textbf{Model}. Search for a model that performs well in \gls{rec},
   study its operation and try to improve it.
-  \item \textbf{Visualization}. Present an interactive web interface on the
-  which will present the results of the work. Here it will be of vital importance
-  that the model works fast enough.
+  \item \textbf{Visualization}. Present an interactive web interface in which
+  the results of the work are presented. Here it will be vital that the model
+  works fast enough.
   \item \textbf{Academic}. Write this report and present the work.
 \end{itemize}
 
-To achieve these goals, many other goals
-intermediates have had to be reached. Among them that of reading, understanding and
-analyze the results \gls{sota} of the recent literature. Besides that,
-it has been necessary to improve programming skills and learn languages   of
-new programming, both for the development of the model in Pytorch, and for
-the development of the web interface: frontend with HTML, CSS, JS and backend with PHP
-and Python.
+To achieve these goals, many other intermediate goals have had to be
+achieved. Among them, reading, understanding and analyzing the results of
+\gls{sota} models in recent literature. In addition, it has been necessary to
+improve programming skills and learn new programming languages, both for the
+development of the model in Pytorch, and for the development of the web
+interface: frontend with HTML, CSS, JS and backend with PHP and Python.
 
 
 \section{Applications} \label{sec:aplicaciones}
 
-The use of referring expression comprehension can have applications of
-diverse nature. In recent years, the
-robotics and home automation. This work facilitates the interaction between human and
-robot / computer. For example, it could make it easier to understand orders from a
-human on the part of a machine.
+The use of \gls{rec} can have applications of various kinds. In recent years,
+robotics and home automation are gaining great importance. This work enhances
+the interaction between human and robot/computer. For example, it could make it
+easier for a machine to understand commands from a human.
 
 \subsubsection{Theoretical}
-The creation and study of models in the field of multimodal learning using
-deep learning can end up having applications in different domains. The
-knowledge transfer between fields in \gls{ai} is typical:
-many times \gls{cv} and \gls{nlp} end up sharing similar techniques.
+The creation and study of models in the field of multimodal learning using deep
+learning can end up having applications in different fields. Knowledge transfer
+between fields in \gls{ai} is typical: many times \gls{cv} and \gls{nlp} end up
+sharing similar techniques.
 
 In this specific case, we have precisely the interaction between models for
-language and vision. This could be useful in the development of new models
+language and for vision. This could be useful in the development of new models
 in the future in the field of multimodal learning.
 
 \subsubsection{Industry}
 In the industrial field, the model presented here could have applications in
-various fields. They could facilitate the interaction between operator / machine,
-thus improving the efficiency of a certain company and optimizing the
-processes.
+various fields. They could facilitate the interaction between operator/machine,
+thus improving the efficiency of a certain company and optimizing processes.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=.75\textwidth]{Images/Robots.png}
-  \caption[Robots en fábrica de automóviles]{Robots en funcionamiento dentro de
-    una fábica de automóviles. Estos procesos suelen estar completamente
-    automizados y controlados en tiempo real.}
+  \caption[Robots in automobile factory]{Robots in operation within an
+    automobile factory. These processes are usually completely automated and
+    controlled in real time.}
   \label{fig:robots}
   \source{From \cite{online21:china_no}}
 \end{figure}
 
-Among them it could be that of the automotive world, as
-shown in \vref{fig:robots}, where several robotic arms operate on a
-vehicle in manufacture. Be able to refer to objects / parts of the vehicle using
-Linguistic phrases would be of great use. For example, an operator might see
-visually that one of the welds is incorrectly performed and order the
-robotic arm remake it with a \gls{re} of the type: `` lower weld of the
-right front door ''.
+Among them could be that of the automotive world, as shown in
+\vref{fig:robots}, where several robotic arms operate on a vehicle being
+manufactured. Being able to refer to objects/parts of the vehicle using
+linguistic phrases would be very useful. For example, an operator could
+visually see that one of the welds is badly made and order the robotic arm to
+redo it with a \gls{re} of the type: ``lower right front door weld''.
 
 \begin{remarkBox}
-  For some, there may be concern about whether this type of application
-  artificial intelligence can be detrimental to the future professional
-  of society as a whole. It is an open debate, but, in the words of
-  \citeauthor *{contributor18: artif_intel_will_replac_tasks_not_jobs}
-  \cite{contributor18:artif_intel_will_replac_tasks_not_jobs}, `` \itshape
-  Artificial Intelligence Will Replace Tasks, Not Jobs. ''
+  For some, there may be concern about whether this type of artificial
+  intelligence applications could be detrimental to the professional future of
+  society as a whole. It's an open debate, but, in the words of
+  \citeauthor*{contributor18:artif_intel_will_replac_tasks_not_jobs}
+  \cite{contributor18:artif_intel_will_replac_tasks_not_jobs},
+  ``\textit{Artificial Intelligence Will Replace Tasks, Not Jobs}''.
 \end{remarkBox}
 
-This is just one example of the many applications that these could have.
-models in the industry. The vast majority of sectors could be
-benefit from the implementation of interaction systems between your operators
-and their machines by voice and using \gls{re}.
+This is just one example of the many applications that these models could have
+in the industry. The vast majority of sectors could benefit from the
+implementation of interaction systems between their operators and their
+machines by means of voice and using \gls{re}.
 
-\subsubsection{Domotics and \acs *{iot}}
-In the world of home automation and \gls{iot}, so fashionable today, also
-the subject that concerns this thesis could be useful. Mainly because of the
-ease that adds to the interaction between machines and humans.
+\subsubsection{Domotics and \acs*{iot}}
+In the world of domotics and \gls{iot}, so fashionable today, the topic that
+concerns this thesis could also be useful. Mainly for the ease it adds to the
+interaction between machines and humans.
 
 \begin{figure}[ht]
   \centering
   \begin{subfigure}[t]{.55\textwidth}
     \centering
-    \caption{Cubos de diferentes colores.}
+    \caption{Cubes of different colors.}
     \includegraphics[height=4.5cm]{Images/Robot.jpg}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{.4\textwidth}
     \centering
-    \caption{Alimentos y medicamentos.}
+    \caption{Food and medications.}
     \includegraphics[height=4.5cm]{Images/Robot2.jpg}
   \end{subfigure}
-  \caption[Ejemplos de aplicaciones en robótica]{Ejemplos de aplicaciones en
-    robótica. Pueden facilitar muchas interacciones y tareas del día a día.}
+  \caption[Examples of applications in robotics]{Examples of applications in
+    robotics. They can facilitate many interactions and tasks of day to day.}
   \label{fig:robot}
   \source{From \cite{limited21:china_arduin_robot_arm} and
     \cite{iam21:futur_mater_handl}}
 \end{figure}
 
-In \vref{fig:robot} we can see some examples in which one could
-facilitate interaction in day-to-day tasks. In it you see a robot
-picking up different colored cubes and another robotic arm picking up food and
-medications from a shelf and stacking the selected ones in a box.
+In \vref{fig:robot} we can see some examples in which interaction in day-to-day
+tasks could be facilitated. In this figure, a robot is seen taking cubes of
+different colors and another robotic arm taking food and medicine from a shelf
+and stacking the selected ones in a box.
 
-Not only because of the ease that this could add to the lives of many
-people, but also because of the added interest it would bring to people with
-disability. For example, a person with some type of physical disability (or
-an older person), you may need help choosing products in a
-Supermarket. In this case, a robotic arm could help you, and this job
-It would serve as a link between the two and facilitate interaction. Person
-you could refer to the products you want to purchase by simply using your voice and
-referring to it in language \emph{natural}.
+Not only because of the ease that this could add to the lives of many people,
+but also because of the added interest it would bring to people with
+disabilities. For example, a person with some type of physical disability (or
+an elderly person), might need help choosing products in a supermarket. In this
+case, a robotic arm could help him, and this work would serve as a link between
+the two and facilitate interaction. The person could refer to the products they
+want to purchase by simply using their voice and referring to it in
+\emph{natural} language.
 
 \subsubsection{Security}
-Another possible application would be that used by the police in the control of the
-road safety. In \vref{fig:dgt} we can see one of these
-drones.
+Another possible application would be that used by the police to control road
+safety. In \vref{fig:dgt} we can see one of these drones.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=.75\textwidth]{Images/Drone.jpg}
-  \caption[Drones empleados para la seguridad vial]{Imagen de uno de los drones
-    que pueden ser empleados por las autoridades con el fin de garantizar la
-    seguridad vial.}
+  \caption[Drones employed for road safety]{Image of one of the drones that can
+    be employed by the authorities in order to guarantee road safety.}
   \label{fig:dgt}
   \source{TODO}
 \end{figure}
 
-This type of drones could incorporate systems like the one presented in this
-final degree project to be able to track vehicles through
-voice commands. For example syntactic structures could be used
-composed of share and \gls{re}, such as the following.
+This type of drones could incorporate systems such as the one presented in this
+final degree project to be able to track vehicles using voice commands. For
+example, syntactic structures composed of action and \gls{re} could be used,
+such as the following.
 
 \begin{itemize}
-  \item \textbf{Acciones}. Different actions could be desired for
-  control and guarantee road safety such as: follow, record, take
-  speed, etc.
+  \item \textbf{Actions}. Different actions could be desired to control and
+  guarantee road safety such as: follow, record, speed up, etc.
   \item \textbf{\gls*{re}}. It would correspond to linguistic phrases that
-  identify the vehicle to study or the offender to pursue: car
-  blue / black / red / \ldots, big truck, sports car, van
-  right, etc.
+  identify the vehicle to be studied or the offender to be pursued: blue/
+  black/red/\ldots car, large truck, sports car, van on the right, etc.
 \end{itemize}
 
-In this way, combinations such as: `` take the speed of the black car '' or
-`` record the sports car '' could help control security in
-roads. This work, as mentioned above, focuses on
-\gls{rec} and not in the use made of that comprehension a posteriori.
+In this way, combinations such as: ``speed up the black car'' or ``record the
+sports car'' could help control road safety. This work, as has already been
+commented previously, focuses on \gls{rec} and not on the use made of this
+comprehension after.
 
 
 \section{Overview of thesis}
 
-Here will be presented a description of the different chapters that make up
-this thesis.
+Here a description of the different chapters that make up this thesis will be
+presented.
 
 \begin{description}
-  \item [Chapter 1] It is this chapter and it is an introductory chapter to
-  general level of the subject that will be treated in this thesis. The
-  motivation behind this work, its objectives and its possible
-  Applications. \chapRef{cha:intro}
-  \item [Chapter 2] This chapter will focus on the theoretical foundations
-  in the field of \gls{ai}, so that the following chapters
-  can be understood. \chapRef{cha:theory}
-  \item [Chapter 3] It will deal with the central theme of this thesis. It will be formulated from
-  concretely the problem, the dataset that will be used and the
-  evaluation techniques and existing models will be discussed
-  actually. \chapRef{cha:rec}
-  \item [Chapter 4] This chapter will introduce the concrete model used, as
-  has trained, the different versions that have been studied of it, how
-  has behaved and what results have been obtained. \chapRef{cha:model}
-  \item [Chapter 5] Will present all the code developed to achieve a
-  interactive web application with which it will be possible to evaluate and validate the
-  model in a simple way. \chapRef{cha:web}
-  \item [Chapter 6] EVERYTHING. \chapRef{cha:analysis}
-  \item [Chapter 7] The thesis will be summarized concisely, the
-  results obtained, a global conclusion will be presented and
-  future lines of research. \chapRef{cha:concl}
+  \item [Chapter 1] It is this chapter and it is an introductory chapter at a
+  general level of the subject that will be dealt with in this thesis. The
+  motivation behind this work, its objectives and its possible applications
+  will be discussed. \chapRef{cha:intro}
+  \item [Chapter 2] This chapter will focus on the general theoretical
+  foundations in the field of \gls{ai}, so that the following chapters can be
+  understood. \chapRef{cha:theory}
+  \item [Chapter 3] It will deal with the central theme of this thesis. The
+  problem will be formulated in a concrete way, the dataset to be used and the
+  evaluation techniques will be presented and the existing models will be
+  discussed. \chapRef{cha:rec}
+  \item [Chapter 4] This chapter will introduce the concrete model used, how it
+  has been trained, the different versions that have been studied, how it has
+  behaved and what results have been obtained. \chapRef{cha:model}
+  \item [Chapter 5] It will present all the code developed to achieve an
+  interactive web application with which it will be possible to evaluate and
+  validate the model in a simple way. \chapRef{cha:web}
+  \item [Chapter 6] TODO. \chapRef{cha:analysis}
+  \item [Chapter 7] The thesis will be briefly summarized, the results obtained
+  will be discussed, a global conclusion will be presented and future lines of
+  research will be provided. \chapRef{cha:concl}
 \end{description}
 
-Supplementary material will also be included in the annexes.
+Supplementary material will also be included in the appendices.
 
 \begin{description}
   \item [Appendix A] Hey. \chapRef{cha:introduction}
   \item [Appendix B] He. \chapRef{cha:license}
 \end{description}
 
-Also comment that you can find at the end the references, a list of
-acronyms and an alphabetical index.
+Also comment that the references, a list of acronyms and an alphabetical index
+can be found at the end.
 
 \subsubsection{How to read this thesis}
-Throughout the thesis, three types of boxes will be used to include content
-extra: \emph{quote} box, \emph{example} box and \emph{remark} box.
+Throughout the thesis, three types of boxes will be used to include extra
+content: \emph{quote} box, \emph{example} box and \emph{remark} box.
 
 \begin{quoteBox}
   This will be a quote box.
   \tcblower
-  --- Author Name
+  ---Author Name
 \end{quoteBox}
 
 \begin{exampleBox}
@@ -304,8 +292,8 @@ extra: \emph{quote} box, \emph{example} box and \emph{remark} box.
 \end{exampleBox}
 
 \begin{remarkBox}
-  This will be a remark / alert box.
+  This will be a remark/alert box.
 \end{remarkBox}
 
-All the figures that appear in this thesis show the source from which
-have been extracted or, failing that, have been created by the author.
+All the figures that appear in this thesis show the source from which they have
+been extracted or, failing that, they have been created by the author.
