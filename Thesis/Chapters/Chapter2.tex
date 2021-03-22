@@ -3,15 +3,13 @@
 
 \chapter{Theoretical Background} \label{cha:theory}
 
-\epigraphhead[75]{
+\epigraphhead [75]{
   \epigraph{\itshape
     Wwithout theory, there is nothing to revise. \\
     Without theory, experience has no meaning. \\
     Without theory, one has no questions to ask. \\
     Hence, without theory, there is no learning.}
-  {---\scshape William Edwards}
-}
-
+  {---\scshape William Edwards}}
 
 \lettrine{A}{neural} network, more properly referred to as an \gls{ann} are
 computing systems vaguely inspired by the biological neural networks that
@@ -21,12 +19,11 @@ constitute animal brains. Dr
 network as:
 
 \begin{quoteBox}
-  \ldots a computing system made up of a number of simple, highly interconnected
-  processing elements, which process information by their dynamic state response
-  to external inputs.
-  \tcblower
-  ---\href{https://en.wikipedia.org/wiki/Robert_Hecht-Nielsen}
-  {Robert Hecht-Nielsen}
+  \ldots a computing system made up of a number of simple, highly
+  interconnected processing elements, which process information by their
+  dynamic state response to external inputs.
+  \tcblower --- \href{https://en.wikipedia.org/wiki/Robert_Hecht-Nielsen}
+{Robert Hecht-Nielsen}
 \end{quoteBox}
 
 \subsubsection{Mathematical perspective}
@@ -39,60 +36,57 @@ well with some known dataset, and we will trust that it will generalize
 well. If the network is big enough and we carefully adjust the parameters, we
 will be able to learn and calculate very complex functions.
 
-\subsubsection{Tipos de redes neuronales}
-Durante los últimos años, se han producido avances significativos en el ámbito
-de la inteligencia artificial y han aparecido múltiples modelos nuevos de redes
-neuronales. En una clasificación muy general de modelos neuronales podemos
-encontrar diferentes.
+\subsubsection{Types of neural networks}
+During the last few years, there have been significant advances in the field of
+artificial intelligence and multiple new models of neural networks have
+appeared. In a very general classification of neural models we can find
+different ones.
 
 \begin{itemize}
-  \item \textbf{Fully connected layered neural networks}. Estas redes son el
-  tipo de modelo neuronales maś sencillo que existe y sobre el que se
-  construyen modelos más complejos. Una descripción más detallada sobre este
-  tipo de redes puede ser encontrado en la \vref{sec:fully-conn-layer}.
-  \item \textbf{\acl*{cnn}}. Este tipo de redes neuronales son especialmente
-  útiles en el procesado de imágenes, ya que permiten preservar la información
-  espacial de relación entre píxeles. Serán estudiadas en la
+  \item \textbf{Fully connected layered neural networks}. These networks are
+  the simplest type of neural model that exists and on which more complex
+  models are built. A more detailed description of this type of network can be
+  found in \vref{sec:fully-conn-layer}.
+  \item \textbf{\acl*{cnn}}. This type of neural network is especially useful
+  in image processing, since it allows preserving the spatial information of
+  the relationship between pixels. They will be studied in
   \vref{sec:conv-neur-netw}.
-  \item \textbf{\acl*{rnn}}. Modelos neuronales ideales para el análisis de
-  series temporales (como puede ser texto o audio). Serán estudiadas en la
+  \item \textbf{\acl*{rnn}}. Ideal neural models for the analysis of time
+  series (such as text or audio). They will be studied in
   \vref{sec:recurr-neur-netw}.
-  \item \textbf{Transformers}. Los modelos basados en transformadores forman
-  parte del \acl{sota} actual\footnote{En \today, fecha actual del
-    documento.}. Están siendo usados de manera extensiva en \gls{nlp} y
-  estudiando sus posibles aplicaciones en visión por computadores y procesado
-  de imágen. Serán descritos en la \vref{sec:transformers}.
+  \item \textbf{Transformers}. The transformer-based models are part of the
+  current \acl{sota} \footnote{In \today, current date of the document.}. They
+  are being used extensively in \gls{nlp} and studying their possible
+  applications in computer vision and image processing. They will be described
+  in \vref{sec:transformers}.
 \end{itemize}
 
 
 \section{Fully Connected Layered Neural networks}
 \label{sec:fully-conn-layer}
 
-Las fully connected layered neural networks son el tipo de modelo neuronal más
-sencillo que existe y que consitutye la base para estructuras neuronales más
-complejas.
+Fully connected layered neural networks are the simplest type of neural model
+that exists and that constitute the basis for more complex neural structures.
 
-\subsection{Topology}
-\label{sec:topology}
+\subsection{Topology} \label{sec:topology}
 
-Este tipo de redes neuronales se caracteriza por una estructura de neuronales
-organizada en diferentes capas, de manera que las neuronas entre capas
-adyacentes están conectadas entre ellas por arcos. En la
-\vref{fig:fully-conn-network} se muestra un ejemplo de este tipo de
-arquitectura.
+This type of neural network is characterized by a neural structure organized in
+different layers, so that the neurons between adjacent layers are connected to
+each other by arcs. An example of this type of architecture is shown in
+\vref{fig:fully-conn-network}.
 
 \begin{figure}[ht]
   \centering
   \input{Figures/Tikz/Fully Connected Neural Network.tex}
-  \caption[Fully Connected Neural Network topology]{Ejemplo de fully connected
-    layered neural network. Consta de 4 capas diferenciadas de neuronas y se
-    muestran las conexiones entre ellas de manera gráfica con flechas.}
+  \caption[Fully Connected Neural Network topology]{Example of Fully Connected
+    Layered Neural Network. It consists of 4 differentiated layers of neurons
+    and the connections between them are shown graphically with arrows.}
   \label{fig:fully-conn-network}
   \source{Created by the author}
 \end{figure}
 
-A continuación discutiremos las partes principales constituyentes de este tipo
-de redes neuronales: layers, neurons and connections.
+Next we will discuss the main constituent parts of this type of neural
+networks: layers, neurons and connections.
 
 \subsubsection{Layers}
 The layers are just a collection of neurons, we will distinguish between three
@@ -109,7 +103,7 @@ We will denote with \(L\) the number of layers and with \(n_l\) the size of the
   recognition problem. Suppose we have a set of images with handwritten digits
   in it and that we will like to implement an ANN that is capable of
   recognizing that digits. In this case, if the digits images are of
-  \(28 \times 28\) pixels, the input layer will consists of 784
+  \(28 \times 28\) pixels, the input layer will consist of 784
   (\(28 \times 28\)) neurons and each neuron will hold the grayscale value of a
   pixel. For the output layer we will need 10 neurons (one for each number
   between 0 and 9), and we will like that when we feed our network with an
@@ -124,7 +118,7 @@ subparts that form a neuron.
 \begin{itemize}
   \item \textbf{Value}. Each neuron holds a value, it will be denoted by
   \(x_i^l \in \R\) for the \(i\)-th neuron in the \(l\)-th layer. Of course, it
-  should be satisfied \(1 \leq i \leq n_l\). We will use use the notation
+  should be satisfied \(1 \leq i \leq n_l\). We will use the notation
   \(\mathbf{x}^l\) for the vector of all the values in the \(l\)-th level. When
   we speak of the input vector, we may ommit the superindex, i.e., we will use
   \(\mathbf{x}\) to denote \(\mathbf{x}^0\). Similarly, for the output layer,
@@ -134,12 +128,12 @@ subparts that form a neuron.
   \(1 \leq i \leq n_l\). The vector of all biases in the \(l\)-th layer will be
   denoted by \(\mathbf{b}^l\).
   \item \textbf{Activation function}. All neurons have an activation function
-  \(f_i^l \in \mathcal{C}^1(\R, \R)\) for the \(i\)-th neuron in the \(l\)-th
-  layer\footnote{Usually all the activation functions are neuron-independent
-    (i.e., \(f_i^l\) does not really depend on \(i\) or \(l\)).}. Of course, it
-  is needed \(1 \leq i \leq n_l\). The regularity assummed for this functions
-  is important, since we will be optimizing in the future by taking
-  derivatives.
+  \(f_i ^ l \in \mathcal{C} ^ 1 (\R, \R)\) for the \(i\)-th neuron in the
+  \(l\)-th layer \footnote{Usually all the activation functions are
+    neuron-independent (ie, \(f_i^l\) does not really depend on \(i\) or
+    \(l\)).}. Of course, it is needed \(1 \leq i \leq n_l\). The regularity
+  assummed for this functions is important, since we will be optimizing in the
+  future by taking derivatives.
 \end{itemize}
 
 \subsubsection{Connections}
@@ -147,43 +141,43 @@ As we discussed in the topology section (\ref{sec:topology}), all neurons
 between adjacent layers are required to be connected, this are the connections,
 that should have associated a \emph{weight}. For the connection between the
 \(i\)-th neuron in the \(l\)-th layer and the \(j\)-th neuron in the
-\(l + 1\)-th layer, we will denote this weight by \(w_{ij}^l \in \R\). The set of
-all this weights is as follows,
+\(l + 1\)-th layer, we will denote this weight by \(w_{ij}^l \in \R\). The set
+of all this weights is as follows,
 \begin{equation}
-   \{w_{ij}^l \mid 1 \leq i \leq n_{l}, \, 1 \leq j \leq n_{l+1}, \, 1 \leq l <
-   L \} \subset \R.
+  \{w_{ij}^l \mid 1 \leq i \leq n_{l}, \, 1 \leq j \leq n_{l+1}, \, 1 \leq l <
+  L \}
+  \subset \R.
  \end{equation}
 
-The \emph{matrix} of all weights in the \(l\)-th layer will be denoted by
-\(\mathbf{W}^l\). This is, \((\mathbf{W}^l)_{ij} = w_{ij}^l\).
+ The \emph{matrix} of all weights in the \(l\)-th layer will be denoted by
+ \(\mathbf{W}^l\). This is, \((\mathbf{W} l) ij = w ij ^ l\).
 
-\subsection{Model: feed forward}
-\label{subsec:forward}
+\subsection{Model: feed forward} \label{subsec:forward}
 
 From now on let's suppose we are working with a fully-connected neural network,
 with different layers and we will be using the same notation used before. The
 values of the neurons can be computed with
 \begin{equation}
-  x_i^l = f_i^l \left( \sum_{k=1}^{n_{l-1}} w_{ik}^{l-1} x_{k}^{l-1} + b_i^l \right).
+  x_i^l = f_i^l \left(
+    \sum_{k=1}^{n_{l-1}} w_{ik}^{l-1} x_{k}^{l-1} + b_i^l
+  \right).
 \end{equation}
 
 This formula is sometimes referred to as the feed-forward formula or forward
 propagation. It's important to note that it's a recursive formula, once the
 values the neurons in the the input layer are known, we can iterate computing
-the values of the neurons in the the next adjacent layer, until we reach the
-output layer. In this network we can think of information travelling in one
-direction, forward, from the input layer, through the hidden layers to the
-output neurons.
+the values of the neurons in the next adjacent layer, until we reach the output
+layer. In this network we can think of information traveling in one direction,
+forward, from the input layer, through the hidden layers to the output neurons.
 
-\subsection{Trainning: backpropagation}
-\label{sec:backward}
+\subsection{Trainning: backpropagation} \label{sec:backward}
 
-In order to being able to train our neural network, is mandatory to define an
+In order to be able to train our neural network, it is mandatory to define an
 error function (also known as loss function) that quantifies how good or bad
 the neural network is performing when feeded with a particular dataset. We will
 you the below notation.
 \begin{itemize}
-  \item \textbf{Dataset}. Will be denoted by and consists in input-output pairs
+  \item \textbf{Dataset}. Will be denoted by and consists of input-output pairs
   \((\mathbf{x}, \mathbf{y})\), where \(\mathbf{x}\) represents the input and
   \(\mathbf{y}\) the \emph{desired} output. We shall denote the size (cardinal)
   of the dataset by \(N\). Of course, in terms of our ANN \(x\) corresponds to
@@ -192,102 +186,97 @@ you the below notation.
   \item \textbf{Parameters}. Parameters of our ANN are both the connection
   weights \(w_{ij}^l\) and the biases \(b_i^l\), we will denote the set of all
   parameters by \(\bm{\theta}\). Keep in mind that \(\bm{\theta}\) is just a
-  set of real vectors of \(\R^D\) where \(D\) denotes the number of weigths and
+  set of real vectors of \(\R^D\) where \(D\) denotes the number of weights and
   biases.
 \end{itemize}
 
 The error function quantifies how different is the desired output
 \(\mathbf{y}\) and the calculated (\emph{predicted}) output
 \(\mathbf{\hat{y}}\) of the neural network on input \(\mathbf{x}\) for a set of
-input-output pairs \((\mathbf{x}, \mathbf{y}) \in \Omega\) and a particular
-value of the parameters \(\bm{\theta}\). We will denote the error funcion by
-\(E(\Omega, \theta)\) and we will assume that is continuosly differentiable
-(i.e., \(\mathcal{C}^1\)).
+input-output pairs \((\mathbf{x} , \mathbf{y}) \in \Omega\) and a particular
+value of the parameters \(\bm{\theta}\). We will denote the error function by
+\(E (\Omega, \theta)\) and we will assume that it is continuosly
+differentiable (i.e., \(\mathcal{C}^1\)).
 
 
 \section{Convolutional Neural Networks}
 \label{sec:conv-neur-netw}
 
-\glspl{cnn} son una clase de \glspl{dnn} que son ampliamente utilizadas en
-computer vision. Son comúnmente aplicadas en el análisis de imágenes, ya que
-tienen la característica principal de tener la capacidad de preservar la
-relación espacial entre píxeles. Así mismo, son versiones regularizadas de las
-fully connected networks (explicadas en la \vref{sec:fully-conn-layer}), esto
-es, es menos probable overfitear en los datos.
+\glspl{cnn} are a class of \glspl{dnn} that are widely used in computer
+vision. They are commonly applied in image analysis, since they have the main
+characteristic of having the ability to preserve the spatial relationship
+between pixels. Likewise, they are regularized versions of fully connected
+networks (explained in \vref{sec:fully-conn-layer}), that is, it is less likely
+to overfit the data.
 
-\fhref{http://yann.lecun.com/index.html}{Yann LeCun}, un reconocido científico
-conocido como el padre de las \glspl{cnn}, las define de la siguiente manera:
+\fhref{http://yann.lecun.com/index.html}{Yann LeCun}, a renowned scientist
+known as the father of \glspl{cnn}, defines them as follows:
 \begin{quoteBox}
-  Convolutional Neural Networks are are a special kind of multi-layer neural
+  Convolutional Neural Networks are a special kind of multi-layer neural
   networks. Like almost every other neural networks they are trained with a
   version of the back-propagation algorithm. Where they differ is in the
   architecture.
-  \tcblower
-  ---\href{http://yann.lecun.com/index.html}{Yann LeCun}
+  \tcblower --- \href{http://yann.lecun.com/index.html}{Yann LeCun}
 \end{quoteBox}
 
-Por tanto, estudiaremos la arquitectura o topología de este tipo de redes a
-continuación en la \vref{sec:topology-1}.
+Therefore, we will study the architecture or topology of this type of networks
+below in \vref{sec:topology-1}.
 
 \subsection{Topology} \label{sec:topology-1}
 
-De manera análoga al caso de las fully connected networks, una \gls{cnn}
-consiste en una capa de entrada, capas ocultas y una capa de salida. En una
-\gls{cnn} las capas ocultas incluyen capas que calculan convoluciones. Estas
-capas convolucionales están seguidas por otras diferentes, entre las que
-destacan los pooling layers, fully connected layers and normalization
-layers. En la \vref{fig:lenet-5} se puede observar un ejemplo de este
-tipo de arquitecturas.
+Analogously to the case of fully connected networks, a \gls{cnn} consists of an
+input layer, hidden layers and an output layer. In a \gls{cnn} the hidden
+layers include layers that calculate convolutions. These convolutional layers
+are followed by different ones, among which the pooling layers, fully connected
+layers and normalization layers stand out. An example of this type of
+architecture can be seen in \vref{fig:lenet-5}.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{Images/Architecture LeNet-5.png}
-  \caption[Ejemplo de topología de una \acs*{cnn} (LeNet-5)]{Ejemplo de la
-    topología de una \gls{cnn}. Concretamente es
-    \href{http://yann.lecun.com/exdb/lenet}{LeNet-5} (ver
-    \url{http://yann.lecun.com/exdb/lenet}), una red convolucional creada por
+  \caption[Example of topology of a \acs*{cnn} (LeNet-5)]{Example of topology
+    of a \gls{cnn}. Specifically, it is
+    \href{http://yann.lecun.com/exdb/lenet}{LeNet-5} (see
+    \url{http://yann.lecun.com/exdb/lenet}), a convolutional network created by
     Yann LeCun.}
   \label{fig:lenet-5}
 \end{figure}
 
 \subsubsection{Convolutional layers}
-El nombre proviene del hecho de que estas capas utilizan la operación
-matemática de la
-\fhref{https://en.wikipedia.org/wiki/Convolution}{convolución}. Esta operación
-se define (en su versión discreta) de la siguiente manera: dado un par de
-funciones \(f, g\) definidas en el conjunto de los enteros \(\Z\), la
-convolución discreta entre \(f\) y \(g\) viene dada por,
+The name comes from the fact that these layers use the mathematical operation
+of \fhref{https://en.wikipedia.org/wiki/Convolution}{convolution}. This
+operation is defined (in its discrete version) as follows: given a pair of
+functions \(f, g\) defined on the set of integers \(\Z\), the discrete
+convolution between \(f\) and \(g\) is given by,
 \begin{equation} \label{eq:math-conv}
   (f \star g)[n] = \sum_{m=-\infty}^{\infty} f[m]g[n - m],
 \end{equation}
-donde \(\star\) es el operador de convolución.
+where \(\star\) is the convolution operator.
 
-Esta es la definición matemática de la convolución discreta. Ahora bien, el uso
-de la convolución en el tratamiento de imágenes no funciona exactamente como se
-ha definido en \vref{eq:math-conv}. En la práctica, las imágenes de
-entrada\footnote{En niveles más profundos de una \gls{cnn} dejaremos de
-  entender las capas como imágenes y las llamares como mapas de
-  características} son tensores tridimensionales para las imágenes
-\acs{rgb}. En las capas convolucionales se hace una convolución
-bidimensional con un filtro (también llamado kernel) tridimensional sobre cada
-canal de la imagen de entrada y después se apilan todas estos mapas de
-características en el tensor de salida, donde el número de canales de salida
-coincide con el número de filtros en esa capa.
+This is the mathematical definition of the discrete convolution. However, the
+use of convolution in image processing does not work exactly as defined in
+\vref{eq:math-conv}. In practice, the input images\footnote{At levels deeper
+  than a \gls{cnn} we will stop understanding the layers as images and call
+  them feature maps} are three-dimensional tensors for the images \acs{rgb}. In
+convolutional layers, a two-dimensional convolution is made with a
+three-dimensional filter (also called kernel) on each channel of the input
+image and then all these feature maps are stacked in the output tensor, where
+the number of output channels coincides with the number of filters in that
+layer.
 
-Podemos expresar matemáticamente la operación realizada en las capas
-convolucionales de la siguiente manera. Sea \(\mathbf{X}\) el
-mapa de características de entrada, \(\mathbf{Y}\) el mapa de características
-de salida y el filtro \(\mathbf{F}\). La convolución se define entonces de la
-siguiente manera,
+We can mathematically express the operation performed on the convolutional
+layers as follows. Let \(\mathbf{X}\) be the input characteristics map,
+\(\mathbf{Y}\) the output characteristics map and the filter
+\(\mathbf{F}\). The convolution is then defined as follows,
 \begin{equation} \label{eq:convolution}
   \mathbf{Y}_{i, j, k} =
   \sum_{l, m, n} \mathbf{X}_{l, j + m, k + n}\mathbf{F}_{i, l, m, n},
 \end{equation}
-donde la suma se realiza para todos los índices \(l, m, n\) válidos (esto
-dependerá del \emph{padding}\footnote{Hay diferentes técnicas para definir el
-  padding de una imagen. El más típico es el conocido como zero-padding, que
-  consiste en añadir alrededor de la imagen vectores de 0 hasta completarla
-  para poder realizar las convoluciones deseadas.} de la imagen de entrada).
+where the sum is performed for all valid \(l, m, n\) indices (this will depend
+on \emph{padding} \footnote{There are different techniques to define the
+  padding of an image. The most typical is known as zero-padding, which
+  consists of adding 0 vectors around the image until it is complete in order
+  to carry out the desired convolutions.} of the input image).
 
 \begin{figure}[ht]
   \centering
@@ -296,80 +285,77 @@ dependerá del \emph{padding}\footnote{Hay diferentes técnicas para definir el
     (filter) of dimensions \((3, 3, 1)\) and an input feature map (tensor) of
     size \((8, 8, 1)\).}
   \label{fig:convolution}
+  \source{From TODO.}
 \end{figure}
 
-En la \vref{fig:convolution} se muestra gráficamente un ejemplo de
-convolución. Como se puede ver para cada uno de los elementos del tensor de
-salida se realiza el cálculo de la \vref{eq:convolution} con el filtro
-mostrado.
+An example of convolution is shown graphically in \vref{fig:convolution}. As
+can be seen for each of the elements of the output tensor, the computation of
+\vref{eq:convolution} is performed with the filter shown.
 
 \subsubsection{Pooling Layers}
-Otro tipo de capas que se usa en este tipo de redes son las de pooling. Las
-capas de pooling reducen la dimensión de la red combinando la salida de las
-neuronas de una capa en una única neurona en la capa siguiente. Este tipo de
-capas añaden además no-linealidades al modelo. Así mismo hacen a las \gls{cnn}
-menos sensibles a pequeños cambios locales en la localización espacial.
+Another type of layer used in this type of network is pooling. Pooling layers
+reduce the dimension of the network by combining the output of neurons in one
+layer into a single neuron in the next layer. These types of layers also add
+non-linearities to the model. They also make \gls{cnn} less sensitive to small
+local changes in spatial location.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=.75\textwidth]{Images/Max pooling.png}
   \caption[Pooling layer example: max pooling]{Pooling layer example:
-    \(2 \times 2\) max pooling. El tensor de entrada se divide en bloques
-    \(2 \times 2\) y el max pool devuelve un tensor de salida con el valor
-    máximo de cada bloque.}
+    \(2 \times 2\) max pooling. The input tensioner is divided into blocks
+    \(2 \times 2\) and the Max Pool returns an output tensor with the maximum
+    value of each block.}
   \label{fig:max-pool}
   \source{From \cite{wiki18:max_poolin}}
 \end{figure}
 
-Hay diferentes tipos de pooling. Los más conocidos son \emph{max} pooling y
-\emph{average} pooling. El primero usa el valor máximo de cada cluster de
-neuronas en el nivel anterior. Average pooling, sin embargo, usa el valor
-medio. En la \vref{fig:max-pool} podemos ver una representación de un
-\(2 \times 2\) max-pool. En este caso concreto, la operación matemática a
-realizar viene dada por la siguiente expresión,
+There are different types of pooling. The best known are \emph{max} pooling and
+\emph{average} pooling. The first uses the maximum value of each cluster of
+neurons in the previous level. Average pooling, however, uses the average
+value. In \vref{fig:max-pool} we can see a representation of a \(2 \times 2\)
+max-pool. In this specific case, the mathematical operation to be performed is
+given by the following expression,
 \begin{equation}
   f_{X,Y}(S) = \max _{a,b=0}^{1}S_{2X+a,2Y+b},
 \end{equation}
-where \(S\) is every depth slice in the input. This discharges 75\% of the
+where \(S\) is every depth slice in the input. This discharges 75 \% of the
 activations.
 
 \subsection{Activation functions}
-Analogamente a las fully connected neural networks, en este caso también es
-común el uso de funciones de activación con el objetivo de introducir
-no-linealidades en el modelo sin afectar los campos receptivos de las
-convoluciones. Típicamente se añaden justo después de realizar la convolución.
+Analogously to fully connected neural networks, in this case it is also common
+to use activation functions with the aim of introducing non-linearities in the
+model without affecting the receptive fields of the convolutions. They are
+typically added just after convolution.
 
-Las principales funciones que se usan son las siguientes:
+The main functions used are the following:
 \begin{itemize}
-  \item \textbf{\gls*{relu}}. Es la función \(f(x) = \max \{0, x\}\), que es la
-  más usada. Elimina los valores negativos del mapa de características y los
-  pone a cero.
-  \item \textbf{Tangente hiperbolica}. \(f(x) = \tanh x\)
-  \item \textbf{Sigmoid function}. \(\sigma(x) = {(1 + e^{-x})}^{-1}\).
-  \item \(f(x) = |\tanh x|\)
+  \item \textbf{\gls*{relu}}. It is the function \(f (x) = \max \{0, x\}\),
+  which is the most used. Removes negative values from the feature map and sets
+  them to zero.
+  \item \textbf{Tangente hiperbolica}. \(f (x) = \tanh x\)
+  \item \textbf{Sigmoid function}. \(\sigma (x) ={(1 + e - x)} -1\).
+  \item \(f (x) = | \tanh x |\)
 \end{itemize}
 
 
-\section{Recurrent Neural Networks}
-\label{sec:recurr-neur-netw}
+\section{Recurrent Neural Networks} \label{sec:recurr-neur-netw}
 
-\glspl{rnn} son una clase de \glspl{ann} que son ampliamente utilizadas con
-secuencias temporales (como por ejemplo en el ámbito de
-\gls{nlp}). Analogamente a las \glspl{cnn} que son adecuadas para el tratamiento
-de imágenes, las \glspl{rnn} son un tipo de red neuronal especializada para
-procesar secuencias de valores del tipo \(\mathbf{x}^1, \ldots
-\mathbf{x}^{\tau}\) con \(\mathbf{x}^t \in \R^n\).
+\glspl{rnn} are a class of \glspl{ann} that are widely used with temporal
+sequences (as for example in the scope of \gls{nlp}). Analogously to the
+\glspl{cnn} that are suitable for image processing, the \glspl{rnn} are a type
+of neural network specialized to process sequences of values of the type
+\(\mathbf{x}^1, \ldots \mathbf{x}^{\tau}\) with \(\mathbf{x}^t \in \R^n\).
 
 \subsection{Topology}
 
-Viendo la \vref{fig:rnn}, podemos ver la arquitectura de una \gls{rnn}. Los
-valores de entrada \(\mathbf{x}^1, \ldots \mathbf{x}^\tau\) son alimentados a
-la red de manera ordenada. Por ello, para obtener el vector de salida
-\(\mathbf{y}^t\), es necesario el hidden state \(\mathbf{h}^{t - 1}\) y la
-entrada \(\mathbf{y}^{t}\). Prior inputs
-\(\mathbf{x}^1, \ldots \mathbf{x}^{t - 1}\) are represented by the hidden state
-\(\mathbf{h}^{t - 1}\), therefore the output \(\mathbf{y}^t\), depends exactly
-of all the inputs until time \(t\).
+Looking at \vref{fig:rnn}, we can see the architecture of a \gls{rnn}. The
+input values \(\mathbf{x}^1, \ldots \mathbf{x}^\tau\) are fed into the network
+in an orderly manner. Therefore, to obtain the output vector \(\mathbf{y}^t\),
+the hidden state \(\mathbf{h}^{t - 1}\) and the input \(\mathbf{y}^{t}\) are
+necessary. Prior inputs \(\mathbf{x}^1, \ldots \mathbf{x}^{t - 1}\) are
+represented by the hidden state \(\mathbf{h}^{t - 1}\), therefore the output
+\(\mathbf{y}^t\), depends exactly of all the inputs until time \(t\).
 
 \begin{figure}[ht]
   \begin{subfigure}[t]{.2\textwidth}
@@ -386,68 +372,65 @@ of all the inputs until time \(t\).
     versions of the same network are shown, one is the compact version and the
     other is the same network but unfolded in time.}
   \label{fig:rnn}
-  \source{TODO. Citar es de stanford también}
+  \source{From TODO. Citar es de stanford también}
 \end{figure}
 
 \subsubsection{Different types of \gls*{rnn}}
-Las feedforward networks envían una entrada a una salida\footnote{La entrada y
-  la salida puede ser vectorial. No significa, por tanto, que son solo un
-  número, significa que solo son \emph{un} vector multidimensional de
-  \(\R^n\)}, pero en el caso de las \glspl{rnn} no es así. Existen diferentes
-posibilidades, en las que la longitud de la entrada y de la salida pueden
-variar. Todos los tipos diferentes de architecturas que pueden existir están
-recogidos en la \vref{fig:rnn-types}.
+Feedforward networks send an input to an output \footnote{The input and output
+  can be vector. It does not mean, therefore, that they are only a number, it
+  means that they are only \emph{un} multidimensional vector of \(\R^n\)}, but
+in the case of \glspl{rnn} it is not. There are different possibilities, in
+which the length of the inlet and outlet can vary. All the different types of
+architectures that may exist are listed in \vref{fig:rnn-types}.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{Images/RNN types.png}
-  \caption[Types of architectures for \acl*{rnn}]{Types of architectures
-    for \gls{rnn}. All posibilities are considered (i.e., all combinations are
+  \caption[Types of architectures for \acl*{rnn}]{Types of architectures for
+    \gls{rnn}. All posibilities are considered (i.e., all combinations are
     presented).}
   \label{fig:rnn-types}
-  \source{TODO. Es de Stanford curso}
+  \source{From TODO. Es de Stanford curso}
 \end{figure}
 
-Estas diferentes posibilidades tienen luego su aplicación en diversos ámbitos
-como pueden ser: image captioning (``one to many''), action prediction (``many
-to one``), video captioning (``many to many'' first option), and video
-classification on frame label (``many to many'' second option). El caso extremo
-de ``one to one'' se corresponde precisamente con una fully connected layered
-neural network normal como la estudiada en la \vref{sec:fully-conn-layer}.
+These different possibilities then have their application in various fields
+such as: image captioning (``one to many''), action prediction (``many to
+one``), video captioning (``many to many'' first option ), and video
+classification on frame label (``many to many'' second option). The extreme
+case of ``one to one'' corresponds precisely to a normal fully connected
+layered neural network such as the one studied in \vref{sec:fully-conn-layer}.
 
 \subsection{Model: feed forward}
 
-Podemos calcular el valor de las neuronas con una fórmula recurrente, en la que
-intervienen los hidden states \(\mathbf{h}^t\) y los valores de los vectores de
-entrada \(\mathbf{x}^t\). En el caso más sencillo de una \gls{rnn}
-\emph{simple}, este cálculo consiste en,
+We can compute the value of the neurons with a recurring formula, involving the
+hidden states \(\mathbf{h}^t\) and the values of the input vectors
+\(\mathbf{x}^t\). In the simplest case of a \emph{simple} \gls{rnn}, this
+computation consists of,
 \begin{equation} \label{eq:rnn-hidden}
   \mathbf{h}^t = f_{W} (\mathbf{h}^{t - 1}, \mathbf{x}^t),
 \end{equation}
-y a continuación se puede calcular el vector de salida \(\mathbf{y}^t\) usando
-la siguiente expresión,
+and then the output vector \(\mathbf{y}^t\) can be calculated using the
+following expression,
 \begin{equation} \label{eq:rnn-out}
   \mathbf{y}^t = W_{hy}\mathbf{h}^t,
 \end{equation}
-donde \(W_{hy}\) es una matriz de parámetros (entrenables).
+where \(W_{hy}\) is an array of parameters (trainable).
 
 \subsubsection{Variant \gls*{rnn} architectures}
-El modelo definido anteriormente es la versión más simple para una
-\gls{rnn}. El cálculo de los valores de salida con las
-\vref{eq:rnn-hidden,eq:rnn-out} puede traer problemas con los gradientes y, por
-tanto, limitar la capacidad de la información de viajar en el
-tiempo\footnote{This problems are know as vanishing/exploding gradient. The
-  problem of \emph{exploding} gradients can be solve by gradient clipping
-  (scaling it if the norm is too big). However for the \emph{vanishing}
-  gradient problem, it is neccesary to change the \gls{rnn}
-  architecture.}. Introducimos dos variantes nuevas para solucionar estos
-problemas:
+The model defined above is the simplest version for a \gls{rnn}. The
+calculation of the output values with the \vref{eq:rnn-hidden,eq:rnn-out} can
+cause problems with the gradients and, therefore, limit the ability of the
+information to travel in time \footnote{These problems are know as vanishing /
+  exploding gradient. The problem of \emph{exploding} gradients can be solved
+  by gradient clipping (scaling it if the norm is too big). However for the
+  \emph{vanishing} gradient problem, it is necessary to change the \gls{rnn}
+  architecture.}. We introduce two new variants to solve these problems:
 \begin{itemize}
-  \item \textbf{\gls*{lstm}}. Una unidad de \gls{lstm} está compuesta de
-  diferentes gates que definen su comportamiento. Su nombre viene dado por la
-  función que realizan: \emph{input} gate (\(i\)), \emph{output} gate (\(o\))
-  and \emph{forget} gate (\(f\)). En la \vref{fig:lstm} se muestra una
-  representación gráfica de este tipo de elementos.
+  \item \textbf{\gls*{lstm}}. A unit of \gls{lstm} is composed of different
+  gates that define its behavior. Its name is given by the function they
+  perform: \emph{input} gate (\(i\)), \emph{output} gate (\(o\)) and
+  \emph{forget} gate (\(f\)). A graphical representation of this type of
+  elements is shown in \vref{fig:lstm}.
   \begin{figure}[ht]
     \centering
     \includesvg[width=.6\textwidth]{LSTM.svg}
@@ -457,7 +440,7 @@ problemas:
     \source{From \cite{enwiki:1005032489}}
   \end{figure}
 
-  El valor de los diferentes gates viene descrito por la ecuación siguiente,
+  The value of the different gates is described by the following equation,
   \begin{equation}
     \begin{pmatrix}
       i \\
@@ -477,18 +460,18 @@ problemas:
       x^t
     \end{pmatrix}.
   \end{equation}
-  Y, a continuación, se puede calcular el valor de la celda y del hidden state con,
+  And then, the value of the cell and the hidden state can be computed with,
   \begin{equation}
     \begin{cases}
       c_t &= f \odot c_{t-1} + i \odot g, \\
-      h_t &= o \odot \tanh c_{t}. \\
+      h_t &= o \odot \tanh c_{t}.
     \end{cases}
   \end{equation}
-  El operador \(\odot\) es la multiplicación element wise conocido como
-  Hadamard product.
-  \item \textbf{\gls*{gru}}. Son otro tipo de gating mechanism introducido por
-  \myCite{cho14:learn_rnn}. Su funcionamiento se rige por el siguiente sistema
-  de ecuaciones,
+  The operator \(\odot\) is the element wise multiplication known as Hadamard
+  product.
+  \item \textbf{\gls*{gru}}. They are another type of gating mechanism
+  introduced by \myCite{cho14:learn_rnn}. Its operation is governed by the
+  following system of equations,
   \begin{equation}
     \begin{cases}
       z_{t}&=\sigma _{g}(W_{z}x_{t}+U_{z}h_{t-1}+b_{z}), \\
@@ -497,31 +480,29 @@ problemas:
       h_{t}&=(1-z_{t})\odot h_{t-1}+z_{t}\odot {\hat {h}}_{t}.
     \end{cases}
   \end{equation}
-  Donde \(\hat{h}_t\) se le conoce como candidate activation vector, \(z_t\) es
-  el update gate vector y \(r_t\) es el reset gate vector. Las funciones de
-  activación \(\sigma_g\) se corresponde con la sigmoid function y
-  \(\phi_{h}\) es la tangente hiperbólica. Otras funciones de activación
-  también serían posibles.
+  Where \(\hat{h}_t\) is known as the candidate activation vector, \(z_t\) is
+  the update gate vector and \(r_t\) is the reset gate vector. The activation
+  functions \(\sigma_g\) correspond to the sigmoid function and \(\phi_{h}\) is
+  the hyperbolic tangent. Other activation functions would also be possible.
 \end{itemize}
 
 \subsection{Trainning: \acl*{bptt}}
 
-Analogamente a otros modelos, aquí el entrenamiento de las \gls{rnn} también se
-realiza haciendo uso de métodos de optimización de primer orden, i.e.,
-calculando las derivadas parciales de la función de error respecto los
-parámetros del modelo.
+Analogously to other models, here the training of \gls{rnn} is also carried out
+using first-order optimization methods, i.e., calculating the partial
+derivatives of the error function with respect to the model parameters.
 
-En este caso concreto de \gls{rnn}, el proceso de backpropagation es conocido
-como \gls{bptt}, que es una generalización de backpropagation en las
-feed-forward networks.
+In this specific case of \gls{rnn}, the backpropagation process is known as
+\gls{bptt}, which is a generalization of backpropagation in feed-forward
+networks.
 
 
 \section{Transformers} \label{sec:transformers}
 
-The Transformer es un modelo de deep learning introducido recientemente por
-\myCite{vaswani17:atten_all_you_need}. Aquí presentaban la idea de que
-recurrent building blocks no son necesarios en un modelo para funcionar bien en
-tareas de \gls{nlp}. En palabras de sus autores:
+The Transformer is a deep learning model recently introduced by
+\myCite{vaswani17:atten_all_you_need}. Here they presented the idea that
+recurrent building blocks are not needed in a model to work well in \gls{nlp}
+tasks. In the words of its authors:
 
 \begin{quoteBox}
   \ldots the Transformer, the first sequence transduction model based entirely
@@ -531,31 +512,30 @@ tareas de \gls{nlp}. En palabras de sus autores:
   ---Ashish Vaswani et al.
 \end{quoteBox}
 
-Proponen una nueva arquitectura que es capaz de mantener un mecanismo de
-atención mientras procesa secuencias temporales en paralelo: toda la secuencia
-en su conjunto en vez de ir elemento a elemento.
+They propose a new architecture that is capable of maintaining an attention
+mechanism while processing temporal sequences in parallel: the entire sequence
+as a whole instead of going element by element.
 
 \begin{figure}[p]
   \centering
   \includegraphics[height=.65\textheight]{Images/Transformer.png}
   \caption[Transformer model architecture]{Transformer model
-    architecture/topology. Aquí se pueden observar los dos segmentos
-    principales: el encoder y el decoder.}
+    architecture/topology. Here you can observe the two main segments: the
+    encoder and the decoder.}
   \label{fig:transformer}
   \source{From \cite{vaswani17:atten_all_you_need}}
 \end{figure}
 
-En la actualidad existen diferentes tipos de arquitecturas basadas en esta
-idea. La arquitectura original del modelo del Transformer es la mostrada en la
-\vref{fig:transformer}. Como se puede ver se pueden distinguir dos segmentos
-diferenciados:
+Currently there are different types of architectures based on this idea. The
+original architecture of the Transformer model is shown in
+\vref{fig:transformer}. As you can see, two distinct segments can be
+distinguished:
 \begin{itemize}
-  \item \textbf{Encoder segment}. Toma las entradas, genera un embedding de
-  ellas, codifica las posiciones, computes where each word has to attend to in
-  a multi-context setting y después genera como salida una representación nueva
-  intermedia.
+  \item \textbf{Encoder segment}. It takes the inputs, generates an embedding
+  of them, encodes the positions, computes where each word has to attend to in
+  a multi-context setting and then outputs a new intermediate representation.
   \item \textbf{Decoder segment}. Take the entries in the target language,
   generate an embedding for them with encoded positions, calculate in which
-  each word has to attend, and then combines the output of the encoder with the
+  each word has to attend, and then combine the output of the encoder with the
   output so far. The result is a prediction for the next token.
 \end{itemize}
