@@ -72,8 +72,9 @@ function exportWAV(type){
             console.log("Server returned: ", e.target.responseText);
         }
     };
+
     var fd = new FormData();
-    fd.append("that_random_filename_wav", audioBlob);
+    fd.append("audio", audioBlob);
     xhr.open("POST", "/api/upload_wav.php", true);
     xhr.send(fd);
 }

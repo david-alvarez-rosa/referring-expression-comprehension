@@ -104,7 +104,7 @@ function populateGallery() {
     }
 }
 
-populateGallery();
+// populateGallery();
 
 
 // Start audio recording.
@@ -114,7 +114,7 @@ function startAudio() {
     audioContainer.style.display = "block";
 }
 
-// window.addEventListener("load", startAudio);
+window.addEventListener("load", startAudio);
 
 
 // Stop audio recording.
@@ -152,3 +152,41 @@ function segmentImg() {
             img.setAttribute("src", response['resultImgSrc']);
         });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function prueba(event) {
+    if (event.classList.contains("recording")) {
+        // Start recording.
+        event.title = "Stop recording";
+    } else {
+        // Stop recording.
+        event.title = "Start recording";
+        saveAudio();
+    }
+}
+
+const record = document.getElementById("record");
+record.click();

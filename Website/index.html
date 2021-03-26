@@ -3,7 +3,7 @@
 
 <html lang="en">
   <head>
-    <title>TODO</title>
+    <title>Referring Expression Comprehension</title>
     <meta charset="UTF-8" />
     <meta name="description" content="TODO" />
     <meta name="keywords" content="TODO" />
@@ -70,7 +70,11 @@
         <canvas id="wavedisplay" width="1024" height="500"></canvas>
       </div>
       <div id="controls">
-        <img id="record" src="img/mic128.png" onclick="toggleRecording(this);">
+        <img id="record"
+             alt="Microphone icon for toggling recording"
+             title="Start recording"
+             src="img/mic128.png"
+             onclick="toggleRecording(this);prueba(this);">
       </div>
       <button onclick="stopAudio();">Stop audio</button>
     </div>
