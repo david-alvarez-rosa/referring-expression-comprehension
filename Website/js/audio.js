@@ -25,6 +25,7 @@ var analyserContext = null;
 var canvasWidth, canvasHeight;
 var recIndex = 0;
 
+
 function saveAudio() {
     audioRecorder.exportWAV( doneEncoding );
 }

@@ -1,14 +1,26 @@
 <?php
-$tmp_filename = $_FILES["audio"]["tmp_name"];
+$fileName = 'audio/' . uniqid() . '.wav';
+
+move_uploaded_file($_FILES["audio"]["tmp_name"], $fileName);
+
+$command = '. Code/.venv/bin/activate 2>&1 &&'.
+         ' XDG_CACHE_HOME=.cache/ TMP=.cache/' .
+         ' python -W ignore Code/Prueba/main.py' .
+         ' --file ' . $fileName . ' 2>&1';
+
+exec($command, $outputCommand);
+
+$output = [
+    'command' => $command,
+    'outputCommand' => $outputCommand,
+];
+
+if (isset($_POST['debug'])) {
+    var_dump($output);
+    print_r($outputCommand);
+}
+else
+    echo json_encode($output);
 
 
-move_uploaded_file($tmp_filename, "results/uploaded_audio.wav");
-
-
-// exec("scp audio.wav dalvarez@q.vectorinstitute.ai:~/testing/ 2>&1", $output);
-// var_dump($output);
-// echo exec("ssh dalvarez@q.vectorinstitute.ai 'testing/hola" . $tmp_filename . "'");
-// echo exec("ls");
-
-// move_uploaded_file($tmp_filename, "uploaded_audio.wav");
 ?>

@@ -185,8 +185,8 @@ function prueba(event) {
         // Stop recording.
         event.title = "Start recording";
         saveAudio();
+        stopAudio();
     }
 }
 
 const record = document.getElementById("record");
-record.click();

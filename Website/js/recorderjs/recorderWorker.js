@@ -69,7 +69,12 @@ function exportWAV(type){
     var xhr = new XMLHttpRequest();
     xhr.onload = function(e) {
         if(this.readyState === 4) {
-            console.log("Server returned: ", e.target.responseText);
+            var output = JSON.parse(e.target.responseText);
+            console.log("Server returned: ", output);
+            var referringExpression = output["outputCommand"][0];
+            var reInput = document.getElementById("referring-expression");
+            reInput.value = referringExpression;
+            addReferringExpression();
         }
     };
 
