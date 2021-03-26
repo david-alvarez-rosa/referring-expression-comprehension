@@ -76,6 +76,13 @@ function addReferringExpression() {
     return false; // Prevent form to be submitted.
 }
 
+function addReferringExpressionFromString(referringExpression) {
+    let reContainer = document.getElementById("referring-expression");
+    reContainer.value = referringExpression;
+    addReferringExpression();
+}
+
+
 
 // Populate website gallery with random images from MSCOCO dataset.
 function populateGallery() {
@@ -104,7 +111,7 @@ function populateGallery() {
     }
 }
 
-// populateGallery();
+populateGallery();
 
 
 // Start audio recording.
@@ -114,7 +121,7 @@ function startAudio() {
     audioContainer.style.display = "block";
 }
 
-window.addEventListener("load", startAudio);
+// window.addEventListener("load", startAudio);
 
 
 // Stop audio recording.
@@ -154,30 +161,8 @@ function segmentImg() {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function prueba(event) {
+// Toggle recording auxiliary function.
+function toggleRecordingAux(event) {
     if (event.classList.contains("recording")) {
         // Start recording.
         event.title = "Stop recording";
@@ -188,5 +173,3 @@ function prueba(event) {
         stopAudio();
     }
 }
-
-const record = document.getElementById("record");

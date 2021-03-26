@@ -99,7 +99,10 @@ DEALINGS IN THE SOFTWARE.
 
     worker.onmessage = function(e){
       var blob = e.data;
-      currCallback(blob);
+        currCallback(blob);
+        if (typeof e.data === "string") {
+            addReferringExpressionFromString(e.data);
+        }
     }
 
     source.connect(this.node);
@@ -107,6 +110,7 @@ DEALINGS IN THE SOFTWARE.
   };
 
   Recorder.setupDownload = function(blob, filename){
+    return;
     var url = (window.URL || window.webkitURL).createObjectURL(blob);
     var link = document.getElementById("save");
     link.href = url;
