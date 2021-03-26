@@ -13,17 +13,16 @@
 
 \lettrine{A}{neural} network, more properly referred to as an \gls{ann} are
 computing systems vaguely inspired by the biological neural networks that
-constitute animal brains. Dr
-\fhref{https://en.wikipedia.org/wiki/Robert_Hecht-Nielsen}{Robert
-  Hecht-Nielsen} (inventor of one of the first neurocomputers) defines a neural
-network as:
+constitute animal brains. Dr.\ Robert Hecht-Nielsen (inventor of one of the
+first neurocomputers), in an article by
+\myCite{caudill87:neural_networ_primer_part_i}, defines a neural network as:
 
 \begin{quoteBox}
   \ldots a computing system made up of a number of simple, highly
   interconnected processing elements, which process information by their
   dynamic state response to external inputs.
-  \tcblower --- \href{https://en.wikipedia.org/wiki/Robert_Hecht-Nielsen}
-{Robert Hecht-Nielsen}
+  \tcblower
+  ---\myCiteShort{caudill87:neural_networ_primer_part_i}
 \end{quoteBox}
 
 \subsubsection{Mathematical perspective}
@@ -36,39 +35,92 @@ well with some known dataset, and we will trust that it will generalize
 well. If the network is big enough and we carefully adjust the parameters, we
 will be able to learn and calculate very complex functions.
 
-\subsubsection{Types of neural networks}
+
+\section{Tensors}
+In our context, it will be useful to use the mathematical tool of
+tensors. There are different approaches to define this mathematical objetcs,
+among then, defining them as multi-dimensional arrays of real numbers, as
+follows: a \emph{tensor} is an element
+\(\mathbf{T} \in \R^{n_1 \times \cdots \times n_r}\), with
+\(n_1, \ldots, n_r \in \N\). The number \(r\) is called the \emph{rank} of the
+tensor.
+
+Similarly to real vectors from \(\R^n\), each of the elements of a tensor
+\(\mathbf{T}\) can be referred to using a multi-index
+\(i = (i_1, \ldots, i_r) \in \N^r\). The notation \(\mathbf{T}_i\), or
+\(\mathbf{T}_{i_1, \ldots, i_r}\), refers to the element indexed by \(i\) of
+the tensor \(\mathbf{T}\).
+
+\begin{exampleBox}
+  Examples of tensors include scalars (view as tensors of rank \(0\)), vectors
+  (rank \(1\) tensors) and matrices (rank \(2\)).
+\end{exampleBox}
+
+Most popular \gls{dl} frameworks such as PyTorch (used in this thesis), are
+just programming libraries that provide efficient tensor data strctures and and
+fast tensor computation (with the ability to compute in \gls{gpu}). These
+tensors store the data used to train neuronal models. In the case of \gls{cv},
+the following tensors appear:
+\begin{itemize}
+  \item \textbf{\acs*{rgb} Image}. An \acs{rgb} image can be interpreted as a
+  tensor of rank 3, \(\mathbf{I} \in \R^{C \times H \times W}\), where \(C\)
+  corresponded to the number of channels (i.e., in this case, \(C = 3\)), \(H\)
+  corresponds to the height of the image and \(W\) to its
+  width.\footnote{Grayscale images also fall into this category with just 1
+    channel (i.e., using the above notation \(C = 1\)).}
+  \item \textbf{Batch of \acs*{rgb} Images}. A batch of \acs{rgb} images is a
+  set of \acs{rgb} images, therefore, can be interpreted as a tensor of rank 4,
+  \(\mathbf{I} \in \R^{B \times C \times H \times W}\), where \(B\) corresponds
+  to the batch size, and \((C, H, W)\) have the same meaning as in the case of
+  an \acs{rgb} image.
+\end{itemize}
+
+\subsection{Tensor Operations}
+
+Tensors or rank 1 or 2 correspond to real vectors and real matrices, therefore,
+all basic operations from linear algebra apply (e.g., vector sum, matrix-vector
+multiplication). For tensor of higher rank, it is useful define element-wise
+operations for any binary operation from real numbers.
+
+Let \(\mathbf{T}\) and \(\mathbf{S}\) be tensors of rank \(r\). Let \(\star\)
+be a binary operation for real numbers. Then, the element-wise operation is
+defined as follows,
+\begin{equation}
+  (\mathbf{T} \star \mathbf{S})_i = \mathbf{T}_i \star \mathbf{S}_i,
+\end{equation}
+for all multi-indices \(i \in \N^r\).
+
+
+\section{Neural Network Architectures}
+
 During the last few years, there have been significant advances in the field of
 artificial intelligence and multiple new models of neural networks have
 appeared. In a very general classification of neural models we can find
 different ones.
 
 \begin{itemize}
-  \item \textbf{Fully connected layered neural networks}. These networks are
-  the simplest type of neural model that exists and on which more complex
-  models are built. A more detailed description of this type of network can be
-  found in \vref{sec:fully-conn-layer}.
+  \item \textbf{\acl*{fnn}}. These networks are the simplest type of neural
+  model that exists and on which more complex models are built. A more detailed
+  description of this type of network can be found in
+  \vref{sec:fnn}.
   \item \textbf{\acl*{cnn}}. This type of neural network is especially useful
   in image processing, since it allows preserving the spatial information of
   the relationship between pixels. They will be studied in
   \vref{sec:conv-neur-netw}.
   \item \textbf{\acl*{rnn}}. Ideal neural models for the analysis of time
   series (such as text or audio). They will be studied in
-  \vref{sec:recurr-neur-netw}.
+  \vref{sec:rnn}.
   \item \textbf{Transformers}. The transformer-based models are part of the
-  current \acl{sota}.\footenote{In \today, current date of the document.} They
+  current \acl{sota}.\footnote{On \today, current date of the document.} They
   are being used extensively in \gls{nlp} and studying their possible
   applications in computer vision and image processing. They will be described
   in \vref{sec:transformers}.
 \end{itemize}
 
-
-\section{Fully Connected Layered Neural networks}
-\label{sec:fully-conn-layer}
+\subsection{\acl*{fnn}} \label{sec:fnn}
 
 Fully connected layered neural networks are the simplest type of neural model
 that exists and that constitute the basis for more complex neural structures.
-
-\subsection{Topology} \label{sec:topology}
 
 This type of neural network is characterized by a neural structure organized in
 different layers, so that the neurons between adjacent layers are connected to
@@ -98,23 +150,9 @@ obtained).
 We will denote with \(L\) the number of layers and with \(n_l\) the size of the
 \(l\)-th layer.
 
-\begin{exampleBox}
-  To gain some intuition on how this work, let's think about the handwritten
-  recognition problem. Suppose we have a set of images with handwritten digits
-  in it and that we will like to implement an ANN that is capable of
-  recognizing that digits. In this case, if the digits images are of
-  \(28 \times 28\) pixels, the input layer will consist of 784
-  (\(28 \times 28\)) neurons and each neuron will hold the grayscale value of a
-  pixel. For the output layer we will need 10 neurons (one for each number
-  between 0 and 9), and we will like that when we feed our network with an
-  image holding a handwritten number 3, then the ouput is one 1 in the position
-  corresponding to the number 3 and the rest of zeros.
-\end{exampleBox}
-
 \subsubsection{Neurons}
 Neurons are the core component of any neural network. Basically there are three
 subparts that form a neuron.
-
 \begin{itemize}
   \item \textbf{Value}. Each neuron holds a value, it will be denoted by
   \(x_i^l \in \R\) for the \(i\)-th neuron in the \(l\)-th layer. Of course, it
@@ -130,30 +168,41 @@ subparts that form a neuron.
   \item \textbf{Activation function}. All neurons have an activation function
   \(f_i ^ l \in \mathcal{C} ^ 1 (\R, \R)\) for the \(i\)-th neuron in the
   \(l\)-th layer.\footnote{Usually all the activation functions are
-    neuron-independent (ie, \(f_i^l\) does not really depend on \(i\) or
+    neuron-independent (i.e., \(f_i^l\) does not really depend on \(i\) or
     \(l\)).} Of course, it is needed \(1 \leq i \leq n_l\). The regularity
   assummed for this functions is important, since we will be optimizing in the
   future by taking derivatives.
 \end{itemize}
 
 \subsubsection{Connections}
-As we discussed in the topology section (\ref{sec:topology}), all neurons
+As we discussed in the topology section (\ref{sec:topology-fcnn}), all neurons
 between adjacent layers are required to be connected, this are the connections,
 that should have associated a \emph{weight}. For the connection between the
 \(i\)-th neuron in the \(l\)-th layer and the \(j\)-th neuron in the
 \(l + 1\)-th layer, we will denote this weight by \(w_{ij}^l \in \R\). The set
 of all this weights is as follows,
 \begin{equation}
-  \{w_{ij}^l \mid 1 \leq i \leq n_{l}, \, 1 \leq j \leq n_{l+1}, \, 1 \leq l <
-  L \}
-  \subset \R.
- \end{equation}
+  \{w_{ij}^l \mid 1 \leq i \leq n_{l}, \, 1 \leq j \leq n_{l+1}, \,
+  1 \leq l < L \} \subset \R.
+\end{equation}
 
- The \emph{matrix} of all weights in the \(l\)-th layer will be denoted by
- \(\mathbf{W}^l\). This is, \((\mathbf{W}^l)_{ij} = w_{ij}^ l\).
+The \emph{matrix} of all weights in the \(l\)-th layer will be denoted by
+\(\mathbf{W}^l\). This is, \((\mathbf{W}^l)_{ij} = w_{ij}^ l\).
 
-\subsection{Model: feed forward} \label{subsec:forward}
+\begin{exampleBox}
+  To gain some intuition on how this work, let's think about the handwritten
+  recognition problem. Suppose we have a set of images with handwritten digits
+  in it and that we will like to implement an ANN that is capable of
+  recognizing that digits. In this case, if the digits images are of
+  \(28 \times 28\) pixels, the input layer will consist of 784
+  (\(28 \times 28\)) neurons and each neuron will hold the grayscale value of a
+  pixel. For the output layer we will need 10 neurons (one for each number
+  between 0 and 9), and we will like that when we feed our network with an
+  image holding a handwritten number 3, then the ouput is one 1 in the position
+  corresponding to the number 3 and the rest of zeros.
+\end{exampleBox}
 
+\subsubsection{Model: feed forward} \label{subsec:forward}
 From now on let's suppose we are working with a fully-connected neural network,
 with different layers and we will be using the same notation used before. The
 values of the neurons can be computed with
@@ -170,12 +219,11 @@ the values of the neurons in the next adjacent layer, until we reach the output
 layer. In this network we can think of information traveling in one direction,
 forward, from the input layer, through the hidden layers to the output neurons.
 
-\subsection{Trainning: backpropagation} \label{sec:backward}
-
+\subsubsection{Trainning: backpropagation} \label{sec:backward}
 In order to be able to train our neural network, it is mandatory to define an
 error function (also known as loss function) that quantifies how good or bad
 the neural network is performing when feeded with a particular dataset. We will
-you the below notation.
+use the below notation.
 \begin{itemize}
   \item \textbf{Dataset}. Will be denoted by and consists of input-output pairs
   \((\mathbf{x}, \mathbf{y})\), where \(\mathbf{x}\) represents the input and
@@ -194,19 +242,18 @@ The error function quantifies how different is the desired output
 \(\mathbf{y}\) and the calculated (\emph{predicted}) output
 \(\mathbf{\hat{y}}\) of the neural network on input \(\mathbf{x}\) for a set of
 input-output pairs \((\mathbf{x} , \mathbf{y}) \in \Omega\) and a particular
-value of the parameters \(\bm{\theta}\). We will denote the error function by
-\(E (\Omega, \theta)\) and we will assume that it is continuosly
-differentiable (i.e., \(\mathcal{C}^1\)).
+value of the parameters \(\theta\). We will denote the error function by
+\(E (\Omega, \theta)\) and we will assume that it is continuosly differentiable
+(i.e., \(\mathcal{C}^1\)).
 
-
-\section{Convolutional Neural Networks}
+\subsection{\acl*{cnn}}
 \label{sec:conv-neur-netw}
 
 \glspl{cnn} are a class of \glspl{dnn} that are widely used in computer
 vision. They are commonly applied in image analysis, since they have the main
 characteristic of having the ability to preserve the spatial relationship
 between pixels. Likewise, they are regularized versions of fully connected
-networks (explained in \vref{sec:fully-conn-layer}), that is, it is less likely
+networks (explained in \vref{sec:fnn}), that is, it is less likely
 to overfit the data.
 
 \fhref{http://yann.lecun.com/index.html}{Yann LeCun}, a renowned scientist
@@ -221,9 +268,7 @@ known as the father of \glspl{cnn}, defines them as follows:
 \end{quoteBox}
 
 Therefore, we will study the architecture or topology of this type of networks
-below in \vref{sec:topology-1}.
-
-\subsection{Topology} \label{sec:topology-1}
+below in \vref{sec:topology-fcnn-1}.
 
 Analogously to the case of fully connected networks, a \gls{cnn} consists of an
 input layer, hidden layers and an output layer. In a \gls{cnn} the hidden
@@ -324,7 +369,7 @@ given by the following expression,
 where \(S\) is every depth slice in the input. This discharges 75 \% of the
 activations.
 
-\subsection{Activation functions}
+\subsubsection{Activation functions}
 Analogously to fully connected neural networks, in this case it is also common
 to use activation functions with the aim of introducing non-linearities in the
 model without affecting the receptive fields of the convolutions. They are
@@ -340,16 +385,13 @@ The main functions used are the following:
   \item \(f (x) = | \tanh x |\)
 \end{itemize}
 
-
-\section{Recurrent Neural Networks} \label{sec:recurr-neur-netw}
+\subsection{\acl*{rnn}} \label{sec:rnn}
 
 \glspl{rnn} are a class of \glspl{ann} that are widely used with temporal
 sequences (as for example in the scope of \gls{nlp}). Analogously to the
 \glspl{cnn} that are suitable for image processing, the \glspl{rnn} are a type
 of neural network specialized to process sequences of values of the type
 \(\mathbf{x}^1, \ldots \mathbf{x}^{\tau}\) with \(\mathbf{x}^t \in \R^n\).
-
-\subsection{Topology}
 
 Looking at \vref{fig:rnn}, we can see the architecture of a \gls{rnn}. The
 input values \(\mathbf{x}^1, \ldots \mathbf{x}^\tau\) are fed into the network
@@ -396,13 +438,14 @@ architectures that may exist are listed in \vref{fig:rnn-types}.
 \end{figure}
 
 These different possibilities then have their application in various fields
-such as: image captioning (``one to many''), action prediction (``many to
-one``), video captioning (``many to many'' first option ), and video
-classification on frame label (``many to many'' second option). The extreme
-case of ``one to one'' corresponds precisely to a normal fully connected
-layered neural network such as the one studied in \vref{sec:fully-conn-layer}.
+such as: image captioning (\texttt{one to many}), action prediction
+(\texttt{many to one}), video captioning (\texttt{many to many} first option),
+and video classification on frame label (\texttt{many to many} second
+option). The extreme case of \texttt{one to one} corresponds precisely to a
+normal fully connected layered neural network such as the one studied in
+\vref{sec:fnn}.
 
-\subsection{Model: feed forward}
+\subsubsection{Model: feed forward}
 
 We can compute the value of the neurons with a recurring formula, involving the
 hidden states \(\mathbf{h}^t\) and the values of the input vectors
@@ -488,7 +531,7 @@ information to travel in time\footnote{These problems are know as vanishing /
   the hyperbolic tangent. Other activation functions would also be possible.
 \end{itemize}
 
-\subsection{Trainning: \acl*{bptt}}
+\subsubsection{Trainning: \acl*{bptt}}
 
 Analogously to other models, here the training of \gls{rnn} is also carried out
 using first-order optimization methods, i.e., calculating the partial
@@ -499,7 +542,7 @@ In this specific case of \gls{rnn}, the backpropagation process is known as
 networks.
 
 
-\section{Transformers} \label{sec:transformers}
+\subsection{Transformers} \label{sec:transformers}
 
 The Transformer is a deep learning model recently introduced by
 \myCite{vaswani17:atten_all_you_need}. Here they presented the idea that
@@ -511,7 +554,7 @@ tasks. In the words of its authors:
   on attention, replacing the recurrent layers most commonly used in
   encoder-decoder architectures with multi-headed self-attention.
   \tcblower
-  ---Ashish Vaswani et al.
+  ---\myCiteShort{vaswani17:atten_all_you_need}
 \end{quoteBox}
 
 They propose a new architecture that is capable of maintaining an attention
@@ -541,3 +584,87 @@ distinguished:
   each word has to attend, and then combine the output of the encoder with the
   output so far. The result is a prediction for the next token.
 \end{itemize}
+
+
+\section{Trainning}
+
+The process of trainning a neural networks consists in adjust the parameters of
+the model to fit a particular dataset. Moreover, it is mandatory to define a
+loss function function (also known as error function) that quantifies how good
+or bad the neural network is performing when feeded with a dataset.
+
+A dataset \(\Omega\) consists of input-output pairs \((x, y)\), where \(x\)
+represents the input and \(y\) the \emph{desired} output. We shall denote the
+size (cardinal) of the dataset by \(N\).
+
+The loss function quantifies how different is the desired output \(y\) and the
+calculated (\emph{predicted}) output \(\hat{y}\) of the neural network on input
+\(x\) for a set of input-output pairs \((x , y) \in \Omega\) and a particular
+value of the model parameters \(\theta\). We will denote the loss function by
+\(\mathcal{L} (\Omega, \theta)\) and we will assume that it is continuosly
+differentiable (i.e., \(\mathcal{C}^1\)).\footnote{The regularity assummed for
+  this functions is important, since we will be optimizing in the future by
+  computing partial derivatives (as discussed in \vref{sec:optimization}).}
+
+It is common (and we will assume it that way) that the loss funcion is a mean
+of the errors of a particular pair \((x, y) \in \Omega\). This is, there exists
+a continuosly differentiable function \(\ell (x, y, \Omega)\), such that,
+\begin{equation}
+  \mathcal{L}(\Omega, \theta) =
+  \frac{1}{N} \sum_{(x, y) \in \Omega} \ell (x, y, \theta).
+\end{equation}
+
+Now, what we will want to do is to optimize (minimize) this loss function in
+\(\theta\). This is, given a dataset \(\Omega\), we will want to approximate,
+\begin{equation}
+  \hat{\theta} = \argmin_{\theta} \mathcal{L}(\Omega, \theta),
+\end{equation}
+given that the above exists.
+
+\subsection{Optimization} \label{sec:optimization}
+
+There exists several optimization techniques, amon then, the most important,
+are gradient-based optimization algorithms. This techniques are iterative
+methods that, given an initial value \(\theta^{(0)}\) for the parameters
+proceed, as follows,
+\begin{equation}
+  \theta^{(t + 1)} = \theta^{(t)} + \alpha\,\Delta\theta^{(t)},
+\end{equation}
+where \(\alpha\) is called the step size (or learning rate), and
+\(\Delta\theta^{(t)}\) is the weight update in step \(t\). The goal is to find
+values for the parameters such that the loss function corresponds to a
+(global) minimum.
+
+However, obtaining a global minimum is a very hard task, so a \emph{local}
+minimum will be enough. It is a well-known result from multivariable calculus
+that if \(\hat{\theta}\) is a local minimum of \(\mathcal{L}\), then
+\(\nabla\mathcal{L}(\hat{\theta}) = 0\), therefore the optimization methods
+will focus in finding stationary points (that, hopefully, correspond to global
+or local minimums).\footnote{These are called first-order optimization methods
+  since they only focus in first-order (partial) derivatives of the loss
+  function. Higher order methods exists, but involve computing the Hessian of
+  \(\mathcal{L}\) and in \gls{dl} is computationally expensive.}
+
+\subsubsection{Optimization methods}
+Gradient descent, then stochastic gradient descent and then momentum.
+
+
+\subsubsection{Weight initialization}
+Hey.
+
+\subsubsection{Error backpropagation}
+Hey.
+
+\subsection{Regularization}
+
+Hey.
+
+\subsection{Data augmentation}
+
+Hey.
+
+
+\section{Testing}
+Hey there.
+
+\subsection{Evaluation measures}

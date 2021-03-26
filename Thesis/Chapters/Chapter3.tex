@@ -325,7 +325,7 @@ objects and the different edges are the existing relationship between objects
   \centering
   \includegraphics[width=.75\textwidth]{Images/Graph model.png}
   \caption[Graph based model representation]{Summary representation of
-    graphic-based models. From the image, the grain representation is built,
+    graph-based models. From the image, the graph representation is built,
     which is then updated with the expression embedding and computed a matching
     score between objects and expression.}
   \label{fig:graph}
@@ -339,13 +339,13 @@ attention module, language-guided graph attention module, and matching
 module. The first of these modules is responsible for decomposing the \gls{re}
 into three different parts (subject description, intra-class relationships, and
 inter-class relationships). The language-guided graph attention module is
-responsible for generating the graphical representation of the image (the nodes
-it generates will be the candidate objects). Finally, the matching module is
-the one that computes the matching score between \gls{re} and object (for each
-of the candidate objects).
+responsible for generating the graph representation of the image (the nodes it
+generates will be the candidate objects). Finally, the matching module is the
+one that computes the matching score between \gls{re} and object (for each of
+the candidate objects).
 
 Other authors in exploiting the graphs in this context are
-\myCite{yang19:dynam}, who create the model \gls{dga}, which allows multi-step
+\myCite{yang19:dynam}, who created the model \gls{dga}, which allows multi-step
 reasoning. Initially, the model works the same as others with the generation of
 a graph from the image and with the mixing of an embedding of the expression in
 the graph. But from here on they use a module they call ``analyzer'' and that
