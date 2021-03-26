@@ -4,6 +4,7 @@
 # Update to vector
 
 rsync -avzhP \
+      --delete \
       --exclude checkpoints/ \
       --exclude .git \
       --exclude __pycache__ \
