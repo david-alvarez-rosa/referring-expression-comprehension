@@ -71,7 +71,7 @@ function addReferringExpression() {
     reSelectedWarn.style.display = "none";
 
     // Execute code.
-    prueba();
+    segmentImg();
 
     return false; // Prevent form to be submitted.
 }
@@ -82,8 +82,15 @@ function populateGallery() {
     const gallerySize = 12;
     let gallery = document.getElementById("gallery");
     gallery.innerHTML = "";
+    let imgNumbers = [];
     for (let i = 0; i < gallerySize; ++i) {
+        // Choose random number differnt from previous.
         let imgNumber = Math.round(Math.random()*(imgFileNames.length - 1));
+        while (imgNumbers.includes(imgNumber))
+            imgNumber = Math.round(Math.random()*(imgFileNames.length - 1));
+        imgNumbers.push(imgNumber);
+
+        // Set gallery image.
         let imgFileName = imgFileNames[imgNumber];
         let imgSrc = "datasets/refcoco/images/" + imgFileName;
         let galleryImg = document.createElement("img");
@@ -123,15 +130,8 @@ $(function () {
 })
 
 
-
-
-
-
-
-
-
-
-function prueba() {
+// Segment image with referring expression.
+function segmentImg() {
     let imgSelected = document.getElementById("img-selected");
     let imgSrc = imgSelected.src;
     let reSelected = document.getElementById("re-selected");
@@ -142,15 +142,13 @@ function prueba() {
     formData.append("imgMethod", imgSelected.dataset.method);
     formData.append("imgSrc", imgSrc);
 
-    fetch("api/prueba.php", {
+    fetch("api/comprehend.php", {
         method: "POST",
         body: formData
     }).then(response => response.json())
         .then(response => {
             console.log(response);
-            let img = document.getElementById("prueba");
+            let img = document.getElementById("img-segmented");
             img.setAttribute("src", response['resultImgSrc']);
         });
 }
-
-// prueba();

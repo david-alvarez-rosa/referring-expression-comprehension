@@ -37,3 +37,9 @@ html {
 #re-selected {
     display: none;
 }
+
+#img-segmented {
+    width: 350px;
+    max-width: 100%;
+    margin: auto;
+}
