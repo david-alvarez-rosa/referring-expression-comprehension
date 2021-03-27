@@ -122,18 +122,9 @@ the simplest to the most complex.
 \end{figure}
 
 
-\section{Datasets and Evaluation} \label{sec:data-eval}
+\section{Trainning}
 
-For the development and validation of the models presented to solve the problem
-in \gls{rec}, two things are necessary mainly: datasets and evaluation
-measures. Every neural model will need a database with which to train (adjust)
-the parameters it has. Likewise, it will be necessary to reserve part of this
-dataset to be able to carry out an evaluation of it using different
-measurements, this is what will make it possible to compare different models.
-
-This section will present the most important \emph{datasets} currently existing
-in \vref{sec:datasets} and the \emph{evaluation measures} most used in
-\vref{sec:eval-measure}.
+Hey.
 
 \subsection{Datasets} \label{sec:datasets}
 
@@ -220,7 +211,137 @@ This dataset, however, will not be used in the work that concerns this thesis,
 since here we are looking for models that work in the real world with
 non-fictional images and natural language.
 
-\subsection{Evaluation measures} \label{sec:eval-measure}
+\subsection{Loss Functions}
+
+Para entrenar los modelos es necesario tener unas funciones de pérdida, que
+deberán ser diferenciables ya que en el proceso de optimización necesitaremos
+usar las derivadas parciales de la función de pérdida respecto a los diferentes
+parámetros a entrenar.
+
+En nuestro caso, siempre trataremos con dos clases (la segmentación será una
+máscara binaria).
+
+\subsubsection{Cross Entropy}
+Una de las funciones de pérdida más conocidas en la segmentación de imágenes es
+la de \gls{ce}. Tenemos dos distribuciones de probabilidad
+
+\begin{enumerate}
+  \item La \textbf{predicción} puede ser \(P(\hat{Y} = 0) = \hat{p}\) or
+  \(P(\hat{Y} = 1) = 1 - \hat{p}\).
+  \item The \textbf{ground truth} can either be \(P(Y = 0) = p\) or
+  \(P(Y = 1) = 1 - p\). Siempre se cumplirá \(p \in \{0, 1\}\).
+\end{enumerate}
+
+La función de pérdida se define entonces como
+\begin{equation}
+  \text{CE}(p, \hat{p}) = -(p\log\hat{p} + (1 - p)\log(1 - \hat{p})).
+\end{equation}
+Teniendo en cuenta que \(p \in \{0, 1\}\), la función de pérdida puede ser
+reescrita de la siguiente manera,
+\begin{equation}
+  \text{\gls*{ce}}(p, \hat{p}) =
+  \begin{cases}
+    -\log(1 - \hat{p}) & p = 0 \\
+    -\log\hat{p} & p = 1.
+  \end{cases}
+\end{equation}
+Es decir, si \(p = 1\), la función de pérdida será \(0\) \gls{iff} \(\hat{p} =
+1\) y será más grande cuanto más diferentes sean \(p\) y \(\hat{p}\). La
+penalización crecerá exponencialmente hasta hacerse infinita para el valor
+\(\hat{p} = 0\). El caso \(p = 0\) es simétrico.
+
+A continuación se discutirán diversas variaciones de esta función de pérdida
+que pueden ser útiles para entrenar diversos modelos neuronales.
+
+\begin{itemize}
+  \item \textbf{\gls*{wce}}. Es una variante de \gls{ce} en la que los ejemplos
+  positivos son weighted por un coeficiente \(\beta\). Se define de la
+  siguiente manera,
+  \begin{equation}
+    \text{\gls*{wce}}(p, \hat{p}) =
+    -(\beta p\log\hat{p} + (1 - p)\log(1 - \hat{p})).
+  \end{equation}
+  Típicamente se usa cuando aparecen clases desequilibradas. No es demasiado
+  interesante para este caso.
+  \item \textbf{\gls*{bce}}. Es similar a \gls{wce} con la única diferencia que
+  también se añade un peso a los ejemplos negativos. Se define de la siguiente
+  manera,
+  \begin{equation}
+    \text{\gls*{bce}}(p, \hat{p}) =
+    -(\beta p\log\hat{p} + (1 - \beta)(1 - p)\log(1 - \hat{p})).
+  \end{equation}
+  \item \textbf{\gls*{fl}}. Es una variante de \gls{ce} en la que se incide aún
+  más en los elementos del dataset más \emph{complicados}. Estos son los que
+  tienen un valor de \(\hat{p}\) intermedio entre \(0\) y \(1\). Se define de
+  la siguiente manera,
+  \begin{equation}
+    \text{\gls*{fl}}(p, \hat{p}) =
+    -(\alpha (1 - \hat{p})^\gamma p\log\hat{p} +
+    (1 - \alpha)p^\gamma (1 - p)\log(1 - \hat{p})).
+  \end{equation}
+  Cuando \(\gamma = 0\) obtenemos \gls{bce}.
+  \item \textbf{\gls*{dnc}}. TODO:
+  \url{https://lars76.github.io/2018/09/27/loss-functions-for-segmentation.html} Esto
+  faltaría por explicar.
+\end{itemize}
+
+\subsubsection{Overlap measures}
+Otro tipo de medidades surgen con el uso de la intersección y la unión de la
+segmentación predicha y el ground truth. Este tipo de funciones de pérdida nos
+aportan información \emph{global}. El conocido Jaccard index o coeficiente \gls{iou},
+\begin{equation}
+  J(A,B) = \frac{|A \cap B|}{|A \cup B|}
+  = \frac{|A \cap B|}{|A| + |B| - |A \cap B|},
+\end{equation}
+es típicamente usado para medir el accuracy de un modelo, pero no puede ser
+usado como función de pérdida al no ser una aplicación diferenciable. Sí que
+será usado para la evaluación del modelo en la \vref{sec:evaluation}
+
+\begin{itemize}
+  \item \textbf{\gls*{dil}}. Se basa en el \gls{dc}, un coeficiente similar a
+  \gls{iou}, que se define de la siguiente manera,
+  \begin{equation}
+    \text{\gls*{dc}}(X, Y) = \frac{2|X \cap Y|}{|X| + |Y|}.
+  \end{equation}
+  Este dice coefficiente puede ser definido como una función de pérdida,
+  \begin{equation}
+    \text{\gls*{dil}}(p, \hat{p})
+    = 1 - \frac{2\sum p_{h, w}\hat{p}_{h, w}}{\sum p_{h, w} + \sum \hat{p}_{h, w}},
+  \end{equation}
+  donde \(p_{h, w} \in \{0, 1\}\), \(0 \leq \hat{p}_{h, w} \leq 1\) y los
+  sumatorios se extienden por toda la imagen en el width \(w\) y el height
+  \(h\).
+  \item \textbf{\gls*{ti}}. Es una generalización de \gls{dil}. Se define de la
+  siguiente manera,
+  \begin{equation}
+    \text{\gls*{ti}}(p, \hat{p})
+    = 1 - \frac{p\hat{p}}{p\hat{p} + \beta(1 - p)\hat{p} + (1 - \beta)p(1 - \hat{p})}.
+  \end{equation}
+  Con el valor \(\beta = \frac{1}{2}\), recuperamos la función anterior
+  \gls{dil}.
+\end{itemize}
+
+
+\subsubsection{\gls*{iou} loss}
+
+\cite{yu16:unitb}
+
+\subsubsection{Combinations}
+Muchas más funciones de pérdida pueden ser obtenidas por simple combinación
+lineal de las anteriores. La combinación,
+\begin{equation}
+  \text{\gls*{ce}}(p, \hat{p}) + \text{\gls*{dil}}(p, \hat{p}),
+\end{equation}
+es bastante popular, ya que combina información local (\gls{ce}) con
+información global (\gls{dil}).
+
+
+\section{Evaluation Techniques} \label{sec:eval-measure}
+
+TODO. Explain here that both numerical (quantitative) and visual (qualitative)
+techniques can be used for evaluation.
+
+\subsection{Quantitative Measures}
 
 This corresponds to an evaluation of the model in a numerical way. The
 different evaluation measures typically used to address this problem are
@@ -232,8 +353,12 @@ It is also possible to define an accuracy index in the following way: if
 positive, and if not, it is considered as a false positive. You can then
 average over the entire dataset.
 
+\subsection{Qualitative Evaluation}
 
-\section{Related work} \label{sec:sota}
+Visually evaluate the model.
+
+
+\section{Related Work} \label{sec:sota}
 
 The current methods \gls{sota} for \gls{rec} can be divided into three main
 classes: joint embedding (see \vref{sec:joint}), modular models (see

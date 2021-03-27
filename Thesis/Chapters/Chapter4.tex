@@ -1,7 +1,7 @@
 % -*- TeX-master: "../Thesis.tex" -*-
 
 
-\chapter{Model} \label{cha:model}
+\chapter{Models} \label{cha:model}
 
 \epigraphhead[75]{
   \epigraph{\itshape All models are wrong, but some are useful.}
@@ -9,10 +9,25 @@
 }
 
 
-\lettrine{E}{l} modelo.
+\lettrine{M}{odelizar} consiste en crear un modelo matemático que represente de
+la manera más fiel posible una situación compleja. En este trabajo se usarán
+dos modelos diferentes: uno de ellos para realizar el trabajo de \gls{rec}
+partiendo de una \gls{re} en forma de texto (ver \vref{sec:rec-model}) y otro
+modelo para speech recognition (ver \vref{sec:speech}), de manera que también
+se pueda trabajar con lenguaje natural hablado.
 
 
-\section{Base architecture}
+\section{\glsentrylong{rec}} \label{sec:rec-model}
+
+Para la obtención de un modelo
+
+El primer modelo, se basará en una arquitectura base (discutida en la
+\vref{sec:base-arch}). Para esta arquitectura se mostrarán diferentes
+posibilidades de trainning (en la \vref{sec:model-trainning}), con las
+cuales se iterará en diferentes posibilidades del modelo (en la
+\vref{sec:model-iterations}).
+
+\subsection{Base Architecture} \label{sec:base-arch}
 
 En la \vref{fig:model} se muestra una representación gráfica del modelo
 usado. Tiene dos partes diferenciadas con las cuales se produce la extración de
@@ -22,161 +37,73 @@ capaz de generar la segmentación.
 
 \begin{figure}[ht]
   \centering
-  \includegraphics{example-image-a}
-  \caption{TODO.}
+  \includegraphics[width=\textwidth]{Images/RefVOS.png}
+  \caption[RefVOS model architecture]{RefVOS model architecture. Se pueden
+    observar los modelos diferenciados de visión y de lenguaje que después son
+    combinados para obtener las características multimodales.}
   \label{fig:model}
+  \source{From \cite{bellver20:refvos}}
 \end{figure}
+
+Este modelo, creado por \myCite{bellver20:refvos}, constituirá nuestra
+arquitectura base de partida. A continuación se estudiará por separado el image
+encoder (que se base en atrous convolutions), el language encoder (que usa
+transformers) y el multimodal embedding.
 
 \subsubsection{Image encoder}
 Para extraer las features de las imágenes se usa un modelo \gls{sota} llamado
 DeepLab, que es una red neuronal creada por \myCite{chen17:rethin} y basada en
-atrous convolutions.
+atrous convolutions (see \vref{fig:atrous}). Es un \gls{cnn} usada para
+segmentación semántica.
 
-TODO. Aquí hablar sobre el modelo de DeepLab.
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=.75\textwidth]{Images/Atrous.png}
+  \caption[Atrous convolutions examples]{Atrous convolutions examples with
+    filter size \(3 \times 3\). The \code{rate} parameter controls the model's
+    field-of-view. Standard convolution operation corresponds to an atrous
+    convolution with a rate of 1.}
+  \label{fig:atrous}
+  \source{From \cite{chen17:rethin}}
+\end{figure}
 
+Una de las ventajas de este modelo frente a modelos neuronales convoluciones
+estándar es que se adapta muy bien a objetos en diferentes escalas, sin
+necesidad de operaciones de pooling. Así, definen los creadores de este modelo
+las atrous convolutions (también conocidas como dilated convolutions).
+
+\begin{quoteBox}
+  Atrous convolution allows us to extract denser feature maps by removing the
+  downsampling operations from the last few layers and upsampling the
+  corresponding filter kernels, equivalent to inserting holes (``trous'' in
+  French) between filter weights.
+  \tcblower
+  ---\quoteAuthor{chen17:rethin}
+\end{quoteBox}
+
+En el modelo usado, se usará como backbone la conocida red ResNet101
+\cite{he16:deep} y un \code{output\_stride} de 8.\footnote{The
+  \code{output\_stride} is the ratio of input imagespatial resolution to final
+  output resolution. Setting this ratio to smaller values allow the model to
+  extract denser feature responses (view section~3.1
+  from~\cite{chen17:rethin}).} Así mismo se usará \((12, 24, 36)\) como
+\code{rates} de las convoluciones en la \gls{aspp}. Esta pirámides son parte
+del modelo DeepLab y consisten en realizar atrous convolutiones en paralelo
+(con diferentes rates). De esta manera, al usar diferentes rates, se consigue
+capturar información de diferentes escalas al mismo tiempo.
 
 \subsubsection{Language encoder}
 TODO. Hablar aquí sobre BERT.
+
+\myCite{devlin19:bert}
 
 \subsubsection{Multimodal embedding}
 TODO.
 
 
-\section{Trainning}
-
-Los diferentes modelos han sido entrenados.
-
-\subsection{Datasets}
-
-Para entrenar estos diferentes modelos.
-
-\subsection{Loss functions}
-
-Para entrenar los modelos es necesario tener unas funciones de pérdida, que
-deberán ser diferenciables ya que en el proceso de optimización necesitaremos
-usar las derivadas parciales de la función de pérdida respecto a los diferentes
-parámetros a entrenar.
-
-En nuestro caso, siempre trataremos con dos clases (la segmentación será una
-máscara binaria).
-
-\subsubsection{Cross Entropy}
-Una de las funciones de pérdida más conocidas en la segmentación de imágenes es
-la de \gls{ce}. Tenemos dos distribuciones de probabilidad
-
-\begin{enumerate}
-  \item La \textbf{predicción} puede ser \(P(\hat{Y} = 0) = \hat{p}\) or
-  \(P(\hat{Y} = 1) = 1 - \hat{p}\).
-  \item The \textbf{ground truth} can either be \(P(Y = 0) = p\) or
-  \(P(Y = 1) = 1 - p\). Siempre se cumplirá \(p \in \{0, 1\}\).
-\end{enumerate}
-
-La función de pérdida se define entonces como
-\begin{equation}
-  \text{CE}(p, \hat{p}) = -(p\log\hat{p} + (1 - p)\log(1 - \hat{p})).
-\end{equation}
-Teniendo en cuenta que \(p \in \{0, 1\}\), la función de pérdida puede ser
-reescrita de la siguiente manera,
-\begin{equation}
-  \text{\gls*{ce}}(p, \hat{p}) =
-  \begin{cases}
-    -\log(1 - \hat{p}) & p = 0 \\
-    -\log\hat{p} & p = 1.
-  \end{cases}
-\end{equation}
-Es decir, si \(p = 1\), la función de pérdida será \(0\) \gls{iff} \(\hat{p} =
-1\) y será más grande cuanto más diferentes sean \(p\) y \(\hat{p}\). La
-penalización crecerá exponencialmente hasta hacerse infinita para el valor
-\(\hat{p} = 0\). El caso \(p = 0\) es simétrico.
-
-A continuación se discutirán diversas variaciones de esta función de pérdida
-que pueden ser útiles para entrenar diversos modelos neuronales.
-
-\begin{itemize}
-  \item \textbf{\gls*{wce}}. Es una variante de \gls{ce} en la que los ejemplos
-  positivos son weighted por un coeficiente \(\beta\). Se define de la
-  siguiente manera,
-  \begin{equation}
-    \text{\gls*{wce}}(p, \hat{p}) =
-    -(\beta p\log\hat{p} + (1 - p)\log(1 - \hat{p})).
-  \end{equation}
-  Típicamente se usa cuando aparecen clases desequilibradas. No es demasiado
-  interesante para este caso.
-  \item \textbf{\gls*{bce}}. Es similar a \gls{wce} con la única diferencia que
-  también se añade un peso a los ejemplos negativos. Se define de la siguiente
-  manera,
-  \begin{equation}
-    \text{\gls*{bce}}(p, \hat{p}) =
-    -(\beta p\log\hat{p} + (1 - \beta)(1 - p)\log(1 - \hat{p})).
-  \end{equation}
-  \item \textbf{\gls*{fl}}. Es una variante de \gls{ce} en la que se incide aún
-  más en los elementos del dataset más \emph{complicados}. Estos son los que
-  tienen un valor de \(\hat{p}\) intermedio entre \(0\) y \(1\). Se define de
-  la siguiente manera,
-  \begin{equation}
-    \text{\gls*{fl}}(p, \hat{p}) =
-    -(\alpha (1 - \hat{p})^\gamma p\log\hat{p} +
-    (1 - \alpha)p^\gamma (1 - p)\log(1 - \hat{p})).
-  \end{equation}
-  Cuando \(\gamma = 0\) obtenemos \gls{bce}.
-  \item \textbf{\gls*{dnc}}. TODO:
-  \url{https://lars76.github.io/2018/09/27/loss-functions-for-segmentation.html} Esto
-  faltaría por explicar.
-\end{itemize}
-
-\subsubsection{Overlap measures}
-Otro tipo de medidades surgen con el uso de la intersección y la unión de la
-segmentación predicha y el ground truth. Este tipo de funciones de pérdida nos
-aportan información \emph{global}. El conocido Jaccard index o coeficiente \gls{iou},
-\begin{equation}
-  J(A,B) = \frac{|A \cap B|}{|A \cup B|}
-  = \frac{|A \cap B|}{|A| + |B| - |A \cap B|},
-\end{equation}
-es típicamente usado para medir el accuracy de un modelo, pero no puede ser
-usado como función de pérdida al no ser una aplicación diferenciable. Sí que
-será usado para la evaluación del modelo en la \vref{sec:evaluation}
-
-\begin{itemize}
-  \item \textbf{\gls*{dil}}. Se basa en el \gls{dc}, un coeficiente similar a
-  \gls{iou}, que se define de la siguiente manera,
-  \begin{equation}
-    \text{\gls*{dc}}(X, Y) = \frac{2|X \cap Y|}{|X| + |Y|}.
-  \end{equation}
-  Este dice coefficiente puede ser definido como una función de pérdida,
-  \begin{equation}
-    \text{\gls*{dil}}(p, \hat{p})
-    = 1 - \frac{2\sum p_{h, w}\hat{p}_{h, w}}{\sum p_{h, w} + \sum \hat{p}_{h, w}},
-  \end{equation}
-  donde \(p_{h, w} \in \{0, 1\}\), \(0 \leq \hat{p}_{h, w} \leq 1\) y los
-  sumatorios se extienden por toda la imagen en el width \(w\) y el height
-  \(h\).
-  \item \textbf{\gls*{ti}}. Es una generalización de \gls{dil}. Se define de la
-  siguiente manera,
-  \begin{equation}
-    \text{\gls*{ti}}(p, \hat{p})
-    = 1 - \frac{p\hat{p}}{p\hat{p} + \beta(1 - p)\hat{p} + (1 - \beta)p(1 - \hat{p})}.
-  \end{equation}
-  Con el valor \(\beta = \frac{1}{2}\), recuperamos la función anterior
-  \gls{dil}.
-\end{itemize}
 
 
-\subsubsection{\gls*{iou} loss}
-
-\cite{yu16:unitb}
-
-
-\subsubsection{Combinations}
-Muchas más funciones de pérdida pueden ser obtenidas por simple combinación
-lineal de las anteriores. La combinación,
-\begin{equation}
-  \text{\gls*{ce}}(p, \hat{p}) + \text{\gls*{dil}}(p, \hat{p}),
-\end{equation}
-es bastante popular, ya que combina información local (\gls{ce}) con
-información global (\gls{dil}).
-
-
-\section{Model iterations}
+\subsection{Model Iterations} \label{sec:model-iterations}
 
 Model iterations.
 
@@ -199,64 +126,7 @@ Model iterations.
 % a la aleatoriedad).
 
 
-\section{Results}
-Hey, results here.
+\section{Speech Recognition} \label{sec:speech}
 
-\subsection{Numerical Evaluation} \label{sec:evaluation}
-
-Para la evaluación del modelo se usará el concepto de intersección y de unión
-entre la segmentación predecida (que es una máscara \emph{binaria}) y el ground
-truth (en la \vref{fig:sets} se muestran unos diagramas con estos
-conceptos).
-
-\begin{figure}[ht]
-  \begin{subfigure}[t]{.5\textwidth}
-    \centering
-    \caption{Union of sets \(A\) and \(B\).}
-    \includesvg[width=.55\textwidth]{Union_of_sets_A_and_B.svg}
-  \end{subfigure}
-  \begin{subfigure}[t]{.5\textwidth}
-    \centering
-    \caption{Intersection of sets \(A\) and \(B\).}
-    \includesvg[width=.55\textwidth]{Intersection_of_sets_A_and_B.svg}
-  \end{subfigure}
-  \caption[Union and intersection of sets \(A\) and \(B\)]{Graphic
-    representation of union and intersection of sets \(A\) and \(B\).}
-  \label{fig:sets}
-\end{figure}
-
-De aquí surge el conocido Jaccard index o coeficiente \gls{iou},
-\begin{equation}
-  J(A,B) = \frac{|A \cap B|}{|A \cup B|}
-  = \frac{|A \cap B|}{|A| + |B| - |A \cap B|},
-\end{equation}
-que es típicamente usado para medir el accuracy de un modelo, pero ---como
-hemos comentado anteriormente--- no puede ser usado como función de pérdida al
-no ser una aplicación diferenciable.
-
-\begin{figure}[ht]
-  \begin{subfigure}[t]{.45\textwidth}
-    \centering
-    \caption{Bounding boxes example.}
-    \includegraphics[width=.8\textwidth]{Images/Object detection Bounding Boxes.jpg}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{.45\textwidth}
-    \centering
-    \caption{\gls{iou} visual equation.}
-    \includegraphics[width=.8\textwidth]{Images/Intersection over Union.png}
-  \end{subfigure}
-  \caption[Explicación del Jaccard Index]{Explicación y ejemplo del Jaccard
-    Index en el caso de bounding boxes.}
-\end{figure}
-
-Este índice aporta información relevante sobre cómo de ajustada está una
-bounding box.\footnote{Se estudia el caso de bounding box por simplicidad, pero
-  el mismo concepto aplica en el caso de segmentación pixel a pixel.} Es
-evidente que el Jaccard index toma un valor entre \(0\) y \(1\), siendo \(0\)
-cuando no hay intersección entre las bounding boxes y tomando el valor de \(1\)
-cuando la correspondencia es exacta.
-
-\subsection{Visual Evaluation}
-
-Aquí mostraremos de una manera visual diferentes ejemplos y patologías
-encontradas en el procesado del sistema.
+También usaremos un modelo neuronal preentrenado para convertir de speech a
+texto.

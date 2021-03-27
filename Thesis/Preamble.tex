@@ -151,6 +151,7 @@
 \renewcommand{\glsnamefont}[1]{\textbf{#1}}
 \setlength\glspagelistwidth{.25\textwidth}
 \setlength\glsdescwidth{.5\textwidth}
+\preto\chapter{\glsresetall}
 
 % Alphabetical index customization.
 \makeindex[columns=2, intoc, options={-s Index.ist}]
@@ -261,24 +262,23 @@
 \tcbuselibrary{minted}
 % Basic reusable styles.
 \tcbset{
-  skipBox/.style = {
-    before skip = .75em,
-    after skip = 1em,
-  },
   baseBox/.style = {
     enhanced,
     lower separated = false,
-    left = 3mm,
-    right = 4mm,
-    top = 1mm,
-    bottom = 2mm,
+    breakable,
+    % before skip = .75em,
+    % after skip = 1em,
+    % left = 3mm,
+    % right = 4mm,
+    % top = 1mm,
+    % bottom = 2mm,
     middle = 0pt,
     sharp corners,
     rounded corners = southeast,
     arc is angular,
     arc = 3mm,
     leftrule = 5pt,
-    underlay = {
+    underlay unbroken and last = {
       \path[quoteDecoration] ([shift={(.01, .3)}]interior.south east) --
       ++(-.4, -.1) -- ++(.1, -.2);
     },
@@ -289,7 +289,6 @@
 % Quote box.
 \newtcolorbox{quoteBox}[1][]{
   baseBox,
-  skipBox,
   colback = RoyalBlue!10,
   colframe = RoyalBlue!50!black,
   fontupper=\itshape,
@@ -299,7 +298,6 @@
 % Example box.
 \newtcolorbox{exampleBox}[1][]{
   baseBox,
-  skipBox,
   colback = OliveGreen!10,
   colframe = OliveGreen!50!black,
   #1
@@ -307,7 +305,6 @@
 % Remark box.
 \newtcolorbox{remarkBox}[1][]{
   baseBox,
-  skipBox,
   colback = RedOrange!10,
   colframe = RedOrange!50!black,
   #1
@@ -368,7 +365,7 @@
 
 % Cite configuration.
 \newcommand{\myCite}[1]{\citeauthor*{#1} \cite{#1}\footfullcite{#1}}
-\newcommand{\myCiteShort}[1]{\citeauthor*{#1} \cite{#1}}
+\newcommand{\quoteAuthor}[1]{\citeauthor*{#1} \cite{#1}}
 
 % Website domain command.
 \newcommand{\myWeb}{51.75.163.95}
@@ -390,6 +387,10 @@ This \namecref{#1}, entitled \texttt{\nameref*{#1}}, begins on page~\pageref{#1}
 
 % Basic math operators.
 \DeclareMathOperator*{\argmin}{arg\,min}
+
+% Custom commands.
+\newcommand*{\re}[1]{\texttt{#1}}
+\newcommand*{\code}[1]{\texttt{#1}}
 
 \title{An innecesarily long title related to Artifical Intelligence and in the
   topic of Multimodal Learning}
