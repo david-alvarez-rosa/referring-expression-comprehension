@@ -175,12 +175,12 @@ subparts that form a neuron.
 \end{itemize}
 
 \subsubsection{Connections}
-As we discussed in the topology section (\ref{sec:topology-fcnn}), all neurons
-between adjacent layers are required to be connected, this are the connections,
-that should have associated a \emph{weight}. For the connection between the
-\(i\)-th neuron in the \(l\)-th layer and the \(j\)-th neuron in the
-\(l + 1\)-th layer, we will denote this weight by \(w_{ij}^l \in \R\). The set
-of all this weights is as follows,
+As we discussed, in the topology of this network, all neurons between adjacent
+layers are required to be connected, this are the connections, that should have
+associated a \emph{weight}. For the connection between the \(i\)-th neuron in
+the \(l\)-th layer and the \(j\)-th neuron in the \(l + 1\)-th layer, we will
+denote this weight by \(w_{ij}^l \in \R\). The set of all this weights is as
+follows,
 \begin{equation}
   \{w_{ij}^l \mid 1 \leq i \leq n_{l}, \, 1 \leq j \leq n_{l+1}, \,
   1 \leq l < L \} \subset \R.
@@ -266,9 +266,6 @@ known as the father of \glspl{cnn}, defines them as follows:
   \tcblower
   ---\href{http://yann.lecun.com/index.html}{Yann LeCun}
 \end{quoteBox}
-
-Therefore, we will study the architecture or topology of this type of networks
-below in \vref{sec:topology-fcnn-1}.
 
 Analogously to the case of fully connected networks, a \gls{cnn} consists of an
 input layer, hidden layers and an output layer. In a \gls{cnn} the hidden
