@@ -262,53 +262,68 @@
 \tcbuselibrary{minted}
 % Basic reusable styles.
 \tcbset{
+  indentFix/.style = {
+    before upper={\parindent17pt\noindent}
+  },
   baseBox/.style = {
+    indentFix,
     enhanced,
     lower separated = false,
     breakable,
+    boxrule = 0.5mm,
+    boxsep = 0pt,
+    left = \parindent - 0.5mm,
+    right = \parindent - 0.5mm,
+    bottom = 3mm,
+    top = 3mm,
     % before skip = .75em,
     % after skip = 1em,
     % left = 3mm,
     % right = 4mm,
     % top = 1mm,
     % bottom = 2mm,
-    middle = 0pt,
+    middle = 1mm,
     sharp corners,
+    drop fuzzy shadow,
     rounded corners = southeast,
     arc is angular,
     arc = 3mm,
-    leftrule = 5pt,
     underlay unbroken and last = {
       \path[quoteDecoration] ([shift={(.01, .3)}]interior.south east) --
       ++(-.4, -.1) -- ++(.1, -.2);
     },
-    drop fuzzy shadow,
   }
 }
 \tcbsetforeverylayer{shield externalize}
 % Quote box.
-\newtcolorbox{quoteBox}[1][]{
+\newtcolorbox{quoteBox}{
   baseBox,
   colback = RoyalBlue!10,
   colframe = RoyalBlue!50!black,
   fontupper=\itshape,
-  fontlower=\small\hfill,
-  #1
+  fontlower=\small,
+  before lower = \hfill---,
+  leftrule = 5pt,
+  left = \parindent - 5pt,
 }
 % Example box.
-\newtcolorbox{exampleBox}[1][]{
+\newtcolorbox{exampleBox}{
   baseBox,
   colback = OliveGreen!10,
-  colframe = OliveGreen!50!black,
-  #1
+  colframe = OliveGreen!50!black
 }
 % Remark box.
-\newtcolorbox{remarkBox}[1][]{
+\newtcolorbox{remarkBox}{
   baseBox,
-  colback = RedOrange!10,
-  colframe = RedOrange!50!black,
-  #1
+  colback = Red!10,
+  colframe = Red!50!black,
+  underlay = {
+    \path[fill=tcbcolframe] ([shift={(-0.5mm,-0.5mm)}]interior.south west)
+    rectangle node[white]{\Huge\bfseries !}
+    ([shift={(3.5mm,0.5mm)}]interior.north west);
+    }
 }
+
 % Input code file.
 \newtcbinputlisting[auto counter, number within=chapter, list inside=code]{\codeLst}[4]{
   listing engine = minted,

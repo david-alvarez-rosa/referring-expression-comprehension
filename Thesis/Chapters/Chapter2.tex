@@ -21,8 +21,7 @@ first neurocomputers), in an article by
   \ldots a computing system made up of a number of simple, highly
   interconnected processing elements, which process information by their
   dynamic state response to external inputs.
-  \tcblower{}
-  ---\quoteAuthor{caudill87:neural_networ_primer_part_i}
+  \tcblower\quoteAuthor{caudill87:neural_networ_primer_part_i}
 \end{quoteBox}
 
 \subsubsection{Mathematical perspective}
@@ -193,13 +192,14 @@ The \emph{matrix} of all weights in the \(l\)-th layer will be denoted by
   To gain some intuition on how this work, let's think about the handwritten
   recognition problem. Suppose we have a set of images with handwritten digits
   in it and that we will like to implement an ANN that is capable of
-  recognizing that digits. In this case, if the digits images are of
-  \(28 \times 28\) pixels, the input layer will consist of 784
-  (\(28 \times 28\)) neurons and each neuron will hold the grayscale value of a
-  pixel. For the output layer we will need 10 neurons (one for each number
-  between 0 and 9), and we will like that when we feed our network with an
-  image holding a handwritten number 3, then the ouput is one 1 in the position
-  corresponding to the number 3 and the rest of zeros.
+  recognizing that digits.
+
+  In this case, if the digits images are of \(28 \times 28\) pixels, the input
+  layer will consist of 784 (\(28 \times 28\)) neurons and each neuron will
+  hold the grayscale value of a pixel. For the output layer we will need 10
+  neurons (one for each number between 0 and 9), and we will like that when we
+  feed our network with an image holding a handwritten number 3, then the ouput
+  is one 1 in the position corresponding to the number 3 and the rest of zeros.
 \end{exampleBox}
 
 \subsubsection{Model: feed forward}\label{subsec:forward}
@@ -263,8 +263,7 @@ known as the father of \glspl{cnn}, defines them as follows:
   networks. Like almost every other neural networks they are trained with a
   version of the back-propagation algorithm. Where they differ is in the
   architecture.
-  \tcblower{}
-  ---\href{http://yann.lecun.com/index.html}{Yann LeCun}
+  \tcblower\href{http://yann.lecun.com/index.html}{Yann LeCun}
 \end{quoteBox}
 
 Analogously to the case of fully connected networks, a \gls{cnn} consists of an
@@ -549,8 +548,7 @@ tasks. In the words of its authors:
   The Transformer, the first sequence transduction model based entirely
   on attention, replacing the recurrent layers most commonly used in
   encoder-decoder architectures with multi-headed self-attention.
-  \tcblower{}
-  ---\quoteAuthor{vaswani17:atten_all_you_need}
+  \tcblower\quoteAuthor{vaswani17:atten_all_you_need}
 \end{quoteBox}
 
 They propose a new architecture that is capable of maintaining an attention
