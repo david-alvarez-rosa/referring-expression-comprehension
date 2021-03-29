@@ -157,10 +157,17 @@ Model iterations.
 \section{Speech Recognition}%
 \label{sec:speech}\index{Speech}\index{Speech!recognition}
 
-También usaremos un modelo neuronal preentrenado para convertir from
+Speech recognition, también conocido como \gls{asr} y \gls{stt} es un campo de
+\gls{cs} que se ocupa of recognition of spoken language into text. Para
+nosotros nos será útil porque nos permitirá segmentar objetos en imágenes
+usando la voz, es decir podremos resolver el problema de \gls{rec} usando
+spoken language.
+
+Para esta tarea, se usará un pre-trained neuronal model para convertir from
 \gls{stt}. El modelo, creado por
 \myCite{veysov20:towar_imagen_momen_speec_text}, se llama Silero (see
-\vref{fig:silero}).
+\vref{fig:silero}), y permite convertir de audio mono a texto en diferentes
+idiomas: english, german, spanish and ukraniain.
 
 \begin{figure}[p]
   \centering
@@ -171,6 +178,3 @@ También usaremos un modelo neuronal preentrenado para convertir from
     input.}\label{fig:silero}
   \source{From~\cite{veysov20:towar_imagen_momen_speec_text}}
 \end{figure}
-
-Este modelo pre-trained permite convertir de audio mono a texto en diferentes
-idiomas: english, german, spanish and ukraniain.
