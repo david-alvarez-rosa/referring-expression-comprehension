@@ -42,7 +42,7 @@ capaz de generar la segmentación.
     observar los modelos diferenciados de visión y de lenguaje que después son
     combinados para obtener las características multimodales.}
   \label{fig:model}
-  \source{From \cite{bellver20:refvos}}
+  \source{From~\cite{bellver20:refvos}}
 \end{figure}
 
 Este modelo, creado por \myCite{bellver20:refvos}, constituirá nuestra
@@ -50,7 +50,7 @@ arquitectura base de partida. A continuación se estudiará por separado el imag
 encoder (que se base en atrous convolutions), el language encoder (que usa
 transformers) y el multimodal embedding.
 
-\subsubsection{Image encoder}
+\subsubsection{Image Encoder}
 Para extraer las features de las imágenes se usa un modelo \gls{sota} llamado
 DeepLab, que es una red neuronal creada por \myCite{chen17:rethin} y basada en
 atrous convolutions (see \vref{fig:atrous}). Es un \gls{cnn} usada para
@@ -64,7 +64,7 @@ segmentación semántica.
     field-of-view. Standard convolution operation corresponds to an atrous
     convolution with a rate of 1.}
   \label{fig:atrous}
-  \source{From \cite{chen17:rethin}}
+  \source{From~\cite{chen17:rethin}}
 \end{figure}
 
 Una de las ventajas de este modelo frente a modelos neuronales convoluciones
@@ -77,12 +77,12 @@ las atrous convolutions (también conocidas como dilated convolutions).
   downsampling operations from the last few layers and upsampling the
   corresponding filter kernels, equivalent to inserting holes (``trous'' in
   French) between filter weights.
-  \tcblower
+  \tcblower{}
   ---\quoteAuthor{chen17:rethin}
 \end{quoteBox}
 
-En el modelo usado, se usará como backbone la conocida red ResNet101
-\cite{he16:deep} y un \code{output\_stride} de 8.\footnote{The
+En el modelo usado, se usará como backbone la conocida red ResNet101 (creada
+por \myCite{he16:deep}) y un \code{output\_stride} de 8.\footnote{The
   \code{output\_stride} is the ratio of input imagespatial resolution to final
   output resolution. Setting this ratio to smaller values allow the model to
   extract denser feature responses (view section~3.1
@@ -92,18 +92,46 @@ del modelo DeepLab y consisten en realizar atrous convolutiones en paralelo
 (con diferentes rates). De esta manera, al usar diferentes rates, se consigue
 capturar información de diferentes escalas al mismo tiempo.
 
-\subsubsection{Language encoder}
-TODO. Hablar aquí sobre BERT.
+\subsubsection{Language Encoder}
+En el caso del language encoder se podrían considerar diferentes posibilidades,
+entre ellas usar una \gls{rnn} o usar un transformer principalmente. En esta
+arquitectura base que se presenta, RefVOS consigue resultados más prometedores
+haciendo uso de transformadores. Concretamente se usa un transformer creado por
+\myCite{devlin19:bert} y llamado \gls{bert}.
 
-\myCite{devlin19:bert}
+\gls{bert} is a multi-layer bidirectional Transformer encoder (see
+\vref{sec:transformers}) that removes the unidirectionality constraint present
+in previous models related to language representation. It uses \gls{mlm}, i.e.,
+randomly masks some tokens from the input and tries to predict the original
+token of masked word (just relying on its context). This allows the model to
+learn from both left and right context.\footnote{El modelo \gls{bert} también
+  usa la tarea de \gls{nsp} como función objetivo de entrenamiento (see
+  Task~\#2 in section~3.1 from~\cite{devlin19:bert}).}
 
-\subsubsection{Multimodal embedding}
-TODO.
+Para integrar \gls{bert} dentro del modelo, es necesario convertir a tokens
+cada una de las \glspl{re} y añadir dos tokens especiales: \code{[CLS]} and
+\code{[SEP]} al principio y al final de la frase respectivamente. Este modelo
+producirá, entonces, embeddings de dimensión 768 para cada uno de los tokens de
+entrada. Se tomará el final hidden vector corresponding to the first input
+token (\code{[CLS]}) as the aggregate representation of the \gls{re} (view
+section~4.1 from~\cite{devlin19:bert}).
+
+\subsubsection{Multimodal Embedding}\index{Multimodal!embedding}
+Una vez que tenemos the encoded \gls{re} and the map of visuald features from
+the convolutional network, es necesario obtener un multimodal embedding, el
+cual combine la información de ambos encoders. The output from the visual
+encoder is a tensor of depth 256 and the output from the language encoder is a
+768-dimensional vector (see \vref{fig:model}).
+
+Para combinar estos dos outputs se convierte la \gls{re} codificada del vector
+de dimensión 768 a uno de de dimensión 256 (que coincide con el depth of the
+visual features). Estos dos tensores son entonces multiplicados element-wise
+para obtener el multimodal embedding. Por último, se usa un convolutional layer
+para pasar a un último tensor con dos clases, las cuales separan el
+\emph{background} from the \emph{object} that is being referred.
 
 
-
-
-\subsection{Model Iterations} \label{sec:model-iterations}
+\subsection{Model Iterations}\label{sec:model-iterations}
 
 Model iterations.
 
@@ -126,7 +154,23 @@ Model iterations.
 % a la aleatoriedad).
 
 
-\section{Speech Recognition} \label{sec:speech}
+\section{Speech Recognition}%
+\label{sec:speech}\index{Speech}\index{Speech!recognition}
 
-También usaremos un modelo neuronal preentrenado para convertir de speech a
-texto.
+También usaremos un modelo neuronal preentrenado para convertir from
+\gls{stt}. El modelo, creado por
+\myCite{veysov20:towar_imagen_momen_speec_text}, se llama Silero (see
+\vref{fig:silero}).
+
+\begin{figure}[p]
+  \centering
+  \includegraphics[width=.75\textwidth]{Images/Silero.jpg}
+  \caption[Silero \gls*{stt} model architecture]{Silero \gls{stt} model
+    architecture. View from top to bottom: input is a mono audio file with
+    speech and the output is the text representing the
+    input.}\label{fig:silero}
+  \source{From~\cite{veysov20:towar_imagen_momen_speec_text}}
+\end{figure}
+
+Este modelo pre-trained permite convertir de audio mono a texto en diferentes
+idiomas: english, german, spanish and ukraniain.

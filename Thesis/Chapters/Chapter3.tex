@@ -1,7 +1,8 @@
 % -*- TeX-master: "../Thesis.tex" -*-
 
 
-\chapter{Referring Expression Comprehension} \label{cha:rec}
+\chapter{Referring Expression Comprehension}%
+\label{cha:rec}\index{Referring expresion!comprehension}
 
 \epigraphhead[75]{
   \epigraph{\itshape We may hope that machines will eventually compete with men
@@ -17,7 +18,7 @@ will make an exhaustive study of \gls{sota} works in this area by reviewing the
 more recent literature (\vref{sec:sota}).
 
 
-\section{Problem formulation} \label{sec:formulation}
+\section{Problem formulation}\label{sec:formulation}
 
 In the task of \gls{rec} two different entries must be given, one of them
 related to language and the other to vision.
@@ -28,7 +29,7 @@ related to language and the other to vision.
     takes into account the temporal evolution of the frames.}
   \item \textbf{\gls{re}}. It is a linguistic phrase that refers to an
   object. It can occur in two media: audio and text. In this thesis, both
-  representations will be admitted.
+  representations will be admitted.\index{Referring expression}
 \end{itemize}
 And, the output of this problem will be the generation of a binary segmentation
 mask with the referred object or a bounding box (in this thesis functionality
@@ -40,17 +41,17 @@ the simplest to the most complex.
 \begin{itemize}
   \item \textbf{Multiple objects}. In \vref{fig:rec-man} an example is shown
   with two people who differ from each other by a differentiating element
-  (``cap''). In \vref{fig:rec-laptop} the different objects are differentiated
-  by their relative position (``right''). In \vref{fig:rec-army} they are
-  differentiated by one quality (``white suit'').
+  (\re{cap}). In \vref{fig:rec-laptop} the different objects are differentiated
+  by their relative position (\re{right}). In \vref{fig:rec-army} they are
+  differentiated by one quality (\re{white suit}).
   \item \textbf{Multiple categories}. As can be seen in
   \vref{fig:rec-umbrella,fig:rec-parent,fig:rec-girl}, it can refer to both
   objects and people within the same image.
   \item \textbf{Specialized vocabulary}. In \vref{fig:rec-elephant} we refer to
-  a specific type of animal (``elephant'') and in \vref{fig:rec-couch} the
-  expression ``couch'' is used.
+  a specific type of animal (\re{elephant}) and in \vref{fig:rec-couch} the
+  expression \re{couch} is used.
   \item \textbf{Secondary objects}. In \vref{fig:rec-car} we refer to a small
-  secondary object in the image (``car''), which is part of the same category
+  secondary object in the image (\re{car}), which is part of the same category
   (car) as the main object (bus).
 \end{itemize}
 
@@ -124,16 +125,16 @@ the simplest to the most complex.
 
 \section{Trainning}
 
-Hey.
+TODO. Aquí hablar de que en trainning son necesarias dos cosas: dataset y una
+loss function. Referenciar cada cosa.
 
-\subsection{Datasets} \label{sec:datasets}
+\subsection{Datasets}\label{sec:datasets}
 
 There are different datasets created exclusively for the training and
 evaluation of neural models created to solve the problem discussed here. The
 first three datasets considered (RefCOCO, RefCOCO+ and RefCOCOg) take their
-images from the well-known dataset \gls{coco} \cite{lin14:micros}
-\footfullcite{lin14:micros}, while the last one (CLEVR-Ref+) uses synthetic
-images.
+images from the well-known dataset \gls{coco}, createt by
+\myCite{lin14:micros}, while the last one (CLEVR-Ref+) uses synthetic images.
 
 The dataset \gls{coco}, as its name suggests, contains images of everyday life
 in everyday environments. Contains multi-object labeling, segmentation mask
@@ -211,7 +212,7 @@ This dataset, however, will not be used in the work that concerns this thesis,
 since here we are looking for models that work in the real world with
 non-fictional images and natural language.
 
-\subsection{Loss Functions}
+\subsection{Loss Functions}\index{Loss function}
 
 Para entrenar los modelos es necesario tener unas funciones de pérdida, que
 deberán ser diferenciables ya que en el proceso de optimización necesitaremos
@@ -221,7 +222,7 @@ parámetros a entrenar.
 En nuestro caso, siempre trataremos con dos clases (la segmentación será una
 máscara binaria).
 
-\subsubsection{Cross Entropy}
+\subsubsection{Cross Entropy}\index{Cross entropy}
 Una de las funciones de pérdida más conocidas en la segmentación de imágenes es
 la de \gls{ce}. Tenemos dos distribuciones de probabilidad
 
@@ -336,7 +337,7 @@ es bastante popular, ya que combina información local (\gls{ce}) con
 información global (\gls{dil}).
 
 
-\section{Evaluation Techniques} \label{sec:eval-measure}
+\section{Evaluation Techniques}\label{sec:eval-measure}
 
 TODO. Explain here that both numerical (quantitative) and visual (qualitative)
 techniques can be used for evaluation.
@@ -417,7 +418,8 @@ The current methods \gls{sota} for \gls{rec} can be divided into three main
 classes: joint embedding (see \vref{sec:joint}), modular models (see
 \vref{sec:modular}) and graph convolution based models (see \vref{sec:graph}).
 
-\subsection{Multimodal embedding} \label{sec:joint}
+\subsection{Multimodal embedding}%
+\label{sec:joint}\index{Multimodal!embedding}
 Multimodal embedding methods are very typical in any of the multimodal learning
 tasks. What is sought in them is to find a multidimensional space where
 encodings of image and language can ``coexist'' in common. This idea is
@@ -433,7 +435,7 @@ each other were ``close'' in this space (in terms of norm).
     visual-semantic space. As you can see, matching pAIRS are closer (in terms
     of norm) that non-matching pairs in the joint space.}
   \label{fig:joint}
-  \source{From \cite{cornia18:towar_cycle_consis_model_text_image_retriev}}
+  \source{From~\cite{cornia18:towar_cycle_consis_model_text_image_retriev}}
 \end{figure}
 
 Therefore, here, to perform \gls{rec}, the first thing we will do is encode the
@@ -455,7 +457,7 @@ multimodal embedding, the encoded linguistic phrase is converted into a
 256-dimensional vector and multiplied element-wise with the visual
 features. This model will be studied in depth in \vref{cha:model}.
 
-\subsection{Modular models} \label{sec:modular}
+\subsection{Modular models}\label{sec:modular}\index{Modular model}
 Modular models have been used successfully in many tasks both in the scope of
 \gls{cv}, and in \gls{nlp}. The technique used in these cases is to decompose
 \gls{re} into different components, in which it is sought to attack different
@@ -469,7 +471,7 @@ reasoning.
     process the described visual region in different ways and compute
     individual matching scores.}
   \label{fig:mattnet}
-  \source{From \cite{yu18:mattn}}
+  \source{From~\cite{yu18:mattn}}
 \end{figure}
 
 An example of these modular models is the one presented by \myCite{yu18:mattn},
@@ -489,7 +491,7 @@ structures.\footnote{It is partly similar to the strategy of \emph{dropout}
   model.} Likewise, it modifies the initial model (\gls{mattnet}), considering
 the global image as one more characteristic.
 
-\subsection{Graph generation} \label{sec:graph}
+\subsection{Graph generation}\label{sec:graph}
 In the task that concerns us, the understanding by the model of \gls{re} is
 essential. These types of expressions contain different objects and
 relationships between them. In other words, it is common to refer to an object
@@ -507,7 +509,7 @@ objects and the different edges are the existing relationship between objects
     which is then updated with the expression embedding and computed a matching
     score between objects and expression.}
   \label{fig:graph}
-  \source{From \cite{qiao20:refer_expres_compr}}
+  \source{From~\cite{qiao20:refer_expres_compr}}
 \end{figure}
 
 The use of graphs in the task of \gls{rec} has been used with success by

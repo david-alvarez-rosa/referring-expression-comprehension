@@ -21,7 +21,7 @@ first neurocomputers), in an article by
   \ldots a computing system made up of a number of simple, highly
   interconnected processing elements, which process information by their
   dynamic state response to external inputs.
-  \tcblower
+  \tcblower{}
   ---\quoteAuthor{caudill87:neural_networ_primer_part_i}
 \end{quoteBox}
 
@@ -36,7 +36,7 @@ well. If the network is big enough and we carefully adjust the parameters, we
 will be able to learn and calculate very complex functions.
 
 
-\section{Tensors}
+\section{Tensors}\index{Tensor}\
 In our context, it will be useful to use the mathematical tool of
 tensors. There are different approaches to define this mathematical objetcs,
 among then, defining them as multi-dimensional arrays of real numbers, as
@@ -75,7 +75,7 @@ the following tensors appear:
   an \acs{rgb} image.
 \end{itemize}
 
-\subsection{Tensor Operations}
+\subsection{Tensor Operations}\index{Tensor!operations}
 
 Tensors or rank 1 or 2 correspond to real vectors and real matrices, therefore,
 all basic operations from linear algebra apply (e.g., vector sum, matrix-vector
@@ -91,14 +91,14 @@ defined as follows,
 for all multi-indices \(i \in \N^r\).
 
 
-\section{Neural Network Architectures}
+\section{Neural Network Architectures}\index{Neural network}
 
 During the last few years, there have been significant advances in the field of
 artificial intelligence and multiple new models of neural networks have
 appeared. In a very general classification of neural models we can find
 different ones.
 
-\begin{itemize}
+\begin{itemize}\index{Neural network!architectures}
   \item \textbf{\acl*{fnn}}. These networks are the simplest type of neural
   model that exists and on which more complex models are built. A more detailed
   description of this type of network can be found in
@@ -140,7 +140,7 @@ each other by arcs. An example of this type of architecture is shown in
 Next we will discuss the main constituent parts of this type of neural
 networks: layers, neurons and connections.
 
-\subsubsection{Layers}
+\subsubsection{Layers}\index{Layer}
 The layers are just a collection of neurons, we will distinguish between three
 types depending on its position in the network: \emph{input} layer (patterns
 are presented to the network via this layer), \emph{hidden} layer (all the
@@ -150,7 +150,7 @@ obtained).
 We will denote with \(L\) the number of layers and with \(n_l\) the size of the
 \(l\)-th layer.
 
-\subsubsection{Neurons}
+\subsubsection{Neurons}\index{Neuron}
 Neurons are the core component of any neural network. Basically there are three
 subparts that form a neuron.
 \begin{itemize}
@@ -174,7 +174,7 @@ subparts that form a neuron.
   future by taking derivatives.
 \end{itemize}
 
-\subsubsection{Connections}
+\subsubsection{Connections}\index{Connection}
 As we discussed, in the topology of this network, all neurons between adjacent
 layers are required to be connected, this are the connections, that should have
 associated a \emph{weight}. For the connection between the \(i\)-th neuron in
@@ -202,7 +202,7 @@ The \emph{matrix} of all weights in the \(l\)-th layer will be denoted by
   corresponding to the number 3 and the rest of zeros.
 \end{exampleBox}
 
-\subsubsection{Model: feed forward} \label{subsec:forward}
+\subsubsection{Model: feed forward}\label{subsec:forward}
 From now on let's suppose we are working with a fully-connected neural network,
 with different layers and we will be using the same notation used before. The
 values of the neurons can be computed with
@@ -219,7 +219,8 @@ the values of the neurons in the next adjacent layer, until we reach the output
 layer. In this network we can think of information traveling in one direction,
 forward, from the input layer, through the hidden layers to the output neurons.
 
-\subsubsection{Trainning: backpropagation} \label{sec:backward}
+\subsubsection{Trainning: backpropagation}%
+\label{sec:backward}\index{Backpropgation}
 In order to be able to train our neural network, it is mandatory to define an
 error function (also known as loss function) that quantifies how good or bad
 the neural network is performing when feeded with a particular dataset. We will
@@ -246,8 +247,7 @@ value of the parameters \(\theta\). We will denote the error function by
 \(E (\Omega, \theta)\) and we will assume that it is continuosly differentiable
 (i.e., \(\mathcal{C}^1\)).
 
-\subsection{\acl*{cnn}}
-\label{sec:conv-neur-netw}
+\subsection{\acl*{cnn}}\label{sec:conv-neur-netw}
 
 \glspl{cnn} are a class of \glspl{dnn} that are widely used in computer
 vision. They are commonly applied in image analysis, since they have the main
@@ -263,7 +263,7 @@ known as the father of \glspl{cnn}, defines them as follows:
   networks. Like almost every other neural networks they are trained with a
   version of the back-propagation algorithm. Where they differ is in the
   architecture.
-  \tcblower
+  \tcblower{}
   ---\href{http://yann.lecun.com/index.html}{Yann LeCun}
 \end{quoteBox}
 
@@ -336,7 +336,7 @@ An example of convolution is shown graphically in \vref{fig:convolution}. As
 can be seen for each of the elements of the output tensor, the computation of
 \vref{eq:convolution} is performed with the filter shown.
 
-\subsubsection{Pooling Layers}
+\subsubsection{Pooling Layers}\index{Pooling!layer}
 Another type of layer used in this type of network is pooling. Pooling layers
 reduce the dimension of the network by combining the output of neurons in one
 layer into a single neuron in the next layer. These types of layers also add
@@ -351,7 +351,7 @@ local changes in spatial location.
     \(2 \times 2\) and the Max Pool returns an output tensor with the maximum
     value of each block.}
   \label{fig:max-pool}
-  \source{From \cite{wiki18:max_poolin}}
+  \source{From~\cite{wiki18:max_poolin}}
 \end{figure}
 
 There are different types of pooling. The best known are \emph{max} pooling and
@@ -364,9 +364,9 @@ given by the following expression,
   f_{X,Y}(S) = \max _{a,b=0}^{1}S_{2X+a,2Y+b},
 \end{equation}
 where \(S\) is every depth slice in the input. This discharges 75 \% of the
-activations.
+activations.\index{Pooling!operation}
 
-\subsubsection{Activation functions}
+\subsubsection{Activation functions}\index{Activation function}
 Analogously to fully connected neural networks, in this case it is also common
 to use activation functions with the aim of introducing non-linearities in the
 model without affecting the receptive fields of the convolutions. They are
@@ -478,7 +478,7 @@ information to travel in time\footnote{These problems are know as vanishing /
     \caption[\acl*{lstm}]{\acf{lstm} representation. Input (\(i\)), output
       (\(o\)) and forget (\(f\)) gates are shown in the image.}
     \label{fig:lstm}
-    \source{From \cite{enwiki:1005032489}}
+    \source{From~\cite{enwiki:1005032489}}
   \end{figure}
 
   The value of the different gates is described by the following equation,
@@ -538,7 +538,7 @@ In this specific case of \gls{rnn}, the backpropagation process is known as
 networks.
 
 
-\subsection{Transformers} \label{sec:transformers}
+\subsection{Transformers}\label{sec:transformers}\index{Transformer}
 
 The Transformer is a deep learning model recently introduced by
 \myCite{vaswani17:atten_all_you_need}. Here they presented the idea that
@@ -549,7 +549,7 @@ tasks. In the words of its authors:
   The Transformer, the first sequence transduction model based entirely
   on attention, replacing the recurrent layers most commonly used in
   encoder-decoder architectures with multi-headed self-attention.
-  \tcblower
+  \tcblower{}
   ---\quoteAuthor{vaswani17:atten_all_you_need}
 \end{quoteBox}
 
@@ -564,7 +564,7 @@ as a whole instead of going element by element.
     architecture/topology. Here you can observe the two main segments: the
     encoder and the decoder.}
   \label{fig:transformer}
-  \source{From \cite{vaswani17:atten_all_you_need}}
+  \source{From~\cite{vaswani17:atten_all_you_need}}
 \end{figure}
 
 Currently there are different types of architectures based on this idea. The
@@ -582,7 +582,7 @@ distinguished:
 \end{itemize}
 
 
-\section{Trainning}
+\section{Trainning}\index{Trainning}
 
 The process of trainning a neural networks consists in adjust the parameters of
 the model to fit a particular dataset. Moreover, it is mandatory to define a
@@ -597,7 +597,7 @@ The loss function quantifies how different is the desired output \(y\) and the
 calculated (\emph{predicted}) output \(\hat{y}\) of the neural network on input
 \(x\) for a set of input-output pairs \((x , y) \in \Omega\) and a particular
 value of the model parameters \(\theta\). We will denote the loss function by
-\(\mathcal{L} (\Omega, \theta)\) and we will assume that it is continuosly
+\(\loss (\Omega, \theta)\) and we will assume that it is continuosly
 differentiable (i.e., \(\mathcal{C}^1\)).\footnote{The regularity assummed for
   this functions is important, since we will be optimizing in the future by
   computing partial derivatives (as discussed in \vref{sec:optimization}).}
@@ -605,19 +605,19 @@ differentiable (i.e., \(\mathcal{C}^1\)).\footnote{The regularity assummed for
 It is common (and we will assume it that way) that the loss funcion is a mean
 of the errors of a particular pair \((x, y) \in \Omega\). This is, there exists
 a continuosly differentiable function \(\ell (x, y, \Omega)\), such that,
-\begin{equation}
-  \mathcal{L}(\Omega, \theta) =
+\begin{equation} \label{eq:loss}
+  \loss(\Omega, \theta) =
   \frac{1}{N} \sum_{(x, y) \in \Omega} \ell (x, y, \theta).
 \end{equation}
 
 Now, what we will want to do is to optimize (minimize) this loss function in
 \(\theta\). This is, given a dataset \(\Omega\), we will want to approximate,
 \begin{equation}
-  \hat{\theta} = \argmin_{\theta} \mathcal{L}(\Omega, \theta),
+  \hat{\theta} = \argmin_{\theta} \loss(\Omega, \theta),
 \end{equation}
 given that the above exists.
 
-\subsection{Optimization} \label{sec:optimization}
+\subsection{Optimization}\label{sec:optimization}\index{Optimization}
 
 There exists several optimization techniques, amon then, the most important,
 are gradient-based optimization algorithms. This techniques are iterative
@@ -628,38 +628,127 @@ proceed, as follows,
 \end{equation}
 where \(\alpha\) is called the step size (or learning rate), and
 \(\Delta\theta^{(t)}\) is the weight update in step \(t\). The goal is to find
-values for the parameters such that the loss function corresponds to a
-(global) minimum.
+values for the parameters such that the loss function corresponds to a (global)
+minimum.
 
 However, obtaining a global minimum is a very hard task, so a \emph{local}
 minimum will be enough. It is a well-known result from multivariable calculus
-that if \(\hat{\theta}\) is a local minimum of \(\mathcal{L}\), then
-\(\nabla\mathcal{L}(\hat{\theta}) = 0\), therefore the optimization methods
-will focus in finding stationary points (that, hopefully, correspond to global
-or local minimums).\footnote{These are called first-order optimization methods
+that if \(\hat{\theta}\) is a local minimum of \(\loss\), then
+\(\nabla\loss(\hat{\theta}) = 0\), therefore the optimization methods will
+focus in finding stationary points (that, hopefully, correspond to global or
+local minimums).\footnote{These are called first-order optimization methods
   since they only focus in first-order (partial) derivatives of the loss
   function. Higher order methods exists, but involve computing the Hessian of
-  \(\mathcal{L}\) and in \gls{dl} is computationally expensive.}
+  \(\loss\) and in the scope of \gls{dl} it is too expensive in terms of
+  computing time.}
 
-\subsubsection{Optimization methods}
-Gradient descent, then stochastic gradient descent and then momentum.
+\subsubsection{Optimization Methods}\index{Optimization!methods}
+Diferentes métodos de optimización existen, el más básico y más conocido método
+de first-order optimization es \emph{gradient descent}. La idea es moverse en
+la dirección del gradiente y en sentido opuesto, es decir, es un método
+iterativo que consiste en lo siguiente,
+\begin{equation} \label{eq:gd}
+  \Delta\theta^{(t)} = - \nabla\loss(\theta^{(t)}).
+\end{equation}
+Teniendo en cuenta la forma típica de la losss function (see \vref{eq:loss}),
+el gradiente puede ser calculado usando la linealidad de las derivadas,
+\begin{equation} \label{eq:nabla-loss}
+  \nabla_{\theta}\,\loss(\Omega, \theta) =
+  \frac{1}{N} \sum_{(x, y) \in \Omega} \nabla_{\theta}\,\ell (x, y, \theta).
+\end{equation}
 
+Típicamente los datasets \(\Omega\) usados para entrenar tienen cardinal muy
+grande (\(N > 10^4\)), por lo que el computo de la \vref{eq:nabla-loss} es
+demasiado costoso en términos de recursos computacionales. Por ello, en la
+práctica, se usa la alternativa conocida como \gls{sgd}, que consiste en
+estimar el gradiente en cada iteracción en un random subset from the dataset.
 
-\subsubsection{Weight initialization}
+\gls{sgd} es una implementación de la \vref{eq:gd} en la que se estima
+\(\nabla\loss(\theta^{(t)})\) usando un randomly chosen subset
+\(B \subset \Omega\). Es decir, el cálculo de la \vref{eq:nabla-loss} se
+sustituye por la siguiente estimación,
+\begin{equation} \label{eq:nabla-loss-sto}
+  \nabla_{\theta}\,\loss(\Omega, \theta) \approx
+  \frac{1}{\lvert B\rvert} \sum_{(x, y) \in B} \nabla_{\theta}\,\ell (x, y, \theta).
+\end{equation}
+Es común hacer un abuso de notacion y denotar por \(B\) el cardinal del subset,
+y llamarlo \emph{batch} size.
+
+Otros métodos de optimización existen, principalmente debido a la presencia de
+saddle points, que harían parar los métodos iterativos anteriores ya que el
+gradiente se anularía. Los más conocidos son los siguientes,
+\begin{itemize}
+  \item \textbf{Momentum}\index{Momentum}. Consiste en realizar el siguiente
+  cálculo,
+  \begin{equation}
+    \Delta\theta^{(t)} =
+    -\beta\Delta\theta^{(t-1)} -\nabla\loss(\theta^{(t)}),
+  \end{equation}
+  donde \(\beta\) es un hiperparámetro. Este algoritmo, mantiene la
+  ``velocity'' previa como una media de los anteriores gradientes y el
+  parámetro \(\beta\) puede ser entendido como un parámetro de ``friction''
+  (pensando en términos físicos)
+  \item \textbf{Nesterov Momentum}\index{Nesterov momentum}. Similarmente al
+  método anterior se usa un termino de ``velocity'', pero calculando el
+  gradiente no en el punto actual, sino en el punto en el que la velocidad nos
+  llevaría, i.e.,
+    \begin{equation}
+    \Delta\theta^{(t)} =
+    -\beta\Delta\theta^{(t-1)} -\nabla\loss(\theta^{(t)} +
+    \beta\Delta\theta^{(t-1)}).
+  \end{equation}
+\end{itemize}
+
+TODO. Más métodos de optimización existen como es AdaGrad, RMSProp y Adam.
+
+\subsubsection{Weight Initialization}\index{Weight initialization}
+Para todo método iterativo, es necesario un initial guess for
+\(\theta^{(0)}\). En la práctica lo que se hace es inicializar los weights
+usando una distribución de probabilidad, como puede ser \(U[-\sigma, \sigma]\)
+or \(\mathcal{N}(0, \sigma^2)\). El valor de \(\sigma\) puede ser elegido
+arbitrariamente, aunque suele ser bastante común la conocida como \emph{Xavier
+  initialization}, por \myCite{glorot10:under}, consistente en escoger la
+varianza como la square root de la dimensión de entrada
+\(D_{\text{in}}\).\footnote{For convolutional layers,
+  \(D_{\text{in}} = \text{\code{filter\_size}}^2 \times
+  \text{\code{input\_channels}}\).} De esta manera se consigue activations are
+nicely scaled in all layers.
+
+Sin embargo, en Xavier initialization asume que la función de activación está
+centrada en 0, por ello, cuando se usa la functión de activación \gls{relu}, es
+preferible el uso de otro tipo de weight initialization, como la propuesta por
+\myCite{he15:delvin_deep_rectif}.
+
+\subsubsection{Error Backpropagation}\index{Backpropgation}
 Hey.
 
-\subsubsection{Error backpropagation}
+
+\subsection{Regularization Techniques}\index{Regularization}
+
+Here explain the overfitting problem.
+
+There are several regularization techniques to
+
+\subsubsection{\(L_2\) Regularization}
+This regularization technique, also known as \emph{ridge
+  regression}\index{Ridge regression} in statistics and
+\emph{Tikhonov}\index{Tikhonov regression} regularization in mathematics, it is
+widely used in \gls{dl}. It consits in adding a term to the loss function that
+takes into account the complexity of the model, i.e., minimize the following,
+\begin{equation}
+  \loss(\Omega, \theta) + \text{complexity}(\theta),
+\end{equation}
+and where the complexity is measured using the \(L_2\) norm, i.e.,
+\begin{equation}
+  \text{complexity}(\theta) = \lVert\theta\rVert_2^2 = \sum_{w \in \theta} w^2.
+\end{equation}
+
+
+
+\subsubsection{Early Stopping}\index{Early stopping}
 Hey.
 
-
-\subsection{Common Techniques}
-
-Hey
-
-\subsubsection{Regularization}
-Hey.
-
-\subsubsection{Data augmentation}
+\subsubsection{Data Augmentation}\index{Data augmentation}
 Hey.
 
 

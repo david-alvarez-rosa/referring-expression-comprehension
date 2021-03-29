@@ -11,7 +11,7 @@
 \usepackage{fix-cm}
 \usepackage[main=english, spanish, catalan]{babel}
 \usepackage{geometry}
-\usepackage{amsmath, amsthm, amssymb}
+\usepackage{amsmath, amsthm, amssymb, mathtools}
 \usepackage{bm}
 \usepackage{graphicx, float}
 \usepackage[cmyk, dvipsnames, table]{xcolor}
@@ -89,7 +89,7 @@
   bookmarksnumbered,
   breaklinks,
   % Write both PDF Info dictionary and XMP packet (from hyperxmp package).
-  keeppdfinfo
+  keeppdfinfo,
 }
 
 % Configure running headers and footers.
@@ -384,6 +384,7 @@ This \namecref{#1}, entitled \texttt{\nameref*{#1}}, begins on page~\pageref{#1}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\loss}{\mathcal{L}}
 
 % Basic math operators.
 \DeclareMathOperator*{\argmin}{arg\,min}
