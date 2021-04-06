@@ -19,25 +19,151 @@ occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
 id est laborum.
 
 
-\section{Frontend: web interface}\label{sec:frontend}\index{Frontend}
+\section{\glsentrylong{ui}}%
+\label{sec:frontend}\index{Front end}\index{User interface}
 
-In \vref{fig:web}.
+La \gls{ui} se ha creado con la idea de ser lo más sencilla posible. De esta
+manera, cualquier tipo de usuario no especializado podrá realizar una
+evaluación cualitativa del modelo usado. See \vref{fig:web} for a screenshot of
+the web interface.
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=\textwidth]{Images/Web.png}
-  \caption[TODO]{TODO.}
-  \label{fig:web}
+  \includegraphics[width=.75\textwidth]{Images/Web.png}
+  \caption[Screenshot de la web creada]{Screenshot de la web creada. Se puede
+    observar la navbar y la primera parte de la web.}\label{fig:web}
 \end{figure}
 
+Además de proponer un medio interactivo donde se puede realizar \gls{rec} con
+imágenes y \gls{re} arbitrarias, en la web también se podrá encontrar
+explicaciones acerca de este trabajo, descargar esta memoria y encontrar todo
+el código fuente desarrollado. Esta web será una versión online pública y
+transparente conteniendo todo el trabajo de esta tesis.
 
-\subsection{Accesibility}
+Diferentes maneras de interactuar con esta interfaz son posibles. Entre ellas,
+por ejemplo, se han añadido tres opciones para introducir imágenes para la
+realización de \gls{rec}. Estas son las siguientes,
+\begin{itemize}
+  \item \textbf{Gallery}. Diferentes imágenes son mostradas en una galería
+  insertada en la web. Estas son tomadas del \gls{coco} dataset.\footnote{Cabe
+    destacar aquí que, al ser tomadas del \gls{coco} dataset, la mayoría de las
+    imaǵenes que aparecen en esta galería \emph{no} han sido utilizadas para
+    entrenar el modelo neuronal.}
+  \item \textbf{Web address}. Una imagen también puede ser añadida a la web
+  desde una fuente externa usando la web address de la misma (la URL).
+  \item \textbf{Locally}. Por último, es posible subir una imagen desde el
+  almacenamiento local del ordenador propio a la web.
+\end{itemize}
+
+En el caso de añadir la \gls{re} hay dos opciones de manera que se facilite la
+interacción con el modelo. Estas son las siguientes,
+\begin{itemize}
+  \item \textbf{Keyboard}. La \gls{re} puede ser introducida usando el teclado
+  de manera habitual.
+  \item \textbf{Voice}. También es posible introducir la \gls{re} de manera más
+  cómoda usando la voz. Para ello solo es necesario con presionar el butón
+  correspondiente en la página principal de manera que se abra la ventana
+  correspondiente a la introducción por voz de comandos (see
+  \vref{fig:voice}). Aquí deberemos dar permisos a la web para acceder al
+  micrófono y ya podremos grabar la \gls{re} que queramos.
+  \begin{figure}[htb]
+    \centering
+    \includegraphics[width=.75\textwidth]{Images/Voice.png}
+    \caption[Web interface for voice input]{Web interface for voice input. Aquí
+      se puede hablar directamente al micrófono del ordenador como método
+      alternativo para introducir una \gls{re}. Este audio será convertido
+      usando un modelo neuronal a texto.}\label{fig:voice}
+  \end{figure}
+\end{itemize}
+
+\subsection{Responsive Design and Accessibility}%
+\index{Responsive design}\index{Accesibility}
+
+Responsive web design and accessibility son dos conceptos diferentes, pero que
+aún así están relacionados entre sí de muchas maneras. Estos dos conceptos
+encajan dentro de la idea de \gls{ux} que es la manera en la que un usuario
+interactua con un determinado producto o servicio. Aquí se incluye la
+percepción del usuario de eficiencia, facilidad de uso y utilidad.
+
+\gls{rd} se ocupa de proveer al usuario de la mejor experiencia posible de
+visualización sin importar el dispositivo que se está usando. Esto es, la
+interfaz de una web, es capaz de adaptarse a las dimensiones de la pantalla que
+se está usando: la web se mostrará de manera diferente según se esté usando en
+un monitor de ordenador, tableta o móvil. La accesibilidad se ocupa de
+garantizar que el contenido es fácilmente usable, navigable por personas con
+ciertas discapacidades (e.g., problemas de visión).
+
+Podemos ver cómo la web creada se adapta a diferentes anchos comparando la
+\vref{fig:web} con la \vref{fig:responsive}. Entre otros aspectos, la galería
+adapta el número de columnas según el dispositivo y la navigation bar se
+expande o se colapsa dependiendo también del ancho de la pantalla.
+
+\begin{figure}[htb]
+  \centering
+  \begin{subfigure}[t]{.5\textwidth}
+    \centering
+    \caption{Collapsed navigation bar.}
+    \includegraphics[width=.6\textwidth]{Images/Responsive.png}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.5\textwidth}
+    \centering
+    \caption{Expanded navigation bar.}
+    \includegraphics[width=.6\textwidth]{Images/Responsive2.png}
+  \end{subfigure}
+  \caption[Responsive web design.]{Responsive web design. La web está mostrada
+    con un ancho típico de dispositivo móvil. La web está diseñada para
+    mostrarse correctamente sin importar el ancho del dispositivo
+    utilizado.}\label{fig:responsive}
+\end{figure}
+
+Además de estos dos elementos comentados (navigation bar y gallery) otros
+diferentes elementos también se ajustan a los diferentes anchos de
+pantalla. Entre ellos el footer, el ancho de la imagen segmentada resultado, el
+tamaño de la \gls{re} y muchos más.
+
+Otro aspecto fundamental a la hora de realizar un diseño web es el de la
+\emph{accessibility}\index{Accesibility}. En palabras de
+\myCite{berners-lee21:introd_web_acces}, \gls{w3c}\footnote{Is the main
+  international standards organization for the World Wide Web} Director and
+inventor of the World Wide Web,
+
+\begin{quoteBox}
+  The power of the Web is in its universality. Access by everyone regardless of
+  disability is an essential aspect.
+  \tcblower\quoteAuthor{berners-lee21:introd_web_acces}
+\end{quoteBox}
+
+Para garantizar la accesibilidad de esta web se ha usado principalmente
+\gls{aria}, que es una especificación de \gls{w3c} que especifica cómo aumentar
+la accesibilidad de páginas web. Esto ha venido facilitado por el uso de una
+biblioteca de estilos \gls{css} llamada
+\fhref{https://getbootstrap.com/}{Bootstrap}.
+
+\subsection{Guided Usage Example}
+
+Para realizar la tarea de \gls{rec} en una imagen tan solo es necesario
+realizar estos tres pasos,
+\begin{enumerate}
+  \item \textbf{Choose image}. Como ya hemos discutido al comienzo de la
+  \vref{sec:frontend}, hay disponibles tres maneras: seleccionar de la galería,
+  añadir la web address o escogerla desde el almacenamiento local del
+  ordenador.
+  \item \textbf{Enter \gls*{re}}. Así mismo, para la introducción de la
+  \gls{re} existen dos métodos: mediante el uso del teclado y mediante el uso
+  de voz.
+  \item \textbf{View results}. Por último, tras clicar en el butón
+  \texttt{Submit}, podemos ver el resultado de la ejecución del programa.
+\end{enumerate}
+
+Estos métodos han sido probados y funcionan correctamente. Hay que tener en
+cuenta que el tiempo de ejecución del programa variará según el uso del
+servidor y de la calidad de la imagen introducida. Para tener una aproximación,
+usando imágenes de la galería mostrada en la web y con un solo usuario
+navegando (servidor no saturado, que es lo habitual) la ejecución completa del
+progama es de unos 6 segundos.
 
 
-\subsection{Options}
-
-
-\section{Backend}\label{sec:backend}\index{Backend}
+\section{Back End}\label{sec:backend}\index{Back end}
 
 Aquí veremos la estructura del backend. Un gráfico explicativo se encuentra en
 la \vref{fig:server}.

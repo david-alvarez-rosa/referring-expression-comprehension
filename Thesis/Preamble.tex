@@ -174,7 +174,7 @@
 % \setlength\footnotemargin{-1.25em} TODO. check this or remove it.
 
 % Add command for footnote href.
-\newcommand\fhref[2]{
+\newcommand*\fhref[2]{%
   \href{#1}{#2}\footnote{Full link for ``#2'': \url{#1}}
 }
 
