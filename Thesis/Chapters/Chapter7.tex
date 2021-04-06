@@ -24,18 +24,115 @@ Hey.
 
 \subsection{Table of Activities}
 
-Hey.
+Aquí diferentes cosas:
+- En un inicio aprendizaje de lo básico sobre Deep Learning. Realicé varios
+cursos: el de Stanford, los de Github de UPC Telecos, uno de Machine Learning
+en Coursera y otro de Deep Learning Specialization en Coursera (este es el que
+era de 5 cursos pero que no terminé).
+- Después de esto aprendí sobre temas más profundos del ámbito en el que iba a
+trabajar leyendo publicaciones sobre el tema. Aquí podría hacer un listado de
+los diferentes papers que leí (los que tengo impresos más los que me envió
+Sanja por Slack).
+- Después de esto comencé con el tema concreto de la tesis. Para ello ya leí
+SOTA de exactamente la tesis. Aquí podría citar todos los papers que aparecen
+en la sección de ``related works''.
+- Después de esto comenzó el proceso iterativo de mejorar el modelo de RefVOS.
+- Paralelamente con esto estuvo todo el trabajo de formarme sobre desarrollo
+web (es decir, aprender a usar los diferentes lenguajes típicos web).
+- Y, por último, llegó la creación de la web.
+- Después de esto llegó el escribir la tesis.
+- Por último, crear la presentación en pdf y prepararla.
 
 \subsection{Gantt Chart}
 
 Hey.
 
 
-\section{Cost Analysis}
+\section{Cost Analysis}\label{sec:cost}
 
-Hey.
+El coste total asociado a este proyecto se dividie en dos partes: el coste
+personal y el coste de infraestructura.
+
+\subsubsection{Coste Personal}
+Respecto al coste personal, se refiere al número de horas dedicadas a la
+realización de este trabajo, incluyendo todas sus partes. Esto es, aquí se
+considerarán desde las horas dedicadas al aprendizaje, como las horas dedicadas
+a la programación, como las horas dedicadas al diseño web y las horas dedicadas
+a la redacción de la memoria y de la creación de la presentación de este
+trabajo.
+
+Para realizar la estimación de horas dedicadas, usaremos el \gls{ects}, que es
+un estándar para comparar créditos académicos. Como es conocido, un crédito
+\gls{ects} equivale a una dedicación de 25--30 horas. En este caso, al estar
+realizando un bachelor thesis de dos titulaciones, sumaremos los créditos
+destinados a cada titulación. Concretamente, para la titulación del grado en
+\textsc{Enginyeria en Tecnologies Industrials}, son 12 créditos y para el grado
+en \textsc{Matemàtiques} son 15 créditos. En total \SI{27}{\ectss}.
+
+Por tanto, usando la equivalencia de 1 crédito \gls{ects} con 27,5 horas,
+tenemos que el número de horas dedicado al trabajo será de,
+\begin{equation}
+  \SI{27}{\ectss} \times \frac{\SI{27.5}{\hour}}{\SI{1}{\ects}} =
+  \SI{742.5}{\hour},
+\end{equation}
+lo cual, suponiendo un salario de \EUR{15}/hour, hace un total del coste
+\emph{personal} de,
+\begin{equation}
+  \SI{742.5}{\hour} \times \frac{\text{\EUR{15}}}{\SI{1}{\hour}} =
+  \text{\EUR{\num{11137.5}}}.
+\end{equation}
+
+\begin{remarkBox}
+  Hay que tener en cuenta que esta estimación de \EUR{15}/hour es una
+  \emph{aproximación}, para poder obtener un dato del dinero del coste
+  personal. Claro está, que el número de horas dedicadas a formación tendrán
+  una remuneración mucho más baja que la de las horas dedicadas a la creación
+  del modelo y a la remuneración de las horas dedicadas al diseño web.
+\end{remarkBox}
+
+\subsubsection{Coste de Infraestructura}
+Respecto al coste de \emph{infraesctructura}, solo será necesario incluir el
+gasto realizado en servidores, ya que el resto de herramientas usadas son free
+(as in \emph{freedom}) software, pero también free in terms of
+price.\footnote{Aquí entran el uso de Python, PyTorch para la modelización; los
+  lenguajes HTML, CSS, JS, PHP para la creación de la interfaz web; y \LaTeX\
+  para la redacción de la memoria y la creacion dé la presentación.}
+
+\subsubsection{Coste Total}
+Por tanto, en total, se estima el coste de este trabajo en los \EUR{1221}.
 
 
 \section{Enviromental Impact}
 
-Hey.
+El impacto ambiental que este trabajo ha producido es mínimo, ya que se ha
+tratado de un desarrollo de software. El único elemento que tiene sentido
+considerar en este aspecto es el de uso de energía eléctrica para la
+alimentación del ordenador y de los servidores, ya que la genración de esta
+energía eléctrica llevará ciertas emisiones de \ch{CO2}.
+
+Suponiendo un consumo medio aproximado del ordenador de \SI{150}{\watt}, y que
+ha sido usado durante el total de las \SI{742.5}{\hour} que ha durado el
+proyecto (see \vref{sec:cost}), tenemos que, a nivel energético, se han
+consumido,
+\begin{equation}
+  \SI{150}{\watt} \times \SI{742.5}{\hour} = \SI{111.375}{\kWh}.
+\end{equation}
+
+Podemos ahora, usando la calculadora online de emisiones de \ch{CO2}, creada
+por \myCite{aragon21:emiss_calcul}, concluir que las emisiones de \ch{CO2} son
+de \SI{39}{\kg} de \ch{CO2}.
+
+\begin{exampleBox}
+  Estas emisiones de \ch{CO2} son las que emitiría un único coche gasolina
+  durante un trayecto de \SI{200}{\km} (from \cite{aragon21:emiss_calcul}).
+\end{exampleBox}
+
+También podríamos considerar las emisiones de \ch{CO2} debidas al uso de
+servidores durante el entrenamiento y del servidor web. Ahora bien, en el
+primer caso, es difícil de cuantificar, ya que es un servidor multi-nodo con
+usuarios. Y, en el segundo caso, es difícil cuantificar el uso del servidor
+web, ya que está abierto al publico y depende del número de usuarios que entren
+en la web.
+
+En cualquier caso, como era de esperar, el impacto medioambiental de este
+proyecto es mínimo.
