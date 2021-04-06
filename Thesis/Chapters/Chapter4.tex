@@ -1,7 +1,7 @@
 % -*- TeX-master: "../Thesis.tex" -*-
 
 
-\chapter{Models} \label{cha:model}
+\chapter{Models}\label{cha:model}
 
 \epigraphhead[75]{
   \epigraph{\itshape All models are wrong, but some are useful.}
@@ -19,29 +19,27 @@ se pueda trabajar con lenguaje natural hablado.
 
 \section{\glsentrylong{rec}}\label{sec:rec-model}
 
-Para la obtención de un modelo
+Para tarea de \gls{rec} será necesario encontrar/crear un modelo neuronal que
+la resuelva. Para ello se partirá de una arquitectura base (un modelo con el
+que comenzar) (see \vref{sec:base-arch}) y a partir de ahí se propondrán
+variaciones (tanto en el modelo, como en la manera de entrenarlo) en la
+\vref{sec:model-iterations}. Es decir, partiendo del modelo base se realizará
+un proceso iterativo de mejora del mismo.
 
-El primer modelo, se basará en una arquitectura base (discutida en la
-\vref{sec:base-arch}). Para esta arquitectura se mostrarán diferentes
-posibilidades de trainning (en la \vref{sec:model-trainning}), con las
-cuales se iterará en diferentes posibilidades del modelo (en la
-\vref{sec:model-iterations}).
+\subsection{Base Architecture}\label{sec:base-arch}
 
-\subsection{Base Architecture} \label{sec:base-arch}
-
-En la \vref{fig:model} se muestra una representación gráfica del modelo
-usado. Tiene dos partes diferenciadas con las cuales se produce la extración de
-features de la parte visual y del lenguaje. Estas features son después
-combiadas para conseguir un embedding \emph{multimodal} y de esta manera ser
-capaz de generar la segmentación.
+En la \vref{fig:model} se muestra una representación gráfica del modelo usado
+como arquitectura base. Tiene dos partes diferenciadas con las cuales se
+produce la extración de features de la parte visual y del lenguaje. Estas
+features son después combiadas para conseguir un embedding \emph{multimodal} y
+de esta manera ser capaz de generar la segmentación.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{Images/RefVOS.png}
   \caption[RefVOS model architecture]{RefVOS model architecture. Se pueden
     observar los modelos diferenciados de visión y de lenguaje que después son
-    combinados para obtener las características multimodales.}
-  \label{fig:model}
+    combinados para obtener las características multimodales.}\label{fig:model}
   \source{From~\cite{bellver20:refvos}}
 \end{figure}
 
@@ -62,8 +60,7 @@ segmentación semántica.
   \caption[Atrous convolutions examples]{Atrous convolutions examples with
     filter size \(3 \times 3\). The \code{rate} parameter controls the model's
     field-of-view. Standard convolution operation corresponds to an atrous
-    convolution with a rate of 1.}
-  \label{fig:atrous}
+    convolution with a rate of 1.}\label{fig:atrous}
   \source{From~\cite{chen17:rethin}}
 \end{figure}
 
@@ -81,11 +78,11 @@ las atrous convolutions (también conocidas como dilated convolutions).
 \end{quoteBox}
 
 En el modelo usado, se usará como backbone la conocida red ResNet101 (creada
-por \myCite{he16:deep}) y un \code{output\_stride} de 8.\footnote{The
+por \myCite{he16:deep}) y un \code{output\_stride}\footnote{The
   \code{output\_stride} is the ratio of input imagespatial resolution to final
   output resolution. Setting this ratio to smaller values allow the model to
   extract denser feature responses (view section~3.1
-  from~\cite{chen17:rethin}).} Así mismo se usará \((12, 24, 36)\) como
+  from~\cite{chen17:rethin}).} de 8. Así mismo se usará \((12, 24, 36)\) como
 \code{rates} de las convoluciones en la \gls{aspp}. Esta pirámides son parte
 del modelo DeepLab y consisten en realizar atrous convolutiones en paralelo
 (con diferentes rates). De esta manera, al usar diferentes rates, se consigue

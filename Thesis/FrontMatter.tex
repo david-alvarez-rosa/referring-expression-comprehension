@@ -1,28 +1,6 @@
 % -*- TeX-master: "Thesis.tex" -*-
 
 
-% \begin{titlepage}
-%   \newgeometry{
-%     margin = 0in,
-%   }
-%   \hypersetup{
-%     urlcolor = black
-%   }
-%   \input{Figures/Tikz/Cover.tex}
-% \end{titlepage}
-% \restoregeometry
-
-
-% \cleardoublepage
-% \thispagestyle{empty}
-% \null\vfill
-% \begin{center}
-%   This page intentionally left blank.
-% \end{center}
-% \vfill\null
-
-
-\cleardoublepage
 \begin{titlepage}
   \makeatletter
   \hypersetup{
@@ -30,10 +8,11 @@
   }
 
   \centering
-  \scshape \Large
+  \scshape\Large
 
   \begin{minipage}[c]{.2\textwidth}
-    \includegraphics[width=1.1\textwidth]{Logos/UofT.png}
+    \centering
+    \includesvg[height=\textwidth]{Logos/UofT.svg}
   \end{minipage}\hfill
   \begin{minipage}[c]{.5\textwidth}
     \centering
@@ -41,7 +20,8 @@
     \href{https://href.com}{Politechnical University \\ of Catalonia}
   \end{minipage}\hfill
   \begin{minipage}[c]{.2\textwidth}
-    \includegraphics[width=\textwidth]{Logos/UPC.png}
+    \centering
+    \includesvg[height=\textwidth]{Logos/UPC.svg}
   \end{minipage}
 
   \vfill
@@ -94,7 +74,7 @@
 \null\vfill
 \begin{sloppypar}
   \makeatletter
-  \noindent \@author{} \textcopyright{} \today \\
+  \noindent \@author\ \textcopyright\ \today \\
   \texttt{\@title} \\
   \makeatother
 \end{sloppypar}
