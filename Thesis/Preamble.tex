@@ -7,8 +7,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}
-\usepackage{fix-cm}
+\usepackage{lmodern, fix-cm}
 \usepackage[main=english, spanish, catalan]{babel}
 \usepackage{geometry}
 \usepackage{amsmath, amsthm, amssymb, mathtools}
@@ -272,8 +271,8 @@
     breakable,
     boxrule = 0.5mm,
     boxsep = 0pt,
-    left = \parindent - 0.5mm,
-    right = \parindent - 0.5mm,
+    left = \parindent-0.5mm,
+    right = \parindent-0.5mm,
     bottom = 3mm,
     top = 3mm,
     % before skip = .75em,
@@ -304,7 +303,7 @@
   fontlower=\small,
   before lower = \hfill---,
   leftrule = 5pt,
-  left = \parindent - 5pt,
+  left = \parindent-5pt,
 }
 % Example box.
 \newtcolorbox{exampleBox}{
@@ -316,7 +315,7 @@
 \newtcolorbox{remarkBox}{
   baseBox,
   colback = Red!10,
-  colframe = Red!50!black,
+  colframe = BrickRed!90!black,
   underlay = {
     \path[fill=tcbcolframe] ([shift={(-0.5mm,-0.5mm)}]interior.south west)
     rectangle node[white]{\Huge\bfseries !}
@@ -415,5 +414,5 @@ This \namecref{#1}, entitled \texttt{\nameref*{#1}}, begins on page~\pageref{#1}
 \date{\today}
 
 
-% \includeonly{Chapters/Chapter1}
+\includeonly{Chapters/Chapter6}
 % \includeonly{Appendices/AppendixA}
