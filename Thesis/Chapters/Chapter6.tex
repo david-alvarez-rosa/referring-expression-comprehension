@@ -27,7 +27,7 @@ manera, cualquier tipo de usuario no especializado podrá realizar una
 evaluación cualitativa del modelo usado. See \vref{fig:web} for a screenshot of
 the web interface.
 
-\begin{figure}[htb]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=.75\textwidth]{Images/Web.png}
   \caption[Screenshot de la web creada]{Screenshot de la web creada. Se puede
@@ -66,7 +66,7 @@ interacción con el modelo. Estas son las siguientes,
   correspondiente a la introducción por voz de comandos (see
   \vref{fig:voice}). Aquí deberemos dar permisos a la web para acceder al
   micrófono y ya podremos grabar la \gls{re} que queramos.
-  \begin{figure}[htb]
+  \begin{figure}[ht]
     \centering
     \includegraphics[width=.75\textwidth]{Images/Voice.png}
     \caption[Web interface for voice input]{Web interface for voice input. Aquí
@@ -98,7 +98,7 @@ Podemos ver cómo la web creada se adapta a diferentes anchos comparando la
 adapta el número de columnas según el dispositivo y la navigation bar se
 expande o se colapsa dependiendo también del ancho de la pantalla.
 
-\begin{figure}[htb]
+\begin{figure}[ht]
   \centering
   \begin{subfigure}[t]{.5\textwidth}
     \centering
@@ -155,12 +155,18 @@ realizar estos tres pasos,
   \texttt{Submit}, podemos ver el resultado de la ejecución del programa.
 \end{enumerate}
 
-Estos métodos han sido probados y funcionan correctamente. Hay que tener en
-cuenta que el tiempo de ejecución del programa variará según el uso del
-servidor y de la calidad de la imagen introducida. Para tener una aproximación,
-usando imágenes de la galería mostrada en la web y con un solo usuario
-navegando (servidor no saturado, que es lo habitual) la ejecución completa del
-progama es de unos 6 segundos.
+Estos métodos han sido probados y funcionan correctamente todos ellos, aunque
+con diferentes tiempos de ejecución dependiendo del método usado. Este tiempo
+de ejecución dependerá principalmente de tres factores, uso del servidor,
+calidad de la imagen seleccionada y el método de introducción de la \gls{re}
+(por voz tardará más).
+
+\begin{exampleBox}
+  Para tener una aproximación, usando imágenes de la galería mostrada en la
+  web, con un solo usuario navegando (servidor no saturado, que es lo habitual)
+  e introduciendo la \gls{re} usando el teclado la ejecución completa del
+  progama es de unos 6 segundos.
+\end{exampleBox}
 
 
 \section{Back End}\label{sec:backend}\index{Back end}
@@ -168,7 +174,7 @@ progama es de unos 6 segundos.
 Aquí veremos la estructura del backend. Un gráfico explicativo se encuentra en
 la \vref{fig:server}.
 
-\begin{figure}[htb]
+\begin{figure}[ht]
   \centering
   \input{Figures/Tikz/Server.tex}
   \caption[TODO]{TODO.}

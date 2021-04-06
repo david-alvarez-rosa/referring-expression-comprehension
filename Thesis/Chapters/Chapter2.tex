@@ -126,7 +126,7 @@ different layers, so that the neurons between adjacent layers are connected to
 each other by arcs. An example of this type of architecture is shown in
 \vref{fig:fully-conn-network}.
 
-\begin{figure}[htb]
+\begin{figure}[ht]
   \centering
   \input{Figures/Tikz/Fully Connected Neural Network.tex}
   \caption[Fully Connected Neural Network topology]{Example of Fully Connected
@@ -273,7 +273,7 @@ are followed by different ones, among which the pooling layers, fully connected
 layers and normalization layers stand out. An example of this type of
 architecture can be seen in \vref{fig:lenet-5}.
 
-\begin{figure}[htb]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{Images/Architecture LeNet-5.png}
   \caption[Example of topology of a \acs*{cnn} (LeNet-5)]{Example of topology
@@ -321,7 +321,7 @@ on \emph{padding}\footnote{There are different techniques to define the
   consists of adding 0 vectors around the image until it is complete in order
   to carry out the desired convolutions.} of the input image).
 
-\begin{figure}[htb]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=.75\textwidth]{Images/Convolution.png}
   \caption[Example of a convolution]{Example of a convolution with a kernel
@@ -342,7 +342,7 @@ layer into a single neuron in the next layer. These types of layers also add
 non-linearities to the model. They also make \gls{cnn} less sensitive to small
 local changes in spatial location.
 
-\begin{figure}[htb]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=.75\textwidth]{Images/Max pooling.png}
   \caption[Pooling layer example: max pooling]{Pooling layer example:
@@ -397,7 +397,7 @@ necessary. Prior inputs \(\mathbf{x}^1, \ldots \mathbf{x}^{t - 1}\) are
 represented by the hidden state \(\mathbf{h}^{t - 1}\), therefore the output
 \(\mathbf{y}^t\), depends exactly of all the inputs until time \(t\).
 
-\begin{figure}[htb]
+\begin{figure}[ht]
   \begin{subfigure}[t]{.2\textwidth}
     \centering
     \caption{Basic \gls{rnn}.}
@@ -423,7 +423,7 @@ in the case of \glspl{rnn} it is not. There are different possibilities, in
 which the length of the inlet and outlet can vary. All the different types of
 architectures that may exist are listed in \vref{fig:rnn-types}.
 
-\begin{figure}[htb]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{Images/RNN types.png}
   \caption[Types of architectures for \acl*{rnn}]{Types of architectures for
@@ -471,7 +471,7 @@ information to travel in time\footnote{These problems are know as vanishing /
   perform: \emph{input} gate (\(i\)), \emph{output} gate (\(o\)) and
   \emph{forget} gate (\(f\)). A graphical representation of this type of
   elements is shown in \vref{fig:lstm}.
-  \begin{figure}[htb]
+  \begin{figure}[ht]
     \centering
     \includesvg[width=.6\textwidth]{LSTM.svg}
     \caption[\acl*{lstm}]{\acf{lstm} representation. Input (\(i\)), output
