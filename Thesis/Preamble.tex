@@ -37,7 +37,9 @@
 \usepackage{svg}
 \usepackage{varioref}
 \usepackage[pdfusetitle]{hyperref}
-\usepackage[nomain, acronym, style=super3col]{glossaries}
+\usepackage[nomain, acronym]{glossaries}
+\usepackage{glossary-longbooktabs}
+\usepackage{relsize}
 \usepackage[noabbrev]{cleveref}
 
 
@@ -48,6 +50,7 @@
 
 % Customize page layout.
 \geometry{
+  layout = b5paper,
   paper = b5paper,
   top = 1in,
   bottom = .875in,
@@ -55,6 +58,8 @@
   outer = .75in,
   bindingoffset = .25in,
   % showframe
+  % paper = a4paper,
+  % showcrop
 }
 
 % Customize captions for floating elements.
@@ -141,13 +146,16 @@
 \setupglossaries{
   toc,
   shortcuts,
-  ucmark
+  ucmark,
+  nogroupskip
 }
+\setacronymstyle{long-sm-short}
+\setglossarystyle{longragged3col-booktabs}
 \makeglossaries
 \input{Acronyms}
 \renewcommand{\glsnamefont}[1]{\textbf{#1}}
-\setlength\glspagelistwidth{.25\textwidth}
-\setlength\glsdescwidth{.5\textwidth}
+\setlength\glspagelistwidth{.175\textwidth}
+\setlength\glsdescwidth{.45\textwidth}
 \preto\chapter{\glsresetall}
 
 % Alphabetical index customization.
@@ -429,27 +437,5 @@ This \namecref{#1}, entitled \texttt{\nameref*{#1}}, begins on page~\pageref{#1}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\usepackage{eurosym}
-\usepackage{chemformula}
+% \usepackage[titles]{tocloft}
+% \renewcommand\cftchapdotsep{\cftdotsep}
