@@ -65,9 +65,9 @@
 % Customize captions for floating elements.
 \captionsetup{
   font = small,
-  labelfont = {sc, bf},
+  labelfont = bf,
   labelsep = period,
-  width = .75\textwidth,
+  % width = .75\textwidth,
 }
 
 \hypersetup{
@@ -79,7 +79,7 @@
   colorlinks,
   % hidelinks,
   linkcolor = blue,
-  citecolor = magenta,
+  citecolor = Magenta,
   urlcolor = red!50!black,
   % For ToC.
   % linktoc = all,
@@ -149,7 +149,7 @@
   ucmark,
   nogroupskip
 }
-\setacronymstyle{long-sm-short}
+% \setacronymstyle{long-sm-short}
 \setglossarystyle{longragged3col-booktabs}
 \makeglossaries
 \input{Acronyms}
@@ -186,7 +186,11 @@
 
 % Customize bibliography (biblatex and biber).
 \addbibresource{References.bib}
-\ExecuteBibliographyOptions{minnames=5, maxnames=5}
+\ExecuteBibliographyOptions{
+  maxbibnames = 100,
+  maxcitenames = 5,
+  mincitenames = 5
+}
 \DeclareFieldFormat{annotation}{\par\nobreak\vskip\bibitemsep #1\smallskip}
 \renewbibmacro*{finentry}{\printfield{annotation}\finentry}
 \DeclareFieldFormat{labelalphawidth}{\mkbibbold{#1}}
