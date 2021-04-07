@@ -27,6 +27,8 @@
 \usepackage{imakeidx}
 \usepackage{epigraph}
 \usepackage{siunitx}
+\usepackage{eurosym}
+\usepackage{chemformula}
 \usepackage{tikz, pgfplots}
 \usepackage{fontawesome}
 \usepackage[outputdir=Build, cachedir=Minted]{minted}
@@ -44,7 +46,7 @@
 \DeclareFontShape{T1}{lmr}{b}{sc}{<->ssub*cmr/bx/sc}{}
 \DeclareFontShape{T1}{lmr}{bx}{sc}{<->ssub*cmr/bx/sc}{}
 
-% % Customize page layout.
+% Customize page layout.
 \geometry{
   paper = b5paper,
   top = 1in,
@@ -62,10 +64,6 @@
   labelsep = period,
   width = .75\textwidth,
 }
-% \captionsetup[sub]{
-%   list,
-%   listformat = simple,
-% }
 
 \hypersetup{
   % Info.
@@ -275,12 +273,6 @@
     right = \parindent-0.5mm,
     bottom = 3mm,
     top = 3mm,
-    % before skip = .75em,
-    % after skip = 1em,
-    % left = 3mm,
-    % right = 4mm,
-    % top = 1mm,
-    % bottom = 2mm,
     middle = 1mm,
     sharp corners,
     drop fuzzy shadow,
@@ -373,7 +365,7 @@
 % Change ToC title name.
 \addto\captionsenglish{
   \renewcommand{\contentsname}{Table of Contents}
-  \renewcommand{\acronymname}{List of Acronyms} % TODO change theses?
+  \renewcommand{\acronymname}{List of Acronyms}
   \renewcommand{\indexname}{Alphabetical Index}
 }
 
