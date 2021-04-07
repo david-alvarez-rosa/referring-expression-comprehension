@@ -72,12 +72,11 @@
 \thispagestyle{plain}
 \small
 \null\vfill
+
+\noindent\makeatletter\@author\makeatother\ \textcopyright\ \today
 \begin{sloppypar}
-  \makeatletter
-  \noindent \@author\ \textcopyright\ \today \\
-  \texttt{\@title} \\
-  \makeatother
-\end{sloppypar}
+  \noindent\makeatletter\texttt{\@title}\makeatother
+\end{sloppypar}\medskip
 
 \noindent A senior Bachelor's Thesis submitted to
 \begin{itemize}
