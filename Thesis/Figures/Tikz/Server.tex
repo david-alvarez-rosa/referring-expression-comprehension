@@ -1,78 +1,92 @@
 % -*- TeX-master: "../../Thesis.tex" -*-
 
 
+\newcommand{\connectV}[2]{
+  \draw[con] ([xshift = -10pt]#1.south) to ([xshift = -10pt]#2.north);
+  \draw[con] ([xshift = 10pt]#2.north) to ([xshift = 10pt]#1.south);
+}
+
+\newcommand{\connectH}[2]{
+  \draw[con] ([yshift = -8pt]#1.east) to ([yshift = -8pt]#2.west);
+  \draw[con] ([yshift = 8pt]#2.west) to ([yshift = 8pt]#1.east);
+}
+
 \begin{tikzpicture}[
-  scale = 1.25,
-  neuron/.style = {
-    circle,
-    draw,
-    thick,
-    fill = white,
-    blur shadow
-  },
-  connection/.style = {
-    -latex,
-    black!60,
-    thick
-  },
   box/.style = {
-    draw = black!80,
-    thick,
-    rounded corners
+    rectangle,
+    draw = #1!75,
+    fill = #1!30,
+    inner sep = 5pt,
+    very thick
+  },
+  boxp/.style = {
+    rectangle,
+    draw = #1,
+    fill = #1!60,
+    inner sep = 5pt,
+    very thick
+  },
+  cont/.style = {
+    shape = rectangle,
+    align = center,
+    draw  = #1,
+    fill  = #1!10,
+    rounded corners,
+    inner sep = 8pt
+  },
+  con/.style = {
+    -stealth,
+    very thick
   }
   ]
-
-  % Bounding box input layer.
-  \draw[box, fill=red!20] (-.5, -1) rectangle (.5, -4) node[below, red,
-  xshift=-16.5] {input layer};
-  % Bounding box first hidden layer.
-  \draw[box, fill=RoyalBlue!20] (2, -.5) rectangle (3, -4.5) node[below,
-  RoyalBlue, xshift=-17.5] {hidden layer 1};
-  % Bounding box second hidden layer.
-  \draw[box, fill=RoyalPurple!20] (4.5, -.5) rectangle (5.5, -4.5)
-  node[below, RoyalPurple, xshift=-17.5] {hidden layer 2};
-  % Bounding box output layer.
-  \draw[box, fill=OliveGreen!20] (7, -1.5) rectangle (8, -3.5) node[below,
-  OliveGreen, xshift=-17.5] {output};
-
-  % Neurons input layer.
-  \begin{scope}[shift={(0, -.5)}]
-    \foreach \name in {1,...,3} {
-      \node[neuron] (I-\name) at (0, -\name) {$\mathbf{x}_\name^{1}$};
-    }
-  \end{scope}
-  % Neurons first hidden layer.
-  \foreach \name in {1,...,4} {
-    \node[neuron] (H1-\name) at (2.5, -\name) {$\mathbf{x}_\name^{2}$};
-  }
-  % Neurons second hidden layer.
-  \foreach \name in {1,...,4} {
-    \node[neuron] (H2-\name) at (5, -\name) {$\mathbf{x}_\name^{3}$};
-  }
-
-  % Node output layer.
-  \begin{scope}[shift={(0, -1)}]
-    \foreach \name in {1,...,2} {
-      \node[neuron] (O-\name) at (7.5, -\name) {$\mathbf{x}_\name^{4}$};
-    }
+  % Cliente.
+  \node[boxp=magenta] (Us) {User};
+  \node[box=magenta] (UN) [right=of Us] {Browser};
+  \begin{scope}[on background layer]
+    \node[fit=(Us)(UN), cont=magenta, label={Client}] (U) {};
   \end{scope}
 
-  % Connections between input and first hidden layers.
-  \foreach \source in {1,...,3} {
-    \foreach \dest in {1,...,4} {
-      \path[connection] (I-\source) edge (H1-\dest);
-    }
-  }
-  % Connections between first and second hidden layers.
-  \foreach \source in {1,...,4} {
-    \foreach \dest in {1,...,4} {
-      \path[connection] (H1-\source) edge (H2-\dest);
-    }
-  }
-  % Connection between second hidden layer and output.
-  \foreach \source in {1,...,4} {
-    \foreach \dest in {1,...,2} {
-      \path[connection] (H2-\source) edge (O-\dest);
-    }
-  }
+  % Servidor Web.
+  \node[boxp=gray] (SI) [below=1.25 of U, xshift=-6.5] {\textit{Index}};
+  \node[box=gray] (ST) [left=.75 of SI] {Tablero};
+  \node[box=gray] (SN) [right=.75 of SI] {\textit{Navbar}};
+  \node[box=gray] (SD) [below=.5 of ST] {Data};
+  \node[box=gray] (SA) [right=.35 of SD] {Animación};
+  \node[box=gray] (SC) [below=.5 of SN] {Controles};
+  \node[box=gray] (SCi) [below=.5 of SD] {Animación};
+  \node[box=gray] (SF) [below=.5 of SA, xshift=.25cm] {\textit{Footer}};
+  \node[box=gray] (SE) [below=.5 of SC, xshift=.55cm] {Otros \ldots};
+  \begin{scope}[on background layer]
+    \node[fit=(SI)(ST)(SN)(SC)(SCi)(SD)(SE)(SA), cont=gray,
+    label=above right:{Web Server}] (S) {};
+  \end{scope}
+
+  % Programa Principal.
+  \node[boxp=orange] (Mai) [below=1.5 of S] {Main};
+  \begin{scope}[on background layer]
+    \node[fit=(Mai), cont=orange, label=below:{Main program}] (Ma) {};
+  \end{scope}
+
+  % Brazo robótico.
+  \node[boxp=red] (MM) [above right=.25 and 4 of Ma] {Main};
+  \node[box=red] (MP) [below=.5 of MM] {Plano};
+  \node[box=red] (MI) [below=.5 of MP] {Interpolación};
+  \begin{scope}[on background layer]
+    \node[fit=(MM)(MP)(MI), cont=red, label={Movimiento robot}] (M) {};
+  \end{scope}
+
+  % Tres en Raya.
+  \node[boxp=blue] (TEs) [above left=.78 and 4 of Ma] {Main};
+  \node[box=blue] (TB) [below=.5 of TEs] {Básica};
+  \node[box=blue] (TEq) [below=.5 of TB] {Equivalencias};
+  \node[box=blue] (TA) [below=.5 of TEq] {Auxiliar};
+  \begin{scope}[on background layer]
+    \node[fit=(TEs)(TB)(TEq)(TA), cont=blue, label={Estrategia Tres en Raya}] (T) {};
+  \end{scope}
+
+  % Conexiones globales.
+  \connectV{U}{S};
+  \connectV{S}{Ma};
+  \connectH{T}{Ma};
+  \connectH{Ma}{M};
 \end{tikzpicture}

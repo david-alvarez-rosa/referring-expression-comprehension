@@ -77,7 +77,7 @@
     Multimodal Learning},
   % Colors.
   colorlinks,
-  % hidelinks,
+  hidelinks,
   linkcolor = blue,
   citecolor = Magenta,
   urlcolor = red!50!black,
@@ -210,6 +210,8 @@
 \usetikzlibrary{
   external,
   positioning,
+  fit,
+  backgrounds,
   arrows,
   shadows.blur,
   calc,
@@ -286,6 +288,8 @@
     bottom = 3mm,
     top = 3mm,
     middle = 1mm,
+    colback = #1!10,
+    colframe = #1!50!black,
     sharp corners,
     drop fuzzy shadow,
     rounded corners = southeast,
@@ -300,9 +304,7 @@
 \tcbsetforeverylayer{shield externalize}
 % Quote box.
 \newtcolorbox{quoteBox}{
-  baseBox,
-  colback = RoyalBlue!10,
-  colframe = RoyalBlue!50!black,
+  baseBox = RoyalBlue,
   fontupper=\itshape,
   fontlower=\small,
   before lower = \hfill---,
@@ -311,15 +313,11 @@
 }
 % Example box.
 \newtcolorbox{exampleBox}{
-  baseBox,
-  colback = OliveGreen!10,
-  colframe = OliveGreen!50!black
+  baseBox = OliveGreen,
 }
 % Remark box.
 \newtcolorbox{remarkBox}{
-  baseBox,
-  colback = Red!10,
-  colframe = BrickRed!90!black,
+  baseBox = Red,
   underlay = {
     \path[fill=tcbcolframe] ([shift={(-0.5mm,-0.5mm)}]interior.south west)
     rectangle node[white]{\Huge\bfseries !}
@@ -425,7 +423,7 @@ This \namecref{#1}, entitled \texttt{\nameref*{#1}}, begins on page~\pageref{#1}
 \date{\today}
 
 
-% \includeonly{Chapters/Chapter6}
+% \includeonly{Chapters/Chapter5}
 % \includeonly{Appendices/AppendixA}
 
 
@@ -446,3 +444,7 @@ This \namecref{#1}, entitled \texttt{\nameref*{#1}}, begins on page~\pageref{#1}
 
 % \usepackage[titles]{tocloft}
 % \renewcommand\cftchapdotsep{\cftdotsep}
+
+
+% \usepackage{lscape}
+% \usepackage{multirow}

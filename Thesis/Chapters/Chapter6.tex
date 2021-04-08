@@ -10,13 +10,20 @@
 }
 
 
-\lettrine{L}{orem} ipsum dolor sit amet, consectetur
-adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-id est laborum.
+\lettrine{U}{na} de las partes fundamentales de este proyecto ha sido la de
+presentar una herramienta de visualización de los resultados interactivas y
+enfocada a un usuario sin conocimientos en el ámbito de la \gls{ai}. Para ello,
+se ha escogido la creación de una aplicación web, principalmente por su
+versatilidad y su facilidad de uso: no presenta la necesidad de instalación de
+ningún programa específico, tan solo el uso de un navegador web.
+
+En esta web se podrá encontrar toda la información relacionada con este
+proyecto, así como se darán herramientas para poder interactuar con los modelos
+creados que resuelven la tarea de \gls{rec}. Toda la funcionalidad presente
+para el usuario y su creación se discutirá en la \vref{sec:frontend}. Ahora
+bien, como es bien condo en el ambito del diseño de aplicaciones web, toda
+\gls{ui} necesita de código en el back end que la haga posible (ver
+\vref{sec:backend} para una explicación detallada).
 
 
 \section{\glsentrylong{ui}}%
@@ -30,9 +37,9 @@ the web interface.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=.75\textwidth]{Images/Web.png}
-  \caption[Screenshot de la web creada]{Screenshot de la web creada. Se puede
-    observar la navbar y la primera parte de la web.}\label{fig:web}
-  \source{Created by the author}
+  \caption[Screenshot de la web creada]{Screenshot de la web creada. En ella se
+    puede observar la navbar y la primera parte de la web. Figure created by
+    the author.}\label{fig:web}
 \end{figure}
 
 Además de proponer un medio interactivo donde se puede realizar \gls{rec} con
@@ -73,8 +80,8 @@ interacción con el modelo. Estas son las siguientes,
     \caption[Web interface for voice input]{Web interface for voice input. Aquí
       se puede hablar directamente al micrófono del ordenador como método
       alternativo para introducir una \gls{re}. Este audio será convertido
-      usando un modelo neuronal a texto.}\label{fig:voice}
-  \source{Created by the author}
+      usando un modelo neuronal a texto. Figure created by the
+      author.}\label{fig:voice}
   \end{figure}
 \end{itemize}
 
@@ -115,8 +122,7 @@ expande o se colapsa dependiendo también del ancho de la pantalla.
   \caption[Responsive web design.]{Responsive web design. La web está mostrada
     con un ancho típico de dispositivo móvil. La web está diseñada para
     mostrarse correctamente sin importar el ancho del dispositivo
-    utilizado.}\label{fig:responsive}
-  \source{Created by the author}
+    utilizado. Figure created by the author (both).}\label{fig:responsive}
 \end{figure}
 
 Además de estos dos elementos comentados (navigation bar y gallery) otros
@@ -174,12 +180,43 @@ calidad de la imagen seleccionada y el método de introducción de la \gls{re}
 
 \section{Back End}\label{sec:backend}\index{Back end}
 
+La funcionalidad principal que ofrece esta web es la de poder interactuar con
+este trabajo, i.e., poder ejecutar el modelo presente para realizar la
+\gls{rec}. Esto conlleva la ejecucación de código, el cual se podría elegir
+ejecutarlo en dos sitios diferentes: en el ordenador del usuario (se debería
+usar JavaScript) o en el servidor web (el back end).
+
+Debido al alto uso de recursos computacionales en la ejecución del modelo se ha
+decidido realizarlo completamente en el back end.\footnote{También facilita
+  esto la posibilidad de ejecutar el código en Python, ya que si no sería
+  necesario portar todo el código a JavaScript o usar bibliotecas con las que
+  poder emular Python dentro del navegador del cliente.} Para ello, se ha
+creado una \gls{api} (creada en PHP) para facilitar la comunicación entre front
+end y back end sin necesidad de recargar la página. Tenemos dos rutas
+principales que usaremos para comunicar la interfaz web con el backend. Estas
+son las siguientes,
+\begin{itemize}
+  \item \textbf{\gls*{rec}}. Internamente llamada \code{api/comprehend.php},
+  que permite realizar la tarea de \gls{rec} llamando internamente en el
+  servidor a los archivos de Python adecuados (ejecutando sobre el input del
+  usuario el modelo de segmentación, see \vref{sec:rec-model}). Tiene en cuenta
+  las diferentes maneras en las que la imagen y la \gls{re} han podido ser
+  añadidas.
+  \item \textbf{\gls*{stt}}. Internamente llamdada \code{api/stt.php}, que
+  permite realizar la tarea de conversión entre speech y texto. Ejecuta el
+  modelo Silero (see \vref{sec:speech}) para convertir el audio grabado con el
+  micrófono por el usuario a texto.
+\end{itemize}
+
+
 Aquí veremos la estructura del backend. Un gráfico explicativo se encuentra en
 la \vref{fig:server}.
 
-\begin{figure}[ht]
+\begin{figure}[p]
   \centering
-  \input{Figures/Tikz/Server.tex}
-  \caption[TODO]{TODO.}\label{fig:server}
-  \source{Created by the author}
+  \resizebox{\textwidth}{!}{\input{Figures/Tikz/Server.tex}}
+  \caption[Arquitectura del programa]{Arquitectura del progama. Se puede
+    observar la transmisión de datos desde el cliente (el usuario con su web
+    browser), hasta la generación de resultados por medio de la \gls{api} en el
+    servidor. Figure created by the author.}\label{fig:server}
 \end{figure}
