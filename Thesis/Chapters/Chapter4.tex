@@ -39,11 +39,8 @@ de esta manera ser capaz de generar la segmentación.
   \includegraphics[width=\textwidth]{Images/RefVOS.png}
   \caption[RefVOS model architecture]{RefVOS model architecture. Se pueden
     observar los modelos diferenciados de visión y de lenguaje que después son
-    combinados para obtener las características
-    multimodales. From \citetitle*{bellver20:refvos}, by
-    \citeauthor*{bellver20:refvos} \cite{bellver20:refvos}.}
-  \label{fig:model}
-  % \source{From~\cite{bellver20:refvos}}
+    combinados para obtener las características multimodales. From
+    \captioncite{bellver20:refvos}.}\label{fig:model}
 \end{figure}
 
 Este modelo, creado por \myCite{bellver20:refvos}, constituirá nuestra
@@ -63,8 +60,8 @@ segmentación semántica.
   \caption[Atrous convolutions examples]{Atrous convolutions examples with
     filter size \(3 \times 3\). The \code{rate} parameter controls the model's
     field-of-view. Standard convolution operation corresponds to an atrous
-    convolution with a rate of 1.}\label{fig:atrous}
-  \source{From~\cite{chen17:rethin}}
+    convolution with a rate of 1. From
+    \captioncite{chen17:rethin}.}\label{fig:atrous}
 \end{figure}
 
 Una de las ventajas de este modelo frente a modelos neuronales convoluciones
@@ -77,7 +74,7 @@ las atrous convolutions (también conocidas como dilated convolutions).
   downsampling operations from the last few layers and upsampling the
   corresponding filter kernels, equivalent to inserting holes (``trous'' in
   French) between filter weights.
-  \tcblower\quoteAuthor{chen17:rethin}
+  \tcblower\quotecite{chen17:rethin}
 \end{quoteBox}
 
 En el modelo usado, se usará como backbone la conocida red ResNet101 (creada
@@ -174,6 +171,6 @@ idiomas: english, german, spanish and ukraniain.
   \caption[Silero \gls*{stt} model architecture]{Silero \gls{stt} model
     architecture. View from top to bottom: input is a mono audio file with
     speech and the output is the text representing the
-    input.}\label{fig:silero}
-  \source{From~\cite{veysov20:towar_imagen_momen_speec_text}}
+    input. From
+    \captioncite{veysov20:towar_imagen_momen_speec_text}.}\label{fig:silero}
 \end{figure}

@@ -40,7 +40,7 @@
 \usepackage[nomain, acronym]{glossaries}
 \usepackage{glossary-longbooktabs}
 \usepackage{relsize}
-\usepackage[noabbrev]{cleveref}
+\usepackage[noabbrev, capitalize]{cleveref}
 
 
 % Fallback to computer modern for sc + bf.
@@ -383,7 +383,10 @@
 
 % Cite configuration.
 \newcommand{\myCite}[1]{\citeauthor*{#1} \cite{#1}\footfullcite{#1}}
-\newcommand{\quoteAuthor}[1]{\citeauthor*{#1} \cite{#1}}
+\newcommand{\quotecite}[1]{\citeauthor*{#1} \cite{#1}}
+\newcommand{\captioncite}[1]{%
+  \citetitle*{#1}, by \citeauthor*{#1} \cite{#1}%
+}
 
 % Website domain command.
 \newcommand{\myWeb}{51.75.163.95}
