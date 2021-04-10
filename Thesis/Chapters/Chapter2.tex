@@ -640,128 +640,122 @@ local minimums).\footnote{These are called first-order optimization methods
   computing time.}
 
 \subsubsection{Optimization Methods}\index{Optimization!methods}
-Diferentes métodos de optimización existen, el más básico y más conocido método
-de first-order optimization es \emph{gradient descent}. La idea es moverse en
-la dirección del gradiente y en sentido opuesto, es decir, es un método
-iterativo que consiste en lo siguiente,
-\begin{equation} \label{eq:gd}
+Different optimization methods exist, the most basic and best known method of
+first-order optimization is \emph{gradient descent}. The idea is to move in the
+direction of the gradient and in the opposite direction, that is, it is a
+method iterative consisting of the following,
+\begin{equation}\label{eq:gd}
   \Delta\theta^{(t)} = - \nabla\loss(\theta^{(t)}).
 \end{equation}
-Teniendo en cuenta la forma típica de la losss function (see \vref{eq:loss}),
-el gradiente puede ser calculado usando la linealidad de las derivadas,
-\begin{equation} \label{eq:nabla-loss}
+Considering the typical form of the losss function (see \vref{eq:loss}), the
+gradient can be calculated using the linearity of the derivatives,
+\begin{equation}\label{eq:nabla-loss}
   \nabla_{\theta}\,\loss(\Omega, \theta) =
   \frac{1}{N} \sum_{(x, y) \in \Omega} \nabla_{\theta}\,\ell (x, y, \theta).
 \end{equation}
 
-Típicamente los datasets \(\Omega\) usados para entrenar tienen cardinal muy
-grande (\(N > 10^4\)), por lo que el computo de la \vref{eq:nabla-loss} es
-demasiado costoso en términos de recursos computacionales. Por ello, en la
-práctica, se usa la alternativa conocida como \gls{sgd}, que consiste en
-estimar el gradiente en cada iteracción en un random subset from the dataset.
+Typically the datasets \(\Omega\) used for training have very cardinal large
+(\(N > 10^4\)), so the computation of \vref{eq:nabla-loss} is too expensive in
+terms of computational resources. Therefore, in the In practice, the
+alternative known as \gls{sgd} is used, which consists of estimate the gradient
+at each iteration in a random subset from the dataset.
 
-\gls{sgd} es una implementación de la \vref{eq:gd} en la que se estima
-\(\nabla\loss(\theta^{(t)})\) usando un randomly chosen subset
-\(B \subset \Omega\). Es decir, el cálculo de la \vref{eq:nabla-loss} se
-sustituye por la siguiente estimación,
-\begin{equation} \label{eq:nabla-loss-sto}
+\gls{sgd} is an implementation of \vref{eq:gd} in which it is estimated
+\(\nabla \loss (\theta{(t)})\) using a randomly chosen subset
+\(B \subset \Omega\). That is, the calculation of \vref{eq:nabla-loss} is
+replace with the following estimate,
+\begin{equation}\label{eq:nabla-loss-sto}
   \nabla_{\theta}\,\loss(\Omega, \theta) \approx
   \frac{1}{\lvert B\rvert} \sum_{(x, y) \in B} \nabla_{\theta}\,\ell (x, y, \theta).
 \end{equation}
-Es común hacer un abuso de notacion y denotar por \(B\) el cardinal del subset,
-y llamarlo \emph{batch} size.
+It is common to abuse the notation and denote by \(B\) the cardinal of the
+subset, and call it \emph{batch} size.
 
-Otros métodos de optimización existen, principalmente debido a la presencia de
-saddle points, que harían parar los métodos iterativos anteriores ya que el
-gradiente se anularía. Los más conocidos son los siguientes,
+Other optimization methods exist, mainly due to the presence of saddle points,
+which would stop the previous iterative methods since the gradient would cancel
+out. The best known are the following,
 \begin{itemize}
-  \item \textbf{Momentum}\index{Momentum}. Consiste en realizar el siguiente
-  cálculo,
+  \item \textbf{Momentum}\index{Momentum}. It consists of performing the
+  following computation,
   \begin{equation}
     \Delta\theta^{(t)} =
     -\beta\Delta\theta^{(t-1)} -\nabla\loss(\theta^{(t)}),
   \end{equation}
-  donde \(\beta\) es un hiperparámetro. Este algoritmo, mantiene la
-  ``velocity'' previa como una media de los anteriores gradientes y el
-  parámetro \(\beta\) puede ser entendido como un parámetro de ``friction''
-  (pensando en términos físicos)
-  \item \textbf{Nesterov Momentum}\index{Nesterov momentum}. Similarmente al
-  método anterior se usa un termino de ``velocity'', pero calculando el
-  gradiente no en el punto actual, sino en el punto en el que la velocidad nos
-  llevaría, i.e.,
-    \begin{equation}
+  where \(\beta\) is a hyperparameter. This algorithm maintains the previous
+  velocity as an average of the above gradients and the parameter \(\beta\) can
+  be understood as a parameter of ``friction'' (thinking in physical terms).
+  \item \textbf{Nesterov Momentum}\index{Nesterov momentum}. Similarly to
+  previous method uses a term of ``velocity'', but calculating the gradient not
+  at the current point, but at the point where the velocity would carry, i.e.,
+  \begin{equation}
     \Delta\theta^{(t)} =
     -\beta\Delta\theta^{(t-1)} -\nabla\loss(\theta^{(t)} +
     \beta\Delta\theta^{(t-1)}).
   \end{equation}
 \end{itemize}
 
-TODO. Más métodos de optimización existen como es AdaGrad, RMSProp y Adam.
+TODO. More optimization methods exist such as AdaGrad, RMSProp and Adam.
 
 \subsubsection{Weight Initialization}\index{Weight initialization}
-Para todo método iterativo, es necesario un initial guess for
-\(\theta^{(0)}\). En la práctica lo que se hace es inicializar los weights
-usando una distribución de probabilidad, como puede ser \(U[-\sigma, \sigma]\)
-or \(\mathcal{N}(0, \sigma^2)\). El valor de \(\sigma\) puede ser elegido
-arbitrariamente, aunque suele ser bastante común la conocida como \emph{Xavier
-  initialization}, por \myCite{glorot10:under}, consistente en escoger la
-varianza como la square root de la dimensión de entrada
-\(D_{\text{in}}\).\footnote{For convolutional layers,
+For every iterative method, an initial guess for is necessary
+\(\theta^{(0)}\). In practice what you do is initialize the weights using a
+probability distribution, such as \(U[-\sigma, \sigma]\) or
+\(\mathcal{N}(0, \sigma ^ 2)\). The value of \(\sigma\) can be chosen
+arbitrarily, although the one known as \emph{Xavier initialization}, by
+\myCite{glorot10:under}, consisting of choosing the variance as the square root
+of the input dimension \(D_{\text{in}}\).\footnote{For convolutional layers,
   \(D_{\text{in}} = \text{\code{filter\_size}}^2 \times
-  \text{\code{input\_channels}}\).} De esta manera se consigue activations are
-nicely scaled in all layers.
+  \text{\code{input\_channels}}\).} This way we get activations are nicely
+scaled in all layers.
 
-Sin embargo, en Xavier initialization asume que la función de activación está
-centrada en 0, por ello, cuando se usa la functión de activación \gls{relu}, es
-preferible el uso de otro tipo de weight initialization, como la propuesta por
-\myCite{he15:delvin_deep_rectif}.
+However, in Xavier initialization it assumes that the activation function is
+centered at 0, therefore, when the activation function \gls{relu} is used, it
+is It is preferable to use another type of weight initialization, such as that
+proposed by \myCite{he15:delvin_deep_rectif}.
 
-\subsubsection{Error Backpropagation}\index{Backpropgation}
-Hey.
+\subsubsection{Backpropagation Error}\index{Backpropgation}
+Hey
 
 \subsection{Regularization Techniques}\index{Regularization}
 
-Uno de los problemas más importantes a lo que se enfrenta el \gls{dl} y más
-generalmente la estadística predictiva es el de
-\emph{overfitting}\index{Overfitting}. Overfitting es crear un modelo de
-análisis a partir de datos que se ajusta demasiado al dataset de entrenamiento
-disponible, pero que no es capaz de realizar prediciones fiables de futuras
-observaciones. En palabras de \myCite{berners-lee21:introd_web_acces} (TODO:
+One of the biggest problems facing \gls{dl} and more generally predictive
+statistics is that of \emph{overfitting}\index{Overfitting}. Overfitting is
+creating a model of analysis from data that fits too closely the training
+dataset available, but not capable of making reliable predictions of future
+observations. In the words of \myCite{berners-lee21:introd_web_acces} (TODO:
 fix me),
 \begin{quoteBox}
   With four parameters I can fit an elephant, and with five I can make him
   wiggle his trunk.
-  \tcblower\quotecite{berners-lee21:introd_web_acces}TODO. corregir esto.
+  \tcblower\quotecite{berners-lee21:introd_web_acces} TODO. correct this.
 \end{quoteBox}
 
-Aquí, a lo que se refiere, es que no debemos sorprendernos de la capacidad de
-un modelo suficientemente complejo de adaptarse muy bien a un dataset dado. Los
-modelos con una gran cantidad de parámetros son capaces de ajustarse a
-cualquier cantidad de datos dada, incluso aunque esta parezca no seguir ningún
-patrón. Pero estos ajustes serán meaningless, ya que no capurarán ninguna
-información genuina de las estructura de los datos y, por tanto, no serán
-capaces de generalizar correctamente. Tendremos un ajuste asombrosamente bueno
-(incluso perfecto en algunos casos) para los datos disponibles actualmente,
-pero con un error de generalización enorme (ver \vref{fig:overfit}).
+What he is referring to here is that we should not be surprised at the ability
+to a model complex enough to fit a given dataset very well. The Models with a
+large number of parameters are capable of adjusting to any given amount of
+data, even if it appears not to follow any Pattern. But these settings will be
+meaningless, as they won't capture any genuine information on the structure of
+the data and, therefore, will not be able to generalize correctly. We will have
+an astonishingly good fit (even perfect in some cases) for currently available
+data, but with a huge generalization error (see \vref{fig:overfit}).
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=.65\textwidth]{Images/Overfit.png}
-  \caption[Representación del fenómeno de overfitting.]{Representación del
-    fenómeno de overfitting. Los datos con ruidos (que son aproximadamente
-    lineales) han sido ajustan usando una función lineal y otra polinomial. La
-    función polinomial presenta un ajuste perfecto sobre los datos existentes,
-    pero es de esperar que generalice peor. Si ambas funciones se usaran para
-    extrapolar fuera de los datos ajustados, la función lineal presentará
-    mejores predicciones. From
-    \captioncite{contributors21:overf}.}\label{fig:overfit}
+  \caption[Representation of the overfitting phenomenon.]{Representation of
+    overfitting phenomenon. Noisy data (which is approximately linear) have
+    been adjusted using a linear and a polynomial function. The polynomial
+    function presents a perfect fit on existing data, but it is to be expected
+    that it generalizes worse. If both functions were used to extrapolate out
+    of the fitted data, the linear function will display better
+    predictions. From \captioncite{contributors21:overf}.}\label{fig:overfit}
 \end{figure}
 
-Un dicho conocido en el ámbito del \gls{ml} es el de ``Memorizing is \emph{not}
-learning''. Es importante que tengamos en cuenta el efecto de overfitting a la
-hora de entrenar los modelos. Para evitarlo existen diferentes técnicas, entre
-las que destacan la \(L_2\) regularization, el concepto de early stopping y la
-técnica de data augmentation.
+A well-known saying in the field of \gls{ml} is that of ``Memorizing is
+\emph{not} learning''. It is important that we take into account the effect of
+overfitting to the time to train the models. To avoid this there are different
+techniques, among which highlight the \(L_2\) regularization, the concept of
+early stopping and the data augmentation technique.
 
 \subsubsection{\(L_2\) Regularization}
 This regularization technique, also known as \emph{ridge
@@ -783,60 +777,55 @@ where \(\lambda\) is the regularization hyperparameter\footnote{Model
 \end{equation}
 
 \subsubsection{Early Stopping}\index{Early stopping}
-Problablemente el método más conocido y más utilizado a la hora de entrenar
-modelos neuronales. Lo que se hace es dividir el dataset de \emph{training} en
-dos: la parte de training y la parte de validation\index{Validation}
-(\code{train/val} split).\footnote{En consecuencia, lo que se debe hacer con el
-  dataset completo es divirlo realmente en tres, el famoso
-  \code{train/val/test} split.}. Para el proceso de entrenamiento solo se usará
-la parte de \code{train} (i.e., para la actualización de los parámetros del
-modelo). La parte de \code{val} se usará para determinar cuándo debemos de
-parar el proceso de entrenamiento para evitar el
-overfitting\index{Overfitting}.
+Probably the best known and most used method when it comes to training neural
+models. What you do is divide the dataset of \emph{training} into two: the
+training part and the validation part\index{Validation} (\code{train/val}
+split). \footnote{Consequently, what to do with the full dataset is actually to
+  divide it into three, the famous \code{train/val/test} split.}. For the
+training process only the part of \code{train} (i.e., for updating the
+parameters of the model). The part of \code{val} will be used to determine when
+we should stop the training process to avoid overfitting\index{Overfitting}.
 
-De esta manera, mientras iteramos en el proceso de entrenamiento, podemos
-calcular la función de loss tanto en el dataset de \code{train} como en el de
-\code{val} (see \vref{fig:early}). Con el objetivo en mente de encontrar
-modelos que generalicen bien, pararemos el entrenamiento de la red neuronal en
-el momento que la función de error en el dataset de validación comience a
-aumentar.
+In this way, as we iterate through the training process, we can compute the
+loss function both in the dataset of \code{train} and in that of \code{val}
+(see \vref{fig:early}). With the goal in mind of finding models that generalize
+well, we will stop training the neural network at the moment the error function
+in the validation dataset starts to increase.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=.45\textwidth]{Images/Early stopping.jpg}
   \caption[Early stopping regularization technique]{Early stopping
-    regularization technique. En el comienzo del proceso de entrenamiento la
-    función de error disminuye en los dos datasets de entrenamiento y de
-    validación a la vez. En el momento en que la función de error en el
-    validation set comienza a aumentar es cuando comienza a presentarse el
-    problema de overfitting, por lo que ahí pararemos el entrenamiento. From
+    regularization technique. At the beginning of the training process the
+    error function decreases in the two datasets of training and validation at
+    the same time. At the time when the error function in the validation set
+    begins to increase is when the overfitting problem, so we will stop the
+    training there. From
     \captioncite{brownlee28:gentl_introd_early_stopp_avoid}.}\label{fig:early}
 \end{figure}
 
-Este método de regularización ha sido usado en este trabajo (ver
-\vref{cha:model}) para el entrenamiento de los modelos.
+This regularization method has been used in this work (see \vref{cha:model})
+for model training.
 
 \subsubsection{Data Augmentation}\index{Data augmentation}
-El uso de data augmentation como técnica de regularización es el proceso de
-generar de manera artificial nuevos training samples a partir de los existentes
-usando random transformations. En el tratamiento de imágenes, las
-transformaciones más típicas son: color transformation, geometric translation,
-rotations, etc.
+The use of data augmentation as a regularization technique is the process of
+artificially generate new training samples from existing ones using random
+transformations. In image processing, more typical transformations are: color
+transformation, geometric translation, rotations, etc.
 
-De esta manera aumentamos el cardinal del dataset (lo cual previene el
-overfitting) y también forzamos de manera artificial un dataset más
-generalista. Esto, en consecuencia, conseguirá que el modelo entrenado
-generalice mejor y sea invariante a las transformaciones realizadas en el
-dataset.
+In this way we increase the cardinal of the dataset (which prevents the
+overfitting) and we also artificially force one more dataset generalist. This,
+consequently, will make the trained model better generalize and be invariant to
+the transformations performed in the dataset.
 
 \begin{remarkBox}
-  Es importante no excederse en esta técnica, ya que nos podría llevar a
-  escenarios demasiado sintéticos y que, por tanto, generemos modelos que no
-  funcionen bien en el mundo real. Una evaluación cualitativa de los datos
-  creados puede ser de utilidad para validar esta técnica.
+  It is important not to overdo this technique, as it could lead to scenarios
+  that are too synthetic and that, therefore, we generate models that do not
+  work well in the real world. A qualitative evaluation of the data created can
+  be useful to validate this technique.
 \end{remarkBox}
 
 
 \section{Testing}
 Hey there. Talk about evaluation measures \textbf{in general}. Talk here about
-the importance of the split test/val/test.
+the importance of the split \code{test/val/test}.
