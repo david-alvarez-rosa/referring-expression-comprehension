@@ -11,6 +11,7 @@
     Hence, without theory, there is no learning.}
   {---\scshape William Edwards}}
 
+
 \lettrine{A}{neural} network, more properly referred to as an \gls{ann} are
 computing systems vaguely inspired by the biological neural networks that
 constitute animal brains. Dr.\ Robert Hecht-Nielsen (inventor of one of the
@@ -25,6 +26,7 @@ first neurocomputers), in an article by
 \end{quoteBox}
 
 \subsubsection{Mathematical perspective}
+
 Although the analogy made above of an \gls{ann} with a biological brain, there
 is no need for this, we can just think of a neural network as a mathematical
 optimization problem. We can think of the whole network to be a function that
@@ -33,6 +35,7 @@ parameters. The idea is to adjust this parameters to get a function that works
 well with some known dataset, and we will trust that it will generalize
 well. If the network is big enough and we carefully adjust the parameters, we
 will be able to learn and calculate very complex functions.
+
 
 
 \section{Tensors}\index{Tensor}
@@ -75,6 +78,7 @@ the following tensors appear:
   an \acs{rgb} image.
 \end{itemize}
 
+
 \subsection{Tensor Operations}\index{Tensor!operations}
 
 Tensors or rank 1 or 2 correspond to real vectors and real matrices, therefore,
@@ -89,6 +93,7 @@ multiplication). Then, the element-wise operation is defined as follows,
   (\mathbf{T} \star \mathbf{S})_i = \mathbf{T}_i \star \mathbf{S}_i,
 \end{equation}
 for all multi-indices \(i \in \N^r\).
+
 
 
 \section{Neural Network Architectures}\index{Neural network}
@@ -111,11 +116,12 @@ different ones.
   series (such as text or audio). They will be studied in
   \vref{sec:rnn}.
   \item \textbf{Transformers}. The transformer-based models are part of the
-  current \acl{sota}.\footnote{On \today, current date of the document.} They
-  are being used extensively in \gls{nlp} and studying their possible
+  current state of the art.\footnote{On \today, current date of the document.}
+  They are being used extensively in \gls{nlp} and studying their possible
   applications in computer vision and image processing. They will be described
   in \vref{sec:transformers}.
 \end{itemize}
+
 
 \subsection{\glsentrylong{fnn}}\label{sec:fnn}
 
@@ -141,6 +147,7 @@ Next we will discuss the main constituent parts of this type of neural
 networks: layers, neurons and connections.
 
 \subsubsection{Layers}\index{Layer}
+
 The layers are just a collection of neurons, we will distinguish between three
 types depending on its position in the network: \emph{input} layer (patterns
 are presented to the network via this layer), \emph{hidden} layer (all the
@@ -151,6 +158,7 @@ We will denote with \(L\) the number of layers and with \(n_l\) the size of the
 \(l\)-th layer.
 
 \subsubsection{Neurons}\index{Neuron}
+
 Neurons are the core component of any neural network. Basically there are three
 subparts that form a neuron.
 \begin{itemize}
@@ -175,6 +183,7 @@ subparts that form a neuron.
 \end{itemize}
 
 \subsubsection{Connections}\index{Connection}
+
 As we discussed, in the topology of this network, all neurons between adjacent
 layers are required to be connected, this are the connections, that should have
 associated a \emph{weight}. For the connection between the \(i\)-th neuron in
@@ -204,6 +213,7 @@ The \emph{matrix} of all weights in the \(l\)-th layer will be denoted by
 \end{exampleBox}
 
 \subsubsection{Model: feed forward}\label{subsec:forward}
+
 From now on let's suppose we are working with a fully-connected neural network,
 with different layers and we will be using the same notation used before. The
 values of the neurons can be computed with
@@ -222,6 +232,7 @@ forward, from the input layer, through the hidden layers to the output neurons.
 
 \subsubsection{Trainning: backpropagation}%
 \label{sec:backward}\index{Backpropgation}
+
 In order to be able to train our neural network, it is mandatory to define an
 error function (also known as loss function) that quantifies how good or bad
 the neural network is performing when feeded with a particular dataset. We will
@@ -247,6 +258,7 @@ input-output pairs \((\mathbf{x} , \mathbf{y}) \in \Omega\) and a particular
 value of the parameters \(\theta\). We will denote the error function by
 \(E (\Omega, \theta)\) and we will assume that it is continuosly differentiable
 (i.e., \(\mathcal{C}^1\)).
+
 
 \subsection{\glsentrylong{cnn}}\label{sec:conv-neur-netw}
 
@@ -287,6 +299,7 @@ architecture can be seen in \vref{fig:lenet-5}.
 \end{figure}
 
 \subsubsection{Convolutional layers}
+
 The name comes from the fact that these layers use the mathematical operation
 of \fhref{https://en.wikipedia.org/wiki/Convolution}{convolution}. This
 operation is defined (in its discrete version) as follows: given a pair of
@@ -366,6 +379,7 @@ where \(S\) is every depth slice in the input. This discharges 75 \% of the
 activations.\index{Pooling!operation}
 
 \subsubsection{Activation functions}\index{Activation function}
+
 Analogously to fully connected neural networks, in this case it is also common
 to use activation functions with the aim of introducing non-linearities in the
 model without affecting the receptive fields of the convolutions. They are
@@ -380,6 +394,7 @@ The main functions used are the following:
   \item \textbf{Sigmoid function}. \(\sigma (x) ={(1 + e - x)} -1\).
   \item \(f (x) = | \tanh x |\)
 \end{itemize}
+
 
 \subsection{\glsentrylong{rnn}}\label{sec:rnn}
 
@@ -416,6 +431,7 @@ represented by the hidden state \(\mathbf{h}^{t - 1}\), therefore the output
 \end{figure}
 
 \subsubsection{Different types of \gls*{rnn}}
+
 Feedforward networks send an input to an output\footnote{The input and output
   can be vector. It does not mean, therefore, that they are only a number, it
   means that they are only \emph{un} multidimensional vector of \(\R^n\).}, but
@@ -456,7 +472,8 @@ following expression,
 \end{equation}
 where \(W_{hy}\) is an array of parameters (trainable).
 
-\subsubsection{Variant \gls*{rnn} architectures}
+\subsubsection{Variant \glsentryshort{rnn} architectures}
+
 The model defined above is the simplest version for a \gls{rnn}. The
 calculation of the output values with the \vref{eq:rnn-hidden,eq:rnn-out} can
 cause problems with the gradients and, therefore, limit the ability of the
@@ -579,6 +596,7 @@ distinguished:
 \end{itemize}
 
 
+
 \section{Trainning}\index{Trainning}
 
 The process of trainning a neural networks consists in adjust the parameters of
@@ -614,6 +632,7 @@ Now, what we will want to do is to optimize (minimize) this loss function in
 \end{equation}
 given that the above exists.
 
+
 \subsection{Optimization}\label{sec:optimization}\index{Optimization}
 
 There exists several optimization techniques, amon then, the most important,
@@ -640,6 +659,7 @@ local minimums).\footnote{These are called first-order optimization methods
   computing time.}
 
 \subsubsection{Optimization Methods}\index{Optimization!methods}
+
 Different optimization methods exist, the most basic and best known method of
 first-order optimization is \emph{gradient descent}. The idea is to move in the
 direction of the gradient and in the opposite direction, that is, it is a
@@ -697,6 +717,7 @@ out. The best known are the following,
 TODO. More optimization methods exist such as AdaGrad, RMSProp and Adam.
 
 \subsubsection{Weight Initialization}\index{Weight initialization}
+
 For every iterative method, an initial guess for is necessary
 \(\theta^{(0)}\). In practice what you do is initialize the weights using a
 probability distribution, such as \(U[-\sigma, \sigma]\) or
@@ -714,7 +735,9 @@ is It is preferable to use another type of weight initialization, such as that
 proposed by \myCite{he15:delvin_deep_rectif}.
 
 \subsubsection{Backpropagation Error}\index{Backpropgation}
+
 Hey. TODO.
+
 
 \subsection{Regularization Techniques}\index{Regularization}
 
@@ -758,6 +781,7 @@ techniques, among which highlight the \(L_2\) regularization, the concept of
 early stopping and the data augmentation technique.
 
 \subsubsection{\(L_2\) Regularization}
+
 This regularization technique, also known as \emph{ridge
   regression}\index{Ridge regression} in statistics and
 \emph{Tikhonov}\index{Tikhonov regression} regularization in mathematics, it is
@@ -777,6 +801,7 @@ where \(\lambda\) is the regularization hyperparameter\footnote{Model
 \end{equation}
 
 \subsubsection{Early Stopping}\index{Early stopping}
+
 Probably the best known and most used method when it comes to training neural
 models. What you do is divide the dataset of \emph{training} into two: the
 training part and the validation part\index{Validation} (\code{train/val}
@@ -808,6 +833,7 @@ This regularization method has been used in this work (see \vref{cha:model})
 for model training.
 
 \subsubsection{Data Augmentation}\index{Data augmentation}
+
 The use of data augmentation as a regularization technique is the process of
 artificially generate new training samples from existing ones using random
 transformations. In image processing, more typical transformations are: color
@@ -824,6 +850,7 @@ the transformations performed in the dataset.
   work well in the real world. A qualitative evaluation of the data created can
   be useful to validate this technique.
 \end{remarkBox}
+
 
 
 \section{Testing}

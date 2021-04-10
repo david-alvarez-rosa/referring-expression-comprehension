@@ -9,13 +9,15 @@
 in all purely intellectual fields.}
   {---\scshape Alan Turing}}
 
+
 \lettrine{R}{eferring} expression comprehension is the task of, given a
 linguistic phrase (\gls{re}) and an image, generate binary masks for the object
 which the phrase refers to. In this chapter we will specifically formulate the
 problem to be solved (see \vref{sec:formulation}), we will analyze the existing
 datasets and the evaluation measures (see \vref{sec:rec-trainning}) and
-finally, we will make an exhaustive study of \gls{sota} works in this area by
-reviewing the more recent literature (\vref{sec:sota}).
+finally, we will make an exhaustive study of state-of-the-art works in this
+area by reviewing the more recent literature (\vref{sec:sota}).
+
 
 
 \section{Problem Formulation}\label{sec:formulation}
@@ -114,12 +116,14 @@ the simplest to the most complex.
 \end{figure}
 
 
+
 \section{Training}\label{sec:rec-trainning}
 
 There are two fundamental things in the process of training a model: a dataset
 and a loss function. For the specific task of this work (\gls{rec}), we will
 present the most used datasets (see \vref{sec:datasets}) and the loss functions
 (see \vref{sec:loss-functions}).
+
 
 \subsection{Datasets}\label{sec:datasets}
 
@@ -152,6 +156,7 @@ supercategories.
 Contains a total of \num{2500000} images.
 
 \subsubsection{RefCOCO, RefCOCO+ and RefCOCOg}
+
 These datasets were created from \gls{coco} by \myCite{kazemzadeh14:refer_game}
 using the game called ReferIt Game. In this two-player game, one of them wrote
 a \gls{re} based on an object in an image and the second player, given the
@@ -192,6 +197,7 @@ RefCOCOg contains \num{104560} expressions, \num{54822} objects and \num{26711}
 images.
 
 \subsubsection{CLEVR-Ref+}
+
 The above datasets have been created expressly for \gls{rec} and are made up of
 real-world images (which are highly complex). Furthermore, these datasets,
 whose images come from \gls{coco}, could be skewed. Therefore,
@@ -204,6 +210,7 @@ This dataset, however, will not be used in the work that concerns this thesis,
 since here we are looking for models that work in the real world with
 non-fictional images and natural language.
 
+
 \subsection{Loss Functions}\label{sec:loss-functions}\index{Loss function}
 
 To train the models it is necessary to have loss functions, which must be
@@ -215,6 +222,7 @@ In our case, we will always deal with two classes (the segmentation will be a
 binary mask).
 
 \subsubsection{\glsentrylong{ce}}\index{Cross entropy}
+
 One of the best known loss functions in image segmentation is that of
 \gls{ce}. We have two probability distributions
 
@@ -293,6 +301,7 @@ useful for training various neural models.
 \end{itemize}
 
 \subsubsection{Overlap Measures}\index{Overlap measures}
+
 Another type of measure arises with the use of the intersection and union of
 the predicted segmentation and the ground truth. This type of loss functions
 provide us with \emph{global} information. The well-known Jaccard index or
@@ -329,6 +338,7 @@ the evaluation of the model in \vref{sec:quantitative-eval}.
 \end{itemize}
 
 \subsubsection{\glsentrylong{giou} Loss}
+
 See first \vref{sec:quantitative-measures} for a detailed explanation of the
 Jaccard index or \gls{iou}, which is a quantitative measure widely used as an
 evaluation technique.
@@ -358,6 +368,7 @@ that preserves the relevant properties of \gls{iou}, but that corrects the
 problems related to its differentiability.
 
 \subsubsection{Combinations}
+
 Many more loss functions can be obtained by simple linear combination of the
 above. The combination,
 \begin{equation}
@@ -365,6 +376,7 @@ above. The combination,
 \end{equation}
 is quite popular, since it combines local information (\gls{ce}) with global
 information (\gls{dil}).
+
 
 
 \section{Evaluation Techniques}\label{sec:eval-measure}
@@ -377,6 +389,7 @@ The most useful techniques are usually quantitative metrics, which will be
 discussed in \vref{sec:quantitative-measures}. Furthermore, in the specific
 case of \gls{rec}, due to the use of images, it will also be possible to carry
 out a visual / qualitative evaluation (see \vref{sec:qualitative-eval}).
+
 
 \subsection{Quantitative Measures}\label{sec:quantitative-measures}
 
@@ -435,13 +448,12 @@ that the Jaccard index takes a value between \(0\) and \(1\), being \(0\) when
 there is no intersection between the bounding boxes and taking the value of
 \(1\) when the correspondence is exact.
 
-
 \subsubsection{Precision}
+
 It is also possible to define an accuracy index in the following way: if
 \gls{iou} is greater than \num{0.5} the prediction is considered a true
 positive, and if not, it is considered as a false positive. You can then
 average over the entire dataset.
-
 
 
 \subsection{Qualitative Evaluation}\label{sec:qualitative-eval}
@@ -449,14 +461,17 @@ average over the entire dataset.
 Visually evaluate the model.
 
 
+
 \section{Related Work}\label{sec:sota}
 
-The current methods \gls{sota} for \gls{rec} can be divided into three main
-classes: joint embedding (see \vref{sec:joint}), modular models (see
+The current state-of-the-art methods for \gls{rec} can be divided into three
+main classes: joint embedding (see \vref{sec:joint}), modular models (see
 \vref{sec:modular}) and graph convolution based models (see \vref{sec:graph}).
+
 
 \subsection{Multimodal Embedding}%
 \label{sec:joint}\index{Multimodal!embedding}
+
 Multimodal embedding methods are very typical in any of the multimodal learning
 tasks. What is sought in them is to find a multidimensional space where
 encodings of image and language can ``coexist'' in common. This idea is
@@ -493,6 +508,7 @@ multimodal embedding, the encoded linguistic phrase is converted into a
 256-dimensional vector and multiplied element-wise with the visual
 features. This model will be studied in depth in \vref{cha:model}.
 
+
 \subsection{Modular Models}\label{sec:modular}\index{Modular model}
 Modular models have been used successfully in many tasks both in the scope of
 \gls{cv}, and in \gls{nlp}. The technique used in these cases is to decompose
@@ -525,6 +541,7 @@ structures.\footnote{It is partly similar to the strategy of \emph{dropout}
   avoid dependency on specific nuerones and thus prevent overfitting of the
   model.} Likewise, it modifies the initial model (\gls{mattnet}), considering
 the global image as one more characteristic.
+
 
 \subsection{Graph Generation}\label{sec:graph}
 In the task that concerns us, the understanding by the model of \gls{re} is

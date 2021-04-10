@@ -17,6 +17,7 @@ speech recognition (see \vref{sec:speech}), from so that you can also work with
 spoken natural language.
 
 
+
 \section{\glsentrylong{rec}}\label{sec:rec-model}
 
 For the task of \gls{rec} it will be necessary to find/create a neural model
@@ -25,6 +26,7 @@ start with) (see \vref{sec:base-arch}) and from there variations will be
 proposed (both in the model and in the way of training it) in
 \vref{sec:model-iterations}. That is, starting from the base model, an
 iterative process of improvement will be carried out.
+
 
 \subsection{Base Architecture}\label{sec:base-arch}
 
@@ -49,9 +51,10 @@ convolutions), the language encoder (which uses transformers) and the
 multimodal embedding will be studied separately.
 
 \subsubsection{Image Encoder}\index{Image encoder}
-To extract the features of the images a model \gls{sota} called DeepLab is
-used, which is a neural network created by \myCite{chen17:rethin} and based on
-atrous convolutions (see \vref{fig:atrous}). It is a \gls{cnn} used for
+
+To extract the features of the images a state-of-the-art model called DeepLab
+is used, which is a neural network created by \myCite{chen17:rethin} and based
+on atrous convolutions (see \vref{fig:atrous}). It is a \gls{cnn} used for
 semantic segmentation.
 
 \begin{figure}[ht]
@@ -89,6 +92,7 @@ different rates). In this way, by using different rates, it is possible to
 capture information from different scales at the same time.
 
 \subsubsection{Language Encoder}\index{Language encoder}
+
 In the case of the language encoder, different possibilities could be
 considered, including using a \gls{rnn} or mainly using a transformer. In this
 base architecture presented, RefVOS achieves more promising results by making
@@ -109,10 +113,11 @@ the \glspl{re} to tokens and add two special tokens: \code{[CLS]} and
 \code{[SEP]} at the beginning and end of the sentence respectively. This model
 will then produce embeddings of dimension 768 for each of the input tokens. The
 final hidden vector corresponding to the first input token (\code{[CLS]}) as
-the aggregate representation of the \gls{re} (view section~4.1 from
-~\cite{devlin19:bert}) will be taken.
+the aggregate representation of the \gls{re} (view section~4.1
+from~\cite{devlin19:bert}) will be taken.
 
 \subsubsection{Multimodal Embedding}\index{Multimodal!embedding}
+
 Once we have the encoded \gls{re} and the map of visuald features from the
 convolutional network, it is necessary to obtain a multimodal embedding, which
 combines the information from both encoders. The output from the visual encoder
@@ -132,6 +137,7 @@ tensor with two classes, which separate the \emph{background} from the
 Model iterations.
 
 % 1. He estado trabajando con el modelo de RefVOS, pero no he conseguido obtener % ninguna mejora significativa. Hasta ahora lo que he probado ha sido: -- Cambiar % la manera en la que se unen las neuronas que provienen de la imagen y las que % provienen del texto (en el modelo se usa multiplicación). He probado a entrenar % con suma, resta, concatenación y proyectando usando una aplicación lineal % (multiplicándolas por una matriz y luego combinándolas).  -- Probar diferentes % funciones de error: "weighted cross entropy", "balanced cross entropy", "focal % loss". Quiero probar también con otras como: "dice loss", "tversky index", "IoU % loss"...  Las variaciones que he probado partiendo de parámetros pre-entrenados % apenas varían el modelo (<1\% mejora), posiblemente porque ya esté el modelo en % cierto mínimo local de la función de error (al final son todas similares) y los % gradientes son prácticamente nulos.  Y probando variaciones con parámetros % no-entrenados no consigo llegar a la precisión de RefVOS (entreno con % train/validation/test y guardo los parámetros de la época con mejores % resultados en validación).  Por otro lado, he tratado de crear algún modelo % desde 0, sin basarme en RefVOS, pero he obtenido resultados nefastos (cercanos % a la aleatoriedad).
+
 
 
 \section{Speech Recognition}%

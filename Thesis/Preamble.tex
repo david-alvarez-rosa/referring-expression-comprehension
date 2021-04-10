@@ -379,6 +379,9 @@
   \renewcommand{\indexname}{Alphabetical Index}
 }
 
+% Configuration for tables.
+\renewcommand{\arraystretch}{1.25}
+
 % Cite configuration.
 \newcommand{\myCite}[1]{\citeauthor*{#1} \cite{#1}\footfullcite{#1}}
 \newcommand{\quotecite}[1]{\citeauthor*{#1} \cite{#1}}
@@ -396,7 +399,7 @@
 
 % Custom reference to chapter.
 \newcommand{\chapRef}[1]{%
-This \namecref{#1}, entitled \texttt{\nameref*{#1}}, begins on page~\pageref{#1}.
+This \namecref{#1}, entitled \textsl{\nameref*{#1}}, begins on page~\pageref{#1}.
 }
 
 % Some basic math definitions.
