@@ -1,4 +1,4 @@
-% -*- TeX-master: "Thesis.tex" -*-
+% -*- TeX-master: "../Thesis.tex" -*-
 
 
 \RequirePackage[l2tabu, orthodox]{nag}
@@ -152,14 +152,14 @@
 % \setacronymstyle{long-sm-short}
 \setglossarystyle{longragged3col-booktabs}
 \makeglossaries
-\input{Acronyms}
+\input{Utils/Acronyms}
 \renewcommand{\glsnamefont}[1]{\textbf{#1}}
 \setlength\glspagelistwidth{.175\textwidth}
 \setlength\glsdescwidth{.45\textwidth}
 \preto\chapter{\glsresetall}
 
 % Alphabetical index customization.
-\makeindex[columns=2, intoc, options={-s Index.ist}]
+\makeindex[columns=2, intoc, options={-s Utils/Index.ist}]
 
 % Epigraph configuration.
 \setlength\epigraphwidth{.55\textwidth}
@@ -185,7 +185,7 @@
 }
 
 % Customize bibliography (biblatex and biber).
-\addbibresource{References.bib}
+\addbibresource{Utils/References.bib}
 \ExecuteBibliographyOptions{
   maxbibnames = 100,
   maxcitenames = 5,
