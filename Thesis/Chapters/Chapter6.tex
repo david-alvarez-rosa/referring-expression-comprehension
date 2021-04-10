@@ -10,102 +10,100 @@
 }
 
 
-\lettrine{U}{na} de las partes fundamentales de este proyecto ha sido la de
-presentar una herramienta de visualización de los resultados interactivas y
-enfocada a un usuario sin conocimientos en el ámbito de la \gls{ai}. Para ello,
-se ha escogido la creación de una aplicación web, principalmente por su
-versatilidad y su facilidad de uso: no presenta la necesidad de instalación de
-ningún programa específico, tan solo el uso de un navegador web.
+\lettrine{O}{ne} of the fundamental parts of this project has been to present
+an interactive results visualization tool focused on a user without knowledge
+in the field of \gls{ai}. To do this, the creation of a web application has
+been chosen, mainly because of its versatility and ease of use: it does not
+require the installation of any specific program, only the use of a web
+browser.
 
-En esta web se podrá encontrar toda la información relacionada con este
-proyecto, así como se darán herramientas para poder interactuar con los modelos
-creados que resuelven la tarea de \gls{rec}. Toda la funcionalidad presente
-para el usuario y su creación se discutirá en la \vref{sec:frontend}. Ahora
-bien, como es bien condo en el ambito del diseño de aplicaciones web, toda
-\gls{ui} necesita de código en el back end que la haga posible (ver
-\vref{sec:backend} para una explicación detallada).
+On this website you can find all the information related to this project, as
+well as tools to interact with the created models that solve the task of
+\gls{rec}. All the functionality present for the user and its creation will be
+discussed in \vref{sec:frontend}. Now, as is well condo in the field of web
+application design, all \gls{ui} needs code in the back end that makes it
+possible (see \vref{sec:backend} for a detailed explanation).
 
 
 \section{\glsentrylong{ui}}%
 \label{sec:frontend}\index{Front end}\index{User!interface}
 
-La \gls{ui} se ha creado con la idea de ser lo más sencilla posible. De esta
-manera, cualquier tipo de usuario no especializado podrá realizar una
-evaluación cualitativa del modelo usado. See \vref{fig:web} for a screenshot of
-the web interface.
+\gls{ui} has been created with the idea of being as simple as possible. In this
+way, any type of non-specialized user will be able to carry out a qualitative
+evaluation of the model used. See \vref{fig:web} for a screenshot of the web
+interface.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=.75\textwidth]{Images/Web.png}
-  \caption[Screenshot de la web creada]{Screenshot de la web creada. En ella se
-    puede observar la navbar y la primera parte de la web. Figure created by
-    the author.}\label{fig:web}
+  \caption[Screenshot of the created web]{Screenshot of the created web. In it
+    you can see the navbar and the first part of the web. Figure created by the
+    author.}\label{fig:web}
 \end{figure}
 
-Además de proponer un medio interactivo donde se puede realizar \gls{rec} con
-imágenes y \gls{re} arbitrarias, en la web también se podrá encontrar
-explicaciones acerca de este trabajo, descargar esta memoria y encontrar todo
-el código fuente desarrollado. Esta web será una versión online pública y
-transparente conteniendo todo el trabajo de esta tesis.
+In addition to proposing an interactive medium where \gls{rec} can be done with
+arbitrary images and \gls{re}, on the web you can also find explanations about
+this work, download this report and find all the source code developed. This
+website will be a public and transparent online version containing all the work
+of this thesis.
 
-Diferentes maneras de interactuar con esta interfaz son posibles. Entre ellas,
-por ejemplo, se han añadido tres opciones para introducir imágenes para la
-realización de \gls{rec}. Estas son las siguientes,
+Different ways of interacting with this interface are possible. Among them, for
+example, three options have been added to introduce images for the realization
+of \gls{rec}. These are the following,
 \begin{itemize}
-  \item \textbf{Gallery}. Diferentes imágenes son mostradas en una galería
-  insertada en la web. Estas son tomadas del \gls{coco} dataset.\footnote{Cabe
-    destacar aquí que, al ser tomadas del \gls{coco} dataset, la mayoría de las
-    imaǵenes que aparecen en esta galería \emph{no} han sido utilizadas para
-    entrenar el modelo neuronal.}
-  \item \textbf{Web address}. Una imagen también puede ser añadida a la web
-  desde una fuente externa usando la web address de la misma (la URL).
-  \item \textbf{Locally}. Por último, es posible subir una imagen desde el
-  almacenamiento local del ordenador propio a la web.
+  \item \textbf{Gallery}. Different images are shown in a gallery inserted on
+  the web. These are taken from the \gls{coco} dataset.\footnote{It should be
+    noted here that, when taken from the \gls{coco} dataset, most of the images
+    that appear in this gallery \emph{no} have been used to train the neural
+    model.}
+  \item \textbf{Web address}. An image can also be added to the web from an
+  external source using its web address (the URL).
+  \item \textbf{Locally}. Finally, it is possible to upload an image from your
+  own computer's local storage to the web.
 \end{itemize}
 
-En el caso de añadir la \gls{re} hay dos opciones de manera que se facilite la
-interacción con el modelo. Estas son las siguientes,
+In the case of adding \gls{re} there are two options in order to facilitate
+interaction with the model. These are the following,
 \begin{itemize}
-  \item \textbf{Keyboard}. La \gls{re} puede ser introducida usando el teclado
-  de manera habitual.
-  \item \textbf{Voice}. También es posible introducir la \gls{re} de manera más
-  cómoda usando la voz. Para ello solo es necesario con presionar el butón
-  correspondiente en la página principal de manera que se abra la ventana
-  correspondiente a la introducción por voz de comandos (see
-  \vref{fig:voice}). Aquí deberemos dar permisos a la web para acceder al
-  micrófono y ya podremos grabar la \gls{re} que queramos.
+  \item \textbf{Keyboard}. \gls{re} can be entered using the keyboard in the
+  usual way.
+  \item \textbf{Voice}. You can also enter \gls{re} more comfortably using your
+  voice. To do this, it is only necessary to press the corresponding button on
+  the main page so that the window corresponding to the voice input of commands
+  opens (see \vref{fig:voice}). Here we will have to give permissions to the
+  web to access the microphone and we will be able to record the \gls{re} that
+  we want.
   \begin{figure}[ht]
     \centering
     \includegraphics[width=.75\textwidth]{Images/Voice.png}
-    \caption[Web interface for voice input]{Web interface for voice input. Aquí
-      se puede hablar directamente al micrófono del ordenador como método
-      alternativo para introducir una \gls{re}. Este audio será convertido
-      usando un modelo neuronal a texto. Figure created by the
-      author.}\label{fig:voice}
+    \caption[Web interface for voice input]{Web interface for voice input. Here
+      you can speak directly into the computer's microphone as an alternative
+      method of entering a \ gls {re}. This audio will be converted using a
+      neural model to text. Figure created by the author.}\label{fig:voice}
   \end{figure}
 \end{itemize}
 
 \subsection{Responsive Design and Accessibility}%
 \index{Responsive design}\index{Accesibility}
 
-Responsive web design and accessibility son dos conceptos diferentes, pero que
-aún así están relacionados entre sí de muchas maneras. Estos dos conceptos
-encajan dentro de la idea de \gls{ux}\index{User!experience} que es la manera
-en la que un usuario interactua con un determinado producto o servicio. Aquí se
-incluye la percepción del usuario de eficiencia, facilidad de uso y utilidad.
+Responsive web design and accessibility are two different concepts, but they
+are still related to each other in many ways. These two concepts fit within the
+idea of \gls{ux}\index{User!experience} which is the way in which a user
+interacts with a certain product or service. This includes the user's
+perception of efficiency, ease of use and usefulness.
 
-\gls{rd} se ocupa de proveer al usuario de la mejor experiencia posible de
-visualización sin importar el dispositivo que se está usando. Esto es, la
-interfaz de una web, es capaz de adaptarse a las dimensiones de la pantalla que
-se está usando: la web se mostrará de manera diferente según se esté usando en
-un monitor de ordenador, tableta o móvil. La accesibilidad se ocupa de
-garantizar que el contenido es fácilmente usable, navigable por personas con
-ciertas discapacidades (e.g., problemas de visión).
+\gls{rd} is concerned with providing the user with the best possible viewing
+experience regardless of the device being used. That is, the interface of a
+website is capable of adapting to the dimensions of the screen being used: the
+website will be displayed differently depending on whether it is being used on
+a computer, tablet or mobile monitor. Accessibility is concerned with ensuring
+that the content is easily usable, navigable by people with certain
+disabilities (e.g., vision problems).
 
-Podemos ver cómo la web creada se adapta a diferentes anchos comparando la
-\vref{fig:web} con la \vref{fig:responsive}. Entre otros aspectos, la galería
-adapta el número de columnas según el dispositivo y la navigation bar se
-expande o se colapsa dependiendo también del ancho de la pantalla.
+We can see how the web created adapts to different widths by comparing
+\vref{fig:web} with \vref{fig:responsive}. Among other aspects, the gallery
+adapts the number of columns according to the device and the navigation bar
+expands or collapses also depending on the width of the screen.
 
 \begin{figure}[ht]
   \centering
@@ -119,104 +117,99 @@ expande o se colapsa dependiendo también del ancho de la pantalla.
     \caption{Expanded navigation bar.}
     \includegraphics[width=.6\textwidth]{Images/Responsive2.png}
   \end{subfigure}
-  \caption[Responsive web design.]{Responsive web design. La web está mostrada
-    con un ancho típico de dispositivo móvil. La web está diseñada para
-    mostrarse correctamente sin importar el ancho del dispositivo
-    utilizado. Figure created by the author (both).}\label{fig:responsive}
+  \caption[Responsive web design.]{Responsive web design. The web is displayed
+    in a typical mobile device width. The web is designed to be displayed
+    correctly regardless of the width of the device used. Figure created by the
+    author (both).}\label{fig:responsive}
 \end{figure}
 
-Además de estos dos elementos comentados (navigation bar y gallery) otros
-diferentes elementos también se ajustan a los diferentes anchos de
-pantalla. Entre ellos el footer, el ancho de la imagen segmentada resultado, el
-tamaño de la \gls{re} y muchos más.
+In addition to these two commented elements (navigation bar and gallery) other
+different elements also adjust to the different screen widths. Among them the
+footer, the width of the resulting segmented image, the size of the \gls{re}
+and many more.
 
-Otro aspecto fundamental a la hora de realizar un diseño web es el de la
-\emph{accessibility}\index{Accesibility}. En palabras de
+Another fundamental aspect when making a web design is that of
+\emph{accessibility}\index{Accesibility}. In the words of
 \myCite{berners-lee21:introd_web_acces}, \gls{w3c}\footnote{Is the main
   international standards organization for the World Wide Web} Director and
 inventor of the World Wide Web,
 
 \begin{quoteBox}
   The power of the Web is in its universality. Access by everyone regardless of
-  disability is an essential aspect.
-  \tcblower\quotecite{berners-lee21:introd_web_acces}
+  disability is an essential aspect. \tcblower
+  \quotecite{berners-lee21:introd_web_acces}
 \end{quoteBox}
 
-Para garantizar la accesibilidad de esta web se ha usado principalmente
-\gls{aria}, que es una especificación de \gls{w3c} que especifica cómo aumentar
-la accesibilidad de páginas web. Esto ha venido facilitado por el uso de una
-biblioteca de estilos \gls{css} llamada
-\fhref{https://getbootstrap.com/}{Bootstrap}.
+To guarantee the accessibility of this website, \gls{aria} has been used, which
+is a specification of \gls{w3c} that specifies how to increase the
+accessibility of web pages. This has been facilitated by the use of a style
+library \gls{css} called \fhref{https://getbootstrap.com/}{Bootstrap}.
 
 \subsection{Guided Usage Example}
 
-Para realizar la tarea de \gls{rec} en una imagen tan solo es necesario
-realizar estos tres pasos,
+To carry out the task of \gls{rec} on an image, it is only necessary to carry
+out these three steps,
 \begin{enumerate}
-  \item \textbf{Choose image}. Como ya hemos discutido al comienzo de la
-  \vref{sec:frontend}, hay disponibles tres maneras: seleccionar de la galería,
-  añadir la web address o escogerla desde el almacenamiento local del
-  ordenador.
-  \item \textbf{Enter \gls*{re}}. Así mismo, para la introducción de la
-  \gls{re} existen dos métodos: mediante el uso del teclado y mediante el uso
-  de voz.
-  \item \textbf{View results}. Por último, tras clicar en el butón
-  \texttt{Submit}, podemos ver el resultado de la ejecución del programa.
+  \item \textbf{Choose image}. As we have already discussed at the beginning of
+  \vref{sec:frontend}, three ways are available: select from the gallery, add
+  the web address or choose it from the local storage of the computer.
+  \item \textbf{Enter \gls*{re}}. Likewise, for the introduction of \gls{re}
+  there are two methods: by using the keyboard and by using voice.
+  \item \textbf{View results}. Finally, after clicking on the button
+  \texttt{Submit}, we can see the result of the execution of the program.
 \end{enumerate}
 
-Estos métodos han sido probados y funcionan correctamente todos ellos, aunque
-con diferentes tiempos de ejecución dependiendo del método usado. Este tiempo
-de ejecución dependerá principalmente de tres factores, uso del servidor,
-calidad de la imagen seleccionada y el método de introducción de la \gls{re}
-(por voz tardará más).
+These methods have been tested and all of them work correctly, although with
+different execution times depending on the method used. This execution time
+will mainly depend on three factors, server usage, selected image quality and
+the input method of \gls{re} (by voice it will take longer).
 
 \begin{exampleBox}
-  Para tener una aproximación, usando imágenes de la galería mostrada en la
-  web, con un solo usuario navegando (servidor no saturado, que es lo habitual)
-  e introduciendo la \gls{re} usando el teclado la ejecución completa del
-  progama es de unos 6 segundos.
+  To have an approximation, using images from the gallery shown on the web,
+  with a single user browsing (unsaturated server, which is usual) and entering
+  the \gls{re} using the keyboard, the complete execution of the program is
+  about 6 seconds.
 \end{exampleBox}
 
 
 \section{Back End}\label{sec:backend}\index{Back end}
 
-La funcionalidad principal que ofrece esta web es la de poder interactuar con
-este trabajo, i.e., poder ejecutar el modelo presente para realizar la
-\gls{rec}. Esto conlleva la ejecucación de código, el cual se podría elegir
-ejecutarlo en dos sitios diferentes: en el ordenador del usuario (se debería
-usar JavaScript) o en el servidor web (el back end).
+The main functionality offered by this website is to be able to interact with
+this work, i.e., to be able to execute the present model to perform
+\gls{rec}. This entails the execution of code, which could be chosen to execute
+it in two different places: on the user's computer (JavaScript should be used)
+or on the web server (the back end).
 
-Debido al alto uso de recursos computacionales en la ejecución del modelo se ha
-decidido realizarlo completamente en el back end.\footnote{También facilita
-  esto la posibilidad de ejecutar el código en Python, ya que si no sería
-  necesario portar todo el código a JavaScript o usar bibliotecas con las que
-  poder emular Python dentro del navegador del cliente.} Para ello, se ha
-creado una \gls{api} (creada en PHP) para facilitar la comunicación entre front
-end y back end sin necesidad de recargar la página. Tenemos dos rutas
-principales que usaremos para comunicar la interfaz web con el backend. Estas
-son las siguientes,
+Due to the high use of computational resources in the execution of the model,
+it has been decided to carry it out completely in the back end.\footnote{This
+  also facilitates the possibility of executing the code in Python, since if it
+  would not be necessary to port all the code to JavaScript or use libraries
+  with which to emulate Python within the client's browser.} For this, a
+\gls{api} (created in PHP) has been created to facilitate communication between
+front end and back end without having to reload the page. We have two main
+routes that we will use to communicate the web interface with the
+backend. These are the following,
 \begin{itemize}
-  \item \textbf{\gls*{rec}}. Internamente llamada \code{api/comprehend.php},
-  que permite realizar la tarea de \gls{rec} llamando internamente en el
-  servidor a los archivos de Python adecuados (ejecutando sobre el input del
-  usuario el modelo de segmentación, see \vref{sec:rec-model}). Tiene en cuenta
-  las diferentes maneras en las que la imagen y la \gls{re} han podido ser
-  añadidas.
-  \item \textbf{\gls*{stt}}. Internamente llamdada \code{api/stt.php}, que
-  permite realizar la tarea de conversión entre speech y texto. Ejecuta el
-  modelo Silero (see \vref{sec:speech}) para convertir el audio grabado con el
-  micrófono por el usuario a texto.
+  \item \textbf{\gls*{rec}}. Internally called \code{api/comprehend.php}, which
+  allows to perform the task of \gls{rec} by calling the appropriate Python
+  files internally on the server (executing the segmentation model on user
+  input, see \vref{sec:rec-model}). It takes into account the different ways in
+  which the image and \gls{re} have been added.
+  \item \textbf{\gls*{stt}}. Internally called \code{api/stt.php}, which allows
+  to perform the task of converting between speech and text. Run the Silero
+  model (see \vref{sec:speech}) to convert the audio recorded with the
+  microphone by the user to text.
 \end{itemize}
 
 
-Aquí veremos la estructura del backend. Un gráfico explicativo se encuentra en
-la \vref{fig:server}.
+Here we will see the structure of the backend. An explanatory graph is found in
+\vref{fig:server}.
 
 \begin{figure}[p]
   \centering
   \resizebox{\textwidth}{!}{\input{Figures/Tikz/Server.tex}}
-  \caption[Arquitectura del programa]{Arquitectura del progama. Se puede
-    observar la transmisión de datos desde el cliente (el usuario con su web
-    browser), hasta la generación de resultados por medio de la \gls{api} en el
-    servidor. Figure created by the author.}\label{fig:server}
+  \caption[Program architecture]{Program architecture. You can observe the
+    transmission of data from the client (the user with his web browser), up to
+    the generation of results through the \ gls {api} on the server. Figure
+    created by the author.}\label{fig:server}
 \end{figure}
