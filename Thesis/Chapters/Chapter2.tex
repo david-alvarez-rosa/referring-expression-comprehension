@@ -138,9 +138,8 @@ each other by arcs. An example of this type of architecture is shown in
   \input{Figures/Tikz/Fully Connected Neural Network.tex}
   \caption[Fully Connected Neural Network topology]{Example of Fully Connected
     Layered Neural Network. It consists of 4 differentiated layers of neurons
-    and the connections between them are shown graphically with arrows.}
-  \label{fig:fully-conn-network}
-  \source{Created by the author}
+    and the connections between them are shown graphically with arrows. Figure
+    created by the author.}\label{fig:fully-conn-network}
 \end{figure}
 
 Next we will discuss the main constituent parts of this type of neural
@@ -475,7 +474,7 @@ where \(W_{hy}\) is an array of parameters (trainable).
 \subsubsection{Variant \glsentryshort{rnn} architectures}
 
 The model defined above is the simplest version for a \gls{rnn}. The
-calculation of the output values with the \vref{eq:rnn-hidden,eq:rnn-out} can
+computation of the output values with the \vref{eq:rnn-hidden,eq:rnn-out} can
 cause problems with the gradients and, therefore, limit the ability of the
 information to travel in time\footnote{These problems are know as
   vanishing/exploding gradient. The problem of \emph{exploding} gradients can
@@ -682,7 +681,7 @@ at each iteration in a random subset from the dataset.
 
 \gls{sgd} is an implementation of \vref{eq:gd} in which it is estimated
 \(\nabla \loss (\theta^{(t)})\) using a randomly chosen subset
-\(B \subset \Omega\). That is, the calculation of \vref{eq:nabla-loss} is
+\(B \subset \Omega\). That is, the computation of \vref{eq:nabla-loss} is
 replace with the following estimate,
 \begin{equation}\label{eq:nabla-loss-sto}
   \nabla_{\theta}\,\loss(\Omega, \theta) \approx
