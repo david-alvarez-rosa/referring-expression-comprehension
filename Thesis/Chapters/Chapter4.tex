@@ -9,65 +9,65 @@
 }
 
 
-\lettrine{M}{odelizar} consiste en crear un modelo matemático que represente de
-la manera más fiel posible una situación compleja. En este trabajo se usarán
-dos modelos diferentes: uno de ellos para realizar el trabajo de \gls{rec}
-partiendo de una \gls{re} en forma de texto (ver \vref{sec:rec-model}) y otro
-modelo para speech recognition (ver \vref{sec:speech}), de manera que también
-se pueda trabajar con lenguaje natural hablado.
+\lettrine{M}{odeling} consists of creating a mathematical model that represents
+a complex situation as closely as possible. In this work, two different models
+will be used: one of them to carry out the work of \gls{rec} starting from a
+\gls{re} in the form of text (see \vref{sec:rec-model}) and another model for
+speech recognition (see \vref{sec:speech}), from so that you can also work with
+spoken natural language.
 
 
 \section{\glsentrylong{rec}}\label{sec:rec-model}
 
-Para tarea de \gls{rec} será necesario encontrar/crear un modelo neuronal que
-la resuelva. Para ello se partirá de una arquitectura base (un modelo con el
-que comenzar) (see \vref{sec:base-arch}) y a partir de ahí se propondrán
-variaciones (tanto en el modelo, como en la manera de entrenarlo) en la
-\vref{sec:model-iterations}. Es decir, partiendo del modelo base se realizará
-un proceso iterativo de mejora del mismo.
+For the task of \gls{rec} it will be necessary to find/create a neural model
+that solves it. To do this, we will start from a base architecture (a model to
+start with) (see \vref{sec:base-arch}) and from there variations will be
+proposed (both in the model and in the way of training it) in
+\vref{sec:model-iterations}. That is, starting from the base model, an
+iterative process of improvement will be carried out.
 
 \subsection{Base Architecture}\label{sec:base-arch}
 
-En la \vref{fig:model} se muestra una representación gráfica del modelo usado
-como arquitectura base. Tiene dos partes diferenciadas con las cuales se
-produce la extración de features de la parte visual y del lenguaje. Estas
-features son después combiadas para conseguir un embedding \emph{multimodal} y
-de esta manera ser capaz de generar la segmentación.
+In \vref{fig:model} a graphical representation of the model used as base
+architecture is shown. It has two differentiated parts with which the features
+are extracted from the visual part and from the language. These features are
+then combined to achieve a \emph{multimodal} embedding and thus be able to
+generate the segmentation.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{Images/RefVOS.png}
-  \caption[RefVOS model architecture]{RefVOS model architecture. Se pueden
-    observar los modelos diferenciados de visión y de lenguaje que después son
-    combinados para obtener las características multimodales. From
+  \caption[RefVOS model architecture]{RefVOS model architecture. It is possible
+    to observe the differentiated models of vision and language that are then
+    combined to obtain the multimodal characteristics. From
     \captioncite{bellver20:refvos}.}\label{fig:model}
 \end{figure}
 
-Este modelo, creado por \myCite{bellver20:refvos}, constituirá nuestra
-arquitectura base de partida. A continuación se estudiará por separado el image
-encoder (que se base en atrous convolutions), el language encoder (que usa
-transformers) y el multimodal embedding.
+This model, created by \myCite{bellver20:refvos}, will constitute our starting
+base architecture. Next, the image encoder (which is based on atrous
+convolutions), the language encoder (which uses transformers) and the
+multimodal embedding will be studied separately.
 
-\subsubsection{Image Encoder}
-Para extraer las features de las imágenes se usa un modelo \gls{sota} llamado
-DeepLab, que es una red neuronal creada por \myCite{chen17:rethin} y basada en
-atrous convolutions (see \vref{fig:atrous}). Es un \gls{cnn} usada para
-segmentación semántica.
+\subsubsection{Image Encoder}\index{Image encoder}
+To extract the features of the images a model \gls{sota} called DeepLab is
+used, which is a neural network created by \myCite{chen17:rethin} and based on
+atrous convolutions (see \vref{fig:atrous}). It is a \gls{cnn} used for
+semantic segmentation.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=.75\textwidth]{Images/Atrous.png}
   \caption[Atrous convolutions examples]{Atrous convolutions examples with
-    filter size \(3 \times 3\). The \code{rate} parameter controls the model's
-    field-of-view. Standard convolution operation corresponds to an atrous
-    convolution with a rate of 1. From
+    filter size \(3 \times 3\) \(3 \times 3\). The \code{rate} parameter
+    controls the model's field-of-view. Standard convolution operation
+    corresponds to an atrous convolution with a rate of 1. From
     \captioncite{chen17:rethin}.}\label{fig:atrous}
 \end{figure}
 
-Una de las ventajas de este modelo frente a modelos neuronales convoluciones
-estándar es que se adapta muy bien a objetos en diferentes escalas, sin
-necesidad de operaciones de pooling. Así, definen los creadores de este modelo
-las atrous convolutions (también conocidas como dilated convolutions).
+One of the advantages of this model compared to standard convolutional neural
+models is that it adapts very well to objects at different scales, without the
+need for pooling operations. Thus, the creators of this model define atrous
+convolutions (also known as dilated convolutions).
 
 \begin{quoteBox}
   Atrous convolution allows us to extract denser feature maps by removing the
@@ -77,100 +77,83 @@ las atrous convolutions (también conocidas como dilated convolutions).
   \tcblower\quotecite{chen17:rethin}
 \end{quoteBox}
 
-En el modelo usado, se usará como backbone la conocida red ResNet101 (creada
-por \myCite{he16:deep}) y un \code{output\_stride}\footnote{The
-  \code{output\_stride} is the ratio of input imagespatial resolution to final
-  output resolution. Setting this ratio to smaller values allow the model to
-  extract denser feature responses (view section~3.1
-  from~\cite{chen17:rethin}).} de 8. Así mismo se usará \((12, 24, 36)\) como
-\code{rates} de las convoluciones en la \gls{aspp}. Esta pirámides son parte
-del modelo DeepLab y consisten en realizar atrous convolutiones en paralelo
-(con diferentes rates). De esta manera, al usar diferentes rates, se consigue
-capturar información de diferentes escalas al mismo tiempo.
+In the model used, the well-known ResNet101 network (created by
+\myCite{he16:deep}) and a \code{output\_stride}\footnote{The
+  \code{output\_stride} is the ratio of input images patial resolution to final
+  output resolution will be used as backbone. Setting this ratio to smaller
+  values allow the model to extract denser feature responses (view section~3.1
+  from~\cite{chen17:rethin}).} of 8. Likewise, \((12, 24, 36)\) will be used as
+\code{rates} of the convolutions in \gls{aspp}. These pyramids are part of the
+DeepLab model and consist of performing atrous convolutions in parallel (with
+different rates). In this way, by using different rates, it is possible to
+capture information from different scales at the same time.
 
-\subsubsection{Language Encoder}
-En el caso del language encoder se podrían considerar diferentes posibilidades,
-entre ellas usar una \gls{rnn} o usar un transformer principalmente. En esta
-arquitectura base que se presenta, RefVOS consigue resultados más prometedores
-haciendo uso de transformadores. Concretamente se usa un transformer creado por
-\myCite{devlin19:bert} y llamado \gls{bert}.
+\subsubsection{Language Encoder}\index{Language encoder}
+In the case of the language encoder, different possibilities could be
+considered, including using a \gls{rnn} or mainly using a transformer. In this
+base architecture presented, RefVOS achieves more promising results by making
+use of transformers. Specifically, a transformer created by
+\myCite{devlin19:bert} and called \gls{bert} is used.
 
 \gls{bert} is a multi-layer bidirectional Transformer encoder (see
 \vref{sec:transformers}) that removes the unidirectionality constraint present
 in previous models related to language representation. It uses \gls{mlm}, i.e.,
 randomly masks some tokens from the input and tries to predict the original
 token of masked word (just relying on its context). This allows the model to
-learn from both left and right context.\footnote{El modelo \gls{bert} también
-  usa la tarea de \gls{nsp} como función objetivo de entrenamiento (see
-  Task~\#2 in section~3.1 from~\cite{devlin19:bert}).}
+learn from both left and right context.\footnote{The model \gls{bert} also uses
+  the task of \gls{nsp} as an objective training function (see Task~\# 2 in
+  section~3.1 from~\cite{devlin19:bert}).}
 
-Para integrar \gls{bert} dentro del modelo, es necesario convertir a tokens
-cada una de las \glspl{re} y añadir dos tokens especiales: \code{[CLS]} and
-\code{[SEP]} al principio y al final de la frase respectivamente. Este modelo
-producirá, entonces, embeddings de dimensión 768 para cada uno de los tokens de
-entrada. Se tomará el final hidden vector corresponding to the first input
-token (\code{[CLS]}) as the aggregate representation of the \gls{re} (view
-section~4.1 from~\cite{devlin19:bert}).
+To integrate \gls{bert} within the model, it is necessary to convert each of
+the \glspl{re} to tokens and add two special tokens: \code{[CLS]} and
+\code{[SEP]} at the beginning and end of the sentence respectively. This model
+will then produce embeddings of dimension 768 for each of the input tokens. The
+final hidden vector corresponding to the first input token (\code{[CLS]}) as
+the aggregate representation of the \gls{re} (view section~4.1 from
+~\cite{devlin19:bert}) will be taken.
 
 \subsubsection{Multimodal Embedding}\index{Multimodal!embedding}
-Una vez que tenemos the encoded \gls{re} and the map of visuald features from
-the convolutional network, es necesario obtener un multimodal embedding, el
-cual combine la información de ambos encoders. The output from the visual
-encoder is a tensor of depth 256 and the output from the language encoder is a
+Once we have the encoded \gls{re} and the map of visuald features from the
+convolutional network, it is necessary to obtain a multimodal embedding, which
+combines the information from both encoders. The output from the visual encoder
+is a tensor of depth 256 and the output from the language encoder is a
 768-dimensional vector (see \vref{fig:model}).
 
-Para combinar estos dos outputs se convierte la \gls{re} codificada del vector
-de dimensión 768 a uno de de dimensión 256 (que coincide con el depth of the
-visual features). Estos dos tensores son entonces multiplicados element-wise
-para obtener el multimodal embedding. Por último, se usa un convolutional layer
-para pasar a un último tensor con dos clases, las cuales separan el
-\emph{background} from the \emph{object} that is being referred.
+To combine these two outputs, the encoded \gls{re} of the vector of dimension
+768 is converted to one of dimension 256 (which coincides with the depth of the
+visual features). These two tensors are then multiplied element-wise to obtain
+the multimodal embedding. Finally, a convolutional layer is used to pass a last
+tensor with two classes, which separate the \emph{background} from the
+\emph{object} that is being referred.
 
 
 \subsection{Model Iterations}\label{sec:model-iterations}
 
 Model iterations.
 
-% 1. He estado trabajando con el modelo de RefVOS, pero no he conseguido obtener
-% ninguna mejora significativa. Hasta ahora lo que he probado ha sido: -- Cambiar
-% la manera en la que se unen las neuronas que provienen de la imagen y las que
-% provienen del texto (en el modelo se usa multiplicación). He probado a entrenar
-% con suma, resta, concatenación y proyectando usando una aplicación lineal
-% (multiplicándolas por una matriz y luego combinándolas).  -- Probar diferentes
-% funciones de error: "weighted cross entropy", "balanced cross entropy", "focal
-% loss". Quiero probar también con otras como: "dice loss", "tversky index", "IoU
-% loss"...  Las variaciones que he probado partiendo de parámetros pre-entrenados
-% apenas varían el modelo (<1\% mejora), posiblemente porque ya esté el modelo en
-% cierto mínimo local de la función de error (al final son todas similares) y los
-% gradientes son prácticamente nulos.  Y probando variaciones con parámetros
-% no-entrenados no consigo llegar a la precisión de RefVOS (entreno con
-% train/validation/test y guardo los parámetros de la época con mejores
-% resultados en validación).  Por otro lado, he tratado de crear algún modelo
-% desde 0, sin basarme en RefVOS, pero he obtenido resultados nefastos (cercanos
-% a la aleatoriedad).
+% 1. He estado trabajando con el modelo de RefVOS, pero no he conseguido obtener % ninguna mejora significativa. Hasta ahora lo que he probado ha sido: -- Cambiar % la manera en la que se unen las neuronas que provienen de la imagen y las que % provienen del texto (en el modelo se usa multiplicación). He probado a entrenar % con suma, resta, concatenación y proyectando usando una aplicación lineal % (multiplicándolas por una matriz y luego combinándolas).  -- Probar diferentes % funciones de error: "weighted cross entropy", "balanced cross entropy", "focal % loss". Quiero probar también con otras como: "dice loss", "tversky index", "IoU % loss"...  Las variaciones que he probado partiendo de parámetros pre-entrenados % apenas varían el modelo (<1\% mejora), posiblemente porque ya esté el modelo en % cierto mínimo local de la función de error (al final son todas similares) y los % gradientes son prácticamente nulos.  Y probando variaciones con parámetros % no-entrenados no consigo llegar a la precisión de RefVOS (entreno con % train/validation/test y guardo los parámetros de la época con mejores % resultados en validación).  Por otro lado, he tratado de crear algún modelo % desde 0, sin basarme en RefVOS, pero he obtenido resultados nefastos (cercanos % a la aleatoriedad).
 
 
 \section{Speech Recognition}%
 \label{sec:speech}\index{Speech}\index{Speech!recognition}
 
-Speech recognition, también conocido como \gls{asr} y \gls{stt} es un campo de
-\gls{cs} que se ocupa of recognition of spoken language into text. Para
-nosotros nos será útil porque nos permitirá segmentar objetos en imágenes
-usando la voz, es decir podremos resolver el problema de \gls{rec} usando
-spoken language.
+Speech recognition, also known as \gls{asr} and \gls{stt} is a field of
+\gls{cs} that deals with recognition of spoken language into text. For us it
+will be useful because it will allow us to segment objects in images using the
+voice, that is, we will be able to solve the problem of \gls{rec} using spoken
+language.
 
-Para esta tarea, se usará un pre-trained neuronal model para convertir from
-\gls{stt}. El modelo, creado por
-\myCite{veysov20:towar_imagen_momen_speec_text}, se llama Silero (see
-\vref{fig:silero}), y permite convertir de audio mono a texto en diferentes
-idiomas: english, german, spanish and ukraniain.
+For this task, we will use a pre-trained neural model to convert from
+\gls{stt}. The model, created by
+\myCite{veysov20:towar_imagen_momen_speec_text}, is called Silero (see
+\vref{fig:silero}), and it allows converting from mono audio to text in
+different languages: english, german, spanish and ukraniain.
 
 \begin{figure}[p]
   \centering
   \includegraphics[width=.75\textwidth]{Images/Silero.jpg}
   \caption[Silero \gls*{stt} model architecture]{Silero \gls{stt} model
     architecture. View from top to bottom: input is a mono audio file with
-    speech and the output is the text representing the
-    input. From
+    speech and the output is the text representing the input. From
     \captioncite{veysov20:towar_imagen_momen_speec_text}.}\label{fig:silero}
 \end{figure}
