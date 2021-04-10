@@ -661,7 +661,7 @@ alternative known as \gls{sgd} is used, which consists of estimate the gradient
 at each iteration in a random subset from the dataset.
 
 \gls{sgd} is an implementation of \vref{eq:gd} in which it is estimated
-\(\nabla \loss (\theta{(t)})\) using a randomly chosen subset
+\(\nabla \loss (\theta^{(t)})\) using a randomly chosen subset
 \(B \subset \Omega\). That is, the calculation of \vref{eq:nabla-loss} is
 replace with the following estimate,
 \begin{equation}\label{eq:nabla-loss-sto}
@@ -714,7 +714,7 @@ is It is preferable to use another type of weight initialization, such as that
 proposed by \myCite{he15:delvin_deep_rectif}.
 
 \subsubsection{Backpropagation Error}\index{Backpropgation}
-Hey
+Hey. TODO.
 
 \subsection{Regularization Techniques}\index{Regularization}
 
@@ -731,9 +731,9 @@ fix me),
 \end{quoteBox}
 
 What he is referring to here is that we should not be surprised at the ability
-to a model complex enough to fit a given dataset very well. The Models with a
-large number of parameters are capable of adjusting to any given amount of
-data, even if it appears not to follow any Pattern. But these settings will be
+to a model complex enough to fit a given dataset very well. Models with a large
+number of parameters are capable of adjusting to any given amount of data, even
+if it appears not to follow any pattern. But these settings will be
 meaningless, as they won't capture any genuine information on the structure of
 the data and, therefore, will not be able to generalize correctly. We will have
 an astonishingly good fit (even perfect in some cases) for currently available
@@ -780,7 +780,7 @@ where \(\lambda\) is the regularization hyperparameter\footnote{Model
 Probably the best known and most used method when it comes to training neural
 models. What you do is divide the dataset of \emph{training} into two: the
 training part and the validation part\index{Validation} (\code{train/val}
-split). \footnote{Consequently, what to do with the full dataset is actually to
+split).\footnote{Consequently, what to do with the full dataset is actually to
   divide it into three, the famous \code{train/val/test} split.}. For the
 training process only the part of \code{train} (i.e., for updating the
 parameters of the model). The part of \code{val} will be used to determine when
