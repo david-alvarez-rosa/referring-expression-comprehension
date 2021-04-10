@@ -206,31 +206,31 @@ non-fictional images and natural language.
 
 \subsection{Loss Functions}\label{sec:loss-functions}\index{Loss function}
 
-Para entrenar los modelos es necesario tener unas funciones de pérdida, que
-deberán ser diferenciables ya que en el proceso de optimización necesitaremos
-usar las derivadas parciales de la función de pérdida respecto a los diferentes
-parámetros a entrenar.
+To train the models it is necessary to have loss functions, which must be
+differentiable since in the optimization process we will need to use the
+partial derivatives of the loss function with respect to the different
+parameters to be trained.
 
-En nuestro caso, siempre trataremos con dos clases (la segmentación será una
-máscara binaria).
+In our case, we will always deal with two classes (the segmentation will be a
+binary mask).
 
 \subsubsection{\glsentrylong{ce}}\index{Cross entropy}
-Una de las funciones de pérdida más conocidas en la segmentación de imágenes es
-la de \gls{ce}. Tenemos dos distribuciones de probabilidad
+One of the best known loss functions in image segmentation is that of
+\gls{ce}. We have two probability distributions
 
 \begin{enumerate}
-  \item La \textbf{predicción} puede ser \(P(\hat{Y} = 0) = \hat{p}\) or
+  \item \textbf{Prediction} can be \(P(\hat{Y} = 0) = \hat{p}\) or
   \(P(\hat{Y} = 1) = 1 - \hat{p}\).
   \item The \textbf{ground truth} can either be \(P(Y = 0) = p\) or
-  \(P(Y = 1) = 1 - p\). Siempre se cumplirá \(p \in \{0, 1\}\).
+  \(P(Y = 1) = 1 - p\). It will always be \(p \in \{0, 1\}\).
 \end{enumerate}
 
-La función de pérdida se define entonces como
+The loss function is then defined as
 \begin{equation}
   \text{CE}(p, \hat{p}) = -(p\log\hat{p} + (1 - p)\log(1 - \hat{p})).
 \end{equation}
-Teniendo en cuenta que \(p \in \{0, 1\}\), la función de pérdida puede ser
-reescrita de la siguiente manera,
+Taking into account that \(p \in \{0, 1\}\), the loss function can be rewritten
+as follows,
 \begin{equation}
   \text{\gls*{ce}}(p, \hat{p}) =
   \begin{cases}
@@ -238,180 +238,179 @@ reescrita de la siguiente manera,
     -\log\hat{p} & p = 1.
   \end{cases}
 \end{equation}
-Es decir, si \(p = 1\), la función de pérdida será \(0\) if and only if
-\(\hat{p} = 1\) y será más grande cuanto más diferentes sean \(p\) y
-\(\hat{p}\). La penalización crecerá exponencialmente hasta hacerse infinita
-para el valor \(\hat{p} = 0\). El caso \(p = 0\) es simétrico.
+That is, if \(p = 1\), the loss function will be \(0\) if and only if
+\(\hat{p} = 1\) and it will be larger the more different \(p\) and \(\hat{p}\)
+are. The penalty will grow exponentially until it becomes infinite for the
+value \(\hat{p} = 0\). Case \(p = 0\) is symmetric.
 
-A continuación se discutirán diversas variaciones de esta función de pérdida
-que pueden ser útiles para entrenar diversos modelos neuronales.
+Various variations of this loss function will be discussed below that may be
+useful for training various neural models.
 
 \begin{itemize}
-  \item \textbf{\gls*{wce}}. Es una variante de \gls{ce} en la que los ejemplos
-  positivos son weighted por un coeficiente \(\beta\). Se define de la
-  siguiente manera,
+  \item \textbf{\gls*{wce}}. It is a variant of \gls{ce} in which the positive
+  examples are weighted by a coefficient \(\beta\). It is defined as follows,
   \begin{equation}
     \text{\gls*{wce}}(p, \hat{p}) =
     -(\beta p\log\hat{p} + (1 - p)\log(1 - \hat{p})).
   \end{equation}
-  Típicamente se usa cuando aparecen clases desequilibradas. No es demasiado
-  interesante para este caso.
-  \item \textbf{\gls*{bce}}. Es similar a \gls{wce} con la única diferencia que
-  también se añade un peso a los ejemplos negativos. Se define de la siguiente
-  manera,
+  Typically used when unbalanced classes appear. It is not too interesting for
+  this case.
+  \item \textbf{\gls*{bce}}. It is similar to \gls{wce} with the only
+  difference that a weight is also added to the negative examples. It is
+  defined as follows,
   \begin{equation}
     \text{\gls*{bce}}(p, \hat{p}) =
     -(\beta p\log\hat{p} + (1 - \beta)(1 - p)\log(1 - \hat{p})).
   \end{equation}
-  \item \textbf{\gls*{fl}}. Es una variante de \gls{ce} en la que se incide aún
-  más en los elementos del dataset más \emph{complicados}. Estos son los que
-  tienen un valor de \(\hat{p}\) intermedio entre \(0\) y \(1\). Se define de
-  la siguiente manera,
+  \item \textbf{\gls*{fl}}. It is a variant of \gls{ce} in which the most
+  \emph{complicated} elements of the dataset are affected even more. These are
+  the ones with a value of \(\hat{p}\) intermediate between \(0\) and \(1\). It
+  is defined as follows,
   \begin{equation}
     \text{\gls*{fl}}(p, \hat{p}) =
     -(\alpha (1 - \hat{p})^\gamma p\log\hat{p} +
     (1 - \alpha)p^\gamma (1 - p)\log(1 - \hat{p})).
   \end{equation}
-  Cuando \(\gamma = 0\) obtenemos \gls{bce}.
-  \item \textbf{\gls*{dnc}}. Esta función de pérdida, introducida por
-  \myCite{ronneberger15:u}, fuerza la separación entre objetos contiguos. Es
-  similar a \gls{bce}, pero con un término adiccional de distancia entre
-  objetos,
+  When \(\gamma = 0\) we obtain \gls{bce}.
+  \item \textbf{\gls*{dnc}}. This loss function, introduced by
+  \myCite{ronneberger15:u}, forces the separation between contiguous
+  objects. It is similar to \gls{bce}, but with an additional term of distance
+  between objects,
   \begin{equation}
     \text{\gls*{dnc}}(p, \hat{p}) =
     -(w(p)\log\hat{p} + w(p)(1 - p)\log(1 - \hat{p})),
   \end{equation}
-  donde,
+  where,
   \begin{equation}
     w(p) = \beta +
     w_0 \cdot \exp\left(-\frac{(d_1(p) + d_2(p))^2}{2\sigma^2}\right).
   \end{equation}
-  Aquí \(d_1(p)\) denota la distancia al borde de la nearest cell y \(d_2(p)\)
-  la distancia al borde de la second nearest cell. El resto son hiperparámetros
-  de la función de loss.\footnote{Los autores usan en sus experimentos \(w_0 =
-    10\) y \(\sigma \approx 5\) (see Section~3 from \cite{ronneberger15:u}).}
+  Here \(d_1(p)\) denotes the distance to the edge of the nearest cell and
+  \(d_2(p)\) the distance to the edge of the second nearest cell. The rest are
+  hyperparameters of the loss function.\footnote{The authors use \(w_0 = 10\)
+    and \(\sigma \approx 5\) in their experiments (see Section~3 from
+    \cite{ronneberger15:u}).}
 \end{itemize}
 
-\subsubsection{Overlap Measures}
-Otro tipo de medidades surgen con el uso de la intersección y la unión de la
-segmentación predicha y el ground truth. Este tipo de funciones de pérdida nos
-aportan información \emph{global}. El conocido Jaccard index o coeficiente \gls{iou},
+\subsubsection{Overlap Measures}\index{Overlap measures}
+Another type of measure arises with the use of the intersection and union of
+the predicted segmentation and the ground truth. This type of loss functions
+provide us with \emph{global} information. The well-known Jaccard index or
+coefficient \gls{iou},
 \begin{equation}
-  J(A,B) = \frac{|A \cap B|}{|A \cup B|}
-  = \frac{|A \cap B|}{|A| + |B| - |A \cap B|},
+  J(A,B) = \frac{|A \cap B|}{|A \cup B|} =
+  \frac{|A \cap B|}{|A| + |B| - |A \cap B|},
 \end{equation}
-es típicamente usado para medir el accuracy de un modelo, pero no puede ser
-usado como función de pérdida al no ser una aplicación diferenciable. Sí que
-será usado para la evaluación del modelo en la \vref{sec:quantitative-eval}.
+is typically used to measure the accuracy of a model, but it cannot be used as
+a loss function as it is not a differentiable mapping. Yes, it will be used for
+the evaluation of the model in \vref{sec:quantitative-eval}.
 
 \begin{itemize}
-  \item \textbf{\gls*{dil}}. Se basa en el \gls{dc}, un coeficiente similar a
-  \gls{iou}, que se define de la siguiente manera,
+  \item \textbf{\gls*{dil}}. It is based on \gls{dc}, a coefficient similar to
+  \gls{iou}, which is defined as follows,
   \begin{equation}
     \text{\gls*{dc}}(X, Y) = \frac{2|X \cap Y|}{|X| + |Y|}.
   \end{equation}
-  Este dice coefficiente puede ser definido como una función de pérdida,
+  This says coefficient can be defined as a loss function,
   \begin{equation}
-    \text{\gls*{dil}}(p, \hat{p})
-    = 1 - \frac{2\sum p_{h, w}\hat{p}_{h, w}}{\sum p_{h, w} + \sum \hat{p}_{h, w}},
+    \text{\gls*{dil}}(p, \hat{p}) = 1 -
+    \frac{2\sum p_{h, w}\hat{p}_{h, w}}{\sum p_{h, w} + \sum \hat{p}_{h, w}},
   \end{equation}
-  donde \(p_{h, w} \in \{0, 1\}\), \(0 \leq \hat{p}_{h, w} \leq 1\) y los
-  sumatorios se extienden por toda la imagen en el width \(w\) y el height
-  \(h\).
-  \item \textbf{\gls*{ti}}. Es una generalización de \gls{dil}. Se define de la
-  siguiente manera,
+  where \(p_{h, w} \in \{0, 1\}\), \(0 \leq \hat{p}_{h, w} \leq 1\) and the
+  sums are spread over the entire image at width \(w\) and height \(h\).
+  \item \textbf{\gls*{ti}}. It is a generalization of \gls{dil}. It is defined
+  as follows,
   \begin{equation}
-    \text{\gls*{ti}}(p, \hat{p})
-    = 1 - \frac{p\hat{p}}{p\hat{p} + \beta(1 - p)\hat{p} + (1 - \beta)p(1 - \hat{p})}.
+    \text{\gls*{ti}}(p, \hat{p}) = 1 -
+    \frac{p\hat{p}}{p\hat{p} + \beta(1 - p)\hat{p} + (1 - \beta)p(1 - \hat{p})}.
   \end{equation}
-  Con el valor \(\beta = \frac{1}{2}\), recuperamos la función anterior
+  With the value \(\beta = \frac{1}{2}\), we recover the previous function
   \gls{dil}.
 \end{itemize}
 
 \subsubsection{\glsentrylong{giou} Loss}
-Ver primero \vref{sec:quantitative-measures} para una explicación detallada del
-índice de Jaccard o \gls{iou}, que es una medida cuantitativa ampliamente
-utilizada como técnica de evaluación.
+See first \vref{sec:quantitative-measures} for a detailed explanation of the
+Jaccard index or \gls{iou}, which is a quantitative measure widely used as an
+evaluation technique.
 
 \begin{remarkBox}
-  La razón por la cual no se puede usar directamente \gls{iou} como función de
-  pérdida es que es infactible la optimización en el caso de non-overlapping
-  bounding boxes (ya que, en este caso, \gls{iou} has no value and therefore no
-  gradient).
+  The reason why \gls{iou} cannot be used directly as a loss function is that
+  optimization is infeasible in the case of non-overlapping bounding boxes
+  (since, in this case, \gls{iou} has no value and therefore no gradient).
 \end{remarkBox}
 
-\myCite{rezatofighi19:gener} resuelven este problema introduciendo una loss
-function basada en el \gls{iou} y a la que llaman \gls{giou}. Esta
-generalización garantiza la existencia de gradiente en todos los casos y, por
-tanto, la hace adecuada para usarse en un proceso de optimización.
+\myCite{rezatofighi19:gener} solve this problem by introducing a loss function
+based on \gls{iou} and which they call \gls{giou}. This generalization
+guarantees the existence of a gradient in all cases and, therefore, makes it
+suitable for use in an optimization process.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=.65\textwidth]{Images/GIoU.png}
-  \caption[\acl*{giou} algorithm]{\acf{giou} algorithm general aplicado a
-    conjuntos multi-dimensionales arbitrarios. En el caso concreto de \gls{rec}
-    serán bounding boxes en \(\R^2\). From
+  \caption[\acl*{giou} algorithm]{\acf{giou} general algorithm applied to
+    arbitrary multi-dimensional sets. In the specific case of \gls{rec} they
+    will be bounding boxes in \(\R^2\). From
     \captioncite{rezatofighi19:gener}.}\label{fig:giou}
 \end{figure}
 
-Esta loss function viene resumida en la \vref{fig:giou}. Es una generalización
-que conserva las propiedas relevantes del \gls{iou}, pero que corrige los
-problemas relacionados con su diferenciabilidad.
+This loss function is summarized in \vref{fig:giou}. It is a generalization
+that preserves the relevant properties of \gls{iou}, but that corrects the
+problems related to its differentiability.
 
 \subsubsection{Combinations}
-Muchas más funciones de pérdida pueden ser obtenidas por simple combinación
-lineal de las anteriores. La combinación,
+Many more loss functions can be obtained by simple linear combination of the
+above. The combination,
 \begin{equation}
   \text{\gls*{ce}}(p, \hat{p}) + \text{\gls*{dil}}(p, \hat{p}),
 \end{equation}
-es bastante popular, ya que combina información local (\gls{ce}) con
-información global (\gls{dil}).
+is quite popular, since it combines local information (\gls{ce}) with global
+information (\gls{dil}).
 
 
 \section{Evaluation Techniques}\label{sec:eval-measure}
 
-En cualquier ámbito de \gls{ml} será necesario de disponer de técnicas de
-evaluación para poder decidir si los resultados obtenidos con el modelo son
-suficientemente buenos y también para poder realizar comparaciones.
+In any area of \gls{ml} it will be necessary to have evaluation techniques to
+be able to decide if the results obtained with the model are good enough and
+also to be able to make comparisons.
 
-Las técnicas más útiles suelen ser métricas de caracter cuantitativo, las
-cuales se discutirán en la \vref{sec:quantitative-measures}. Además, en el caso
-concreto de \gls{rec}, debido al uso de imágnes, será posible realizar también
-una evaluación visual/cualitativa (ver \vref{sec:qualitative-eval}).
+The most useful techniques are usually quantitative metrics, which will be
+discussed in \vref{sec:quantitative-measures}. Furthermore, in the specific
+case of \gls{rec}, due to the use of images, it will also be possible to carry
+out a visual / qualitative evaluation (see \vref{sec:qualitative-eval}).
 
 \subsection{Quantitative Measures}\label{sec:quantitative-measures}
 
-This corresponds to an evaluation of the model in a numerical way. The
+This to an evaluation of the model corresponds in a numerical way. The
 different evaluation measures typically used to address this problem are
-related to the calculation of \gls{iou} or Jaccard index. Este índice se
-fundamenta en los conceptos de intersección y de unión entre la segmentación
-predecida (que es una máscara \emph{binaria}) y el ground truth (en la
-\vref{fig:sets} se muestran unos diagramas con estos conceptos).
+related to the calculation of \gls{iou} or Jaccard index. This index is based
+on the concepts of intersection and union between the predicted segmentation
+(which is a mask \emph{binaria}) and the ground truth (diagrams with these
+concepts are shown in \vref{fig:sets}).
 
 \begin{figure}[ht]
   \begin{subfigure}[t]{.5\textwidth}
     \centering
-    \caption{Union of sets \(A\) and \(B\).}
+    \caption{Union of sets \(A\) \(A\) and \(B\) \(B\).}
     \includesvg[width=.55\textwidth]{SVGs/Union_of_sets_A_and_B.svg}
   \end{subfigure}
   \begin{subfigure}[t]{.5\textwidth}
     \centering
-    \caption{Intersection of sets \(A\) and \(B\).}
+    \caption{Intersection of sets \(A\) \(A\) and \(B\) \(B\).}
     \includesvg[width=.55\textwidth]{SVGs/Intersection_of_sets_A_and_B.svg}
   \end{subfigure}
-  \caption[Union and intersection of sets \(A\) and \(B\)]{Graphic
-    representation of union and intersection of sets \(A\) and \(B\). From
-    \captioncite{contributors21:jaccar} (both).}\label{fig:sets}
+  \caption[Union and intersection of sets \(A\) \(A\) and \(B\) \(B\)]{Graphic
+    representation of union and intersection of sets \(A\) \(A\) and \(B\)
+    \(B\). From \captioncite{contributors21:jaccar} (both).}\label{fig:sets}
 \end{figure}
 
-De aquí surge el conocido Jaccard index o coeficiente \gls{iou},
+From here arises the well-known Jaccard index or coefficient \gls{iou},
 \begin{equation}
-  J(A,B) = \frac{|A \cap B|}{|A \cup B|}
-  = \frac{|A \cap B|}{|A| + |B| - |A \cap B|},
+  J(A,B) = \frac{|A \cap B|}{|A \cup B|} =
+  \frac{|A \cap B|}{|A| + |B| - |A \cap B|},
 \end{equation}
-que es típicamente usado para medir el accuracy de un modelo, pero ---como
-hemos comentado anteriormente--- no puede ser usado como función de pérdida al
-no ser una aplicación diferenciable.
+which is typically used to measure the accuracy of a model, but---as we have
+commented previously---it cannot be used as a loss function as it is not a
+differentiable application.
 
 \begin{figure}[ht]
   \begin{subfigure}[t]{.45\textwidth}
@@ -424,19 +423,20 @@ no ser una aplicación diferenciable.
     \caption{\gls{iou} visual equation.}
     \includegraphics[width=.8\textwidth]{Images/Intersection over Union.png}
   \end{subfigure}
-  \caption[Explicación del Jaccard Index]{Explicación y ejemplo del Jaccard
-    Index en el caso de bounding boxes. From
+  \caption[Jaccard Index explanation]{Explanation and example of the Jaccard
+    Index in the case of bounding boxes. From
     \captioncite{contributors21:jaccar} (both).}
 \end{figure}
 
-Este índice aporta información relevante sobre cómo de ajustada está una
-bounding box.\footnote{Se estudia el caso de bounding box por simplicidad, pero
-  el mismo concepto aplica en el caso de segmentación pixel a pixel.} Es
-evidente que el Jaccard index toma un valor entre \(0\) y \(1\), siendo \(0\)
-cuando no hay intersección entre las bounding boxes y tomando el valor de \(1\)
-cuando la correspondencia es exacta.
+This index provides relevant information on how tight a bounding box
+is.\footnote{The case of bounding box is studied for simplicity, but the same
+  concept applies in the case of pixel by pixel segmentation.} It is evident
+that the Jaccard index takes a value between \(0\) and \(1\), being \(0\) when
+there is no intersection between the bounding boxes and taking the value of
+\(1\) when the correspondence is exact.
 
-\subsubsection{Precisión}
+
+\subsubsection{Precision}
 It is also possible to define an accuracy index in the following way: if
 \gls{iou} is greater than \num{0.5} the prediction is considered a true
 positive, and if not, it is considered as a false positive. You can then
