@@ -1,5 +1,5 @@
 .cache/
 tmp/
-css/bootstrap.min.css
-js/bootstrap.bundle.min.js
-js/jquery-3.5.1.slim.min.js
+bootstrap.min.css
+bootstrap.bundle.min.js
+jquery-3.5.1.slim.min.js

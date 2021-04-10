@@ -12,10 +12,10 @@ in all purely intellectual fields.}
 \lettrine{R}{eferring} expression comprehension is the task of, given a
 linguistic phrase (\gls{re}) and an image, generate binary masks for the object
 which the phrase refers to. In this chapter we will specifically formulate the
-problem to be solved (\vref{sec:formulation}), we will analyze the existing
-datasets and the evaluation measures (\vref{sec:data-eval}) and finally, we
-will make an exhaustive study of \gls{sota} works in this area by reviewing the
-more recent literature (\vref{sec:sota}).
+problem to be solved (see \vref{sec:formulation}), we will analyze the existing
+datasets and the evaluation measures (see \vref{sec:rec-trainning}) and
+finally, we will make an exhaustive study of \gls{sota} works in this area by
+reviewing the more recent literature (\vref{sec:sota}).
 
 
 \section{Problem Formulation}\label{sec:formulation}
@@ -59,60 +59,51 @@ the simplest to the most complex.
   \centering
   \begin{subfigure}[t]{.32\textwidth}
     \centering
-    \caption{Man with cap.}
-    \label{fig:rec-man}
+    \caption{Man with cap.}\label{fig:rec-man}
     \includegraphics[width=\textwidth]{Images/Man with cap.jpg}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{.32\textwidth}
     \centering
-    \caption{Laptop on the right.}
-    \label{fig:rec-laptop}
+    \caption{Laptop on the right.}\label{fig:rec-laptop}
     \includegraphics[width=\textwidth]{Images/Laptop on the right.jpg}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{.32\textwidth}
     \centering
-    \caption{Army officer white suit.}
-    \label{fig:rec-army}
+    \caption{Army officer white suit.}\label{fig:rec-army}
     \includegraphics[width=\textwidth]{Images/Army officer.jpg}
   \end{subfigure}
 
   \bigskip
   \begin{subfigure}[t]{.32\textwidth}
     \centering
-    \caption{Black car.}
-    \label{fig:rec-car}
+    \caption{Black car.}\label{fig:rec-car}
     \includegraphics[width=\textwidth]{Images/Black car.jpg}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{.32\textwidth}
     \centering
-    \caption{Small middle elephant.}
-    \label{fig:rec-elephant}
+    \caption{Small middle elephant.}\label{fig:rec-elephant}
     \includegraphics[width=\textwidth]{Images/Small middle elephant.jpg}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{.32\textwidth}
     \centering
-    \caption{Two seat couch.}
-    \label{fig:rec-couch}
+    \caption{Two seat couch.}\label{fig:rec-couch}
     \includegraphics[width=\textwidth]{Images/Couch.jpg}
   \end{subfigure}
 
   \bigskip
   \begin{subfigure}[t]{.32\textwidth}
     \centering
-    \caption{Umbrella.}
-    \label{fig:rec-umbrella}
+    \caption{Umbrella.}\label{fig:rec-umbrella}
     \includegraphics[width=\textwidth]{Images/Umbrella.jpg}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{.32\textwidth}
     \centering
-    \caption{Parent holding umbrella.}
-    \label{fig:rec-parent}
+    \caption{Parent holding umbrella.}\label{fig:rec-parent}
     \includegraphics[width=\textwidth]{Images/Parent.jpg}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{.32\textwidth}
     \centering
-    \caption{Little girl pink coat.}
-    \label{fig:rec-girl}
+    \caption{Little girl pink coat.}\label{fig:rec-girl}
     \includegraphics[width=\textwidth]{Images/Little girl.jpg}
   \end{subfigure}
   \caption[Examples of \acl*{rec}]{Examples of \acl{rec}. As can be seen, we
@@ -123,10 +114,12 @@ the simplest to the most complex.
 \end{figure}
 
 
-\section{Trainning}
+\section{Training}\label{sec:rec-trainning}
 
-TODO. Aquí hablar de que en trainning son necesarias dos cosas: dataset y una
-loss function. Referenciar cada cosa.
+There are two fundamental things in the process of training a model: a dataset
+and a loss function. For the specific task of this work (\gls{rec}), we will
+present the most used datasets (see \vref{sec:datasets}) and the loss functions
+(see \vref{sec:loss-functions}).
 
 \subsection{Datasets}\label{sec:datasets}
 
@@ -211,7 +204,7 @@ This dataset, however, will not be used in the work that concerns this thesis,
 since here we are looking for models that work in the real world with
 non-fictional images and natural language.
 
-\subsection{Loss Functions}\index{Loss function}
+\subsection{Loss Functions}\label{sec:loss-functions}\index{Loss function}
 
 Para entrenar los modelos es necesario tener unas funciones de pérdida, que
 deberán ser diferenciables ya que en el proceso de optimización necesitaremos
@@ -221,7 +214,7 @@ parámetros a entrenar.
 En nuestro caso, siempre trataremos con dos clases (la segmentación será una
 máscara binaria).
 
-\subsubsection{Cross Entropy}\index{Cross entropy}
+\subsubsection{\glsentrylong{ce}}\index{Cross entropy}
 Una de las funciones de pérdida más conocidas en la segmentación de imágenes es
 la de \gls{ce}. Tenemos dos distribuciones de probabilidad
 
@@ -245,10 +238,10 @@ reescrita de la siguiente manera,
     -\log\hat{p} & p = 1.
   \end{cases}
 \end{equation}
-Es decir, si \(p = 1\), la función de pérdida será \(0\) \gls{iff} \(\hat{p} =
-1\) y será más grande cuanto más diferentes sean \(p\) y \(\hat{p}\). La
-penalización crecerá exponencialmente hasta hacerse infinita para el valor
-\(\hat{p} = 0\). El caso \(p = 0\) es simétrico.
+Es decir, si \(p = 1\), la función de pérdida será \(0\) if and only if
+\(\hat{p} = 1\) y será más grande cuanto más diferentes sean \(p\) y
+\(\hat{p}\). La penalización crecerá exponencialmente hasta hacerse infinita
+para el valor \(\hat{p} = 0\). El caso \(p = 0\) es simétrico.
 
 A continuación se discutirán diversas variaciones de esta función de pérdida
 que pueden ser útiles para entrenar diversos modelos neuronales.
@@ -280,12 +273,26 @@ que pueden ser útiles para entrenar diversos modelos neuronales.
     (1 - \alpha)p^\gamma (1 - p)\log(1 - \hat{p})).
   \end{equation}
   Cuando \(\gamma = 0\) obtenemos \gls{bce}.
-  \item \textbf{\gls*{dnc}}. TODO:
-  \url{https://lars76.github.io/2018/09/27/loss-functions-for-segmentation.html} Esto
-  faltaría por explicar.
+  \item \textbf{\gls*{dnc}}. Esta función de pérdida, introducida por
+  \myCite{ronneberger15:u}, fuerza la separación entre objetos contiguos. Es
+  similar a \gls{bce}, pero con un término adiccional de distancia entre
+  objetos,
+  \begin{equation}
+    \text{\gls*{dnc}}(p, \hat{p}) =
+    -(w(p)\log\hat{p} + w(p)(1 - p)\log(1 - \hat{p})),
+  \end{equation}
+  donde,
+  \begin{equation}
+    w(p) = \beta +
+    w_0 \cdot \exp\left(-\frac{(d_1(p) + d_2(p))^2}{2\sigma^2}\right).
+  \end{equation}
+  Aquí \(d_1(p)\) denota la distancia al borde de la nearest cell y \(d_2(p)\)
+  la distancia al borde de la second nearest cell. El resto son hiperparámetros
+  de la función de loss.\footnote{Los autores usan en sus experimentos \(w_0 =
+    10\) y \(\sigma \approx 5\) (see Section~3 from \cite{ronneberger15:u}).}
 \end{itemize}
 
-\subsubsection{Overlap measures}
+\subsubsection{Overlap Measures}
 Otro tipo de medidades surgen con el uso de la intersección y la unión de la
 segmentación predicha y el ground truth. Este tipo de funciones de pérdida nos
 aportan información \emph{global}. El conocido Jaccard index o coeficiente \gls{iou},
@@ -295,7 +302,7 @@ aportan información \emph{global}. El conocido Jaccard index o coeficiente \gls
 \end{equation}
 es típicamente usado para medir el accuracy de un modelo, pero no puede ser
 usado como función de pérdida al no ser una aplicación diferenciable. Sí que
-será usado para la evaluación del modelo en la \vref{sec:evaluation}
+será usado para la evaluación del modelo en la \vref{sec:quantitative-eval}.
 
 \begin{itemize}
   \item \textbf{\gls*{dil}}. Se basa en el \gls{dc}, un coeficiente similar a
@@ -321,10 +328,35 @@ será usado para la evaluación del modelo en la \vref{sec:evaluation}
   \gls{dil}.
 \end{itemize}
 
+\subsubsection{\glsentrylong{giou} Loss}
+Ver primero \vref{sec:quantitative-measures} para una explicación detallada del
+índice de Jaccard o \gls{iou}, que es una medida cuantitativa ampliamente
+utilizada como técnica de evaluación.
 
-\subsubsection{\gls*{iou} loss}
+\begin{remarkBox}
+  La razón por la cual no se puede usar directamente \gls{iou} como función de
+  pérdida es que es infactible la optimización en el caso de non-overlapping
+  bounding boxes (ya que, en este caso, \gls{iou} has no value and therefore no
+  gradient).
+\end{remarkBox}
 
-\cite{yu16:unitb}
+\myCite{rezatofighi19:gener} resuelven este problema introduciendo una loss
+function basada en el \gls{iou} y a la que llaman \gls{giou}. Esta
+generalización garantiza la existencia de gradiente en todos los casos y, por
+tanto, la hace adecuada para usarse en un proceso de optimización.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=.65\textwidth]{Images/GIoU.png}
+  \caption[\acl*{giou} algorithm]{\acf{giou} algorithm general aplicado a
+    conjuntos multi-dimensionales arbitrarios. En el caso concreto de \gls{rec}
+    serán bounding boxes en \(\R^2\). From
+    \captioncite{rezatofighi19:gener}.}\label{fig:giou}
+\end{figure}
+
+Esta loss function viene resumida en la \vref{fig:giou}. Es una generalización
+que conserva las propiedas relevantes del \gls{iou}, pero que corrige los
+problemas relacionados con su diferenciabilidad.
 
 \subsubsection{Combinations}
 Muchas más funciones de pérdida pueden ser obtenidas por simple combinación
@@ -338,25 +370,23 @@ información global (\gls{dil}).
 
 \section{Evaluation Techniques}\label{sec:eval-measure}
 
-TODO. Explain here that both numerical (quantitative) and visual (qualitative)
-techniques can be used for evaluation.
+En cualquier ámbito de \gls{ml} será necesario de disponer de técnicas de
+evaluación para poder decidir si los resultados obtenidos con el modelo son
+suficientemente buenos y también para poder realizar comparaciones.
 
-\subsection{Quantitative Measures}
+Las técnicas más útiles suelen ser métricas de caracter cuantitativo, las
+cuales se discutirán en la \vref{sec:quantitative-measures}. Además, en el caso
+concreto de \gls{rec}, debido al uso de imágnes, será posible realizar también
+una evaluación visual/cualitativa (ver \vref{sec:qualitative-eval}).
+
+\subsection{Quantitative Measures}\label{sec:quantitative-measures}
 
 This corresponds to an evaluation of the model in a numerical way. The
 different evaluation measures typically used to address this problem are
-related to the calculation of \gls{iou} (in \vref{sec:evaluation} it will be
-explained in depth).
-
-It is also possible to define an accuracy index in the following way: if
-\gls{iou} is greater than \num{0.5} the prediction is considered a true
-positive, and if not, it is considered as a false positive. You can then
-average over the entire dataset.
-
-Para la evaluación del modelo se usará el concepto de intersección y de unión
-entre la segmentación predecida (que es una máscara \emph{binaria}) y el ground
-truth (en la \vref{fig:sets} se muestran unos diagramas con estos
-conceptos).
+related to the calculation of \gls{iou} or Jaccard index. Este índice se
+fundamenta en los conceptos de intersección y de unión entre la segmentación
+predecida (que es una máscara \emph{binaria}) y el ground truth (en la
+\vref{fig:sets} se muestran unos diagramas con estos conceptos).
 
 \begin{figure}[ht]
   \begin{subfigure}[t]{.5\textwidth}
@@ -370,8 +400,8 @@ conceptos).
     \includesvg[width=.55\textwidth]{SVGs/Intersection_of_sets_A_and_B.svg}
   \end{subfigure}
   \caption[Union and intersection of sets \(A\) and \(B\)]{Graphic
-    representation of union and intersection of sets \(A\) and
-    \(B\).}\label{fig:sets}
+    representation of union and intersection of sets \(A\) and \(B\). From
+    \captioncite{contributors21:jaccar} (both).}\label{fig:sets}
 \end{figure}
 
 De aquí surge el conocido Jaccard index o coeficiente \gls{iou},
@@ -395,7 +425,8 @@ no ser una aplicación diferenciable.
     \includegraphics[width=.8\textwidth]{Images/Intersection over Union.png}
   \end{subfigure}
   \caption[Explicación del Jaccard Index]{Explicación y ejemplo del Jaccard
-    Index en el caso de bounding boxes.}
+    Index en el caso de bounding boxes. From
+    \captioncite{contributors21:jaccar} (both).}
 \end{figure}
 
 Este índice aporta información relevante sobre cómo de ajustada está una
@@ -405,13 +436,20 @@ evidente que el Jaccard index toma un valor entre \(0\) y \(1\), siendo \(0\)
 cuando no hay intersección entre las bounding boxes y tomando el valor de \(1\)
 cuando la correspondencia es exacta.
 
+\subsubsection{Precisión}
+It is also possible to define an accuracy index in the following way: if
+\gls{iou} is greater than \num{0.5} the prediction is considered a true
+positive, and if not, it is considered as a false positive. You can then
+average over the entire dataset.
 
-\subsection{Qualitative Evaluation}
+
+
+\subsection{Qualitative Evaluation}\label{sec:qualitative-eval}
 
 Visually evaluate the model.
 
 
-\section{Related Work} \label{sec:sota}
+\section{Related Work}\label{sec:sota}
 
 The current methods \gls{sota} for \gls{rec} can be divided into three main
 classes: joint embedding (see \vref{sec:joint}), modular models (see

@@ -35,7 +35,8 @@ well. If the network is big enough and we carefully adjust the parameters, we
 will be able to learn and calculate very complex functions.
 
 
-\section{Tensors}\index{Tensor}\
+\section{Tensors}\index{Tensor}
+
 In our context, it will be useful to use the mathematical tool of
 tensors. There are different approaches to define this mathematical objetcs,
 among then, defining them as multi-dimensional arrays of real numbers, as
@@ -718,12 +719,49 @@ preferible el uso de otro tipo de weight initialization, como la propuesta por
 \subsubsection{Error Backpropagation}\index{Backpropgation}
 Hey.
 
-
 \subsection{Regularization Techniques}\index{Regularization}
 
-Here explain the overfitting problem.
+Uno de los problemas más importantes a lo que se enfrenta el \gls{dl} y más
+generalmente la estadística predictiva es el de
+\emph{overfitting}\index{Overfitting}. Overfitting es crear un modelo de
+análisis a partir de datos que se ajusta demasiado al dataset de entrenamiento
+disponible, pero que no es capaz de realizar prediciones fiables de futuras
+observaciones. En palabras de \myCite{berners-lee21:introd_web_acces} (TODO:
+fix me),
+\begin{quoteBox}
+  With four parameters I can fit an elephant, and with five I can make him
+  wiggle his trunk.
+  \tcblower\quotecite{berners-lee21:introd_web_acces}TODO. corregir esto.
+\end{quoteBox}
 
-There are several regularization techniques to
+Aquí, a lo que se refiere, es que no debemos sorprendernos de la capacidad de
+un modelo suficientemente complejo de adaptarse muy bien a un dataset dado. Los
+modelos con una gran cantidad de parámetros son capaces de ajustarse a
+cualquier cantidad de datos dada, incluso aunque esta parezca no seguir ningún
+patrón. Pero estos ajustes serán meaningless, ya que no capurarán ninguna
+información genuina de las estructura de los datos y, por tanto, no serán
+capaces de generalizar correctamente. Tendremos un ajuste asombrosamente bueno
+(incluso perfecto en algunos casos) para los datos disponibles actualmente,
+pero con un error de generalización enorme (ver \vref{fig:overfit}).
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=.65\textwidth]{Images/Overfit.png}
+  \caption[Representación del fenómeno de overfitting.]{Representación del
+    fenómeno de overfitting. Los datos con ruidos (que son aproximadamente
+    lineales) han sido ajustan usando una función lineal y otra polinomial. La
+    función polinomial presenta un ajuste perfecto sobre los datos existentes,
+    pero es de esperar que generalice peor. Si ambas funciones se usaran para
+    extrapolar fuera de los datos ajustados, la función lineal presentará
+    mejores predicciones. From
+    \captioncite{contributors21:overf}.}\label{fig:overfit}
+\end{figure}
+
+Un dicho conocido en el ámbito del \gls{ml} es el de ``Memorizing is \emph{not}
+learning''. Es importante que tengamos en cuenta el efecto de overfitting a la
+hora de entrenar los modelos. Para evitarlo existen diferentes técnicas, entre
+las que destacan la \(L_2\) regularization, el concepto de early stopping y la
+técnica de data augmentation.
 
 \subsubsection{\(L_2\) Regularization}
 This regularization technique, also known as \emph{ridge
@@ -732,20 +770,71 @@ This regularization technique, also known as \emph{ridge
 widely used in \gls{dl}. It consits in adding a term to the loss function that
 takes into account the complexity of the model, i.e., minimize the following,
 \begin{equation}
-  \loss(\Omega, \theta) + \text{complexity}(\theta),
+  \hat{\loss}(\Omega, \theta) =
+  \loss(\Omega, \theta) + \lambda\,\text{complexity}(\theta),
 \end{equation}
-and where the complexity is measured using the \(L_2\) norm, i.e.,
+where \(\lambda\) is the regularization hyperparameter\footnote{Model
+  \emph{hyperparameters} are properties that govern the entire training
+  proccess and must be set before the training starts (therefore, they are not
+  trainable).}\index{Hyperparameter} and the complexity is measured using the
+\(L_2\) norm, i.e.,
 \begin{equation}
   \text{complexity}(\theta) = \lVert\theta\rVert_2^2 = \sum_{w \in \theta} w^2.
 \end{equation}
 
-
-
 \subsubsection{Early Stopping}\index{Early stopping}
-Hey.
+Problablemente el método más conocido y más utilizado a la hora de entrenar
+modelos neuronales. Lo que se hace es dividir el dataset de \emph{training} en
+dos: la parte de training y la parte de validation\index{Validation}
+(\code{train/val} split).\footnote{En consecuencia, lo que se debe hacer con el
+  dataset completo es divirlo realmente en tres, el famoso
+  \code{train/val/test} split.}. Para el proceso de entrenamiento solo se usará
+la parte de \code{train} (i.e., para la actualización de los parámetros del
+modelo). La parte de \code{val} se usará para determinar cuándo debemos de
+parar el proceso de entrenamiento para evitar el
+overfitting\index{Overfitting}.
+
+De esta manera, mientras iteramos en el proceso de entrenamiento, podemos
+calcular la función de loss tanto en el dataset de \code{train} como en el de
+\code{val} (see \vref{fig:early}). Con el objetivo en mente de encontrar
+modelos que generalicen bien, pararemos el entrenamiento de la red neuronal en
+el momento que la función de error en el dataset de validación comience a
+aumentar.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=.45\textwidth]{Images/Early stopping.jpg}
+  \caption[Early stopping regularization technique]{Early stopping
+    regularization technique. En el comienzo del proceso de entrenamiento la
+    función de error disminuye en los dos datasets de entrenamiento y de
+    validación a la vez. En el momento en que la función de error en el
+    validation set comienza a aumentar es cuando comienza a presentarse el
+    problema de overfitting, por lo que ahí pararemos el entrenamiento. From
+    \captioncite{brownlee28:gentl_introd_early_stopp_avoid}.}\label{fig:early}
+\end{figure}
+
+Este método de regularización ha sido usado en este trabajo (ver
+\vref{cha:model}) para el entrenamiento de los modelos.
 
 \subsubsection{Data Augmentation}\index{Data augmentation}
-Hey.
+El uso de data augmentation como técnica de regularización es el proceso de
+generar de manera artificial nuevos training samples a partir de los existentes
+usando random transformations. En el tratamiento de imágenes, las
+transformaciones más típicas son: color transformation, geometric translation,
+rotations, etc.
+
+De esta manera aumentamos el cardinal del dataset (lo cual previene el
+overfitting) y también forzamos de manera artificial un dataset más
+generalista. Esto, en consecuencia, conseguirá que el modelo entrenado
+generalice mejor y sea invariante a las transformaciones realizadas en el
+dataset.
+
+\begin{remarkBox}
+  Es importante no excederse en esta técnica, ya que nos podría llevar a
+  escenarios demasiado sintéticos y que, por tanto, generemos modelos que no
+  funcionen bien en el mundo real. Una evaluación cualitativa de los datos
+  creados puede ser de utilidad para validar esta técnica.
+\end{remarkBox}
 
 
 \section{Testing}
