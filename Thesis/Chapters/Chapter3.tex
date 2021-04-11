@@ -10,13 +10,13 @@ in all purely intellectual fields.}
   {---\scshape Alan Turing}}
 
 
-\lettrine{R}{eferring} expression comprehension is the task of, given a
-linguistic phrase (\gls{re}) and an image, generate binary masks for the object
-which the phrase refers to. In this chapter we will specifically formulate the
-problem to be solved (see \vref{sec:formulation}), we will analyze the existing
-datasets and the evaluation measures (see \vref{sec:rec-trainning}) and
-finally, we will make an exhaustive study of state-of-the-art works in this
-area by reviewing the more recent literature (\vref{sec:sota}).
+\drop The task of \gls{rec} consists in, given a linguistic phrase (\gls{re})
+and an image, generate binary masks for the object which the phrase refers
+to. In this chapter we will specifically formulate the problem to be solved
+(see \vref{sec:formulation}), we will analyze the existing datasets and the
+evaluation measures (see \vref{sec:rec-trainning}) and finally, we will make an
+exhaustive study of state-of-the-art works in this area by reviewing the more
+recent literature (\vref{sec:sota}).
 
 
 
@@ -395,23 +395,23 @@ This to an evaluation of the model corresponds in a numerical way. The
 different evaluation measures typically used to address this problem are
 related to the computation of \gls{iou} or Jaccard index. This index is based
 on the concepts of intersection and union between the predicted segmentation
-(which is a mask \emph{binaria}) and the ground truth (diagrams with these
+(which is a \emph{binary} mask) and the ground truth (diagrams with these
 concepts are shown in \vref{fig:sets}).
 
 \begin{figure}[ht]
   \begin{subfigure}[t]{.5\textwidth}
     \centering
-    \caption{Union of sets \(A\) \(A\) and \(B\) \(B\).}
+    \caption{Union of sets \(A\) and \(B\).}
     \includesvg[width=.55\textwidth]{SVGs/Union_of_sets_A_and_B.svg}
   \end{subfigure}
   \begin{subfigure}[t]{.5\textwidth}
     \centering
-    \caption{Intersection of sets \(A\) \(A\) and \(B\) \(B\).}
+    \caption{Intersection of sets \(A\) and \(B\).}
     \includesvg[width=.55\textwidth]{SVGs/Intersection_of_sets_A_and_B.svg}
   \end{subfigure}
-  \caption[Union and intersection of sets \(A\) \(A\) and \(B\) \(B\)]{Graphic
-    representation of union and intersection of sets \(A\) \(A\) and \(B\)
-    \(B\). From \captioncite{contributors21:jaccar} (both).}\label{fig:sets}
+  \caption[Union and intersection of sets \(A\) and \(B\)]{Graphic
+    representation of union and intersection of sets \(A\) and \(B\). From
+    \captioncite{contributors21:jaccar} (both).}\label{fig:sets}
 \end{figure}
 
 From here arises the well-known Jaccard index or coefficient \gls{iou},

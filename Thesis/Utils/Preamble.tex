@@ -371,6 +371,9 @@
 \setlength{\DefaultFindent}{.11em}
 \setlength{\DefaultNindent}{.11em}
 \LettrineRealHeighttrue
+\def\drop #1#2 {% note the space before {
+  \lettrine{#1}{#2} % a trailing space
+}
 
 % Change ToC title name.
 \addto\captionsenglish{
