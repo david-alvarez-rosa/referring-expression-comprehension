@@ -176,8 +176,8 @@
 \renewcommand{\labelitemiv}{$\m@th\diamond$}
 \makeatother
 
-% Footnote configuration.
-% \setlength\footnotemargin{-1.25em} TODO. check this or remove it.
+% Define color for alternating rows in tables.
+\colorlet{rowColor}{gray!10}
 
 % Add command for footnote href.
 \newcommand*\fhref[2]{%
@@ -368,8 +368,8 @@
 
 % Configuration for Lettrine.
 \renewcommand{\LettrineFontHook}{\bfseries}
-\setlength{\DefaultFindent}{.11em}
-\setlength{\DefaultNindent}{.11em}
+\setlength{\DefaultFindent}{.12em}
+\setlength{\DefaultNindent}{.12em}
 \LettrineRealHeighttrue
 \def\drop #1#2 {% note the space before {
   \lettrine{#1}{#2} % a trailing space
@@ -429,7 +429,7 @@ This \namecref{#1}, entitled \textsl{\nameref*{#1}}, begins on page~\pageref{#1}
 \date{\today}
 
 
-% \includeonly{Chapters/Chapter3}
+\includeonly{Chapters/Chapter7}
 % \includeonly{Appendices/AppendixA}
 
 

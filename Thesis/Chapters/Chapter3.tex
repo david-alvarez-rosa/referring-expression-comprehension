@@ -108,9 +108,10 @@ the simplest to the most complex.
     \caption{Little girl pink coat.}\label{fig:rec-girl}
     \includegraphics[width=\textwidth]{Images/Little girl.jpg}
   \end{subfigure}
-  \caption[Examples of \acl*{rec}]{Examples of \acl{rec}. As can be seen, we
-    can refer to objects of the image with \gls{re} in natural language and
-    segmentation occurs. Figures created by the author (all).}\label{fig:rec-examples}
+  \caption[Examples of \glsentrylong{rec}]{Examples of \acl{rec}. As can be
+    seen, we can refer to objects of the image with \gls{re} in natural
+    language and segmentation occurs. Figures created by the author
+    (all).}\label{fig:rec-examples}
 \end{figure}
 
 
@@ -355,8 +356,8 @@ suitable for use in an optimization process.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=.65\textwidth]{Images/GIoU.png}
-  \caption[\acl*{giou} algorithm]{\acf{giou} general algorithm applied to
-    arbitrary multi-dimensional sets. In the specific case of \gls{rec} they
+  \caption[\glsentrylong{giou} algorithm]{\acf{giou} general algorithm applied
+    to arbitrary multi-dimensional sets. In the specific case of \gls{rec} they
     will be bounding boxes in \(\R^2\). From
     \captioncite{rezatofighi19:gener}.}\label{fig:giou}
 \end{figure}
@@ -391,12 +392,12 @@ out a visual / qualitative evaluation (see \vref{sec:qualitative-eval}).
 
 \subsection{Quantitative Measures}\label{sec:quantitative-measures}
 
-This to an evaluation of the model corresponds in a numerical way. The
-different evaluation measures typically used to address this problem are
-related to the computation of \gls{iou} or Jaccard index. This index is based
-on the concepts of intersection and union between the predicted segmentation
-(which is a \emph{binary} mask) and the ground truth (diagrams with these
-concepts are shown in \vref{fig:sets}).
+This corresponds to an evaluation of the model in a numerical way with
+metrics. The different evaluation measures typically used to address this
+problem are related to the computation of \gls{iou} or Jaccard index. This
+index is based on the concepts of intersection and union between the predicted
+segmentation (which is a \emph{binary} mask) and the ground truth (diagrams
+with these concepts are shown in \vref{fig:sets}).
 
 \begin{figure}[ht]
   \begin{subfigure}[t]{.5\textwidth}
@@ -446,17 +447,64 @@ that the Jaccard index takes a value between \(0\) and \(1\), being \(0\) when
 there is no intersection between the bounding boxes and taking the value of
 \(1\) when the correspondence is exact.
 
-\subsubsection{Precision}
+\subsubsection{Mean and Overall \glsentryshort{iou}}
 
-It is also possible to define an accuracy index in the following way: if
-\gls{iou} is greater than \num{0.5} the prediction is considered a true
-positive, and if not, it is considered as a false positive. You can then
-average over the entire dataset.
+Using \gls{iou} as a metric to evaluate a segmentation or bounding box can be
+done in two ways. The first is to average all the \gls{iou} values on the
+test dataset, as follows,
+\begin{equation}
+  \text{\Acl{miou}} = \frac{1}{N}\sum_{i=0}^N \text{\gls{iou}}_i,
+\end{equation}
+where \(N\) corresponds to the size of the test dataset and
+\(\text{\gls{iou}}_i\) is the \gls{iou} value corresponding to the \(i\)-th
+image. This metric, for obvious reasons, is called \gls{miou}.
+
+Another possibility for using the \gls{iou} as a metric is the \emph{overall}
+\gls{iou}, defined as the division between the total intersection area and the
+total union area. This areas are accumulated by iterating throughout the
+dataset, i.e.,
+\begin{equation}
+  \text{Overall \gls{iou}} =
+  \frac{\sum_{i=0}^N I_i}{\sum_{i=0}^n U_i},
+\end{equation}
+where \(I_i\) and \(U_i\) correspond to the intersection and union
+(respectively) between the prediction and the ground truth for the \(i\)-th
+image in the test dataset.
+
+One of the problems that \emph{overall} \gls{iou} has is that it favors
+large regions like the ground or the sky.
+
+\subsubsection{Precision at Threshold}
+
+This metric is commonly used in segmentation task (e.g., is used in
+\acs{pascal} \gls{voc} challenge, by
+\myCite{everingham10:pascal_visual_objec_class_voc_chall}).
+
+Here, for each sample from the test datset, it will be judged as true/false
+positivie by using the \gls{iou} index. A particular sample will be considered
+a correct detection iff the \gls{iou} between the prediction and the ground
+truth is greater than some predefined threshold. For example, Prec@0.5 is the
+percentage of samples where the predicted segmentation overlaps with the ground
+truth region by at least 50\%.
+
+Different thresholds can be used for evaluation, for instance computing
+Prec@0.5, Prec@0.7 and Prec@0.9. Of course, higher thresholds correspond to
+a harder metric and, thus, accuracy will decrease.
 
 
 \subsection{Qualitative Evaluation}\label{sec:qualitative-eval}
 
-Visually evaluate the model.
+In addition to making a quantitative evaluation, which provides us with
+numerical values for the different models, it is also interesting to carry out
+a qualitative evaluation.
+
+In this specific case of \gls{rec} this evaluation can be done visually, since
+it involves text and images. To perform this evaluation in the most general way
+it is important to test a very diverse range of both \gls{re} and images. To do
+this, \gls{re} can be used by involving different elements each time (and
+combining them): spatial information within the image, name of the object,
+relative positioning, color characteristic of the object, position of the
+object, number of existing objects, relative size of the object, etc.
 
 
 
@@ -516,10 +564,10 @@ reasoning.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=.75\textwidth]{Images/MattNet.png}
-  \caption[\acl*{mattnet}]{\gls{mattnet}: given an expression, it is divided
-    into three phrase embeddings, which are input to three visual modules that
-    process the described visual region in different ways and compute
-    individual matching scores. From
+  \caption[\glsentrylong{mattnet}]{\gls{mattnet}: given an expression, it is
+    divided into three phrase embeddings, which are input to three visual
+    modules that process the described visual region in different ways and
+    compute individual matching scores. From
     \captioncite{yu18:mattn}.}\label{fig:mattnet}
 \end{figure}
 

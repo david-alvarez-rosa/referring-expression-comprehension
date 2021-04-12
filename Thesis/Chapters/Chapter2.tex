@@ -12,10 +12,10 @@
   {---\scshape William Edwards}}
 
 
-\drop A neural network, more properly referred to as an \gls{ann} are computing
-systems vaguely inspired by the biological neural networks that constitute
-animal brains. Dr.\ Robert Hecht-Nielsen (inventor of one of the first
-neurocomputers), in an article by
+\drop Neural networks\index{Neural network}, more properly referred to as
+\glspl{ann} are computing systems vaguely inspired by the biological neural
+networks that constitute animal brains. Dr.\ Robert Hecht-Nielsen (inventor of
+one of the first neurocomputers), in an article by
 \myCite{caudill87:neural_networ_primer_part_i}, defines a neural network as:
 
 \begin{quoteBox}
@@ -212,7 +212,7 @@ The \emph{matrix} of all weights in the \(l\)-th layer will be denoted by
   is one 1 in the position corresponding to the number 3 and the rest of zeros.
 \end{exampleBox}
 
-\subsubsection{Model: feed forward}\label{subsec:forward}
+\subsubsection{Model: feed forward}\label{subsec:forward}\index{Feed forward}
 
 From now on let's suppose we are working with a fully-connected neural network,
 with different layers and we will be using the same notation used before. The
@@ -231,7 +231,7 @@ layer. In this network we can think of information traveling in one direction,
 forward, from the input layer, through the hidden layers to the output neurons.
 
 \subsubsection{Trainning: backpropagation}%
-\label{sec:backward}\index{Backpropgation}
+\label{sec:backward}\index{Backpropagation}
 
 In order to be able to train our neural network, it is mandatory to define an
 error function (also known as loss function) that quantifies how good or bad
@@ -260,7 +260,8 @@ value of the parameters \(\theta\). We will denote the error function by
 (i.e., \(\mathcal{C}^1\)).
 
 
-\subsection{\glsentrylong{cnn}}\label{sec:conv-neur-netw}
+\subsection{\glsentrylong{cnn}}%
+\label{sec:conv-neur-netw}\index{Convolutional!network}
 
 \glspl{cnn} are a class of \glspl{dnn} that are widely used in computer
 vision. They are commonly applied in image analysis, since they have the main
@@ -289,16 +290,15 @@ architecture can be seen in \vref{fig:lenet-5}.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{Images/Architecture LeNet-5.png}
-  \caption[Example of topology of a \acs*{cnn} (LeNet-5)]{Example of topology
-    of a \gls{cnn}. Specifically, it is
+  \caption[Example of topology of a \glsentryshort{cnn} (LeNet-5)]{Example of
+    topology of a \gls{cnn}. Specifically, it is
     \href{http://yann.lecun.com/exdb/lenet}{LeNet-5} (see
     \url{http://yann.lecun.com/exdb/lenet}), a convolutional network created by
-    Yann LeCun.}
-  \label{fig:lenet-5}
+    Yann LeCun.}\label{fig:lenet-5}
   \source{From TODO}
 \end{figure}
 
-\subsubsection{Convolutional layers}
+\subsubsection{Convolutional layers}\index{Convolutional!layer}
 
 The name comes from the fact that these layers use the mathematical operation
 of \fhref{https://en.wikipedia.org/wiki/Convolution}{convolution}. This
@@ -396,7 +396,7 @@ The main functions used are the following:
 \end{itemize}
 
 
-\subsection{\glsentrylong{rnn}}\label{sec:rnn}
+\subsection{\glsentrylong{rnn}}\label{sec:rnn}\index{Recurrent network}
 
 \glspl{rnn} are a class of \glspl{ann} that are widely used with temporal
 sequences (as for example in the scope of \gls{nlp}). Analogously to the
@@ -423,14 +423,14 @@ represented by the hidden state \(\mathbf{h}^{t - 1}\), therefore the output
     \caption{Unfolded basic \gls{rnn}.}
     \includegraphics[height=4cm]{Images/Unfolded RNN.png}
   \end{subfigure}
-  \caption[Basic topology of \acl*{rnn}]{Basic topology of \acf{rnn}. Two
-    versions of the same network are shown, one is the compact version and the
-    other is the same network but unfolded in time.}
+  \caption[Basic topology of \glsentrylong{rnn}]{Basic topology of
+    \acf{rnn}. Two versions of the same network are shown, one is the compact
+    version and the other is the same network but unfolded in time.}
   \label{fig:rnn}
   \source{From TODO. Citar es de stanford también}
 \end{figure}
 
-\subsubsection{Different types of \gls*{rnn}}
+\subsubsection{Different types of \glsentryshort{rnn}}
 
 Feedforward networks send an input to an output\footnote{The input and output
   can be vector. It does not mean, therefore, that they are only a number, it
@@ -442,9 +442,9 @@ architectures that may exist are listed in \vref{fig:rnn-types}.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{Images/RNN types.png}
-  \caption[Types of architectures for \acl*{rnn}]{Types of architectures for
-    \gls{rnn}. All posibilities are considered (i.e., all combinations are
-    presented).}
+  \caption[Types of architectures for \glsentrylong{rnn}]{Types of
+    architectures for \gls{rnn}. All posibilities are considered (i.e., all
+    combinations are presented).}
   \label{fig:rnn-types}
   \source{From TODO. Es de Stanford curso}
 \end{figure}
@@ -456,7 +456,7 @@ classification on frame label (\re{many to many} second option). The extreme
 case of \re{one to one} corresponds precisely to a normal fully connected
 layered neural network such as the one studied in \vref{sec:fnn}.
 
-\subsubsection{Model: feed forward}
+\subsubsection{Model: feed forward}\index{Feed forward}
 
 We can compute the value of the neurons with a recurring formula, involving the
 hidden states \(\mathbf{h}^t\) and the values of the input vectors
@@ -492,8 +492,8 @@ problems:
   \begin{figure}[ht]
     \centering
     \includesvg[width=.6\textwidth]{SVGs/LSTM.svg}
-    \caption[\acl*{lstm}]{\acf{lstm} representation. Input (\(i\)), output
-      (\(o\)) and forget (\(f\)) gates are shown in the image. From
+    \caption[\glsentrylong{lstm}]{\acf{lstm} representation. Input (\(i\)),
+      output (\(o\)) and forget (\(f\)) gates are shown in the image. From
       \captioncite{enwiki:1005032489}.}\label{fig:lstm}
   \end{figure}
 
@@ -543,7 +543,8 @@ problems:
   the hyperbolic tangent. Other activation functions would also be possible.
 \end{itemize}
 
-\subsubsection{Trainning: \acl*{bptt}}
+\subsubsection{Trainning: \glsentrylong{bptt}}%
+\index{Backpropagation!through time}
 
 Analogously to other models, here the training of \gls{rnn} is also carried out
 using first-order optimization methods, i.e., calculating the partial
@@ -734,7 +735,7 @@ centered at 0, therefore, when the activation function \gls{relu} is used, it
 is It is preferable to use another type of weight initialization, such as that
 proposed by \myCite{he15:delvin_deep_rectif}.
 
-\subsubsection{Backpropagation Error}\index{Backpropgation}
+\subsubsection{Backpropagation Error}\index{Backpropagation}
 
 Hey. TODO.
 
@@ -853,6 +854,6 @@ the transformations performed in the dataset.
 
 
 
-\section{Testing}
+\section{Testing}\index{Testing}
 Hey there. Talk about evaluation measures \textbf{in general}. Talk here about
 the importance of the split \code{test/val/test}.
