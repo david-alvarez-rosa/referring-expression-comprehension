@@ -1,48 +1,39 @@
 % -*- TeX-master: "../../Thesis.tex" -*-
 
 
+
+\tikzset{external/export = false}
 \begin{tikzpicture}
   \begin{ganttchart}[
     % Time format.
     time slot format = isodate-yearmonth,
     time slot unit = month,
-    % % Cuadrícula.
-    vgrid,
-    % vgrid = {
-    %   {black!25, loosely dotted},
-    %   {black, loosely dotted}
-    % },
-    % hgrid = {
-    %   *1{black, loosely dotted}
-    % },
-    % y unit chart = 1.1cm,
-    % Título (semanas).
+    % Grid.
+    vgrid = {*1{black, loosely dotted}},
+    hgrid={*1{black, loosely dotted}},
+    y unit chart = 1.1cm,
+    % Title.
     title/.append style = {
       fill = yellowGantt
     },
     title height = .75,
-    % Fondo.
+    % Canvas.
     canvas/.append style = {
       fill = yellowGantt!15
     },
     expand chart = \textwidth,
-    % % Estilo día (en vertical).
-    today = 2021-01,
-    % today offset = .7,
-    today label = Presente,
+    % Today configuration.
+    today = 2021-03,
+    today label = Today,
     today rule/.style = {
       draw = black!70,
       dashed,
       very thick
     },
-    % Estilo progreso.
+    % Progress style.
     progress = today,
-    progress label text = {
-      \pgfmathprintnumber[precision=0, verbatim]{#1}\% completado
-    },
-    bar progress label anchor = west,
     group progress label anchor = west,
-    % Estilos grupos.
+    % Group style.
     group/.append style = {
       fill = greenGantt,
       draw = black,
@@ -62,35 +53,32 @@
     group peaks tip position = .4,
     group label node/.append style = {
       align = right
-    }, % Importante.
-    % Barras verticales auxiliares.
+    }, % Important.
+    % Vertical rule (auxiliar).
     vrule/.style = {
       draw = none
     },
-    % Uniones.
+    % Link style.
     link/.style = {
       -latex,
       thick
     },
-    link bulge = .75,
-    % ]{1}{28} % En medias semanas (dos días de clase/semana).
-    ]{2020-10}{2021-05} % En medias semanas (dos días de clase/semana).
+    link bulge = .75
+    ]{2020-10}{2021-05}
 
-    % Semanas.
-    % \gantttitlelist{1,...,14}{2} \\
+    % Months.
     \gantttitlecalendar{month=shortname} \\
 
-    % Entrega I.
-    % \ganttgroup{A. Propuesta\ganttalignnewline proyecto}{1}{8} \\
-    \ganttgroup{A. Propuesta\ganttalignnewline proyecto}{2020-11}{2020-12} \\
-    \ganttgroup{B. Propuesta\ganttalignnewline proyecto}{2020-11}{2020-12} \\
-    \ganttgroup{C. Propuesta\ganttalignnewline proyecto}{2020-11}{2020-12} \\
-    \ganttgroup{D. Propuesta\ganttalignnewline proyecto}{2020-11}{2020-12} \\
-    \ganttgroup{E. Propuesta\ganttalignnewline proyecto}{2020-11}{2020-12} \\
+    % Groups.
+    \ganttgroup{A. Learn\ganttalignnewline basics ML/DL}{2020-11}{2020-12} \\
+    \ganttgroup{B. Learn\ganttalignnewline thesis topic}{2020-12}{2021-01} \\
+    \ganttgroup{C. Modeling}{2021-01}{2021-03} \\
+    \ganttgroup{D. Web\ganttalignnewline development}{2021-02}{2021-04} \\
+    \ganttgroup{E. Bachelor's\ganttalignnewline thesiss}{2020-12}{2021-05}
 
-    % % Barras verticales auxiliares.
-    % \ganttvrule{Inicio}{1}
-    % \ganttvrule{Fin}{27}
+    % Vertical rules.
+    \ganttvrule{Start}{2020-10}
+    \ganttvrule{End}{2021-05}
 
     % Uniones entre grupos.
     \ganttlink{elem0}{elem1}
