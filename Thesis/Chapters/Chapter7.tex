@@ -42,215 +42,120 @@ imposed/demanded by a particular client.
 
 \subsection{Table of Activities}\label{sec:activities}
 
-
-
-
-\begin{comment}
-  Aquí diferentes cosas:
-
-  - En un inicio aprendizaje de lo básico sobre Deep Learning. Realicé varios
-  cursos: el de Stanford, los de Github de UPC Telecos, uno de Machine Learning
-  en Coursera y otro de Deep Learning Specialization en Coursera (este es el
-  que era de 5 cursos pero que no terminé).
-
-  - Después de esto aprendí sobre temas más profundos del ámbito en el que iba
-  a trabajar leyendo publicaciones sobre el tema. Aquí podría hacer un listado
-  de los diferentes papers que leí (los que tengo impresos más los que me envió
-  Sanja por Slack).
-
-  - Después de esto comencé con el tema concreto de la tesis. Para ello ya leí
-  SOTA de exactamente la tesis. Aquí podría citar todos los papers que aparecen
-  en la sección de ``related works''.
-
-  - Aquí faltaría que tengo que aprender a usar el servidor.
-
-  - Después de esto comenzó el proceso iterativo de mejorar el modelo de
-  RefVOS.
-
-  - Paralelamente con esto estuvo todo el trabajo de formarme sobre desarrollo
-  web (es decir, aprender a usar los diferentes lenguajes típicos web).
-
-  - Y, por último, llegó la creación de la web.
-
-  - Después de esto llegó el escribir la tesis.
-
-  - Por último, crear la presentación en pdf y prepararla.
-
-  Esto se agrupa en:
-  - Learning:
-      - Aprendizaje fundamentos ML/DL.
-      - Aprendizaje más produndo sobre ámbito relacionado con la tesis (aprendizaje
-  multimodal, etc.)
-      - Aprendizaje tema concreto de la tesis (básicamente leer SOTA).
-
-  - Entranimiento modelos:
-      - Aprender a usar servidor (los programas raros estos que son unas
-      colas).
-      - Probar diferentes iteracciones del modelo.
-      - Generación de los datos de evaluación.
-
-  - Desarrollo web:
-     - Aprender lenguajes front-end (HTML, CSS, JS) quizá decir también que uso
-     Bootstrap.
-     - Aprender lenguaje de backend para poder realizar la API que conecta el
-     frontend con el modelo en Python (es decir, aprender a usar PHP).
-     - Alquilar servidor, ser capaz de configurar Apache como web server y
-     comprar dominio público para hacer la web accesible desde cualquier
-     lugar.
-
-  - Bachelor thesis
-      - Escribir todo este trabajo.
-      - Maquetarlo con Latex.
-      - Crear una presentación para presentarlo.
-      - Preparar la presentación.
-\end{comment}
-
-
-
-
-
-
-
 La programación de actividades nos permitirá disponer de un calendario de
-ejecución del proyecto donde queden reflejadas las fechas de inicio y de fin
-de las distintas actividades en las cuales se han descompuesto el proyecto.
+ejecución del proyecto donde queden reflejadas las fechas de inicio y de fin de
+las distintas actividades en las cuales se han descompuesto el proyecto. Para
+facilitar la comprensión de las diferentes actividades, se han dividido en 5
+grandes grupos:
+\begin{itemize}
+  \item \textbf{Learn basics of \gls{ml} and \gls{dl}.} Este conjunto de tareas
+  ha consistido en adquirir los conocimientos básicos en los ámbitos de
+  \gls{ml}/\gls{dl} que son los que han permitido poder continuar en el
+  proyecto. Gran parte de lo aprendido aquí es precisamente lo descrito en el
+  \vref{cha:theory}.
+  \item \textbf{Learn thesis topic.} Una vez afianzados los conocimientos
+  básicos en \gls{dl} se ha procedido a profundizar más en conocimientos
+  avanzados y más relacionados con el ámbito concreto de la tesis. Para ello se
+  han leído diferentes papers recomendados y se ha leído la literatura
+  existente about state-of-the-art models.
+  \item \textbf{Modeling.} Este conjunto de tareas coincide con el
+  \vref{cha:models}. Aquí es donde se presentan los dos modelos usados en este
+  trabajo.
+  \item \textbf{Web development.} Aquí se recogen todas las actividades
+  relacionadas con el desarrollo de la web (see \vref{cha:web}). Desde el
+  aprendizaje de los lenguajes de front end hasta la publicación de la web con
+  un dominio propio y pasando por la programación del back end.
+  \item \textbf{Bachelor's thesis.} Estas tareas se corresponden con las
+  solicitadas por la universidad: redacción de la memoria del trabajo, y la
+  creación y preparación de la presentación final.
+\end{itemize}
 
-Para poder definir dicho calendario será necesario conocer las duraciones de
-las diversas actividades a realizar y su orden relativo. Asimismo, tendrán que
-ser fijadas las fechas de inicio y fin del proyecto en su conjunto. De esta
-manera, en la \vref{tab:activities} se muestran las actividades principales a
-desarrollar en este proyecto.
+El conjunto de actividades desglosado se muestra en la
+\vref{tab:activities}, donde se puede ver de manera detallada las tasks que
+componen las main activities. Así mismo, se muestran fechas aproximadas de
+comienzo y de final tanto de las tasks como de las main activities.
 
-\begin{table}[ht]
+\begin{table}[p]
   \centering
-  \rowcolors{1}{}{rowColor}
-  \caption[Main activities of the project]{Main activities of the project. The
-    temporal relationship between them and the start/end dates are shown (note
-    that there are activities that have been carried out in
-    parallel).}\label{tab:activities}
-  \begin{tabular}{cl*3c}
+  \caption[Main activities broken down into tasks]{Main activities broken down
+    into tasks and with approximate start and end dates. Note that various
+    tasks have been carried out in parallel.}\label{tab:activities}
+  \begin{tabular}{cp{.55\textwidth}cc}
     \toprule
-    \textbf{Code} & \textbf{Activity name} & \textbf{Next} & \textbf{Start} & \textbf{End} \\
+    \rowcolor{gray!37.5}
+    \textbf{Code} & \textbf{Activity} & \textbf{Start} & \textbf{End} \\
     \midrule
-    A & Learning                       &   & Oct. &    \\
-    B & Model trainning                &   &      &    \\
-    C & Web development                &   &      &    \\
-    D & Bachelor's thesis                &   &      &    \\
+
+    \rowcolor{rowColor}
+    \textbf{A} & \textbf{Learn basics of \acs{ml}/\acs{dl}}                                      & Dec. 1 & Dec. 1 \\
+    \rowcolor{rowColor}
+    A1         & \Acs{ml} course \cite{ng20:machin_learn}                                        & 1      & 1      \\
+    \rowcolor{rowColor}
+    A2         & \Acs{dl} lectures from UPC \cite{giro-i-nieto20:all_deep_learn_upc_etset_telec} & 1      & 1      \\
+    \rowcolor{rowColor}
+    A3         & Stanford CS231n: \acsp{cnn} for Visual Recognition \cite{li20:cs231}            & 1      & 1      \\
+    \rowcolor{rowColor}
+    A4         & \Acs{dl} specialization \cite{ng20:deep_learn_special}                          & 1      & 1      \\
+    \midrule
+
+    \textbf{B} & \textbf{Learn thesis topic}                                                       & 10 & 5 \\
+    B1         & Multimodal learning lectures \cite{giro-i-nieto20:all_deep_learn_upc_etset_telec} & 1  & 1 \\
+    B2         & Publications                                                                      &    & 4 \\
+    B3         & State-of-the-art papers on \acs{rec}: \cite{}                                     &    & 4 \\
+    \midrule
+
+    \rowcolor{rowColor}
+    \textbf{C} & \textbf{Modeling}    & 8 & 1 \\
+    \rowcolor{rowColor}
+    C1         & Server usage         & 1 & 1 \\
+    \rowcolor{rowColor}
+    C2         & Multiple iterations  & 1 & 1 \\
+    \rowcolor{rowColor}
+    C3         & Generate test values & 1 & 1 \\
+    \midrule
+
+    \textbf{D} & \textbf{Web development}         & 10  & 5 \\
+    D1         & Front end (HTML, CSS, JS)        &     & 4 \\
+    D2         & \Acs{api} creation  (PHP)        &     & 4 \\
+    D3         & Web server configuration         &     & 4 \\
+    D4         & Publish website (domain, server) & 1,5 & 4 \\
+    \midrule
+
+    \rowcolor{rowColor}
+    \textbf{E} & \textbf{Bachelor's thesis} & 8 & 1 \\
+    \rowcolor{rowColor}
+    E1         & Write thesis (\LaTeX)       & 1 & 1 \\
+    \rowcolor{rowColor}
+    \rowcolor{rowColor}
+    E2         & Create presentation slides (\LaTeX) & 1 & 1 \\
+    \rowcolor{rowColor}
+    E4         & Prepare presentation       & 1 & 1 \\
     \bottomrule
   \end{tabular} \\[1.25ex]
   {\small\textbf{Note}. Table created by the author.}
 \end{table}
 
-Para poder hacernos una idea más concreta de las diferentes etapas/fases del
-proyecto, se muestra en la tabla \ref{tab:activities-desglosadas} el desglose
-en subpartes de las etapas. De las fases \textbf{A}-\textbf{D} se destacan dos
-partes principales (A1 y A2 en el caso de \textbf{A}, por ejemplo), y la tercera
-y última parte se corresponde a la preparación de la entrega correspondiente
-(preparación del informe + preparación de la presentación) (A3 en el caso de
-\textbf{A}). \\
-
-De esta manera estamos dividiendo cada etapa (entrega) del proyecto en dos
-partes más de tipo informativo (recabar información y aprendizaje nuestro) y
-otra parte más de presentación de esta información adquirida. Análogamente a la
-tabla resumida anterior, a información que se muestra en la tabla se encuentra
-expresada en horas \textbf{por alumno} y las celdas de Inicio y Fin en semanas. \\
-
-\begin{table}[p]
-  \centering
-  \caption[TODO]{TODO. Actividades principales desglosadas.}
-  \label{tab:activities-desglosadas}
-  \begin{tabular}{clcccc}
-    \toprule
-    \rowcolor{gray!37.5}
-    \bf Código & \bf Denominación actividad & \bf Sig. & \bf Duración & \bf Inicio & \bf Fin \\
-    \midrule
-
-    \rowcolor{gray!7.5}
-    \textbf{A} & \bf Propuesta del proyecto      & A1    & 8 & 1 & 4 \\
-    \rowcolor{gray!7.5}
-    A1         & Definición general del proyecto & A2    & 1 & 1 & 2 \\
-    \rowcolor{gray!7.5}
-    A2         & Objetivos y especificaciones    & A3    & 2 & 2 & 3 \\
-    \rowcolor{gray!7.5}
-    A3         & Preparación de la entrega I     & \bf B & 4 & 3 & 4 \\
-    \midrule
-
-    \textbf{B} & \bf Análisis de usuarios y sistemas & B1    & 10        & 4 & 5 \\
-    B1         & Análisis de sistemas y del usuario  & B2    & 1,5 + 1,5 & 4 & 4 \\
-    B2         & Análisis de funciones               & B3    & 3         & 4 & 4 \\
-    B3         & Preparación de la entrega II        & \bf C & 4         & 5 & 5 \\
-    \midrule
-
-    \rowcolor{gray!7.5}
-    \textbf{C} & \bf Diseño conceptual             & C1    & 16    & 5 & 7 \\
-    \rowcolor{gray!7.5}
-    C1         & Estudio ergonómico y de seguridad & C2    & 3 + 3 & 5 & 5 \\
-    \rowcolor{gray!7.5}
-    C2         & Normativa vigente                 & C3    & 5     & 6 & 6 \\
-    \rowcolor{gray!7.5}
-    C3         & Preparación de la entrega III     & \bf D & 5     & 6 & 7 \\
-    \midrule
-
-    \textbf{D} & \bf Estudio de alternativas       & D1    & 20    & 7 & 10 \\
-    D1         & Descripción alternativas          & D2    & 6     & 7 & 8  \\
-    D2         & Análisis comparativos y selección & D3    & 6 + 2 & 8 & 9  \\
-    D3         & Preparación de la entrega IV      & \bf E & 6     & 8 & 10 \\
-    \midrule
-
-    \rowcolor{gray!7.5}
-    \textbf{E} & \bf Propuesta de solución. Memoria & E1    & 35 & 10 & 14 \\
-    \rowcolor{gray!7.5}
-    E1         & Memoria. Informe final.            & E2    & 10 & 10 & 13 \\
-    \rowcolor{gray!7.5}
-    E2         & Póster.                            & E3    & 10 & 12 & 13 \\
-    \rowcolor{gray!7.5}
-    E3         & Preparación de la entrega V        & \bf - & 5  & 13 & 14 \\
-    \bottomrule
-  \end{tabular}                                                            \\[1.25ex]
-  \textbf{Nota}. Duración expresada en horas. Inicio y fin en semanas.
-\end{table}
-
-
-
-
-
-
-
-
-
 
 \subsection{Gantt Chart}\label{sec:gantt}\index{Gantt chart}
 
+La información recogida en en forma de tabla de actividades en la sección
+anterior (\vref{sec:activities}), se puede mostrar de manera más gráfica con un
+diagrama. La herramienta más conocida para representar la planificación de
+tareas en el tiempo es la creada por
+\myCite{gantt73:work_wages_profit_manag_histor_no}. Este diagrama, llamado en
+honor a su creador como Gantt chart, es una herramienta gráfica cuyo objetivo
+es exponer el tiempo de dedicación previsto para diferentes tareas o
+actividades a lo largo de un tiempo total determinado.
 
-Hey.
+Para este trabajo concreto, se muestra el Gantt chart correspondiente en la
+\vref{fig:gantt}. Este chart es exactamente la representación gráfica de la
+distribución de tareas de la \vref{tab:activities}.
 
-
-
-La información recogida en la sección en forma de tabla de actividades en la
-sección anterior (sección \ref{sec:activities}), se puede mostrar de manera más
-gráfica con el conocido diagrama de Gantt \cite{gantt}. El \textbf{diagrama de
-  Gant} es una herramienta gráfica cuyo objetivo es exponer el tiempo de
-dedicación previsto para diferentes tareas o actividades a lo largo de un tiempo
-total determinado.
-
-De esta manera, se \textbf{representar} la información de la tabla
-\ref{tab:activities} en un diagrama de Gantt (figura \ref{fig:gantt})
-resumido. Es importante destacar que la distribución temporal es en
-\textbf{semanas} y que no hay margen en ninguna actividad puesto que todas son secuenciales. Eso es, no podemos adelantar ni retrasar trabajo porque solo hay un camino que sería el crítico en este caso.
-
-\begin{figure}[htbp]
+\begin{figure}[p]
     \centering
-    \includegraphics[width=.5\textwidth]{example-image-a}
+    \includegraphics[width=.75\textwidth]{example-image-a}
     \caption[TODO]{TODO.}\label{fig:gantt}
 \end{figure}
-
-Estas serían las actividades que ser irán desarrollando en las próximas 12
-semanas. Claro esta, que al referirnos a actividades futuras, siempre existe una
-\textbf{incertidumbre} sobre las fechas y duración de las mismos. Por tanto,
-este diagrama tiene que considerarse como una guía, la cual no obliga al
-cumplimiento inmediato de las actividades mostradas. Siempre hay que trabajar
-con cierto margen, hay que ser previsor, nunca se sabe qué problemas nos podemos
-encontrar en el futuro.
 
 
 

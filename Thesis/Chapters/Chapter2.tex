@@ -65,13 +65,13 @@ fast tensor computation (with the ability to compute in \gls{gpu}). These
 tensors store the data used to train neuronal models. In the case of \gls{cv},
 the following tensors appear:
 \begin{itemize}
-  \item \textbf{\acs*{rgb} Image}. An \acs{rgb} image can be interpreted as a
+  \item \textbf{\acs*{rgb} Image.} An \acs{rgb} image can be interpreted as a
   tensor of rank 3, \(\mathbf{I} \in \R^{C \times H \times W}\), where \(C\)
   corresponded to the number of channels (i.e., in this case, \(C = 3\)), \(H\)
   corresponds to the height of the image and \(W\) to its
   width.\footnote{Grayscale images also fall into this category with just 1
     channel (i.e., using the above notation \(C = 1\)).}
-  \item \textbf{Batch of \acs*{rgb} Images}. A batch of \acs{rgb} images is a
+  \item \textbf{Batch of \acs*{rgb} Images.} A batch of \acs{rgb} images is a
   set of \acs{rgb} images, therefore, can be interpreted as a tensor of rank 4,
   \(\mathbf{I} \in \R^{B \times C \times H \times W}\), where \(B\) corresponds
   to the batch size, and \((C, H, W)\) have the same meaning as in the case of
@@ -104,18 +104,18 @@ appeared. In a very general classification of neural models we can find
 different ones.
 
 \begin{itemize}\index{Neural network!architectures}
-  \item \textbf{\acl*{fnn}}. These networks are the simplest type of neural
+  \item \textbf{\acl*{fnn}.} These networks are the simplest type of neural
   model that exists and on which more complex models are built. A more detailed
   description of this type of network can be found in
   \vref{sec:fnn}.
-  \item \textbf{\acl*{cnn}}. This type of neural network is especially useful
+  \item \textbf{\acl*{cnn}.} This type of neural network is especially useful
   in image processing, since it allows preserving the spatial information of
   the relationship between pixels. They will be studied in
   \vref{sec:conv-neur-netw}.
-  \item \textbf{\acl*{rnn}}. Ideal neural models for the analysis of time
+  \item \textbf{\acl*{rnn}.} Ideal neural models for the analysis of time
   series (such as text or audio). They will be studied in
   \vref{sec:rnn}.
-  \item \textbf{Transformers}. The transformer-based models are part of the
+  \item \textbf{Transformers.} The transformer-based models are part of the
   current state of the art.\footnote{On \today, current date of the document.}
   They are being used extensively in \gls{nlp} and studying their possible
   applications in computer vision and image processing. They will be described
@@ -162,18 +162,18 @@ We will denote with \(L\) the number of layers and with \(n_l\) the size of the
 Neurons are the core component of any neural network. Basically there are three
 subparts that form a neuron.
 \begin{itemize}
-  \item \textbf{Value}. Each neuron holds a value, it will be denoted by
+  \item \textbf{Value.} Each neuron holds a value, it will be denoted by
   \(x_i^l \in \R\) for the \(i\)-th neuron in the \(l\)-th layer. Of course, it
   should be satisfied \(1 \leq i \leq n_l\). We will use the notation
   \(\mathbf{x}^l\) for the vector of all the values in the \(l\)-th level. When
   we speak of the input vector, we may ommit the superindex, i.e., we will use
   \(\mathbf{x}\) to denote \(\mathbf{x}^0\). Similarly, for the output layer,
   we will use \(\mathbf{\hat{y}}\) to refer to \(\mathbf{x}^L\).
-  \item \textbf{Bias}. Also each neuron has a bias, denoted as \(b_i^l\) for
+  \item \textbf{Bias.} Also each neuron has a bias, denoted as \(b_i^l\) for
   the \(i\)-th neuron in the \(l\)-th layer. Is then true that
   \(1 \leq i \leq n_l\). The vector of all biases in the \(l\)-th layer will be
   denoted by \(\mathbf{b}^l\).
-  \item \textbf{Activation function}. All neurons have an activation function
+  \item \textbf{Activation function.} All neurons have an activation function
   \(f_i ^ l \in \mathcal{C} ^ 1 (\R, \R)\) for the \(i\)-th neuron in the
   \(l\)-th layer.\footnote{Usually all the activation functions are
     neuron-independent (i.e., \(f_i^l\) does not really depend on \(i\) or
@@ -238,13 +238,13 @@ error function (also known as loss function) that quantifies how good or bad
 the neural network is performing when feeded with a particular dataset. We will
 use the below notation.
 \begin{itemize}
-  \item \textbf{Dataset}. Will be denoted by and consists of input-output pairs
+  \item \textbf{Dataset.} Will be denoted by and consists of input-output pairs
   \((\mathbf{x}, \mathbf{y})\), where \(\mathbf{x}\) represents the input and
   \(\mathbf{y}\) the \emph{desired} output. We shall denote the size (cardinal)
   of the dataset by \(N\). Of course, in terms of our ANN \(x\) corresponds to
   the values of the first (or input) layer and \(\mathbf{y}\) to the output (or
   last) layer.
-  \item \textbf{Parameters}. Parameters of our ANN are both the connection
+  \item \textbf{Parameters.} Parameters of our ANN are both the connection
   weights \(w_{ij}^l\) and the biases \(b_i^l\), we will denote the set of all
   parameters by \(\bm{\theta}\). Keep in mind that \(\bm{\theta}\) is just a
   set of real vectors of \(\R^D\) where \(D\) denotes the number of weights and
@@ -387,11 +387,11 @@ typically added just after convolution.
 
 The main functions used are the following:
 \begin{itemize}
-  \item \textbf{\gls*{relu}}. It is the function \(f (x) = \max \{0, x\}\),
+  \item \textbf{\gls*{relu}.} It is the function \(f (x) = \max \{0, x\}\),
   which is the most used. Removes negative values from the feature map and sets
   them to zero.
-  \item \textbf{Tangente hiperbolica}. \(f (x) = \tanh x\)
-  \item \textbf{Sigmoid function}. \(\sigma (x) ={(1 + e - x)} -1\).
+  \item \textbf{Tangente hiperbolica.} \(f (x) = \tanh x\)
+  \item \textbf{Sigmoid function.} \(\sigma (x) ={(1 + e - x)} -1\).
   \item \(f (x) = | \tanh x |\)
 \end{itemize}
 
@@ -484,7 +484,7 @@ information to travel in time\footnote{These problems are know as
   \gls{rnn} architecture.}. We introduce two new variants to solve these
 problems:
 \begin{itemize}
-  \item \textbf{\gls*{lstm}}. A unit of \gls{lstm} is composed of different
+  \item \textbf{\gls*{lstm}.} A unit of \gls{lstm} is composed of different
   gates that define its behavior. Its name is given by the function they
   perform: \emph{input} gate (\(i\)), \emph{output} gate (\(o\)) and
   \emph{forget} gate (\(f\)). A graphical representation of this type of
@@ -526,7 +526,7 @@ problems:
   \end{equation}
   The operator \(\odot\) is the element wise multiplication known as Hadamard
   product.
-  \item \textbf{\gls*{gru}}. They are another type of gating mechanism
+  \item \textbf{\gls*{gru}.} They are another type of gating mechanism
   introduced by \myCite{cho14:learn_rnn}. Its operation is governed by the
   following system of equations,
   \begin{equation}
@@ -587,10 +587,10 @@ original architecture of the Transformer model is shown in
 \vref{fig:transformer}. As you can see, two distinct segments can be
 distinguished:
 \begin{itemize}
-  \item \textbf{Encoder segment}. It takes the inputs, generates an embedding
+  \item \textbf{Encoder segment.} It takes the inputs, generates an embedding
   of them, encodes the positions, computes where each word has to attend to in
   a multi-context setting and then outputs a new intermediate representation.
-  \item \textbf{Decoder segment}. Take the entries in the target language,
+  \item \textbf{Decoder segment.} Take the entries in the target language,
   generate an embedding for them with encoded positions, calculate in which
   each word has to attend, and then combine the output of the encoder with the
   output so far. The result is a prediction for the next token.
@@ -696,7 +696,7 @@ Other optimization methods exist, mainly due to the presence of saddle points,
 which would stop the previous iterative methods since the gradient would cancel
 out. The best known are the following,
 \begin{itemize}
-  \item \textbf{Momentum}\index{Momentum}. It consists of performing the
+  \item \textbf{Momentum\index{Momentum}.} It consists of performing the
   following computation,
   \begin{equation}
     \Delta\theta^{(t)} =
@@ -705,7 +705,7 @@ out. The best known are the following,
   where \(\beta\) is a hyperparameter. This algorithm maintains the previous
   velocity as an average of the above gradients and the parameter \(\beta\) can
   be understood as a parameter of ``friction'' (thinking in physical terms).
-  \item \textbf{Nesterov Momentum}\index{Nesterov momentum}. Similarly to
+  \item \textbf{Nesterov Momentum\index{Nesterov momentum}.} Similarly to
   previous method uses a term of ``velocity'', but calculating the gradient not
   at the current point, but at the point where the velocity would carry, i.e.,
   \begin{equation}

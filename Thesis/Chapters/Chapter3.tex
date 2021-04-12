@@ -25,11 +25,11 @@ recent literature (\vref{sec:sota}).
 In the task of \gls{rec} two different entries must be given, one of them
 related to language and the other to vision.
 \begin{itemize}
-  \item \textbf{Vision}. It can be an image or a video. In our case we will
+  \item \textbf{Vision.} It can be an image or a video. In our case we will
   only deal with images.\footnote{The same model would also apply in the case
     of video if we worked frame by frame, but we will not offer a model that
     takes into account the temporal evolution of the frames.}
-  \item \textbf{\gls{re}}. It is a linguistic phrase that refers to an
+  \item \textbf{\gls{re}.} It is a linguistic phrase that refers to an
   object. It can occur in two media: audio and text. In this thesis, both
   representations will be admitted.\index{Referring expression}
 \end{itemize}
@@ -41,18 +41,18 @@ In order to understand it, multiple examples of this problem are shown in
 \vref{fig:rec-examples}. They have tried to show all the possibilities, from
 the simplest to the most complex.
 \begin{itemize}
-  \item \textbf{Multiple objects}. In \vref{fig:rec-man} an example is shown
+  \item \textbf{Multiple objects.} In \vref{fig:rec-man} an example is shown
   with two people who differ from each other by a differentiating element
   (\re{cap}). In \vref{fig:rec-laptop} the different objects are differentiated
   by their relative position (\re{right}). In \vref{fig:rec-army} they are
   differentiated by one quality (\re{white suit}).
-  \item \textbf{Multiple categories}. As can be seen in
+  \item \textbf{Multiple categories.} As can be seen in
   \vref{fig:rec-umbrella,fig:rec-parent,fig:rec-girl}, it can refer to both
   objects and people within the same image.
-  \item \textbf{Specialized vocabulary}. In \vref{fig:rec-elephant} we refer to
+  \item \textbf{Specialized vocabulary.} In \vref{fig:rec-elephant} we refer to
   a specific type of animal (\re{elephant}) and in \vref{fig:rec-couch} the
   expression \re{couch} is used.
-  \item \textbf{Secondary objects}. In \vref{fig:rec-car} we refer to a small
+  \item \textbf{Secondary objects.} In \vref{fig:rec-car} we refer to a small
   secondary object in the image (\re{car}), which is part of the same category
   (car) as the main object (bus).
 \end{itemize}
@@ -138,10 +138,10 @@ annotations, image captioning, key-point detection and panoptic segmentation
 annotations. They have a total of 81 categories, divided into 13
 supercategories.
 \begin{itemize}
-  \item \textbf{Supercategories}. They are as follows: person, vehicle,
+  \item \textbf{Supercategories.} They are as follows: person, vehicle,
   vehicle, outdoor, animal, accessory, sports, kitchen, food, furniture,
   electronic, appliance, indoor.
-  \item \textbf{Categories}. They are as follows: person, bicycle, car,
+  \item \textbf{Categories.} They are as follows: person, bicycle, car,
   motorcycle, airplane, bus, train, truck, boat, traffic light, fire hydrant,
   stop sign, parking meter, bench, bird, cat, dog, horse, sheep, cow, elephant,
   bear, zebra, giraffe, backpack, umbrella, handbag, tie, suitcase, frisbee,
@@ -254,7 +254,7 @@ Various variations of this loss function will be discussed below that may be
 useful for training various neural models.
 
 \begin{itemize}
-  \item \textbf{\gls*{wce}}. It is a variant of \gls{ce} in which the positive
+  \item \textbf{\gls*{wce}.} It is a variant of \gls{ce} in which the positive
   examples are weighted by a coefficient \(\beta\). It is defined as follows,
   \begin{equation}
     \text{\gls*{wce}}(p, \hat{p}) =
@@ -262,14 +262,14 @@ useful for training various neural models.
   \end{equation}
   Typically used when unbalanced classes appear. It is not too interesting for
   this case.
-  \item \textbf{\gls*{bce}}. It is similar to \gls{wce} with the only
+  \item \textbf{\gls*{bce}.} It is similar to \gls{wce} with the only
   difference that a weight is also added to the negative examples. It is
   defined as follows,
   \begin{equation}
     \text{\gls*{bce}}(p, \hat{p}) =
     -(\beta p\log\hat{p} + (1 - \beta)(1 - p)\log(1 - \hat{p})).
   \end{equation}
-  \item \textbf{\gls*{fl}}. It is a variant of \gls{ce} in which the most
+  \item \textbf{\gls*{fl}.} It is a variant of \gls{ce} in which the most
   \emph{complicated} elements of the dataset are affected even more. These are
   the ones with a value of \(\hat{p}\) intermediate between \(0\) and \(1\). It
   is defined as follows,
@@ -279,7 +279,7 @@ useful for training various neural models.
     (1 - \alpha)p^\gamma (1 - p)\log(1 - \hat{p})).
   \end{equation}
   When \(\gamma = 0\) we obtain \gls{bce}.
-  \item \textbf{\gls*{dnc}}. This loss function, introduced by
+  \item \textbf{\gls*{dnc}.} This loss function, introduced by
   \myCite{ronneberger15:u}, forces the separation between contiguous
   objects. It is similar to \gls{bce}, but with an additional term of distance
   between objects,
@@ -314,7 +314,7 @@ a loss function as it is not a differentiable mapping. Yes, it will be used for
 the evaluation of the model in \vref{sec:quantitative-eval}.
 
 \begin{itemize}
-  \item \textbf{\gls*{dil}}. It is based on \gls{dc}, a coefficient similar to
+  \item \textbf{\gls*{dil}.} It is based on \gls{dc}, a coefficient similar to
   \gls{iou}, which is defined as follows,
   \begin{equation}
     \text{\gls*{dc}}(X, Y) = \frac{2|X \cap Y|}{|X| + |Y|}.
@@ -326,7 +326,7 @@ the evaluation of the model in \vref{sec:quantitative-eval}.
   \end{equation}
   where \(p_{h, w} \in \{0, 1\}\), \(0 \leq \hat{p}_{h, w} \leq 1\) and the
   sums are spread over the entire image at width \(w\) and height \(h\).
-  \item \textbf{\gls*{ti}}. It is a generalization of \gls{dil}. It is defined
+  \item \textbf{\gls*{ti}.} It is a generalization of \gls{dil}. It is defined
   as follows,
   \begin{equation}
     \text{\gls*{ti}}(p, \hat{p}) = 1 -

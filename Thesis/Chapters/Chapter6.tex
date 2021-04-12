@@ -51,23 +51,23 @@ Different ways of interacting with this interface are possible. Among them, for
 example, three options have been added to introduce images for the realization
 of \gls{rec}. These are the following,
 \begin{itemize}
-  \item \textbf{Gallery}. Different images are shown in a gallery inserted on
+  \item \textbf{Gallery.} Different images are shown in a gallery inserted on
   the web. These are taken from the \gls{coco} dataset.\footnote{It should be
     noted here that, when taken from the \gls{coco} dataset, most of the images
     that appear in this gallery \emph{no} have been used to train the neural
     model.}
-  \item \textbf{Web address}. An image can also be added to the web from an
+  \item \textbf{Web address.} An image can also be added to the web from an
   external source using its web address (the URL).
-  \item \textbf{Locally}. Finally, it is possible to upload an image from your
+  \item \textbf{Locally.} Finally, it is possible to upload an image from your
   own computer's local storage to the web.
 \end{itemize}
 
 In the case of adding \gls{re} there are two options in order to facilitate
 interaction with the model. These are the following,
 \begin{itemize}
-  \item \textbf{Keyboard}. \gls{re} can be entered using the keyboard in the
+  \item \textbf{Keyboard.} \gls{re} can be entered using the keyboard in the
   usual way.
-  \item \textbf{Voice}. You can also enter \gls{re} more comfortably using your
+  \item \textbf{Voice.} You can also enter \gls{re} more comfortably using your
   voice. To do this, it is only necessary to press the corresponding button on
   the main page so that the window corresponding to the voice input of commands
   opens (see \vref{fig:voice}). Here we will have to give permissions to the
@@ -152,12 +152,12 @@ library \gls{css} called \fhref{https://getbootstrap.com/}{Bootstrap}.
 To carry out the task of \gls{rec} on an image, it is only necessary to carry
 out these three steps,
 \begin{enumerate}
-  \item \textbf{Choose image}. As we have already discussed at the beginning of
+  \item \textbf{Choose image.} As we have already discussed at the beginning of
   \vref{sec:frontend}, three ways are available: select from the gallery, add
   the web address or choose it from the local storage of the computer.
-  \item \textbf{Enter \gls*{re}}. Likewise, for the introduction of \gls{re}
+  \item \textbf{Enter \gls*{re}.} Likewise, for the introduction of \gls{re}
   there are two methods: by using the keyboard and by using voice.
-  \item \textbf{View results}. Finally, after clicking on the button
+  \item \textbf{View results.} Finally, after clicking on the button
   \texttt{Submit}, we can see the result of the execution of the program.
 \end{enumerate}
 
@@ -193,12 +193,12 @@ front end and back end without having to reload the page. We have two main
 routes that we will use to communicate the web interface with the
 backend. These are the following,
 \begin{itemize}
-  \item \textbf{\gls*{rec}}. Internally called \code{api/comprehend.php}, which
+  \item \textbf{\gls*{rec}.} Internally called \code{api/comprehend.php}, which
   allows to perform the task of \gls{rec} by calling the appropriate Python
   files internally on the server (executing the segmentation model on user
-  input, see \vref{sec:rec-model}). It takes into account the different ways in
+  input, see \vref{sec:rec-model}.) It takes into account the different ways in
   which the image and \gls{re} have been added.
-  \item \textbf{\gls*{stt}}. Internally called \code{api/stt.php}, which allows
+  \item \textbf{\gls*{stt}.} Internally called \code{api/stt.php}, which allows
   to perform the task of converting between speech and text. Run the Silero
   model (see \vref{sec:speech}) to convert the audio recorded with the
   microphone by the user to text.
