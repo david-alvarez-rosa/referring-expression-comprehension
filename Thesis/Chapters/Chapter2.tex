@@ -65,13 +65,13 @@ fast tensor computation (with the ability to compute in \gls{gpu}). These
 tensors store the data used to train neuronal models. In the case of \gls{cv},
 the following tensors appear:
 \begin{itemize}
-  \item \textbf{\acs*{rgb} Image.} An \acs{rgb} image can be interpreted as a
+  \item \textbf{\acs{rgb} Image.} A \acs{rgb} image can be interpreted as a
   tensor of rank 3, \(\mathbf{I} \in \R^{C \times H \times W}\), where \(C\)
   corresponded to the number of channels (i.e., in this case, \(C = 3\)), \(H\)
   corresponds to the height of the image and \(W\) to its
   width.\footnote{Grayscale images also fall into this category with just 1
     channel (i.e., using the above notation \(C = 1\)).}
-  \item \textbf{Batch of \acs*{rgb} Images.} A batch of \acs{rgb} images is a
+  \item \textbf{Batch of \acs{rgb} Images.} A batch of \acs{rgb} images is a
   set of \acs{rgb} images, therefore, can be interpreted as a tensor of rank 4,
   \(\mathbf{I} \in \R^{B \times C \times H \times W}\), where \(B\) corresponds
   to the batch size, and \((C, H, W)\) have the same meaning as in the case of
@@ -104,17 +104,15 @@ appeared. In a very general classification of neural models we can find
 different ones.
 
 \begin{itemize}\index{Neural network!architectures}
-  \item \textbf{\acl*{fnn}.} These networks are the simplest type of neural
+  \item \textbf{\acl{fnn}.} These networks are the simplest type of neural
   model that exists and on which more complex models are built. A more detailed
-  description of this type of network can be found in
-  \vref{sec:fnn}.
-  \item \textbf{\acl*{cnn}.} This type of neural network is especially useful
-  in image processing, since it allows preserving the spatial information of
-  the relationship between pixels. They will be studied in
+  description of this type of network can be found in \vref{sec:fnn}.
+  \item \textbf{\acl{cnn}.} This type of neural network is especially useful in
+  image processing, since it allows preserving the spatial information of the
+  relationship between pixels. They will be studied in
   \vref{sec:conv-neur-netw}.
-  \item \textbf{\acl*{rnn}.} Ideal neural models for the analysis of time
-  series (such as text or audio). They will be studied in
-  \vref{sec:rnn}.
+  \item \textbf{\acl{rnn}.} Ideal neural models for the analysis of time series
+  (such as text or audio). They will be studied in \vref{sec:rnn}.
   \item \textbf{Transformers.} The transformer-based models are part of the
   current state of the art.\footnote{On \today, current date of the document.}
   They are being used extensively in \gls{nlp} and studying their possible
@@ -125,21 +123,18 @@ different ones.
 
 \subsection{\glsentrylong{fnn}}\label{sec:fnn}
 
-Fully connected layered neural networks are the simplest type of neural model
-that exists and that constitute the basis for more complex neural structures.
-
-This type of neural network is characterized by a neural structure organized in
-different layers, so that the neurons between adjacent layers are connected to
-each other by arcs. An example of this type of architecture is shown in
-\vref{fig:fully-conn-network}.
+\Gls{fnn} are the simplest type of neural model that exists and that constitute
+the basis for more complex neural structures. This type of neural network is
+characterized by a neural structure organized in different layers, so that the
+neurons between adjacent layers are connected to each other by arcs. An example
+of this type of architecture is shown in \vref{fig:fully-conn-network}.
 
 \begin{figure}[ht]
   \centering
   \input{Figures/Tikz/Fully Connected Neural Network.tex}
-  \caption[Fully Connected Neural Network topology]{Example of Fully Connected
-    Layered Neural Network. It consists of 4 differentiated layers of neurons
-    and the connections between them are shown graphically with
-    arrows. \textsl{Source}: figure created by the
+  \caption[\glsentrylong{fnn} topology]{Example of \acl{fnn}. It consists of 4
+    differentiated layers of neurons and the connections between them are shown
+    graphically with arrows. \textsl{Source}: figure created by the
     author.}\label{fig:fully-conn-network}
 \end{figure}
 
@@ -214,9 +209,9 @@ The \emph{matrix} of all weights in the \(l\)-th layer will be denoted by
 
 \subsubsection{Model: feed forward}\label{subsec:forward}\index{Feed forward}
 
-From now on let's suppose we are working with a fully-connected neural network,
-with different layers and we will be using the same notation used before. The
-values of the neurons can be computed with
+From now on let's suppose we are working with a \gls{fnn} with different layers
+and we will be using the same notation used before. The values of the neurons
+can be computed with
 \begin{equation}
   x_i^l = f_i^l \left(
     \sum_{k=1}^{n_{l-1}} w_{ik}^{l-1} x_{k}^{l-1} + b_i^l

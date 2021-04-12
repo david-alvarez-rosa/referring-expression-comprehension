@@ -29,7 +29,7 @@
 \usepackage{siunitx}
 \usepackage{eurosym}
 \usepackage{chemformula}
-\usepackage{tikz, pgfplots}
+\usepackage{tikz, pgfplots, pgfgantt}
 \usepackage{fontawesome}
 \usepackage[outputdir=Build, cachedir=Minted]{minted}
 \usepackage[most]{tcolorbox}
@@ -360,6 +360,11 @@
   label = code:#4
 }
 
+% Gantt chart colors.
+\definecolor{blueGantt}{HTML}{0066FF}
+\definecolor{greenGantt}{HTML}{33CC33}
+\definecolor{yellowGantt}{HTML}{FFFFCC}
+
 % Configuration for SVG package.
 \svgsetup{
   inkscapepath = Build/SVG/
@@ -429,11 +434,8 @@ This \namecref{#1}, entitled \textsl{\nameref*{#1}}, begins on page~\pageref{#1}
 \date{\today}
 
 
-% \includeonly{Chapters/Chapter7}
+\includeonly{Chapters/Chapter7}
 % \includeonly{Appendices/AppendixA}
-
-
-
 
 
 
@@ -450,19 +452,3 @@ This \namecref{#1}, entitled \textsl{\nameref*{#1}}, begins on page~\pageref{#1}
 
 % \usepackage[titles]{tocloft}
 % \renewcommand\cftchapdotsep{\cftdotsep}
-
-
-% \usepackage{lscape}
-% \usepackage{multirow}
-
-
-
-
-
-
-
-
-
-
-
-\usepackage{enumitem}
