@@ -3,29 +3,56 @@
 
 \begin{tikzpicture}
   \begin{ganttchart}[
-    % Cuadrícula.
-    vgrid = {{black!25, loosely dotted}, {black, loosely dotted}},
-    hgrid = {*1{black, loosely dotted}},
-    y unit chart = 1.03cm,
+    % Time format.
+    time slot format = isodate-yearmonth,
+    time slot unit = month,
+    % % Cuadrícula.
+    vgrid,
+    % vgrid = {
+    %   {black!25, loosely dotted},
+    %   {black, loosely dotted}
+    % },
+    % hgrid = {
+    %   *1{black, loosely dotted}
+    % },
+    % y unit chart = 1.1cm,
     % Título (semanas).
-    title/.append style = {fill = yellowGantt},
+    title/.append style = {
+      fill = yellowGantt
+    },
     title height = .75,
     % Fondo.
-    canvas/.append style = {fill = yellowGantt!15},
+    canvas/.append style = {
+      fill = yellowGantt!15
+    },
     expand chart = \textwidth,
-    % Estilo día (en vertical).
-    today = 8,
-    today offset = .7,
+    % % Estilo día (en vertical).
+    today = 2021-01,
+    % today offset = .7,
     today label = Presente,
-    today rule/.style = {draw = black!70, dashed, very thick},
+    today rule/.style = {
+      draw = black!70,
+      dashed,
+      very thick
+    },
     % Estilo progreso.
     progress = today,
-    progress label text = {\pgfmathprintnumber[precision=0, verbatim]{#1}\% completado},
+    progress label text = {
+      \pgfmathprintnumber[precision=0, verbatim]{#1}\% completado
+    },
     bar progress label anchor = west,
     group progress label anchor = west,
     % Estilos grupos.
-    group/.append style = {fill = greenGantt, draw = black, thick},
-    group incomplete/.append style = {fill = greenGantt!30, draw = black, thick},
+    group/.append style = {
+      fill = greenGantt,
+      draw = black,
+      thick
+    },
+    group incomplete/.append style = {
+      fill = greenGantt!30,
+      draw = black,
+      thick
+    },
     group height = .5,
     group top shift = .25,
     group right shift = 0,
@@ -33,50 +60,42 @@
     group peaks height = .175,
     group peaks width = .65,
     group peaks tip position = .4,
-    group label node/.append style= {align = right}, % Importante.
-    % Estilo barras.
-    bar/.append style = {fill = blueGantt},
-    bar height = .5,
-    bar incomplete/.append style = {fill = blueGantt!30, draw = black},
-    bar label node/.append style= {align = right},
+    group label node/.append style = {
+      align = right
+    }, % Importante.
     % Barras verticales auxiliares.
-    vrule/.style = {draw = none}
-    ]{1}{28} % En medias semanas (dos días de clase/semana).
+    vrule/.style = {
+      draw = none
+    },
+    % Uniones.
+    link/.style = {
+      -latex,
+      thick
+    },
+    link bulge = .75,
+    % ]{1}{28} % En medias semanas (dos días de clase/semana).
+    ]{2020-10}{2021-05} % En medias semanas (dos días de clase/semana).
 
     % Semanas.
-    \gantttitlelist{1,...,14}{2} \\
+    % \gantttitlelist{1,...,14}{2} \\
+    \gantttitlecalendar{month=shortname} \\
 
     % Entrega I.
-    \ganttgroup{A. Propuesta\ganttalignnewline proyecto}{1}{8} \\
-    \ganttbar{A1. Definición\ganttalignnewline general}{1}{4} \\
-    \ganttbar{A2. Objetivos y \ganttalignnewline especificaciones}{3}{6} \\
-    \ganttbar{A3. Entrega I}{5}{8} \\
+    % \ganttgroup{A. Propuesta\ganttalignnewline proyecto}{1}{8} \\
+    \ganttgroup{A. Propuesta\ganttalignnewline proyecto}{2020-11}{2020-12} \\
+    \ganttgroup{B. Propuesta\ganttalignnewline proyecto}{2020-11}{2020-12} \\
+    \ganttgroup{C. Propuesta\ganttalignnewline proyecto}{2020-11}{2020-12} \\
+    \ganttgroup{D. Propuesta\ganttalignnewline proyecto}{2020-11}{2020-12} \\
+    \ganttgroup{E. Propuesta\ganttalignnewline proyecto}{2020-11}{2020-12} \\
 
-    % Entrega II.
-    \ganttgroup[progress = 0]{B. Análisis\ganttalignnewline usuarios}{8}{11} \\
-    \ganttbar[progress = 0]{B1. Análisis \ganttalignnewline sistemas-usuario}{8}{9} \\
-    \ganttbar[progress = 0]{B2. Análisis de\ganttalignnewline funciones}{8}{10} \\
-    \ganttbar{B3. Entrega II}{9}{11} \\
+    % % Barras verticales auxiliares.
+    % \ganttvrule{Inicio}{1}
+    % \ganttvrule{Fin}{27}
 
-    % Entrega III.
-    \ganttgroup{C. Diseño\ganttalignnewline conceptual}{9}{14} \\
-    \ganttbar{C1. Ergonomia y \ganttalignnewline seguridad}{9}{11} \\
-    \ganttbar{C2. Normativa\ganttalignnewline vigente}{11}{13} \\
-    \ganttbar{C3. Entrega III}{11}{14} \\
-
-    % Entrega IV.
-    \ganttgroup{D. Estudio\ganttalignnewline alternativas}{13}{20} \\
-    \ganttbar{D1. Descripción\ganttalignnewline alternativas}{13}{16} \\
-    \ganttbar{D2. Compración\ganttalignnewline y selección}{15}{18} \\
-    \ganttbar{D3. Entrega IV}{15}{20} \\
-
-    % Entrega V.
-    \ganttgroup{E. Propuesta\ganttalignnewline solución}{19}{28} \\
-    \ganttbar{E1. Memoria}{19}{26} \\
-    \ganttbar{E2. Póster}{23}{26} \\
-    \ganttbar{E3. Entrega V}{25}{28}
-
-    % Barras verticales auxiliares.
-    \ganttvrule{Inicio}{1} \ganttvrule{Fin}{27}
+    % Uniones entre grupos.
+    \ganttlink{elem0}{elem1}
+    \ganttlink{elem1}{elem2}
+    \ganttlink{elem2}{elem3}
+    \ganttlink{elem3}{elem4}
   \end{ganttchart}
 \end{tikzpicture}
