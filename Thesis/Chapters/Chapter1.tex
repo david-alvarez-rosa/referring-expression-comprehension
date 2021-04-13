@@ -1,7 +1,7 @@
 % -*- TeX-master: "../Thesis.tex" -*-
 
 
-\chapter{Introduction}\label{cha:intro}\index{Artificial intelligence}
+\chapter{Introduction}\label{cha:intro}
 
 \epigraphhead[75]{
   \epigraph{\itshape Begin at the beginning, the King said gravely, ``and go on
@@ -10,10 +10,11 @@
     \textit{Alice in Wonderland}}}
 
 
-\drop Artificial Intelligence (\acs{ai}) is one of the topics related to
-\gls{cs} that are most current\footnote{On \today, current date of the
-  document.} in recent years. It has gained great importance mainly due to its
-applications in industry and everyday world, such as autonomous driving.
+\drop Artificial Intelligence (\acs{ai})\index{Artificial intelligence} is one
+of the topics related to \gls{cs} that are most current\footnote{On \today,
+  current date of the document.} in recent years. It has gained great
+importance mainly due to its applications in industry and everyday world, such
+as autonomous driving.
 
 It is an area of research in which, curiously, there is no precise definition
 universally accepted by the community of researchers and developers who work
@@ -23,32 +24,38 @@ however, provides a useful definition:
   Artificial intelligence is that activity devoted to making machines
   intelligent, and intelligence is that quality that enables an entity to
   function appropriately and with foresight in its environment.
-  \tcblower{}Nils J. Nilsson
+  \tcblower\quotecite{nilsson09:quest_artif_intel}
 \end{quoteBox}
 
-Within the larger world of \gls{ai} is \gls{dl} (which is part of a larger
-scope called \gls{ml}). \gls{dl} consists of learning from data with the use of
-deep neural networks. This data can be of a different nature: images, text,
-audio, video, etc. This thesis will mix three of these media (audio
-\(\rightarrow\) text and image), so it will form part of the area known as
-\emph{multimodal learning}. Next in \vref{sec:description} the work of this
-thesis will be described: \gls{rec}.%
-\index{Deep learning}\index{Machine learning}
+In other words, \gls{ai} is a very broad concept that encompasses all those
+systems that perform tasks that can be considered intelligent. Within this
+broad world of \gls{ai} is the scope of \gls{ml}\index{Machine
+  learning}. \Gls{ml} is the set of computational algorithms that are
+responsible for automatically improving models through experience and with the
+use of \emph{data}. \Gls{ml} algorithms build models using sample data to be
+able to make predictions or make decisions in future new situations without
+being explicitly programmed for it.
 
-TODO. TODO. TODO. TODO.TODO. TODO.TODO. text learning from data with the use of
-deep neural networks. This data can be of a different nature: images, text,
-audio, video, etc. This thesis will mix three learning from data with the use
-of deep neural networks. This data can be of a different nature: images, text,
-audio, video, etc. This thesis will mix three TODO TODO.
+Within this scope appear the \gls{ann}, which are the basis of a large family
+of \gls{ml} methods called \gls{dl}\index{Deep learning}. The adjective
+``deep'' arises from the fact that neural models make use of multiple layers in
+the network. The models presented in this work will be part of precisely this
+area, as will be seen later (see \vref{cha:models}).
+
+Furthermore, this work can be classified according to the type of data used, as
+a model of \emph{multimodal learning}\index{Multimodal!learning}. Data can be
+of a different nature: images, text, audio, video, etc. This thesis will mix
+three of these types (audio \(\rightarrow\) text and image). Next in
+\vref{sec:description} the work of this thesis will be described.
 
 
 
 \section{Description and Motivation}\label{sec:description}
 
-\gls{rec} is the task of, given a linguistic phrase (\gls{re}) and an image,
-generate binary masks for the object which the phrase refers to. This type of
-task is framed within the field of multimodal learning: at the intersection
-between computer vision and \gls{nlp}.
+\gls{rec} is the task of, given a \gls{re} (is a linguistic phrase) and an
+image, generate binary masks for the object which the phrase refers to. This
+type of task is framed within the field of multimodal learning: at the
+intersection between computer vision and \gls{nlp}.
 
 \begin{figure}[ht]
   \centering
@@ -94,46 +101,41 @@ expanding the input and output set that the model can obtain.
 
 This work will add a great facility mainly in the human-computer interaction,
 so it is of great practical interest. Different applications of this model will
-be discussed in \vref{sec:aplicaciones}.
+be discussed in \vref{sec:applications}.
 
 
 \subsection{Objectives}
 
 This research thesis has different different objectives. The first one is to
-learn the operation of \gls{ai}, without any prior knowledge. Mainly in the
-area of \gls{dl}, which is where the presented model fits. It is essential to
-know the fundamentals of neural models to be able to understand in depth how it
-is possible to solve the problem of \gls{rec}.
+\emph{learn} the operation of \gls{ai}, without any prior knowledge. Mainly in
+the area of \gls{dl}, which is where the presented model fits. It is essential
+to know the fundamentals of neural models to be able to understand in depth how
+it is possible to solve the problem of \gls{rec}. This \emph{learning}
+objective can be divided into learning the \gls{dl} fundamentals and
+understanding the state-of-the-art papers for solving the task of \gls{rec}.
 
-\begin{itemize}
-  \item \textbf{Model.} Search for a model that performs well in \gls{rec},
-  study its operation and try to improve it.
-  \item \textbf{Visualization.} Present an interactive web interface in which
-  the results of the work are presented. Here it will be vital that the model
-  works fast enough.
-  \item \textbf{Academic.} Write this report and present the work.
-  \item \textbf{TODO.} Write this report and present the work.  Write this
-  report and present the work.  Write this report and present the work.  Write
-  this report and present the work.
-  \item \textbf{TODO.} Write this report and present the work.  Write this
-  report and present the work.  Write this report and present the work.
-\end{itemize}
+With this knowledge, we will proceed to \emph{modeling}, the search for models
+that work well in \gls{rec} and in \gls{stt}. Its way of operation and how to
+improve it will be studied. For this, the Python programming language has been
+used with the Pytorch framework. All these results will be collected on an
+interactive website for \emph{visualization}. Before working on web
+development, it will be necessary to learn about frontend web programming
+languages (HTML, CSS, JS), languages to develop the \gls{api} in the back end
+(PHP) and use of web servers (Apache).
 
-To achieve these goals, many other intermediate goals have had to be
-achieved. Among them, reading, understanding and analyzing the results of
-State-of-the-art models in recent literature. In addition, it has been
-necessary to improve programming skills and learn new programming languages,
-both for the development of the model in Pytorch, and for the development of
-the web interface: frontend with HTML, CSS, JS and backend with PHP and Python.
+Finally, there are the \emph{academic} objectives related to this bachelor's
+thesis. These include the writing of this report, and the creation and
+preparation of the presentation.
 
 
-
-\section{Applications}\label{sec:aplicaciones}
+\section{Applications}\label{sec:applications}
 
 The use of \gls{rec} can have applications of various kinds. In recent years,
 robotics and home automation are gaining great importance. This work enhances
 the interaction between human and robot/computer. For example, it could make it
-easier for a machine to understand commands from a human.
+easier for a machine to understand commands from a human. The possible
+applications of this work have been divided into four large groups:
+theoretical, industry, domotics and \acs{iot}, and security.
 
 \subsubsection{Theoretical}
 
@@ -145,7 +147,12 @@ techniques.
 
 In this specific case, we have precisely the interaction between models for
 language and for vision. This could be useful in the development of new models
-in the future in the field of multimodal learning\index{Multimodal!learning}.
+in the future in the field of multimodal
+learning\index{Multimodal!learning}. In addition, the creation of a website
+with which to interact with the different versions of the models, constitutes a
+tool for the evaluation of models. The general public is provided with a simple
+tool with which to perform multiple qualitative evaluations of the functioning
+of complex neural models.
 
 \subsubsection{Industry}
 
@@ -159,7 +166,7 @@ thus improving the efficiency of a certain company and optimizing processes.
   \caption[Robots in automobile factory]{Robots in operation within an
     automobile factory. These processes are usually completely automated and
     controlled in real time. From
-    \captioncite{online21:china_no}.}\label{fig:robots}
+    \figcite{online21:china_no}.}\label{fig:robots}
 \end{figure}
 
 Among them could be that of the automotive world, as shown in
@@ -203,8 +210,8 @@ interaction between machines and humans.
   \end{subfigure}
   \caption[Examples of applications in robotics]{Examples of applications in
     robotics. They can facilitate many interactions and tasks of day to
-    day. From \captioncite{limited21:china_arduin_robot_arm} (left) and from
-    \captioncite{iam21:futur_mater_handl} (right).}\label{fig:robot}
+    day. From \figcite{limited21:china_arduin_robot_arm} (left) and from
+    \figcite{iam21:futur_mater_handl} (right).}\label{fig:robot}
 \end{figure}
 
 In \vref{fig:robot} we can see some examples in which interaction in day-to-day
@@ -230,8 +237,7 @@ safety. In \vref{fig:dgt} we can see one of these drones.
   \centering
   \includegraphics[width=.75\textwidth]{Images/Drone.jpg}
   \caption[Drones employed for road safety]{Image of one of the drones that can
-    be employed by the authorities in order to guarantee road safety.}
-  \label{fig:dgt}
+    be employed by the authorities in order to guarantee road safety.}\label{fig:dgt}
   \source{TODO}
 \end{figure}
 
@@ -243,7 +249,7 @@ such as the following.
 \begin{itemize}
   \item \textbf{Actions.} Different actions could be desired to control and
   guarantee road safety such as: follow, record, speed up, etc.
-  \item \textbf{\gls*{re}.} It would correspond to linguistic phrases that
+  \item \textbf{\gls{re}.} It would correspond to linguistic phrases that
   identify the vehicle to be studied or the offender to be pursued: blue/
   black/red/\ldots car, large truck, sports car, van on the right, etc.
 \end{itemize}

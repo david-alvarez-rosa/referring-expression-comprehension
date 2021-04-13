@@ -1,17 +1,19 @@
-% -*- TeX-master: "Thesis.tex" -*-
+% -*- TeX-master: "../Thesis.tex" -*-
 
 
-\setglossarypreamble{Numbers in italic indicate primary definitions. TODO
-  TODO. \medskip}
+\setglossarypreamble{Acronyms used in this work with the notation used, their
+  corresponding description and page list. \medskip}
 \printglossaries
 
 
-\nocite{*}
 \printbibheading[heading=bibintoc]
-asdfas dfa sdf asdf \cite{cai20:once_all} asdf
-\printbibliography[heading=subbibliography]
-% \printbibliography[type=inproceedings,heading=subbibliography,title={Book Sources}]
-% \printbibliography[nottype=book,heading=subbibliography,title={Other Sources}]
+\noindent The complete bibliography has been divided into three: primary
+sources (which contains all the citations that appear in the text), figure
+sources and quote sources. \bigskip\medskip
+
+\printbibliography[heading=subbibintoc, category={text}, title={Primary Sources}]
+\printbibliography[heading=subbibintoc, category={figure}, title={Figure Sources}]
+\printbibliography[heading=subbibintoc, category={quote}, title={Quote Sources}]
 
 
 \indexprologue{\noindent List of topics and terms present in this thesis

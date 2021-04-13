@@ -42,7 +42,7 @@ generate the segmentation.
   \caption[RefVOS model architecture]{RefVOS model architecture. It is possible
     to observe the differentiated models of vision and language that are then
     combined to obtain the multimodal characteristics. From
-    \captioncite{bellver20:refvos}.}\label{fig:model}
+    \figcite{bellver20:refvos}.}\label{fig:model}
 \end{figure}
 
 This model, created by \myCite{bellver20:refvos}, will constitute our starting
@@ -64,7 +64,7 @@ semantic segmentation.
     filter size \(3 \times 3\) \(3 \times 3\). The \code{rate} parameter
     controls the model's field-of-view. Standard convolution operation
     corresponds to an atrous convolution with a rate of 1. From
-    \captioncite{chen17:rethin}.}\label{fig:atrous}
+    \figcite{chen17:rethin}.}\label{fig:atrous}
 \end{figure}
 
 One of the advantages of this model compared to standard convolutional neural
@@ -134,9 +134,63 @@ tensor with two classes, which separate the \emph{background} from the
 
 \subsection{Model Iterations}\label{sec:model-iterations}
 
-Model iterations.
+TODO. Model iterations. Lo tengo en Notas.org, mirar a ver si se puede exportar
+a LaTeX.
 
-% 1. He estado trabajando con el modelo de RefVOS, pero no he conseguido obtener % ninguna mejora significativa. Hasta ahora lo que he probado ha sido: -- Cambiar % la manera en la que se unen las neuronas que provienen de la imagen y las que % provienen del texto (en el modelo se usa multiplicación). He probado a entrenar % con suma, resta, concatenación y proyectando usando una aplicación lineal % (multiplicándolas por una matriz y luego combinándolas).  -- Probar diferentes % funciones de error: "weighted cross entropy", "balanced cross entropy", "focal % loss". Quiero probar también con otras como: "dice loss", "tversky index", "IoU % loss"...  Las variaciones que he probado partiendo de parámetros pre-entrenados % apenas varían el modelo (<1\% mejora), posiblemente porque ya esté el modelo en % cierto mínimo local de la función de error (al final son todas similares) y los % gradientes son prácticamente nulos.  Y probando variaciones con parámetros % no-entrenados no consigo llegar a la precisión de RefVOS (entreno con % train/validation/test y guardo los parámetros de la época con mejores % resultados en validación).  Por otro lado, he tratado de crear algún modelo % desde 0, sin basarme en RefVOS, pero he obtenido resultados nefastos (cercanos % a la aleatoriedad).
+\url{https://www.reddit.com/r/emacs/comments/lzsx1q/perfect_emacs_org_mode_exports_to_latex_easy_and/}
+
+TODO. Mirar para hacer las gráficas. Mejor generar CSV con Python y plotear en
+LaTeX.
+
+\url{https://tex.stackexchange.com/questions/83888/how-to-plot-data-from-a-csv-file-using-tikz-and-csvsimple}.
+
+\url{https://www.latex4technics.com/?note=lj0uix}
+
+
+\begin{comment}
+  1. He estado trabajando con el modelo de RefVOS, pero no he conseguido
+  obtener ninguna mejora significativa. Hasta ahora lo que he probado ha sido:
+
+  - Cambiar la manera en la que se unen las neuronas que provienen de la imagen
+  y las que provienen del texto (en el modelo se usa multiplicación). He
+  probado a entrenar con suma, resta, concatenación y proyectando usando una
+  aplicación lineal (multiplicándolas por una matriz y luego combinándolas).
+
+  - Probar diferentes funciones de error: "weighted cross entropy", "balanced
+  cross entropy", "focal loss". Quiero probar también con otras como: "dice
+  loss", "tversky index", "IoU loss"...  Las variaciones que he probado
+  partiendo de parámetros pre-entrenados apenas varían el modelo (<1\mejora),
+  posiblemente porque ya esté el modelo en cierto mínimo local de la función de
+  error (al final son todas similares) y los gradientes son prácticamente
+  nulos.
+
+  Y probando variaciones con parámetros no-entrenados no consigo llegar a la
+  precisión de RefVOS (entreno con train/validation/test y guardo los
+  parámetros de la época con mejores resultados en validación).
+
+  Por otro lado, he tratado de crear algún modelo desde 0, sin basarme en
+  RefVOS, pero he obtenido resultados nefastos (cercanos a la aleatoriedad).
+\end{comment}
+
+
+
+
+
+
+
+\subsubsection{Loss Functions}\index{Loss function}
+
+Hey.
+
+\subsubsection{Multimodal Embedding}\index{Multimodal!embedding}
+
+Hey.
+
+
+\subsubsection{Model}
+
+
+\subsubsection{Trai proccess}
 
 
 
@@ -161,5 +215,5 @@ different languages: english, german, spanish and ukraniain.
   \caption[Silero \glsentrylong{stt} model architecture]{Silero \acf{stt} model
     architecture. View from top to bottom: input is a mono audio file with
     speech and the output is the text representing the input. From
-    \captioncite{veysov20:towar_imagen_momen_speec_text}.}\label{fig:silero}
+    \figcite{veysov20:towar_imagen_momen_speec_text}.}\label{fig:silero}
 \end{figure}

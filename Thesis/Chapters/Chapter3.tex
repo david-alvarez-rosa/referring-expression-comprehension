@@ -186,7 +186,7 @@ datasets is shown in \vref{fig:refcoco}.
   \caption[Examples from RefCOCO and RefCOCO+ datasets]{Examples from RefCOCO
     and RefCOCO+ datasets. It can be seen that in RefCOCO+ the use of location
     information is not allowed, while in RefCOCO it is valid. Adapted from
-    \captioncite{kazemzadeh14:refer_game}.}\label{fig:refcoco}
+    \figcite{kazemzadeh14:refer_game}.}\label{fig:refcoco}
 \end{figure}
 
 The difference between RefCOCOg and these two previous ones is that, it
@@ -254,7 +254,7 @@ Various variations of this loss function will be discussed below that may be
 useful for training various neural models.
 
 \begin{itemize}
-  \item \textbf{\gls*{wce}.} It is a variant of \gls{ce} in which the positive
+  \item \textbf{\gls{wce}.} It is a variant of \gls{ce} in which the positive
   examples are weighted by a coefficient \(\beta\). It is defined as follows,
   \begin{equation}
     \text{\gls*{wce}}(p, \hat{p}) =
@@ -262,14 +262,14 @@ useful for training various neural models.
   \end{equation}
   Typically used when unbalanced classes appear. It is not too interesting for
   this case.
-  \item \textbf{\gls*{bce}.} It is similar to \gls{wce} with the only
-  difference that a weight is also added to the negative examples. It is
-  defined as follows,
+  \item \textbf{\gls{bce}.} It is similar to \gls{wce} with the only difference
+  that a weight is also added to the negative examples. It is defined as
+  follows,
   \begin{equation}
     \text{\gls*{bce}}(p, \hat{p}) =
     -(\beta p\log\hat{p} + (1 - \beta)(1 - p)\log(1 - \hat{p})).
   \end{equation}
-  \item \textbf{\gls*{fl}.} It is a variant of \gls{ce} in which the most
+  \item \textbf{\gls{fl}.} It is a variant of \gls{ce} in which the most
   \emph{complicated} elements of the dataset are affected even more. These are
   the ones with a value of \(\hat{p}\) intermediate between \(0\) and \(1\). It
   is defined as follows,
@@ -279,7 +279,7 @@ useful for training various neural models.
     (1 - \alpha)p^\gamma (1 - p)\log(1 - \hat{p})).
   \end{equation}
   When \(\gamma = 0\) we obtain \gls{bce}.
-  \item \textbf{\gls*{dnc}.} This loss function, introduced by
+  \item \textbf{\gls{dnc}.} This loss function, introduced by
   \myCite{ronneberger15:u}, forces the separation between contiguous
   objects. It is similar to \gls{bce}, but with an additional term of distance
   between objects,
@@ -314,7 +314,7 @@ a loss function as it is not a differentiable mapping. Yes, it will be used for
 the evaluation of the model in \vref{sec:quantitative-eval}.
 
 \begin{itemize}
-  \item \textbf{\gls*{dil}.} It is based on \gls{dc}, a coefficient similar to
+  \item \textbf{\gls{dil}.} It is based on \gls{dc}, a coefficient similar to
   \gls{iou}, which is defined as follows,
   \begin{equation}
     \text{\gls*{dc}}(X, Y) = \frac{2|X \cap Y|}{|X| + |Y|}.
@@ -326,7 +326,7 @@ the evaluation of the model in \vref{sec:quantitative-eval}.
   \end{equation}
   where \(p_{h, w} \in \{0, 1\}\), \(0 \leq \hat{p}_{h, w} \leq 1\) and the
   sums are spread over the entire image at width \(w\) and height \(h\).
-  \item \textbf{\gls*{ti}.} It is a generalization of \gls{dil}. It is defined
+  \item \textbf{\gls{ti}.} It is a generalization of \gls{dil}. It is defined
   as follows,
   \begin{equation}
     \text{\gls*{ti}}(p, \hat{p}) = 1 -
@@ -359,7 +359,7 @@ suitable for use in an optimization process.
   \caption[\glsentrylong{giou} algorithm]{\acf{giou} general algorithm applied
     to arbitrary multi-dimensional sets. In the specific case of \gls{rec} they
     will be bounding boxes in \(\R^2\). From
-    \captioncite{rezatofighi19:gener}.}\label{fig:giou}
+    \figcite{rezatofighi19:gener}.}\label{fig:giou}
 \end{figure}
 
 This loss function is summarized in \vref{fig:giou}. It is a generalization
@@ -412,7 +412,7 @@ with these concepts are shown in \vref{fig:sets}).
   \end{subfigure}
   \caption[Union and intersection of sets \(A\) and \(B\)]{Graphic
     representation of union and intersection of sets \(A\) and \(B\). From
-    \captioncite{contributors21:jaccar} (both).}\label{fig:sets}
+    \figcite{contributors21:jaccar} (both).}\label{fig:sets}
 \end{figure}
 
 From here arises the well-known Jaccard index or coefficient \gls{iou},
@@ -437,7 +437,7 @@ differentiable application.
   \end{subfigure}
   \caption[Jaccard Index explanation]{Explanation and example of the Jaccard
     Index in the case of bounding boxes. From
-    \captioncite{contributors21:jaccar} (both).}
+    \figcite{contributors21:jaccar} (both).}
 \end{figure}
 
 This index provides relevant information on how tight a bounding box
@@ -532,7 +532,7 @@ each other were ``close'' in this space (in terms of norm).
   \caption[Multimodal embedding technique]{Multimodal embedding into
     visual-semantic space. As you can see, matching pairs are closer (in terms
     of norm) that non-matching pairs in the joint space. From
-    \captioncite{cornia18:towar_cycle_consis_model_text_image_retriev}.}\label{fig:joint}
+    \figcite{cornia18:towar_cycle_consis_model_text_image_retriev}.}\label{fig:joint}
 \end{figure}
 
 Therefore, here, to perform \gls{rec}, the first thing we will do is encode the
@@ -568,7 +568,7 @@ reasoning.
     divided into three phrase embeddings, which are input to three visual
     modules that process the described visual region in different ways and
     compute individual matching scores. From
-    \captioncite{yu18:mattn}.}\label{fig:mattnet}
+    \figcite{yu18:mattn}.}\label{fig:mattnet}
 \end{figure}
 
 An example of these modular models is the one presented by \myCite{yu18:mattn},
@@ -606,7 +606,7 @@ objects and the different edges are the existing relationship between objects
     graph-based models. From the image, the graph representation is built,
     which is then updated with the expression embedding and computed a matching
     score between objects and
-    expression. From \captioncite{qiao20:refer_expres_compr}.}\label{fig:graph}
+    expression. From \figcite{qiao20:refer_expres_compr}.}\label{fig:graph}
 \end{figure}
 
 The use of graphs in the task of \gls{rec} has been used with success by

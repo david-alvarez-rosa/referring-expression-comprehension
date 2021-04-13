@@ -67,7 +67,6 @@
   font = small,
   labelfont = bf,
   labelsep = period,
-  % width = .75\textwidth,
 }
 
 \hypersetup{
@@ -75,14 +74,9 @@
   pdfsubject = {Computer Vision},
   pdfkeywords = {Artificial Intelligence, Machine Learning, Computer Vision,
     Multimodal Learning},
-  % Colors.
-  colorlinks,
+  % Links.
   hidelinks,
-  linkcolor = blue,
-  citecolor = Magenta,
-  urlcolor = red!50!black,
-  % For ToC.
-  % linktoc = all,
+  linktoc = all,
   % Displaying.
   pdfpagelayout = TwoPageRight,
   pdfstartview = FitV,
@@ -199,6 +193,9 @@
 \renewcommand{\mkbibnamegiven}[1]{\textsc{#1}}
 \renewcommand{\mkbibnameprefix}[1]{\textsc{#1}}
 \renewcommand{\mkbibnamesuffix}[1]{\textsc{#1}}
+\DeclareBibliographyCategory{text}
+\DeclareBibliographyCategory{quote}
+\DeclareBibliographyCategory{figure}
 
 % Set minted style and font for line numbers.
 \usemintedstyle{tango}
@@ -376,8 +373,8 @@
 \setlength{\DefaultFindent}{.12em}
 \setlength{\DefaultNindent}{.12em}
 \LettrineRealHeighttrue
-\def\drop #1#2 {% note the space before {
-  \lettrine{#1}{#2} % a trailing space
+\def\drop #1#2 #3 #4 {% note the space before {
+  \lettrine{#1}{#2 #3 #4} % a trailing space
 }
 
 % Change ToC title name.
@@ -391,10 +388,14 @@
 \renewcommand{\arraystretch}{1.25}
 
 % Cite configuration.
-\newcommand{\myCite}[1]{\citeauthor*{#1} \cite{#1}\footfullcite{#1}}
-\newcommand{\quotecite}[1]{\citeauthor*{#1} \cite{#1}}
-\newcommand{\captioncite}[1]{%
-  \citetitle*{#1}, by \citeauthor*{#1} \cite{#1}%
+\newcommand*{\myCite}[1]{%
+  \citeauthor*{#1} \cite{#1}\footfullcite{#1}\addtocategory{text}{#1}%
+}
+\newcommand*{\quotecite}[1]{%
+  \citeauthor*{#1} \cite{#1}\addtocategory{quote}{#1}%
+}
+\newcommand*{\figcite}[1]{%
+  \citetitle*{#1}, by \citeauthor*{#1} \cite{#1}\addtocategory{figure}{#1}%
 }
 
 % Website domain command.
@@ -434,7 +435,7 @@ This \namecref{#1}, entitled \textsl{\nameref*{#1}}, begins on page~\pageref{#1}
 \date{\today}
 
 
-\includeonly{Chapters/Chapter7}
+% \includeonly{Chapters/Chapter1}
 % \includeonly{Appendices/AppendixA}
 
 

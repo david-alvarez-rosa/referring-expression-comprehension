@@ -16,10 +16,12 @@
       fill = yellowGantt,
     },
     title height = .75,
+    y unit title = .85cm,
     % Canvas.
     canvas/.append style = {
       fill = yellowGantt!15
     },
+    y unit chart = 1.1cm,
     expand chart = \textwidth,
     % Today configuration.
     today = 2021-03,
@@ -66,7 +68,7 @@
     link bulge = .5
     ]{2020-10}{2021-04}
 
-    % Months.
+    % Years and months.
     \gantttitlecalendar{year, month=shortname} \\
 
     % Groups.
@@ -74,13 +76,13 @@
     \ganttgroup{B. Learn\ganttalignnewline thesis topic}{2020-12}{2021-01} \\
     \ganttgroup{C. Models\ganttalignnewline creation}{2021-01}{2021-03} \\
     \ganttgroup{D. Web\ganttalignnewline development}{2021-02}{2021-03} \\
-    \ganttgroup{E. Bachelor's\ganttalignnewline thesiss}{2020-12}{2021-04}
+    \ganttgroup{E. Bachelor's\ganttalignnewline thesis}{2020-12}{2021-04}
 
     % Vertical rules.
     \ganttvrule{Start}{2020-09}
     \ganttvrule{End}{2021-04}
 
-    % Uniones entre grupos.
+    % Group links.
     \ganttlink{elem0}{elem1}
     \ganttlink{elem1}{elem2}
     \ganttlink{elem2}{elem3}

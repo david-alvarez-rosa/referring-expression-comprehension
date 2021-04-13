@@ -358,7 +358,7 @@ local changes in spatial location.
     \(2 \times 2\) max pooling. The input tensioner is divided into blocks
     \(2 \times 2\) and the Max Pool returns an output tensor with the maximum
     value of each block. \textbf{\textsl{Source.}} From
-    \captioncite{wiki18:max_poolin}.}\label{fig:max-pool}
+    \figcite{wiki18:max_poolin}.}\label{fig:max-pool}
 \end{figure}
 
 There are different types of pooling. The best known are \emph{max} pooling and
@@ -382,7 +382,7 @@ typically added just after convolution.
 
 The main functions used are the following:
 \begin{itemize}
-  \item \textbf{\gls*{relu}.} It is the function \(f (x) = \max \{0, x\}\),
+  \item \textbf{\gls{relu}.} It is the function \(f (x) = \max \{0, x\}\),
   which is the most used. Removes negative values from the feature map and sets
   them to zero.
   \item \textbf{Tangente hiperbolica.} \(f (x) = \tanh x\)
@@ -479,7 +479,7 @@ information to travel in time\footnote{These problems are know as
   \gls{rnn} architecture.}. We introduce two new variants to solve these
 problems:
 \begin{itemize}
-  \item \textbf{\gls*{lstm}.} A unit of \gls{lstm} is composed of different
+  \item \textbf{\gls{lstm}.} A unit of \gls{lstm} is composed of different
   gates that define its behavior. Its name is given by the function they
   perform: \emph{input} gate (\(i\)), \emph{output} gate (\(o\)) and
   \emph{forget} gate (\(f\)). A graphical representation of this type of
@@ -487,9 +487,10 @@ problems:
   \begin{figure}[ht]
     \centering
     \includesvg[width=.6\textwidth]{SVGs/LSTM.svg}
-    \caption[\glsentrylong{lstm}]{\acf{lstm} representation. Input (\(i\)),
-      output (\(o\)) and forget (\(f\)) gates are shown in the image. From
-      \captioncite{enwiki:1005032489}.}\label{fig:lstm}
+    \caption[\glsentrylong{lstm} representation]{\acf{lstm}
+      representation. Input (\(i\)), output (\(o\)) and forget (\(f\)) gates
+      are shown in the image. From
+      \figcite{enwiki:1005032489}.}\label{fig:lstm}
   \end{figure}
 
   The value of the different gates is described by the following equation,
@@ -521,7 +522,7 @@ problems:
   \end{equation}
   The operator \(\odot\) is the element wise multiplication known as Hadamard
   product.
-  \item \textbf{\gls*{gru}.} They are another type of gating mechanism
+  \item \textbf{\gls{gru}.} They are another type of gating mechanism
   introduced by \myCite{cho14:learn_rnn}. Its operation is governed by the
   following system of equations,
   \begin{equation}
@@ -574,7 +575,7 @@ as a whole instead of going element by element.
   \caption[Transformer model architecture]{Transformer model
     architecture/topology. Here you can observe the two main segments: the
     encoder and the decoder. From
-    \captioncite{vaswani17:atten_all_you_need}.}\label{fig:transformer}
+    \figcite{vaswani17:atten_all_you_need}.}\label{fig:transformer}
 \end{figure}
 
 Currently there are different types of architectures based on this idea. The
@@ -767,7 +768,7 @@ data, but with a huge generalization error (see \vref{fig:overfit}).
     function presents a perfect fit on existing data, but it is to be expected
     that it generalizes worse. If both functions were used to extrapolate out
     of the fitted data, the linear function will display better
-    predictions. From \captioncite{contributors21:overf}.}\label{fig:overfit}
+    predictions. From \figcite{contributors21:overf}.}\label{fig:overfit}
 \end{figure}
 
 A well-known saying in the field of \gls{ml} is that of ``Memorizing is
@@ -822,7 +823,7 @@ in the validation dataset starts to increase.
     the same time. At the time when the error function in the validation set
     begins to increase is when the overfitting problem, so we will stop the
     training there. From
-    \captioncite{brownlee28:gentl_introd_early_stopp_avoid}.}\label{fig:early}
+    \figcite{brownlee28:gentl_introd_early_stopp_avoid}.}\label{fig:early}
 \end{figure}
 
 This regularization method has been used in this work (see \vref{cha:models})
