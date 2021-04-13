@@ -58,7 +58,7 @@ grandes grupos:
   avanzados y más relacionados con el ámbito concreto de la tesis. Para ello se
   han leído diferentes papers recomendados y se ha leído la literatura
   existente about state-of-the-art models.
-  \item \textbf{Modeling.} Este conjunto de tareas coincide con el
+  \item \textbf{Models creation.} Este conjunto de tareas coincide con el
   \vref{cha:models}. Aquí es donde se presentan los dos modelos usados en este
   trabajo.
   \item \textbf{Web development.} Aquí se recogen todas las actividades
@@ -105,7 +105,7 @@ comienzo y de final tanto de las tasks como de las main activities.
     \midrule
 
     \rowcolor{rowColor}
-    \textbf{C} & \textbf{Modeling}    & 8 & 1 \\
+    \textbf{C} & \textbf{Models creation}    & 8 & 1 \\
     \rowcolor{rowColor}
     C1         & Server usage         & 1 & 1 \\
     \rowcolor{rowColor}
@@ -154,9 +154,11 @@ distribución de tareas de la \vref{tab:activities}.
 \begin{figure}[ht]
   \centering
   \input{Figures/Tikz/Gantt.tex}
-    \caption[TODO]{TODO.}\label{fig:gantt}
+  \caption[Diagrama de Gantt actividades principales]{Diagrama de Gantt
+    actividades principales. La duración y relación entre actividades
+    principales se muestra de manera gráfica. Figure created by the
+    author.}\label{fig:gantt}
 \end{figure}
-
 
 
 \section{Cost Analysis}\label{sec:cost}
@@ -178,8 +180,8 @@ un estándar para comparar créditos académicos. Como es conocido, un crédito
 \gls{ects} equivale a una dedicación de 25--30 horas. En este caso, al estar
 realizando un bachelor thesis de dos titulaciones, sumaremos los créditos
 destinados a cada titulación. Concretamente, para la titulación del grado en
-\textsc{Enginyeria en Tecnologies Industrials}, son 12 créditos y para el grado
-en \textsc{Matemàtiques} son 15 créditos. En total \SI{27}{\ectss}.
+\textsc{Industrial Technology Engineering}, son 12 créditos y para el grado en
+\textsc{Mathematics} son 15 créditos. En total \SI{27}{\ectss}.
 
 Por tanto, usando la equivalencia de 1 crédito \gls{ects} con 27,5 horas,
 tenemos que el número de horas dedicado al trabajo será de,
@@ -187,15 +189,15 @@ tenemos que el número de horas dedicado al trabajo será de,
   \SI{27}{\ectss} \times \frac{\SI{27.5}{\hour}}{\SI{1}{\ects}} =
   \SI{742.5}{\hour},
 \end{equation}
-lo cual, suponiendo un salario de \EUR{15}/hour, hace un total del coste
+lo cual, suponiendo un salario de \EUR{12}/hour, hace un total del coste
 \emph{personal} de,
 \begin{equation}
-  \SI{742.5}{\hour} \times \frac{\text{\EUR{15}}}{\SI{1}{\hour}} =
-  \text{\EUR{\num{11137.5}}}.
+  \SI{742.5}{\hour} \times \frac{\text{\EUR{12}}}{\SI{1}{\hour}} =
+  \text{\EUR{\num{8910}}}.
 \end{equation}
 
 \begin{remarkBox}
-  Hay que tener en cuenta que esta estimación de \EUR{15}/hour es una
+  Hay que tener en cuenta que esta estimación de \EUR{12}/hour es una
   \emph{aproximación}, para poder obtener un dato del dinero del coste
   personal. Claro está, que el número de horas dedicadas a formación tendrán
   una remuneración mucho más baja que la de las horas dedicadas a la creación
@@ -208,12 +210,20 @@ Respecto al coste de \emph{infraesctructura}, solo será necesario incluir el
 gasto realizado en servidores, ya que el resto de herramientas usadas son free
 (as in \emph{freedom}) software, pero también free in terms of
 price.\footnote{Aquí entran el uso de Python, PyTorch para la modelización; los
-  lenguajes HTML, CSS, JS, PHP para la creación de la interfaz web; y \LaTeX\
-  para la redacción de la memoria y la creacion dé la presentación.}
+  lenguajes HTML, CSS y JS para la creación de la interfaz web; PHP para la
+  \gls{api}; Apache como servidor web; y \LaTeX\ para la redacción de la
+  memoria y la creacion dé la presentación.} Los servidores usados para
+entrenar han sido cedidos por \fhref{https://vectorinstitute.ai/}{Vector
+  Institute}. El servidor usado para la web ha tenido un coste aproximado de
+\EUR{20}/month y se ha alquilado por un total de 2 meses. En total \EUR{40}.
 
 \subsubsection{Coste Total}
 
-Por tanto, en total, se estima el coste de este trabajo en los \EUR{1221}.
+Por tanto, el coste total se puede calcular sumando las dos fuentes de coste,
+el de personal y del de infraestructura. Claramente el coste personal supera
+con creces el de infraestructuras (principalmente porque el coste de los
+servidores de entrenamiento con \gls{gpu} ha sido nulo al haber sido cedidos
+gratuitamente). El coste total ha sido de \text{\EUR{8950}}.
 
 
 

@@ -11,10 +11,9 @@
     % Grid.
     vgrid = {*1{black, loosely dotted}},
     hgrid={*1{black, loosely dotted}},
-    y unit chart = 1.1cm,
     % Title.
     title/.append style = {
-      fill = yellowGantt
+      fill = yellowGantt,
     },
     title height = .75,
     % Canvas.
@@ -44,6 +43,7 @@
       draw = black,
       thick
     },
+    group label font = \mdseries,
     group height = .5,
     group top shift = .25,
     group right shift = 0,
@@ -63,22 +63,22 @@
       -latex,
       thick
     },
-    link bulge = .75
-    ]{2020-10}{2021-05}
+    link bulge = .5
+    ]{2020-10}{2021-04}
 
     % Months.
-    \gantttitlecalendar{month=shortname} \\
+    \gantttitlecalendar{year, month=shortname} \\
 
     % Groups.
-    \ganttgroup{A. Learn\ganttalignnewline basics ML/DL}{2020-11}{2020-12} \\
+    \ganttgroup{A. Learn\ganttalignnewline basics ML/DL}{2020-10}{2020-11} \\
     \ganttgroup{B. Learn\ganttalignnewline thesis topic}{2020-12}{2021-01} \\
-    \ganttgroup{C. Modeling}{2021-01}{2021-03} \\
-    \ganttgroup{D. Web\ganttalignnewline development}{2021-02}{2021-04} \\
-    \ganttgroup{E. Bachelor's\ganttalignnewline thesiss}{2020-12}{2021-05}
+    \ganttgroup{C. Models\ganttalignnewline creation}{2021-01}{2021-03} \\
+    \ganttgroup{D. Web\ganttalignnewline development}{2021-02}{2021-03} \\
+    \ganttgroup{E. Bachelor's\ganttalignnewline thesiss}{2020-12}{2021-04}
 
     % Vertical rules.
-    \ganttvrule{Start}{2020-10}
-    \ganttvrule{End}{2021-05}
+    \ganttvrule{Start}{2020-09}
+    \ganttvrule{End}{2021-04}
 
     % Uniones entre grupos.
     \ganttlink{elem0}{elem1}
