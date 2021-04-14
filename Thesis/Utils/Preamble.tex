@@ -26,6 +26,8 @@
 \usepackage[backend=biber, style=alphabetic]{biblatex}
 \usepackage{imakeidx}
 \usepackage{epigraph}
+\usepackage{everypage}
+\usepackage[absolute]{textpos}
 \usepackage{siunitx}
 \usepackage{eurosym}
 \usepackage{chemformula}
@@ -410,6 +412,25 @@
 \newcommand{\chapRef}[1]{%
 This \namecref{#1}, entitled \textsl{\nameref*{#1}}, begins on page~\pageref{#1}.
 }
+
+% Don't be afraid. Trust me, this must be done:
+%   "\pi" and "e" constants typesetted where they belong (vertically).
+\makeatletter
+\AddEverypageHook{%
+  \if@mainmatter%
+  \ifnum\value{page} = 1 % This corresponds to page 2.
+  \begin{textblock*}{.4cm}[0, .5](.05\paperwidth, .7182818284590452\paperheight)
+    \noindent\resizebox{.4cm}{!}{\(e\)}
+  \end{textblock*}
+  \fi
+  \ifnum\value{page} = 2 % This corresponds to page 3.
+  \begin{textblock*}{.4cm}[1, .5](.95\paperwidth, .1415926535897932\paperheight)
+    \noindent\resizebox{.4cm}{!}{\(\pi\)}
+  \end{textblock*}
+  \fi
+  \fi
+}
+\makeatother
 
 % Some basic math definitions.
 \newcommand{\N}{\mathbb{N}}
