@@ -65,13 +65,13 @@ fast tensor computation (with the ability to compute in \gls{gpu}). These
 tensors store the data used to train neuronal models. In the case of \gls{cv},
 the following tensors appear:
 \begin{itemize}
-  \item \textbf{\acs{rgb} Image.} A \acs{rgb} image can be interpreted as a
+  \item \textbf{\acs{rgb} image.} A \acs{rgb} image can be interpreted as a
   tensor of rank 3, \(\mathbf{I} \in \R^{C \times H \times W}\), where \(C\)
   corresponded to the number of channels (i.e., in this case, \(C = 3\)), \(H\)
   corresponds to the height of the image and \(W\) to its
   width.\footnote{Grayscale images also fall into this category with just 1
     channel (i.e., using the above notation \(C = 1\)).}
-  \item \textbf{Batch of \acs{rgb} Images.} A batch of \acs{rgb} images is a
+  \item \textbf{Batch of \acs{rgb} images.} A batch of \acs{rgb} images is a
   set of \acs{rgb} images, therefore, can be interpreted as a tensor of rank 4,
   \(\mathbf{I} \in \R^{B \times C \times H \times W}\), where \(B\) corresponds
   to the batch size, and \((C, H, W)\) have the same meaning as in the case of
@@ -134,7 +134,7 @@ of this type of architecture is shown in \vref{fig:fully-conn-network}.
   \input{Figures/Tikz/Fully Connected Neural Network.tex}
   \caption[\glsentrylong{fnn} topology]{Example of \acl{fnn}. It consists of 4
     differentiated layers of neurons and the connections between them are shown
-    graphically with arrows. \textbf{\textsl{Source}.} Figure created by the
+    graphically with arrows. Figure created by the
     author.}\label{fig:fully-conn-network}
 \end{figure}
 
@@ -289,8 +289,7 @@ architecture can be seen in \vref{fig:lenet-5}.
     topology of a \gls{cnn}. Specifically, it is
     \href{http://yann.lecun.com/exdb/lenet}{LeNet-5} (see
     \url{http://yann.lecun.com/exdb/lenet}), a convolutional network created by
-    Yann LeCun.}\label{fig:lenet-5}
-  \source{From TODO}
+    Yann LeCun. From TODO.}\label{fig:lenet-5}
 \end{figure}
 
 \subsubsection{Convolutional layers}\index{Convolutional!layer}
@@ -335,9 +334,7 @@ on \emph{padding}\footnote{There are different techniques to define the
   \includegraphics[width=.75\textwidth]{Images/Convolution.png}
   \caption[Example of a convolution]{Example of a convolution with a kernel
     (filter) of dimensions \((3, 3, 1)\) and an input feature map (tensor) of
-    size \((8, 8, 1)\).}
-  \label{fig:convolution}
-  \source{From TODO}
+    size \((8, 8, 1)\). From TODO.}\label{fig:convolution}
 \end{figure}
 
 An example of convolution is shown graphically in \vref{fig:convolution}. As
@@ -357,8 +354,7 @@ local changes in spatial location.
   \caption[Pooling layer example: max pooling]{Pooling layer example:
     \(2 \times 2\) max pooling. The input tensioner is divided into blocks
     \(2 \times 2\) and the Max Pool returns an output tensor with the maximum
-    value of each block. \textbf{\textsl{Source.}} From
-    \figcite{wiki18:max_poolin}.}\label{fig:max-pool}
+    value of each block. From \figcite{wiki18:max_poolin}.}\label{fig:max-pool}
 \end{figure}
 
 There are different types of pooling. The best known are \emph{max} pooling and
@@ -420,9 +416,8 @@ represented by the hidden state \(\mathbf{h}^{t - 1}\), therefore the output
   \end{subfigure}
   \caption[Basic topology of \glsentrylong{rnn}]{Basic topology of
     \acf{rnn}. Two versions of the same network are shown, one is the compact
-    version and the other is the same network but unfolded in time.}
-  \label{fig:rnn}
-  \source{From TODO. Citar es de stanford también}
+    version and the other is the same network but unfolded in time. From
+    \figcite{li20:cs231}.}\label{fig:rnn}
 \end{figure}
 
 \subsubsection{Different types of \glsentryshort{rnn}}
@@ -439,9 +434,7 @@ architectures that may exist are listed in \vref{fig:rnn-types}.
   \includegraphics[width=\textwidth]{Images/RNN types.png}
   \caption[Types of architectures for \glsentrylong{rnn}]{Types of
     architectures for \gls{rnn}. All posibilities are considered (i.e., all
-    combinations are presented).}
-  \label{fig:rnn-types}
-  \source{From TODO. Es de Stanford curso}
+    combinations are presented). From \figcite{li20:cs231}.}\label{fig:rnn-types}
 \end{figure}
 
 These different possibilities then have their application in various fields
@@ -771,7 +764,7 @@ data, but with a huge generalization error (see \vref{fig:overfit}).
     predictions. From \figcite{contributors21:overf}.}\label{fig:overfit}
 \end{figure}
 
-A well-known saying in the field of \gls{ml} is that of ``Memorizing is
+A well-known saying in the field of \gls{ml} is that of ``memorizing is
 \emph{not} learning''. It is important that we take into account the effect of
 overfitting to the time to train the models. To avoid this there are different
 techniques, among which highlight the \(L_2\) regularization, the concept of
