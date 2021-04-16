@@ -17,4 +17,4 @@ rsync -avzhP \
       --exclude audio \
       --exclude images \
       /home/david/Documents/UPC/Cuatrimestre\ 9/Bachelor\'s\ Thesis/ \
-      51.75.163.95:~/"Bachelor\'s\ Thesis/"
+      152.228.217.237:~/"Bachelor\'s\ Thesis/"
