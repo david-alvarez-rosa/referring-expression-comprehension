@@ -173,18 +173,44 @@ LaTeX.
 \end{comment}
 
 
-
-
-
-
+Ahora, en este apartada lo que trataremos de hacer es entender el
+funcionamiento de la arquitectura base explicada y proceder a realizar un
+proceso iterativo de mejora de dicho modelo. Para ello atacaremos a las partes
+fundamentales constituyentes de cualquier modelo neuronal: cambiar la
+arquitectura o cambiar la manera de entrenar. Como sabemos, respecto a la
+arquitectura, en este caso, tenemos tres partes diferenciadas (el image
+encoder, el language encoder y el multimodal embedding). Y, respecto al
+entrenamiento del modelo también se pueden distinguir diferentes partes: loss
+function, criterio para parar el entrenamiento, técnica de optimización, uso de
+parámetros pre-entrenados, etc.
 
 \subsubsection{Loss Functions}\index{Loss function}
 
-Hey.
+Originalmente la función utilizada para el entrenamiento es la de \gls{ce}, sin
+embargo, para la tarea de segmentación (concretamente para segmentación binaria
+como es este caso) existen muchas más (see \vref{sec:loss-functions}). Dentro
+de todo este listado hay muchas de ellas que son variaciones precisamente de
+\gls{ce}. Entrenar un modelo con estas variaciones resulta poco significado de
+cara a resultados. Aquí comentar que no se encuentran resultados significados,
+ya que, al tratarse de un modelo ya pre-entrenado y ser las funciones de loss
+bastante similares, no se avanza en el entrenamiento se llega a una zona donde
+los gradientes son prácticamente nulos.
+
+Otras loss functions que podrían ser más interesantes son las basadas en
+overlap measures. Entre ellas destacamos la de \gls{dil}.
+
+Aquí sí o sí tengo que meter gráficas de cómo evoluciona la función de pérdida
+respecto a las iteracciones en train/val. La tengo por ahí en un archivo .csv.
+
 
 \subsubsection{Multimodal Embedding}\index{Multimodal!embedding}
 
-Hey.
+Aquí lo que comentaremos es que en vez de sumar o restar o multiplicar las
+diferentes características hemos probado a proyectar usando una aplicación
+lineal. Aquí hay que volver a realizar todo el entrenamiento. Comentar que esto
+simplemente está añadiendo complejidad al modelo, pero sin ningún interés
+práctico real. El modelo ya es lo suficientemente complejo para funcionar
+bien.
 
 
 \subsubsection{Model}
