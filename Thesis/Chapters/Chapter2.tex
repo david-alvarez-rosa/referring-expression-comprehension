@@ -12,8 +12,8 @@
   {---\scshape William Edwards}}
 
 
-\drop Neural networks\index{Neural network}, more properly referred to as
-\glspl{ann} are computing systems vaguely inspired by the biological neural
+\lettrine{N}{eural networks}\index{Neural network}, more properly referred to
+as \glspl{ann} are computing systems vaguely inspired by the biological neural
 networks that constitute animal brains. Dr.\ Robert Hecht-Nielsen (inventor of
 one of the first neurocomputers), in an article by
 \myCite{caudill87:neural_networ_primer_part_i}, defines a neural network as:
@@ -771,10 +771,10 @@ proposed by \myCite{he15:delvin_deep_rectif}.
 As we have already discussed, the calculation of the gradient of the loss
 function \(\nabla _{\theta}\,\loss (\Omega, \theta)\) will be a fundamental
 element in the training of neural models. To do this, by virtue of what was
-discussed above (see, for example, \vref{eq: nabla-loss}), it will be
-sufficient to compute the gradient with respect to a single element of the
-dataset, that is, \(\nabla _{\theta }\,\ell (x, y, \theta)\). This calculation
-can be done efficiently using the well-known recursive algorithm
+discussed above (see, for example, \vref{eq:nabla-loss}), it will be sufficient
+to compute the gradient with respect to a single element of the dataset, that
+is, \(\nabla _{\theta }\,\ell (x, y, \theta)\). This calculation can be done
+efficiently using the well-known recursive algorithm
 \emph{backpropagation}. This algorithm will depend on the topology and type of
 neural model used, but it consists of the recursive application of the chain
 rule.\footnote{In calculus, the chain rule is a formula to compute the

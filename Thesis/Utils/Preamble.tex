@@ -7,48 +7,32 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern, fix-cm}
+\usepackage{lmodern}
 \usepackage[main=english, spanish, catalan]{babel}
 \usepackage{geometry}
-\usepackage{amsmath, amsthm, amssymb, mathtools}
-\usepackage{bm}
-\usepackage{graphicx, float}
+\usepackage{amsmath, amsthm, amssymb, mathtools, bm}
 \usepackage[cmyk, dvipsnames, table]{xcolor}
-\usepackage{microtype}
-\usepackage{emptypage}
-\usepackage{fancyhdr}
-\usepackage{lettrine}
-\usepackage{booktabs}
-\usepackage{caption, subcaption}
+\usepackage{graphicx, float, svg}
+\usepackage{microtype, emptypage, fancyhdr, lettrine, epigraph, everypage}
+\usepackage[absolute]{textpos}
+\usepackage{booktabs, caption, subcaption}
 \usepackage[nottoc]{tocbibind}
 \usepackage[bottom, marginal, norule]{footmisc}
 \usepackage[type={CC}, modifier={by-nc-sa}, version={4.0}]{doclicense}
 \usepackage[backend=biber, style=alphabetic]{biblatex}
 \usepackage{imakeidx}
-\usepackage{epigraph}
-\usepackage{everypage}
-\usepackage[absolute]{textpos}
-\usepackage{siunitx}
-\usepackage{eurosym}
-\usepackage{chemformula}
-\usepackage{tikz, pgfplots, pgfgantt}
+\usepackage{siunitx, eurosym, chemformula}
+\usepackage{tikz, pgfplots, pgfgantt, pgfornament}
 \usepackage{fontawesome}
 \usepackage[outputdir=Build, cachedir=Minted]{minted}
 \usepackage[most]{tcolorbox}
 \usepackage{hyperxmp}
-\usepackage{svg}
 \usepackage{varioref}
 \usepackage[pdfusetitle]{hyperref}
 \usepackage[nomain, acronym]{glossaries}
 \usepackage{glossary-longbooktabs}
-\usepackage{relsize}
 \usepackage[noabbrev, capitalize]{cleveref}
 
-
-% Fallback to computer modern for sc + bf.
-\rmfamily
-\DeclareFontShape{T1}{lmr}{b}{sc}{<->ssub*cmr/bx/sc}{}
-\DeclareFontShape{T1}{lmr}{bx}{sc}{<->ssub*cmr/bx/sc}{}
 
 % Customize page layout.
 \geometry{
@@ -369,9 +353,6 @@
 \setlength{\DefaultNindent}{.12em}
 \renewcommand*{\DefaultLhang}{0.04}
 \LettrineRealHeighttrue
-\def\drop #1#2 #3 #4 {% note the space before {
-  \lettrine{#1}{#2 #3 #4} % a trailing space
-}
 
 % Change ToC title name.
 \addto\captionsenglish{
@@ -467,6 +448,7 @@ This \namecref{#1}, entitled \textsl{\nameref*{#1}}, begins on page~\pageref{#1}
 
 \title{An innecesarily long title related to Artifical Intelligence and in the
   topic of Multimodal Learning}
+\title{Exploring and Visualizing Referring Expression Comprehension}
 % \title{Referring Expression Comprehension}
 \newcommand{\shortTitle}{Referring Expression Comprehension}
 \author{David Álvarez Rosa}
