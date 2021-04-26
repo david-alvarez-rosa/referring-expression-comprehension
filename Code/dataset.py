@@ -19,8 +19,8 @@ class ReferDataset(data.Dataset):
 
     """
 
-    def __init__(self, args, split, transforms, dataset_root="./datasets/refcoco/",
-                 ref_file="refs(unc).p", ann_file="instances.json"):
+    def __init__(self, args, split, transforms, dataset_root="../Dataset/refcoco/",
+                 ref_file="refs(unc).p", ann_file="annotations.json"):
         """Creates class.
 
         More comments.
@@ -35,7 +35,7 @@ class ReferDataset(data.Dataset):
 
         self.tokenizer = BertTokenizer.from_pretrained(args.bert_tokenizer)
 
-        self.sent_ids = self.refer.get_sent_ids(split=args.split)
+        self.sent_ids = self.refer.get_sent_ids(split=split)
 
     def __len__(self):
         """Size of dataset."""

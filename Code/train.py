@@ -67,6 +67,9 @@ def evaluate_epoch(results_dir, device, model, loader_train, loader_val, dataset
                   model=model,
                   device=device)
 
+    return                      # Remove this for evaluation in validation.
+
+
     # Evaluate in validation dataset.
     print("\n--- Validation ---")
     test.evaluate(data_loader=loader_val,
@@ -116,6 +119,23 @@ def main(args):
     dataset_train = ReferDataset(args=args,
                                  split="train",
                                  transforms=transforms.get_transform(train=True))
+
+
+
+
+
+
+
+    # Modification.
+    dataset_train = torch.utils.data.Subset(dataset_train, torch.arange(30))
+
+
+
+
+
+
+
+
     sampler_train = torch.utils.data.RandomSampler(dataset_train)
     loader_train = torch.utils.data.DataLoader(
         dataset=dataset_train,
@@ -125,10 +145,11 @@ def main(args):
         collate_fn=utils.collate_fn_emb_berts,
         drop_last=True)
 
-    # Validation dataset.
-    dataset_val = ReferDataset(args=args,
-                               split="val",
-                               transforms=transforms.get_transform())
+    # Validation dataset. Modified.
+    dataset_val = dataset_train
+    # dataset_val = ReferDataset(args=args,
+    #                            split="val",
+    #                            transforms=transforms.get_transform())
     sampler_val = torch.utils.data.SequentialSampler(dataset_val)
     loader_val = torch.utils.data.DataLoader(
         dataset=dataset_val,
@@ -137,22 +158,44 @@ def main(args):
         num_workers=args.workers,
         collate_fn=utils.collate_fn_emb_berts)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     # Segmentation model.
     seg_model = segmentation.deeplabv3_resnet101(num_classes=2,
-                                                 aux_loss=args.aux_loss,
-                                                 pretrained=args.pretrained,
+                                                 aux_loss=False,
+                                                 pretrained=False,
                                                  args=args)
 
     # BERT model.
     bert_model = BertModel.from_pretrained(args.ck_bert)
 
-    if args.pretrained_refvos:
-        checkpoint = torch.load(args.ck_pretrained_refvos)
-        seg_model.load_state_dict(checkpoint["seg_model"])
-        bert_model.load_state_dict(checkpoint["bert_model"])
-    elif args.resume:
-        checkpoint = torch.load(args.resume, map_location="cpu")
-        seg_model.load_state_dict(checkpoint["seg_model"])
+
+
+    # Load checkpoint.
+    device = torch.device(args.device)
+    checkpoint = torch.load(args.resume, map_location=device)
+
+    bert_model.load_state_dict(checkpoint["bert_model"], strict=False)
+    seg_model.load_state_dict(checkpoint["model"], strict=False)
+
+    # Define model and sent to device.
+    model = Model(seg_model, bert_model)
+
+    model.to(device)
 
     params_to_optimize = [
         {"params": [p for p in seg_model.backbone.parameters() if p.requires_grad]},
@@ -161,9 +204,6 @@ def main(args):
         {"params": reduce(operator.concat, [[p for p in bert_model.encoder.layer[i].parameters() if p.requires_grad] for i in range(10)])},
         {"params": [p for p in bert_model.pooler.parameters() if p.requires_grad]}
     ]
-
-    model = Model(seg_model, bert_model)
-    model.to(device)
 
     if args.aux_loss:
         params = [p for p in seg_model.aux_classifier.parameters() if p.requires_grad]

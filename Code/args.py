@@ -15,14 +15,14 @@ def get_parser():
     parser.add_argument("--aux-loss", action="store_true", help="auxiliar loss")
 
 
-    parser.add_argument("-b", "--batch_size", default=6, type=int)
+    parser.add_argument("-b", "--batch_size", default=8, type=int)
 
     parser.add_argument("--base_size", default=520, type=int, help="base_size")
     parser.add_argument("--crop_size", default=480, type=int, help="crop_size")
 
     parser.add_argument("--epochs", default=30, type=int, metavar="N", help="number of total epochs to run")
 
-    parser.add_argument("-j", "--workers", default=16, type=int, metavar="N", help="number of data loading workers (default: 16)")
+    parser.add_argument("-j", "--workers", default=8, type=int, metavar="N", help="number of data loading workers (default: 16)")
     parser.add_argument("--lr", default=0.01, type=float, help="initial learning rate")
     parser.add_argument("--momentum", default=0.9, type=float, metavar="M", help="momentum")
     parser.add_argument("--wd", "--weight-decay", default=1e-4, type=float, metavar="W", help="weight decay (default: 1e-4)", dest="weight_decay")
@@ -33,7 +33,7 @@ def get_parser():
     parser.add_argument("--print-freq", default=10, type=int, help="print frequency")
 
     parser.add_argument("--local_rank", type=int)
-    parser.add_argument("--device", default="cuda", help="device")
+    parser.add_argument("--device", default="cpu", help="device")
 
     parser.add_argument("--test-only", dest="test_only", help="Only test the model", action="store_true",)
 
@@ -50,14 +50,14 @@ def get_parser():
 
     #### Training configurations
     parser.add_argument("--load_optimizer", action="store_true", help="load optimizer")
-    parser.add_argument("--resume", default="", help="resume from checkpoint")
+    parser.add_argument("--resume", default="./checkpoints/model_refcoco.pth", help="resume from checkpoint")
     parser.add_argument("--bert_tokenizer",  default="bert-base-uncased", help="BERT tokenizer")
     parser.add_argument("--glove_dict",  default="./glove.840B.300d.txt", help="glove dict that you need to download and save")
     parser.add_argument("--ck_bert",  default="bert-base-uncased", help="BERT pre-trained weights")
 
 
     #### Testing parameters
-    parser.add_argument("--results_dir", help="results folder")
+    parser.add_argument("--results_dir", default=None, help="results folder")
     parser.add_argument("--submission_path",  default="./results_submission/", help="submission results folder for DAVIS")
     parser.add_argument("--split",  default="train", help="split to run test")
     parser.add_argument("--display",  action="store_true", help="save output predictions")
@@ -79,7 +79,7 @@ def get_parser():
 
 
 
-    parser.add_argument("--image_root", default="./datasets/refcoco/", help="TODO: help sentence")
+    parser.add_argument("--image_root", default="../Dataset/refcoco/images/", help="TODO: help sentence")
 
 
 

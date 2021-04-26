@@ -3,6 +3,7 @@
 A more detailed explanation.
 """
 
+import time
 import numpy as np
 import torch
 from transformers import BertModel
@@ -22,7 +23,12 @@ def evaluate(data_loader, model, device, dataset=None, results_dir=None):
     cum_intersection, cum_union = 0, 0
     jaccard_indices = []
 
+    tic = time.time()
+
     for imgs, targets, sents, attentions, sent_ids in data_loader:
+        print(time.time() - tic)
+        tic = time.time()
+
         imgs, attentions, sents, targets = \
             imgs.to(device), attentions.to(device), \
             sents.to(device), targets.to(device)
@@ -49,7 +55,15 @@ def evaluate(data_loader, model, device, dataset=None, results_dir=None):
         # Release memory.
         del imgs, targets, sents, attentions, sent_ids
 
+        # Added.
+        print("loss: {:.4f}".format(loss_value/len(data_loader)))
+        print("len_jaccard_indices: ", len(jaccard_indices))
+        mean_jaccard_index = np.mean(np.array(jaccard_indices))
+        print("Mean IoU is {:.4f}.".format(mean_jaccard_index))
+        print("Overall IoU is {:.4f}.".format(cum_intersection/cum_union))
+        print("\n\n")
 
+    print("\n"*10)
     print("loss: {:.4f}".format(loss_value/len(data_loader)))
     print("jaccard_indices: ", jaccard_indices)
     mean_jaccard_index = np.mean(np.array(jaccard_indices))
@@ -59,7 +73,18 @@ def evaluate(data_loader, model, device, dataset=None, results_dir=None):
 
 def main(args):
     # Define dataset.
-    dataset = ReferDataset(args, transforms=transforms.get_transform())
+    dataset = ReferDataset(args,
+                           split=args.split,
+                           transforms=transforms.get_transform())
+
+
+
+    # Modification.
+    # print(len(dataset))
+    # dataset = torch.utils.data.Subset(dataset, torch.arange(1))
+
+
+
     data_loader = torch.utils.data.DataLoader(dataset,
                                          batch_size=args.batch_size,
                                          num_workers=args.workers,
