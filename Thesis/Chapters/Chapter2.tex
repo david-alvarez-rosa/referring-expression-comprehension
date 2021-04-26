@@ -212,7 +212,7 @@ The \emph{matrix} of all weights in the \(l\)-th layer will be denoted by
 From now on let's suppose we are working with a \gls{fnn} with different layers
 and we will be using the same notation used before. The values of the neurons
 can be computed with
-\begin{equation}
+\begin{equation}\label{eq:fnn-forward}
   x_i^l = f_i^l \left(
     \sum_{k=1}^{n_{l-1}} w_{ik}^{l-1} x_{k}^{l-1} + b_i^l
   \right).
@@ -544,7 +544,8 @@ In this specific case of \gls{rnn}, the backpropagation process is known as
 networks.
 
 
-\subsection{Transformers}\label{sec:transformers}\index{Transformer}
+\subsection{Transformer Model}%
+\label{sec:transformers}\index{Transformer}
 
 The Transformer is a deep learning model recently introduced by
 \myCite{vaswani17:atten_all_you_need}. Here they presented the idea that
@@ -558,9 +559,44 @@ tasks. In the words of its authors:
   \tcblower\quotecite{vaswani17:atten_all_you_need}
 \end{quoteBox}
 
-They propose a new architecture that is capable of maintaining an attention
-mechanism while processing temporal sequences in parallel: the entire sequence
-as a whole instead of going element by element.
+They propose a new architecture that is capable of maintaining an
+\emph{attention mechanism}\index{Transformer!attention} while processing
+temporal sequences in parallel: the entire sequence as a whole instead of going
+element by element.  This would improve \gls{rnn} models in which training is
+sequential. The attention function that this model uses in the so-called
+``Scaled Dot-Product Attention'', which works as follows: given \emph{queries}
+(\(Q\)), \emph{keys} (\(K\)) and \emph{values} (\(V\)), the attention is
+computed as (in matrix notation),
+\begin{equation}\label{eq:attention}
+  \text{Attention}(Q, K, V) =
+  \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V,
+\end{equation}
+where \(d_k\) is the dimension of the queries and keys.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=.75\textwidth]{Images/Attention.png}
+  \caption[Transformer attention mechanism]{Transformer attention
+    mechanism. Scaled Dot-Product Attention (right) and Multi-Headed Attention
+    that involves attention layers running in parallel (left). From
+    \figcite{vaswani17:atten_all_you_need}.}\label{fig:attention}
+\end{figure}
+
+The problem with this attention function is that it only allows one way that
+words can interact with each other. To solve this, they propose a
+``Multi-Headed Attention'', where \(h\) attention layers are used running in
+parallel (they use \(h = 8\) in their work) and then concatenate the outputs
+(see \vref{fig:attention}). This attention is computed as follows,
+\begin{equation}
+  \text{MultiHead}(Q, K, V) =
+  \text{Concat}(\text{head}_1, \ldots, \text{head}_h)W^O,
+\end{equation}
+where \(\text{head}_i = \text{Attention}(QW_i^Q, KW_i^k, VW_i^V)\) (see
+\vref{eq:attention}), and the projections are parameter matrices
+\(W_i^Q \in \R^{d_{\text{model}} \times d_k}, W_i^k \in \R^{d_{\text{model}}
+  \times d_k}, W_i^V \in \R^{d_{\text{model}} \times d_v}\) and
+\(W^O \in \R^{hd_v \times d_{\text{model}}}\).
+
 
 \begin{figure}[p]
   \centering
@@ -584,6 +620,12 @@ distinguished:
   each word has to attend, and then combine the output of the encoder with the
   output so far. The result is a prediction for the next token.
 \end{itemize}
+
+This model uses input/output embeddings to obtain vector representations that
+can be fed into the Transformer. And, at the end, after the last segment (see
+\vref{fig:transformer}), the encoded output is fed into a \gls{fnn} (is a
+linear transformation, no activation functions presented) and into a softmax
+layer to obtain a vector of \emph{probabilities}.
 
 
 
@@ -726,8 +768,42 @@ proposed by \myCite{he15:delvin_deep_rectif}.
 
 \subsubsection{Backpropagation Error}\index{Backpropagation}
 
-Hey. TODO.
+As we have already discussed, the calculation of the gradient of the loss
+function \(\nabla _{\theta}\,\loss (\Omega, \theta)\) will be a fundamental
+element in the training of neural models. To do this, by virtue of what was
+discussed above (see, for example, \vref{eq: nabla-loss}), it will be
+sufficient to compute the gradient with respect to a single element of the
+dataset, that is, \(\nabla _{\theta }\,\ell (x, y, \theta)\). This calculation
+can be done efficiently using the well-known recursive algorithm
+\emph{backpropagation}. This algorithm will depend on the topology and type of
+neural model used, but it consists of the recursive application of the chain
+rule.\footnote{In calculus, the chain rule is a formula to compute the
+  derivative of a composite function. That is, if \(f\) and \(g\) are
+  differentiable functions, then the chain rule expresses the derivative of
+  their composite as \((f\circ g)' = (f'\circ g)\cdot g'\). This formula also
+  applies for multi-variable functions.}
 
+Assuming we are facing a \gls{fnn}, this backpropagation algorithm can be
+exemplified: let it be an individual weight \(w_ {ij} ^ l\), which is involved
+in computing the output \(y_i^l\) according to \vref{eq:fnn-forward}, then the
+chain rule applied to \(\ell (x, y, \theta)\) yields,
+\begin{equation}
+  \frac{\partial \ell}{\partial w_{ij}^l} =
+  \frac{\partial \ell}{\partial y_i^l}
+  \frac{\partial y_i^l}{\partial w_{ij}^l}.
+\end{equation}
+And, then, to compute the first part, the cain rule can be applied recursively
+again, in terms of \(y^L, y^{L - 1}, \ldots, y^{l + 1}\). A more rigorous
+approach and formalized version of the backpropagation algorithm is given by
+\myCite{bishop95:neural_networ_patter_recog} (see Section~4.8 for more
+details).
+
+Computationally, this recursive process of gradient computation is performed
+using a computational graph and using \gls{ad} techniques, rather than the
+techniques used to computationally compute derivatives repeatedly making use of
+the chain rule. PyTorch has a built-in differentiation engine called
+\code{torch.autograd} that supports automatic computation of gradient for any
+computational graph.
 
 \subsection{Regularization Techniques}\index{Regularization}
 
@@ -735,12 +811,11 @@ One of the biggest problems facing \gls{dl} and more generally predictive
 statistics is that of \emph{overfitting}\index{Overfitting}. Overfitting is
 creating a model of analysis from data that fits too closely the training
 dataset available, but not capable of making reliable predictions of future
-observations. In the words of \myCite{berners-lee21:introd_web_acces} (TODO:
-fix me),
+observations. In words of \myCite{neumann14:common_mistak_statis},
 \begin{quoteBox}
   With four parameters I can fit an elephant, and with five I can make him
   wiggle his trunk.
-  \tcblower\quotecite{berners-lee21:introd_web_acces} TODO. correct this.
+  \tcblower\quotecite{neumann14:common_mistak_statis}
 \end{quoteBox}
 
 What he is referring to here is that we should not be surprised at the ability
@@ -844,5 +919,24 @@ the transformations performed in the dataset.
 
 
 \section{Testing}\index{Testing}
-Hey there. Talk about evaluation measures \textbf{in general}. Talk here about
-the importance of the split \code{test/val/test}.
+
+
+It is common to reserve a part of the dataset as a \code{test} dataset in order
+to evaluate the model. This division is part of the well-known
+\code{train}/\code{val}/\code{test} split. The \code{test} will not be used in
+any case to train the model, nor to validate it during training, nor to adjust
+the hyperparameters, nor for any other topic related to the training of a
+neural network. It will \emph{only} be used to evaluate the model once it has
+already been trained, so that it can be compared with other models using some
+evaluation metric (typically quantitative). In this way, it will be possible to
+compare different models using \emph{objective} criteria.
+
+\begin{remarkBox}
+  Using the \code{test} dataset to train the model would lead to \emph{false}
+  evaluation metrics, since the model could be simply memorizing and not really
+  learning (overfitting).
+\end{remarkBox}
+
+Good results in the \code{test} dataset confirm the model's ability to
+generalize and behave correctly in unknown scenarios (inputs never presented to
+the model).

@@ -192,9 +192,9 @@
 \DeclareFieldFormat{labelalphawidth}{\mkbibbold{#1}}
 % \DeclareFieldFormat{labelalphawidth}{\mkbibbrackets{\mkbibbold{#1}}}
 \renewcommand{\mkbibnamefamily}[1]{\textsc{#1}}
-\renewcommand{\mkbibnamegiven}[1]{\textsc{#1}}
-\renewcommand{\mkbibnameprefix}[1]{\textsc{#1}}
-\renewcommand{\mkbibnamesuffix}[1]{\textsc{#1}}
+% \renewcommand{\mkbibnamegiven}[1]{\textsc{#1}}
+% \renewcommand{\mkbibnameprefix}[1]{\textsc{#1}}
+% \renewcommand{\mkbibnamesuffix}[1]{\textsc{#1}}
 \DeclareBibliographyCategory{text}
 \DeclareBibliographyCategory{quote}
 \DeclareBibliographyCategory{figure}
@@ -244,6 +244,7 @@
 
 % Pgfplots configuration.
 \pgfplotsset{compat=newest}
+\usepgfplotslibrary{external}
 \pgfplotsset{%
   activationFunction/.style = {%
     xlabel = {$x$}, ylabel = {$y$},
@@ -264,6 +265,15 @@
     enlargelimits,
     width = \textwidth,
     scale only axis,
+  },
+  trainPlot/.style = {
+    width = \textwidth,
+    grid = major,
+    grid style = {dashed, gray!40},
+    xlabel = Epoch,
+    ylabel = Loss function,
+    thick,
+    legend pos = north east
   }
 }
 
@@ -325,38 +335,21 @@
 }
 
 % Input code file.
-\newtcbinputlisting[auto counter, number within=chapter, list inside=code]{\codeLst}[4]{
-  listing engine = minted,
-  minted language = #1,
-  listing file = {#2},
-  minted options = {
-    autogobble,
-    linenos,
-    numbersep = 8pt,
-    breaklines,
-    % breaksymbol = {},
-    fontfamily = tt,
-    fontsize = \footnotesize,
-    mathescape = true,
-    samepage = false,
-  },
-  enhanced,
+\tcbset{
+  listing engine = minted
+}
+\newtcbinputlisting[auto counter]{\codeIn}[3][]{
   listing only,
-  drop fuzzy shadow,
-  breakable,
-  sharp corners,
-  colbacktitle = Gray!50!black,
-  colback = Gray!30!gray!15,
-  colframe = Gray!50!black,
-  coltitle = white,
-  fonttitle = \bfseries,
-  boxrule = 0pt,
-  leftrule = 3pt,
-  left = 2pt,
-  right = 2pt,
-  title = {Source code~\thetcbcounter : #3 \hfill \large\faCode},
-  list entry = Source code~\thetcbcounter : #3,
-  label = code:#4
+  minted language = #2,
+  listing file = {#3},
+  minted options = {
+    fontsize = \footnotesize,
+    #1
+  },
+  baseBox = Gray,
+  left = 5pt,
+  top = 0pt,
+  bottom = 0pt,
 }
 
 % Gantt chart colors.
@@ -480,21 +473,5 @@ This \namecref{#1}, entitled \textsl{\nameref*{#1}}, begins on page~\pageref{#1}
 \date{\today}
 
 
-\includeonly{Chapters/Chapter4}
-% \includeonly{Appendices/AppendixA}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% \usepackage[titles]{tocloft}
-% \renewcommand\cftchapdotsep{\cftdotsep}
+% \includeonly{Chapters/Chapter2}
+% \includeonly{Appendices/AppendixC}

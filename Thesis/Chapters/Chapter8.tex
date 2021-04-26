@@ -1,25 +1,123 @@
 % -*- TeX-master: "../Thesis.tex" -*-
 
 
-\chapter{Conclusions} \label{cha:concl}
+\chapter{Conclusions}\label{cha:concl}
 
 \epigraphhead[75]{
-  \epigraph{\itshape Now this is not the end. \\
-    It is not even the beginning of the end. \\
+  \epigraph{\itshape Now this is not the end.\\
+    It is not even the beginning of the end.\\
     But it is, perhaps, the end of the beginning.}
   {---\scshape Winston Churchill}
 }
 
 
-\drop Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\drop Carrying out this research work within the university framework of a
+bachelor's thesis has allowed me, on a personal level, to initiate and delve
+into topics related to \gls{ml} that are currently on everyone's lips. The
+\gls{ai} has come to stay in our current society. The specific topic of this
+work \gls{rec} has allowed me to work in the field of multimodal learning, so
+that I have been able to explore at the same time the fields of \gls{cv} and
+\gls{nlp}, which for me were a novelty. Being able to start from scratch and
+finish training and modifying state-of-the-art models produces in me a
+satisfying feeling on an academic level.
+
+Likewise, it has allowed me to improve my skills in the field of programming:
+both in the development of neural models using the Python PyTorch library, and
+in the field of web development and the creation of \glspl{api} and management
+of servers.
+
+Likewise, I am satisfied with the results obtained, despite not having obtained
+significant improvements in the RefVOS model. Having been able to train
+professional models and being able to modify it and understand all the small
+parts that make it up are already a source of joy for me. In addition, being
+able to provide the general public with a website where they can easily
+interact with models so complex that the one presented, I think is positive for
+society in general. Tools similar to this one may be useful for future
+researchers in this or similar field.
+
+Also, this project has allowed me to grow as a person. It has been carried out
+in a turbulent time within the COVID-19 pandemic, which has forced remote
+work. Having to work remotely with a large research laboratory in \gls{ai} in
+another time zone is not an easy task. I appreciate all the help received by
+email and by videoconference from my thesis supervisors and the Vector
+Institute members with whom I have been fortunate to discuss aspects of the
+work.
 
 
 
-\section{Future work}
+\section{Future Work}
 
-% TODO. Mirar el paper de related works.
+In order to advance in the task of \gls{rec} it is essential to first know the
+main limitations that currently exist. One of the main problems that arise is
+the difficulty of understanding what the model is doing. All the models present
+in the current literature present some method in which the embeddings of
+\gls{re} and the image are joined. Now, this process is currently a ``black
+box'' for researchers: the reasoning process of the model cannot be
+visualized. This greatly penalizes the possibilities of improving the models,
+since it makes it very difficult to interpret the decisions of the model in the
+understanding process.
+
+In addition, this lack of interpretability of the reasoning method of the model
+is enhanced by the evaluation process in which only the final prediction is
+taken into account, so that a concrete evaluation of the reasoning process is
+not made step by step. That is, the evaluation metrics used in current
+state-of-the-art studies are not capable of extracting useful information about
+the real reasoning capacity of the model and, therefore, do not provide a
+vision about the deficiencies of the model.
+
+Another important limitation in the \gls{rec} task is the lack of quality
+dataset for training. It has been possible to manually observe samples from the
+dataset that are not adequate (\gls{re} misspelled, containing bad words,
+etc.). In addition, there is a clear imbalance in the samples of the current
+datasets. Most of the \gls{re} present refer to the objects in the image using
+attributes. This imbalance can lead to models where there is no deep reasoning
+process, in which segmentation is only learned depending on the class to which
+the object belongs. It could even be the case that the models ignore \gls{re}
+and only make a random guess of the most representative object (that is, using
+only the information present in the image).
+
+Following the current jobs path may not lead to significant improvements in
+model performance. That is, adding complexity (increasing the number of
+basically trainable parameters) to current techniques \gls{rec} may not be the
+way to go. Designing more sophisticated models but under the same current
+principles will not necessarily lead to significant improvements in the task of
+\gls{rec}. To achieve significant improvement, the next logical step is to try
+to find models in which some sophisticated (and assessable) method of reasoning
+can be exploited more effectively. I consider that the most successful ones in
+the future would be multi-step reasoning models, in which relevant information
+is actually extracted from \gls{re}. In addition, it would be very useful if
+each of these reasoning steps could be visualized and validated with objective
+metrics.
+
+\begin{exampleBox}
+  A simple example of these multi-step reasoning would be for example with the
+  following \gls{re}, \re{woman in red dress sitting on the right} and an image
+  with a large group of people. An ideal multi-step reasoning model would work
+  as follows:
+  \begin{enumerate}
+    \item Find all the women present in the image, these objects will be the only
+    solution candidates.
+    \item From these women choose all those who wear a red dress.
+    \item From this group select those that are seated.
+    \item Finally, if there is more than one possibility, select the one on the
+    right.
+  \end{enumerate}
+
+  In this type of model, or similar, the real reasoning would be guaranteed and
+  it would be easy to evaluate step by step.
+\end{exampleBox}
+
+In the case of datasets, they could also be improved. It would be necessary to
+collect more data, of higher quality and with different types of \gls{re}. In
+addition, it would be very useful for the training and validation of the models
+to have a metric to evaluate the difficulty of one \gls{re}. This dataset
+expansion could be done, if necessary, making use of generative models, i.e.,
+synthetic data could be used. This would be especially useful to correct
+already detected imbalances.
+
+Also add that you can see how to apply these models to video in addition to
+image. The model presented in this thesis, obviously, could also be used for
+video using it frame by frame. Now, the temporal relationship between different
+frames would be neglected. Here it would be of vital importance to ensure the
+efficiency and speed of the models used, to make real-speed comprehension
+possible.
