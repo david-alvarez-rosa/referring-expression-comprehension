@@ -2,19 +2,16 @@
 
 
 \begin{titlepage}
-  \makeatletter
   \hypersetup{
     urlcolor = black
   }
-
   \centering
 
   \begin{minipage}[c]{.25\textwidth}
     \centering
-    \href{https://www.utoronto.ca/}{\includesvg[height=.8\textwidth]{Logos/UofT.svg}}\\[1ex]
-    \large
-    \textsl{Supervisor}\\
-    \Large
+    \href{https://www.utoronto.ca/}{\includesvg[height=.8\textwidth]{Logos/UofT.svg}}\\[.5ex]
+    \normalsize
+    \textsl{Supervisor}\large\\
     \href{https://www.cs.utoronto.ca/~fidler/}{Sanja \textsc{Fidler}}
   \end{minipage}\hfill
   \begin{minipage}[c]{.5\textwidth}
@@ -26,49 +23,51 @@
   \end{minipage}\hfill
   \begin{minipage}[c]{.25\textwidth}
     \centering
-    \href{https://www.upc.edu/en}{\includesvg[height=.8\textwidth]{Logos/UPC.svg}}\\[1ex]
-    \large
-    \textsl{Co-Supervisor}\\
-    \Large
+    \href{https://www.upc.edu/en}{\includesvg[height=.8\textwidth]{Logos/UPC.svg}}\\[.5ex]
+    \normalsize
+    \textsl{Co-Supervisor}\large\\
     \href{https://imatge.upc.edu/web/people/xavier-giro}{Xavier \textsc{Giró}}
   \end{minipage}\\
 
   \vfill
 
-  \Huge
-  \resizebox{\textwidth}{5pt}{\pgfornament[width=\textwidth]{88}}
-  \textbf{\href{https://recomprehension.com}{\@title}}\\[-1ex]
-  \resizebox{\textwidth}{5pt}{\pgfornament[width=\textwidth]{88}}\\
+  \huge
+  \resizebox{\textwidth}{4pt}{\pgfornament[width=\textwidth]{88}}
+  \href{https://recomprehension.com}{\textbf{Exploring and Visualizing\\
+      Referring Expression Comprehension}}\\[-1ex]
+  \resizebox{\textwidth}{4pt}{\pgfornament[width=\textwidth]{88}}\\
 
   \vfill
 
   \large
   \textsl{A senior Bachelor's Degree Thesis written by}\Large\\
-  \href{https://david.alvarezrosa.com/}{David \textsc{Álvarez Rosa}}\\[1.5ex]
+  \href{https://david.alvarezrosa.com/}{David \textsc{Álvarez Rosa}}\\[1ex]
 
   \large
-  \textsl{in partial fullfilment of the requirements for the bachelors' degrees in}\Large\\
-  \textsc{Mathematics}\\
-  \textsc{Industrial Technology Engineering}\\[1.5ex]
+  \textsl{in partial fullfilment of the requirements for the bachelors' degrees
+    in}\Large\\[-.25ex]
+  \textsc{mathematics}\\[-.5ex]
+  \textsc{industrial technology engineering}\\[1ex]
 
   \large
-  \textsl{and submitted to}\Large\\
+  \textsl{and submitted to}\Large\\[-.25ex]
   \scshape
-  \href{https://cfis.upc.edu/en}{Interdisciplinary Higher Education Centre}\\
-  \href{https://fme.upc.edu/en}{School of Mathematics and Statistics}\\
-  \href{https://etseib.upc.edu/en}{Barcelona School of Industrial Engineering}\\[2ex]
-  \href{https://cfis.upc.edu/en}{\includegraphics[height=9ex]{Logos/CFIS.jpeg}}
-  \hspace{2em}
-  \href{https://fme.upc.edu/en}{\includegraphics[height=9ex]{Logos/FME.png}}
-  \hspace{2em}
-  \href{https://etseib.upc.edu/en}{\includegraphics[height=9ex]{Logos/ETSEIB.png}}\\
+  \href{https://cfis.upc.edu/en}{interdisciplinary higher education centre}\\[-.5ex]
+  \href{https://etseib.upc.edu/en}{barcelona school of industrial engineering}\\[-.5ex]
+  \href{https://fme.upc.edu/en}{school of mathematics and statistics}
+
+
+  \vfill
+  \href{https://cfis.upc.edu/en}{\includegraphics[height=10ex]{Logos/CFIS.jpeg}}
+  \hspace{1em}
+  \href{https://etseib.upc.edu/en}{\includegraphics[height=10ex]{Logos/ETSEIB.png}}
+  \hspace{1em}
+  \href{https://fme.upc.edu/en}{\includegraphics[height=10ex]{Logos/FME.png}}\\[1ex]
 
   \vfill
 
-  \large\scshape
-  Toronto, ON, Canada \hfill \@date
-
-  \makeatother
+  \normalsize
+  Toronto, ON, Canada\hfill\today
 \end{titlepage}
 
 
@@ -76,10 +75,16 @@
 \small
 \null\vfill
 
+\begin{center}
+  \tikzset{external/export = false}
+  \pgfornament[width=.25\textwidth]{156}
+\end{center}
+
+\vspace{1ex}
 \noindent\makeatletter\@author\makeatother\ \textcopyright\ \today\\
 \makeatletter\href{https://recomprehension.com/}{\texttt{\@title}}\makeatother\bigskip
 
-\noindent This document was written with
+\noindent Document written with
 \href{https://www.gnu.org/software/emacs/}{\textsc{gnu} Emacs} and compiled
 with \href{http://tug.org/applications/pdftex/}{pdf\TeX{}} and
 \href{http://biblatex-biber.sourceforge.net/}{Biber}. All figures, which do not
@@ -88,6 +93,7 @@ refer to an external source, have been created by the author using
 
 \doclicenseThis
 \normalsize
+
 
 
 \cleardoublepage
@@ -101,52 +107,109 @@ refer to an external source, have been created by the author using
 \vspace{\stretch{2}}
 
 
+
 \cleardoublepage
 \thispagestyle{plain}
 \null\vfill
+
 \begin{center}
-  \makeatletter
-  \MakeUppercase{\href{https://href.com}{University Name}} \\
-  \vspace{20pt}
-  {\huge \textit{\abstractname}} \\
-  \bigskip
-  \href{https://href.com}{Faculty Name} \\
-  \href{https://href.com}{Department Name} \\
-  \bigskip
-  Degree Name \\
-  \bigskip
-  \textbf{\@title} \\
-  \medskip
-  by \@author \\
-  \bigskip
-  \makeatother
+  \Large
+  \textbf{Exploring and Visualizing\\
+    Referring Expression Comprehension}
+
+  \vspace{2ex}
+  \large
+  \textit{by} David \textsc{Álvarez Rosa}
+
+  \vspace{3ex}
+  \textbf{\abstractname}
 \end{center}
-Abstract.
+
+\vspace{-2ex}
+\noindent Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\begin{center}
+  \pgfornament[width=.5\textwidth]{89}
+
+
+  \bigskip\smallskip
+  \textbf{Keywords}
+
+  Referring Expression Comprehension\\
+  Artificial Intelligence \textbullet{} Machine Learning \textbullet{} Deep
+  Learning\\
+  Computer Vision \textbullet{} Natural Language Processing\\
+  Multimodal Learning\\
+
+  \bigskip
+  \textbf{Mathematics Subject Classification}
+
+  68T45
+\end{center}
+
 \vfill\null
 
 
 \clearpage
 \thispagestyle{plain}
 \null\vfill
+
 \begin{otherlanguage}{spanish}
   \begin{center}
-    \makeatletter
-    \MakeUppercase{\href{https://href.com}{University Name}} \\
-    \vspace{20pt}
-    {\huge \textit{\abstractname}} \\
-    \bigskip
-    \href{https://href.com}{Faculty Name} \\
-    \href{https://href.com}{Department Name} \\
-    \bigskip
-    Degree Name \\
-    \bigskip
-    \textbf{\@title} \\
-    \medskip
-    by \@author \\
-    \bigskip
-    \makeatother
+    \Large
+    \href{https://recomprehension.com/}{\textbf{Explorando y Visualizando\\
+        Comprensión de la Expresión Referente}}
+
+    \vspace{2ex} \large \textit{por}
+    \href{https://david.alvarezrosa.com/}{David \textsc{Álvarez Rosa}}
+
+    \vspace{3ex} \textbf{\abstractname}
   \end{center}
-  Resumen.
+
+  \vspace{-2ex}
+  \noindent Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+  commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+  esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+  cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+  laborum.
+
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+  \begin{center}
+    \pgfornament[width=.5\textwidth]{89}
+
+
+    \bigskip\smallskip \textbf{Palabras clave}
+
+    Referring Expression Comprehension\\
+    Inteligencia Artificial \textbullet{} Machine Learning \textbullet{} Deep
+    Learning\\
+    Computer Vision \textbullet{} Natural Language Processing\\
+    Multimodal Learning\\
+
+    \bigskip \textbf{Clasificación Matemática por Temas}
+
+    68T45
+  \end{center}
 \end{otherlanguage}
 \vfill\null
 
@@ -154,32 +217,83 @@ Abstract.
 \clearpage
 \thispagestyle{plain}
 \null\vfill
+
 \begin{otherlanguage}{catalan}
   \begin{center}
-    \makeatletter
-    \MakeUppercase{\href{https://href.com}{University Name}} \\
-    \vspace{20pt}
-    {\huge \textit{\abstractname}} \\
-    \bigskip
-    \href{https://href.com}{Faculty Name} \\
-    \href{https://href.com}{Department Name} \\
-    \bigskip
-    Degree Name \\
-    \bigskip
-    \textbf{\@title} \\
-    \medskip
-    by \@author \\
-    \bigskip
-    \makeatother
+    \Large
+    \href{https://recomprehension.com/}{\textbf{Explorando y Visualizando\\
+        Comprensión de la Expresión Referente}}
+
+    \vspace{2ex} \large \textit{per}
+    \href{https://david.alvarezrosa.com/}{David \textsc{Álvarez Rosa}}
+
+    \vspace{3ex} \textbf{\abstractname}
   \end{center}
-  Resum.
+
+  \vspace{-2ex}
+  \noindent Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+  commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+  esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+  cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+  laborum.
+
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+  \begin{center}
+    \pgfornament[width=.5\textwidth]{89}
+
+
+    \bigskip\smallskip \textbf{Palabras clave}
+
+    Referring Expression Comprehension\\
+    Inteligencia Artificial \textbullet{} Machine Learning \textbullet{} Deep
+    Learning\\
+    Computer Vision \textbullet{} Natural Language Processing\\
+    Multimodal Learning\\
+
+    \bigskip \textbf{Clasificación Matemática por Temas}
+
+    68T45
+  \end{center}
 \end{otherlanguage}
 \vfill\null
+
 
 
 \chapter*{Acknowledgements}
 
-Acknowledgements.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\begin{flushright}
+  David \textsc{Álvarez Rosa} \\
+  Barcelona \\
+  \today
+\end{flushright}
+
+\vspace{2ex}
+\begin{center}
+  \pgfornament[width=.3\textwidth]{160}
+\end{center}
+
 
 
 \microtypesetup{protrusion=false}

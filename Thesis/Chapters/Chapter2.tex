@@ -265,14 +265,14 @@ between pixels. Likewise, they are regularized versions of fully connected
 networks (explained in \vref{sec:fnn}), that is, it is less likely
 to overfit the data.
 
-\fhref{http://yann.lecun.com/index.html}{Yann LeCun}, a renowned scientist
-known as the father of \glspl{cnn}, defines them as follows:
+\myCite{lecun98:lenet}, a renowned scientist known as the father of
+\glspl{cnn}, defines them as follows:
 \begin{quoteBox}
   Convolutional Neural Networks are a special kind of multi-layer neural
   networks. Like almost every other neural networks they are trained with a
   version of the back-propagation algorithm. Where they differ is in the
   architecture.
-  \tcblower\href{http://yann.lecun.com/index.html}{Yann LeCun}
+  \tcblower\quotecite{lecun98:lenet}
 \end{quoteBox}
 
 Analogously to the case of fully connected networks, a \gls{cnn} consists of an
@@ -287,9 +287,8 @@ architecture can be seen in \vref{fig:lenet-5}.
   \includegraphics[width=\textwidth]{Images/Architecture LeNet-5.png}
   \caption[Example of topology of a \glsentryshort{cnn} (LeNet-5)]{Example of
     topology of a \gls{cnn}. Specifically, it is
-    \href{http://yann.lecun.com/exdb/lenet}{LeNet-5} (see
-    \url{http://yann.lecun.com/exdb/lenet}), a convolutional network created by
-    Yann LeCun. From TODO.}\label{fig:lenet-5}
+    \href{http://yann.lecun.com/exdb/lenet}{LeNet-5}, a convolutional network
+    created by Yann LeCun. From \figcite{lecun98:lenet}.}\label{fig:lenet-5}
 \end{figure}
 
 \subsubsection{Convolutional layers}\index{Convolutional!layer}
@@ -332,9 +331,10 @@ on \emph{padding}\footnote{There are different techniques to define the
 \begin{figure}[ht]
   \centering
   \includegraphics[width=.75\textwidth]{Images/Convolution.png}
-  \caption[Example of a convolution]{Example of a convolution with a kernel
-    (filter) of dimensions \((3, 3, 1)\) and an input feature map (tensor) of
-    size \((8, 8, 1)\). From TODO.}\label{fig:convolution}
+  \caption[Example of convolution operation]{Example of a convolution with a
+    kernel (filter) of dimensions \((3, 3, 1)\) and an input feature map
+    (tensor) of size \((8, 8, 1)\). From
+    \figcite{hachilif19:graduat_thesis_implem_optim_neural_networ_tiram}.}\label{fig:convolution}
 \end{figure}
 
 An example of convolution is shown graphically in \vref{fig:convolution}. As
@@ -753,7 +753,7 @@ TODO. More optimization methods exist such as AdaGrad, RMSProp and Adam.
 For every iterative method, an initial guess for is necessary
 \(\theta^{(0)}\). In practice what you do is initialize the weights using a
 probability distribution, such as \(U[-\sigma, \sigma]\) or
-\(\mathcal{N}(0, \sigma ^ 2)\). The value of \(\sigma\) can be chosen
+\(\mathcal{N}(0, \sigma^2)\). The value of \(\sigma\) can be chosen
 arbitrarily, although the one known as \emph{Xavier initialization}, by
 \myCite{glorot10:under}, consisting of choosing the variance as the square root
 of the input dimension \(D_{\text{in}}\).\footnote{For convolutional layers,
