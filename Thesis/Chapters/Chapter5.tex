@@ -4,8 +4,8 @@
 \chapter{Results and Comparison}\label{cha:results}
 
 \epigraphhead[75]{
-  \epigraph{\itshape However beautiful the strategy, you should occasionally
-    look at the results.}
+  \epigraph{\itshape However beautiful the strategy, \\
+    you should occasionally look at the results.}
   {---Winston \textsc{Churchill}}
 }
 
@@ -18,36 +18,157 @@ diferentes datasets. La información la puedo sacar del paper de REfvOS y del de
 RelatedWorks.
 
 
+
 \section{Quantitative Evaluation}\label{sec:quantitative-eval}
 
-Aquí mostraremos tablas comparativas de la evaluación cuantitativa.
+Respecto a la evaluación cuantitativa del modelo (como ya se ha discutido en la
+\vref{sec:quantitative-measures}) existen diferentes métricas a usar. Entre
+ellas destacan tres: el mean y overall \gls{iou}, y precisión at threshold. En
+el caso del modelo creado en este trabajo podemos evaluarlo con cualquier
+métrica que consideremos oportuna y en cualquier dataset, ya que disponemos de
+la implementación del mismo. Ahora bien, lo que realmente es interesante, es
+poder compararlo con otros modelos state-of-the-art existentes actualmente. La
+literatura consultada en este trabajo típicamente usa dos métricas
+fundamentales: overall \gls{iou} y precisión at 0.5. La Prec@0.5 es usada como
+una medida de accuracy, i.e., se computa el número de porcentaje de samples
+donde la segmentación predecida overlaps with the ground trhut region by at
+least 50\%.
+
+En este apartado mostraremos tablas comparativas de la evaluación cuantitativa
+del modelo de este trabajo y de otros modelos actuales. Para ello se hará un
+estudio del overall \gls{iou} (see \vref{sec:overall-iou}) y un estudio del
+accuracy o Prec@0.5 (see \vref{sec:accuracy}).
 
 
-% \begin{table}[ht]
-%   \centering
-%   \caption[TODO]{Aquí mostraremos de una manera visual diferentes ejemplos y
-%     patologías encontradas en el procesado del sistema. }\label{fig:todo}
-%   \rowcolors{5}{rowColor}{}
-%   \begin{tabular}{lcl*6c}
-%     \toprule
-%      &  & & \multicolumn{3}{c}{\textbf{RefCOCO}} & \multicolumn{3}{c}{\textbf{RefCOCO+}} \\
-%     \cmidrule(lr){4-6}\cmidrule(lr){7-9}
-%     \textbf{Method} & \textbf{Paper} & \textbf{Cat.} & \code{val} & \code{testA} & \code{testB} & \code{val} & \code{testA} & \code{testB} \\
-%     \midrule
-%     RefVOS & \cite{bellver20:refvos} & MM & 80.91 & 80.91 & 80.91 & 80.91 & 80.91 & 80.91 \\
-%     RefVOS & \cite{bellver20:refvos} & MM & 80.91 & 80.91 & 80.91 & 80.91 & 80.91 & 80.91 \\
-%     RefVOS & \cite{bellver20:refvos} & MM & 80.91 & 80.91 & 80.91 & 80.91 & 80.91 & 80.91 \\
-%     RefVOS & \cite{bellver20:refvos} & MM & 80.91 & 80.91 & 80.91 & 80.91 & 80.91 & 80.91 \\
-%     RefVOS & \cite{bellver20:refvos} & MM & 80.91 & 80.91 & 80.91 & 80.91 & 80.91 & 80.91 \\
-%     RefVOS & \cite{bellver20:refvos} & MM & 80.91 & 80.91 & 80.91 & 80.91 & 80.91 & 80.91 \\
-%     RefVOS & \cite{bellver20:refvos} & MM & 80.91 & 80.91 & 80.91 & 80.91 & 80.91 & 80.91 \\
-%     RefVOS & \cite{bellver20:refvos} & MM & 80.91 & 80.91 & 80.91 & 80.91 & 80.91 & 80.91 \\
-%     RefVOS & \cite{bellver20:refvos} & MM & 80.91 & 80.91 & 80.91 & 80.91 & 80.91 & 80.91 \\
-%     RefVOS & \cite{bellver20:refvos} & MM & 80.91 & 80.91 & 80.91 & 80.91 & 80.91 & 80.91 \\
-%     \bottomrule
-%   \end{tabular}\\[1.25ex]
-%   {\small\textbf{Note}. Table created by the author.}
-% \end{table}
+\subsection{Overall \glsentryshort{iou}}\label{sec:overall-iou}
+
+Respecto al overall \gls{iou}, se han recogido datos de múltiples modelos, los
+cuales se muestran de manera resumida en la \vref{tab:overall-iou}. Se ha
+realizado la evaluación en los datasets RefCOCO y RefCOCO+ con los splits
+\code{val/testA/testB}. Como ya se ha comentado anteriormente, el dataset
+RefCOCO+ presenta \gls{re} de mayor complejidad, por lo que presenta valores de
+overall \gls{iou} más bajos que en el dataset RefCOCO para todos los modelos.
+
+\begin{table}[p]
+  \centering
+  \caption[Overall \glsentrylong{iou} model comparison]{Overall \acl{iou} model
+    comparison. For each of the models the overall \acs{iou} is shown for the
+    splits \code{val/testA/testB} in the datasets RefCOCO and RefCOCO+. The
+    state of the art in each category is shown in bold. Full names for model
+    acronyms can be found in section \textsl{Model Acronyms} on
+    page~\pageref{sec:ac-model}. Table created by the author using data from
+    second column references.}\label{tab:overall-iou}
+  \rowcolors{5}{rowColor}{}
+  \begin{tabular}{lc*6c}
+    \toprule
+    & & \multicolumn{3}{c}{\textbf{RefCOCO}} & \multicolumn{3}{c}{\textbf{RefCOCO+}} \\
+    \cmidrule(lr){3-5}\cmidrule(lr){6-8}
+    \textbf{Method} & \textbf{Paper}                                               & \code{val}     & \code{testA}   & \code{testB}   & \code{val}     & \code{testA}   & \code{testB}   \\
+    \midrule
+    \acs{asgn}      & \cite{qiu20:refer_image_segmen_gener_adver_learn}            & 50.46          & 51.20          & 49.27          & 38.41          & 39.79          & 35.97          \\
+    \acs{brinet}    & \cite{hu20:bi_direc_relat_infer_networ}                      & 61.35          & 63.37          & 59.57          & 48.57          & 52.87          & 42.13          \\
+    \acs{cac}       & \cite{chen19:refer_expres_objec_segmen_caption_aware_consis} & 58.90          & 61.77          & 53.81          & -              & -              & -              \\
+    \acs{cmpc}      & \cite{huang20:refer_image_segmen_cross_modal_progr_compr}    & \textbf{61.36} & \textbf{64.53} & \textbf{59.64} & \textbf{49.56} & \textbf{53.44} & \textbf{43.23} \\
+    \acs{cmsa}      & \cite{ye21:refer_segmen_images_videos_cross}                 & 58.32          & 60.61          & 55.09          & 43.76          & 47.60          & 37.89          \\
+    \acs{dmn}       & \cite{margffoy-tuay18:dynam_multim_instan_segmen}            & 49.78          & 54.83          & 45.13          & 38.88          & 44.22          & 32.29          \\
+    \acs{mattnet}   & \cite{yu18:mattn}                                            & 56.51          & 62.37          & 51.70          & 46.67          & 52.39          & 40.08          \\
+    \acs{refvos}    & \cite{bellver20:refvos}                                      & 59.45          & 63.19          & 54.17          & 44.71          & 49.73          & 36.17          \\
+    \acs{rmi}       & \cite{liu17:recur_multim_inter_refer_image_segmen}           & 45.18          & 45.69          & 45.57          & 29.86          & 30.48          & 29.50          \\
+    \acs{rrn}       & \cite{li18:refer_image_segmen_recur_refin_networ}            & 55.33          & 57.26          & 53.95          & 39.75          & 42.15          & 36.11          \\
+    \acs{step}      & \cite{chen19:see_throug_text_group_refer_image_segmen}       & 60.04          & 63.46          & 58.97          & 48.18          & 52.33          & 40.41          \\
+    \bottomrule
+  \end{tabular}\\[1.25ex]
+  {\small\textbf{Note}. Models arranged in alphabetical order.}
+\end{table}
+
+Podemos destacar como modelos interesantes en este estudio el: TODO. hablar
+aquí de diferentes modelos y qué son y cómo lo hacen.
+
+El ganador absoluto respecto a esta métrica es el modelo creado por
+\myCite{huang20:refer_image_segmen_cross_modal_progr_compr} y llamado
+\gls{cmpc}. Presenta los valores más altos de overall \gls{iou} en todas las
+categorías. Este modelo está basado en... TODO.
+
+
+Aquí TODO tiene que haber mucho más texto para que se pueda llenar toda esta
+página. Debería haber más TODO más texto para que se complete en un principio
+hasta el finla. Aquí TODO tiene que haber mucho más texto para que se pueda
+llenar toda esta página. Debería haber más TODO más texto para que se complete
+en un principio hasta el finla.  Aquí TODO tiene que haber mucho más texto para
+que se pueda llenar toda esta página. Debería haber más TODO más texto para que
+se complete en un principio hasta el finla. Aquí TODO tiene que haber mucho más
+texto para que se pueda llenar toda esta página.
+
+Aquí TODO tiene que haber mucho más texto para que se pueda llenar toda esta
+página. Debería haber más TODO más texto para que se complete en un principio
+hasta el finla. Aquí TODO tiene que haber mucho más texto para que se pueda
+llenar toda esta página. Debería haber más TODO más texto para que se complete
+en un principio hasta el finla.
+
+
+\subsection{Accuracy or Prec@0.5}\label{sec:accuracy}
+
+TODO.
+Ahora lo que falta añadir es la tabla de Prec@0.5 que está en el paper de
+related works. Añadir los modelos más representativos, y hacer una estimación
+para la precisión.
+
+- Añadir aquí también algún comentario relacionado con lo de que la precisión
+se puede hacer en diferntes escalas.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{table}[p]
+  \centering
+  \caption[TODO]{TODO.}\label{tab:accuracy}
+  \rowcolors{5}{rowColor}{}
+  \begin{tabular}{lc*6c}
+    \toprule
+    & & \multicolumn{3}{c}{\textbf{RefCOCO}} & \multicolumn{3}{c}{\textbf{RefCOCO+}} \\
+    \cmidrule(lr){3-5}\cmidrule(lr){6-8}
+    \textbf{Method} & \textbf{Paper}                                               & \code{val}     & \code{testA}   & \code{testB}   & \code{val}     & \code{testA}   & \code{testB}   \\
+    \midrule
+    \acs{asgn}    & \cite{qiu20:refer_image_segmen_gener_adver_learn}            &  &  &  &  &  &  \\
+    \acs{brinet}  & \cite{hu20:bi_direc_relat_infer_networ}                      &  &  &  &  &  &  \\
+    \acs{cac}     & \cite{chen19:refer_expres_objec_segmen_caption_aware_consis} &  &  &  &  &  &  \\
+    \acs{cmpc}    & \cite{huang20:refer_image_segmen_cross_modal_progr_compr}    &  &  &  &  &  &  \\
+    \acs{cmsa}    & \cite{ye21:refer_segmen_images_videos_cross}                 &  &  &  &  &  &  \\
+    \acs{dmn}     & \cite{margffoy-tuay18:dynam_multim_instan_segmen}            &  &  &  &  &  &  \\
+    \acs{mattnet} & \cite{yu18:mattn} & 80.94 & 79.99 & 82.30 & 63.07 & 65.04 & 61.77  \\
+    \acs{refvos}  & \cite{bellver20:refvos}                                      &  &  &  &  &  &  \\
+    \acs{rmi}     & \cite{liu17:recur_multim_inter_refer_image_segmen}           &  &  &  &  &  &  \\
+    \acs{rrn}     & \cite{li18:refer_image_segmen_recur_refin_networ}            &  &  &  &  &  &  \\
+    \acs{step}    & \cite{chen19:see_throug_text_group_refer_image_segmen}       &  &  &  &  &  &  \\
+    \bottomrule
+  \end{tabular}\\[1.25ex]
+  {\small\textbf{Note}. Models arranged in alphabetical order.}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -55,3 +176,10 @@ Aquí mostraremos tablas comparativas de la evaluación cuantitativa.
 
 Aquí mostraremos de una manera visual diferentes ejemplos y patologías
 encontradas en el procesado del sistema.
+
+
+Aquí mostrar diferentes ejemplos con:
+- Donde funciona bien.
+- Donde funciona mal.
+- Variando el tamaño.
+- Variando la clase de objeto: animal, persona, objeto, fruta, comida,...

@@ -7,7 +7,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}
+\usepackage{lmodern, fontawesome}
 \usepackage[main=english, spanish, catalan]{babel}
 \usepackage{geometry}
 \usepackage{amsmath, amsthm, amssymb, mathtools, bm}
@@ -23,13 +23,12 @@
 \usepackage{imakeidx}
 \usepackage{siunitx, eurosym, chemformula}
 \usepackage{tikz, pgfplots, pgfgantt, pgfornament}
-\usepackage{fontawesome}
 \usepackage[outputdir=Build, cachedir=Minted]{minted}
 \usepackage[most]{tcolorbox}
 \usepackage{hyperxmp}
 \usepackage{varioref}
 \usepackage[pdfusetitle]{hyperref}
-\usepackage[nomain, acronym]{glossaries}
+\usepackage[nomain, acronym, nolangwarn, savewrites]{glossaries}
 \usepackage{glossary-longbooktabs}
 \usepackage[noabbrev, capitalize]{cleveref}
 
@@ -127,8 +126,22 @@
   ucmark,
   nogroupskip
 }
-% \setacronymstyle{long-sm-short}
+\setglossarysection{section}
 \setglossarystyle{longragged3col-booktabs}
+\DeclareAcronymList{basic, dl, main, losses, models, web}
+\newglossary*{basic}{Basic}
+\newglossary*{dl}{Deep Learning}
+\newglossary*{main}{Main}
+\newglossary*{losses}{Loss Functions}
+\newglossary*{web}{Web Development}
+\newglossary*{models}{Models}
+% Don't change left mark.
+\renewcommand{\glsglossarymark}[1]{%
+  \ifglsucmark
+  \markright{\MakeTextUppercase{#1}}%
+  \else
+  \markright{#1}%
+  \fi}
 \makeglossaries
 \input{Utils/Acronyms}
 \renewcommand{\glsnamefont}[1]{\textbf{#1}}
@@ -172,11 +185,7 @@
 \DeclareFieldFormat{annotation}{\par\nobreak\vskip\bibitemsep #1\smallskip}
 \renewbibmacro*{finentry}{\printfield{annotation}\finentry}
 \DeclareFieldFormat{labelalphawidth}{\mkbibbold{#1}}
-% \DeclareFieldFormat{labelalphawidth}{\mkbibbrackets{\mkbibbold{#1}}}
 \renewcommand{\mkbibnamefamily}[1]{\textsc{#1}}
-% \renewcommand{\mkbibnamegiven}[1]{\textsc{#1}}
-% \renewcommand{\mkbibnameprefix}[1]{\textsc{#1}}
-% \renewcommand{\mkbibnamesuffix}[1]{\textsc{#1}}
 \DeclareBibliographyCategory{text}
 \DeclareBibliographyCategory{quote}
 \DeclareBibliographyCategory{figure}
@@ -387,7 +396,7 @@ This \namecref{#1}, entitled \textsl{\nameref*{#1}}, begins on page~\pageref{#1}
 }
 
 % Don't be afraid. Trust me, this *must* be done:
-%   well-known mathematical constants typesetted where they belong,
+%   well-known mathematical constants typeset where they belong,
 %   and nice meme features added for pages 42 and 69 (just for the fun).
 \makeatletter
 \AddEverypageHook{%
@@ -449,6 +458,23 @@ This \namecref{#1}, entitled \textsl{\nameref*{#1}}, begins on page~\pageref{#1}
 \date{\today}
 
 
-% \includeonly{Chapters/Chapter2}
+\includeonly{Chapters/Chapter5}
 % \includeonly{Appendices/AppendixC}
 % \includeonly{FrontBack/FrontMatter}
+
+
+
+
+
+
+
+
+
+
+
+
+
+% \usepackage{mathpazo}
+% \usepackage{helvet}
+% \usepackage{sectsty}
+% \allsectionsfont{\sffamily}

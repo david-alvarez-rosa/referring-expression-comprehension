@@ -1,12 +1,68 @@
 % -*- TeX-master: "../Thesis.tex" -*-
 
 
-\setglossarypreamble{Acronyms used in this work with the notation used, their
+\chapter*{\acronymname}\label{cha:acronyms}
+\markboth{\MakeUppercase\acronymname}{}
+\addcontentsline{toc}{chapter}{\acronymname}
+
+
+The acronyms used in this thesis are shown below divided into 6 large blocks:
+those considered basic, those related to \acl{ml}, the main ones within the
+topic of the thesis, those related to loss functions, the names of the models
+mentioned and those related to web development.
+
+
+
+\setglossarypreamble[basic]{\label{sec:ac-basic} Basic acronyms used in this
+  work with the notation used, their corresponding description and page
+  list. \medskip}
+
+\printglossary[type=basic]
+
+
+
+\setglossarypreamble[dl]{\label{sec:ac-dl} Acronyms related to \acs{dl} used in
+  this work with the notation used, their corresponding description and page
+  list. \medskip}
+
+\printglossary[type=dl]
+
+
+
+\setglossarypreamble[main]{\label{sec:ac-main} Acronyms that refer to the main
+  topic of this thesis used in this work with the notation used, their
   corresponding description and page list. \medskip}
-\printglossaries
+
+\printglossary[type=main]
 
 
-\printbibheading[heading=bibintoc]
+
+\setglossarypreamble[losses]{\label{sec:ac-loss}Acronyms denoting loss
+  functions used in this work with the notation used, their corresponding
+  description and page list. \medskip}
+
+\printglossary[type=losses]
+
+
+
+\setglossarypreamble[models]{\label{sec:ac-model}Acronyms for model names used
+  in this work with the notation used, their corresponding description and page
+  list. \medskip}
+
+\printglossary[type=models]
+
+
+
+\setglossarypreamble[web]{\label{sec:ac-web}Acronyms related to web development
+  used in this work with the notation used, their corresponding description and
+  page list. \medskip}
+
+\printglossary[type=web]
+
+
+
+
+\printbibheading[heading=bibintoc]\label{cha:references}
 \noindent The complete bibliography has been divided into three: primary
 sources (which contains all the citations that appear in the text), figure
 sources and quotation sources. \bigskip\medskip
@@ -16,10 +72,15 @@ sources and quotation sources. \bigskip\medskip
 \printbibliography[heading=subbibintoc, category={quote}, title={Quotation Sources}]
 
 
-\indexprologue{\noindent List of topics and terms present in this thesis
-  arranged alphabetically with their corresponding page numbers to locate them
-  within this publication.}
+
+
+\indexprologue{\label{cha:index}\noindent List of topics and terms present in
+  this thesis arranged alphabetically with their corresponding page numbers to
+  locate them within this publication.}
+
 \printindex
+
+
 
 
 \cleardoublepage

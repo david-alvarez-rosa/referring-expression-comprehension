@@ -1,0 +1,14 @@
+% -*- TeX-master: "../../Thesis.tex" -*-
+
+
+\tikzset{external/export next=false}
+\begin{tikzpicture}
+  \begin{axis}[trainPlot]
+    \addplot table[col sep = comma]{Figures/Tikz/Data/train.csv};
+    \legend{\code{train}}
+  \end{axis}
+\end{tikzpicture}
+
+
+    % \addplot table[col sep = comma]{Figures/Tikz/Data/val.csv};
+    % \legend{\code{train}, \code{val}}
