@@ -5,7 +5,7 @@
 
 \epigraphhead[75]{
   \epigraph{\itshape
-    Wwithout theory, there is nothing to revise. \\
+    Without theory, there is nothing to revise. \\
     Without theory, experience has no meaning. \\
     Without theory, one has no questions to ask. \\
     Hence, without theory, there is no learning.}
@@ -41,7 +41,7 @@ will be able to learn and calculate very complex functions.
 \section{Tensors}\index{Tensor}
 
 In our context, it will be useful to use the mathematical tool of
-tensors. There are different approaches to define this mathematical objetcs,
+tensors. There are different approaches to define this mathematical objects,
 among then, defining them as multi-dimensional arrays of real numbers, as
 follows: a \emph{tensor} is an element
 \(\mathbf{T} \in \R^{n_1 \times \cdots \times n_r}\), with
@@ -60,7 +60,7 @@ the tensor \(\mathbf{T}\).
 \end{exampleBox}
 
 Most popular \gls{dl} frameworks such as PyTorch (used in this thesis), are
-just programming libraries that provide efficient tensor data strctures and and
+just programming libraries that provide efficient tensor data structures and
 fast tensor computation (with the ability to compute in \gls{gpu}). These
 tensors store the data used to train neuronal models. In the case of \gls{cv},
 the following tensors appear:
@@ -68,9 +68,9 @@ the following tensors appear:
   \item \textbf{\acs{rgb} image.} A \acs{rgb} image can be interpreted as a
   tensor of rank 3, \(\mathbf{I} \in \R^{C \times H \times W}\), where \(C\)
   corresponded to the number of channels (i.e., in this case, \(C = 3\)), \(H\)
-  corresponds to the height of the image and \(W\) to its
-  width.\footnote{Grayscale images also fall into this category with just 1
-    channel (i.e., using the above notation \(C = 1\)).}
+  corresponds to the height of the image and \(W\) to its width.\footnote{Gray
+    scale images also fall into this category with just 1 channel (i.e., using
+    the above notation \(C = 1\)).}
   \item \textbf{Batch of \acs{rgb} images.} A batch of \acs{rgb} images is a
   set of \acs{rgb} images, therefore, can be interpreted as a tensor of rank 4,
   \(\mathbf{I} \in \R^{B \times C \times H \times W}\), where \(B\) corresponds
@@ -161,7 +161,7 @@ subparts that form a neuron.
   \(x_i^l \in \R\) for the \(i\)-th neuron in the \(l\)-th layer. Of course, it
   should be satisfied \(1 \leq i \leq n_l\). We will use the notation
   \(\mathbf{x}^l\) for the vector of all the values in the \(l\)-th level. When
-  we speak of the input vector, we may ommit the superindex, i.e., we will use
+  we speak of the input vector, we may omit the superindex, i.e., we will use
   \(\mathbf{x}\) to denote \(\mathbf{x}^0\). Similarly, for the output layer,
   we will use \(\mathbf{\hat{y}}\) to refer to \(\mathbf{x}^L\).
   \item \textbf{Bias.} Also each neuron has a bias, denoted as \(b_i^l\) for
@@ -201,13 +201,14 @@ The \emph{matrix} of all weights in the \(l\)-th layer will be denoted by
 
   In this case, if the digits images are of \(28 \times 28\) pixels, the input
   layer will consist of 784 (\(28 \times 28\)) neurons and each neuron will
-  hold the grayscale value of a pixel. For the output layer we will need 10
+  hold the gray scale value of a pixel. For the output layer we will need 10
   neurons (one for each number between 0 and 9), and we will like that when we
-  feed our network with an image holding a handwritten number 3, then the ouput
-  is one 1 in the position corresponding to the number 3 and the rest of zeros.
+  feed our network with an image holding a handwritten number 3, then the
+  output is one 1 in the position corresponding to the number 3 and the rest of
+  zeros.
 \end{exampleBox}
 
-\subsubsection{Model: feed forward}\label{subsec:forward}\index{Feed forward}
+\subsubsection{Model Feed Forward}\label{subsec:forward}\index{Feed forward}
 
 From now on let's suppose we are working with a \gls{fnn} with different layers
 and we will be using the same notation used before. The values of the neurons
@@ -220,17 +221,17 @@ can be computed with
 
 This formula is sometimes referred to as the feed-forward formula or forward
 propagation. It's important to note that it's a recursive formula, once the
-values the neurons in the the input layer are known, we can iterate computing
-the values of the neurons in the next adjacent layer, until we reach the output
+values the neurons in the input layer are known, we can iterate computing the
+values of the neurons in the next adjacent layer, until we reach the output
 layer. In this network we can think of information traveling in one direction,
 forward, from the input layer, through the hidden layers to the output neurons.
 
-\subsubsection{Trainning: backpropagation}%
+\subsubsection{Training Backpropagation}%
 \label{sec:backward}\index{Backpropagation}
 
 In order to be able to train our neural network, it is mandatory to define an
 error function (also known as loss function) that quantifies how good or bad
-the neural network is performing when feeded with a particular dataset. We will
+the neural network is performing when fed with a particular dataset. We will
 use the below notation.
 \begin{itemize}
   \item \textbf{Dataset.} Will be denoted by and consists of input-output pairs
@@ -251,8 +252,8 @@ The error function quantifies how different is the desired output
 \(\mathbf{\hat{y}}\) of the neural network on input \(\mathbf{x}\) for a set of
 input-output pairs \((\mathbf{x} , \mathbf{y}) \in \Omega\) and a particular
 value of the parameters \(\theta\). We will denote the error function by
-\(E (\Omega, \theta)\) and we will assume that it is continuosly differentiable
-(i.e., \(\mathcal{C}^1\)).
+\(E (\Omega, \theta)\) and we will assume that it is continuously
+differentiable (i.e., \(\mathcal{C}^1\)).
 
 
 \subsection{\glsentrylong{cnn}}%
@@ -268,10 +269,9 @@ to overfit the data.
 \myCite{lecun98:lenet}, a renowned scientist known as the father of
 \glspl{cnn}, defines them as follows:
 \begin{quoteBox}
-  Convolutional Neural Networks are a special kind of multi-layer neural
-  networks. Like almost every other neural networks they are trained with a
-  version of the back-propagation algorithm. Where they differ is in the
-  architecture.
+  \acsp{cnn} are a special kind of multi-layer neural networks. Like almost
+  every other neural networks they are trained with a version of the
+  back-propagation algorithm. Where they differ is in the architecture.
   \tcblower\quotecite{lecun98:lenet}
 \end{quoteBox}
 
@@ -287,11 +287,11 @@ architecture can be seen in \vref{fig:lenet-5}.
   \includegraphics[width=\textwidth]{Images/Architecture LeNet-5.png}
   \caption[Example of topology of a \glsentryshort{cnn} (LeNet-5)]{Example of
     topology of a \gls{cnn}. Specifically, it is
-    \href{http://yann.lecun.com/exdb/lenet}{LeNet-5}, a convolutional network
-    created by Yann LeCun. From \figcite{lecun98:lenet}.}\label{fig:lenet-5}
+    \href{http://yann.lecun.com/exdb/lenet}{LeNet-5}, a \acp{cnn} created by
+    Yann \textsc{LeCun}. From \figcite{lecun98:lenet}.}\label{fig:lenet-5}
 \end{figure}
 
-\subsubsection{Convolutional layers}\index{Convolutional!layer}
+\subsubsection{Convolutional Layers}\index{Convolutional!layer}
 
 The name comes from the fact that these layers use the mathematical operation
 of \fhref{https://en.wikipedia.org/wiki/Convolution}{convolution}. This
@@ -352,7 +352,7 @@ local changes in spatial location.
   \centering
   \includegraphics[width=.75\textwidth]{Images/Max pooling.png}
   \caption[Pooling layer example: max pooling]{Pooling layer example:
-    \(2 \times 2\) max pooling. The input tensioner is divided into blocks
+    \(2 \times 2\) max pooling. The input tensor is divided into blocks
     \(2 \times 2\) and the Max Pool returns an output tensor with the maximum
     value of each block. From \figcite{wiki18:max_poolin}.}\label{fig:max-pool}
 \end{figure}
@@ -376,12 +376,12 @@ to use activation functions with the aim of introducing non-linearities in the
 model without affecting the receptive fields of the convolutions. They are
 typically added just after convolution.
 
-The main functions used are the following:
+The main functions used are the following: TODO.
 \begin{itemize}
   \item \textbf{\gls{relu}.} It is the function \(f (x) = \max \{0, x\}\),
   which is the most used. Removes negative values from the feature map and sets
   them to zero.
-  \item \textbf{Tangente hiperbolica.} \(f (x) = \tanh x\)
+  \item \textbf{TODO. Tangente hiperbolica.} \(f (x) = \tanh x\)
   \item \textbf{Sigmoid function.} \(\sigma (x) ={(1 + e - x)} -1\).
   \item \(f (x) = | \tanh x |\)
 \end{itemize}
@@ -420,21 +420,22 @@ represented by the hidden state \(\mathbf{h}^{t - 1}\), therefore the output
     \figcite{li20:cs231}.}\label{fig:rnn}
 \end{figure}
 
-\subsubsection{Different types of \glsentryshort{rnn}}
+\subsubsection{Different Types of \glsentryshort{rnn}}
 
-Feedforward networks send an input to an output\footnote{The input and output
-  can be vector. It does not mean, therefore, that they are only a number, it
-  means that they are only \emph{un} multidimensional vector of \(\R^n\).}, but
-in the case of \glspl{rnn} it is not. There are different possibilities, in
-which the length of the inlet and outlet can vary. All the different types of
+\gls{fnn} send an input to an output\footnote{The input and output can be
+  vector. It does not mean, therefore, that they are only a number, it means
+  that they are only \emph{one} multidimensional vector of \(\R^n\).}, but in
+the case of \glspl{rnn} it is not. There are different possibilities, in which
+the length of the inlet and outlet can vary. All the different types of
 architectures that may exist are listed in \vref{fig:rnn-types}.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{Images/RNN types.png}
   \caption[Types of architectures for \glsentrylong{rnn}]{Types of
-    architectures for \gls{rnn}. All posibilities are considered (i.e., all
-    combinations are presented). From \figcite{li20:cs231}.}\label{fig:rnn-types}
+    architectures for \gls{rnn}. All possibilities are considered (i.e., all
+    combinations are presented). From
+    \figcite{li20:cs231}.}\label{fig:rnn-types}
 \end{figure}
 
 These different possibilities then have their application in various fields
@@ -460,7 +461,7 @@ following expression,
 \end{equation}
 where \(W_{hy}\) is an array of parameters (trainable).
 
-\subsubsection{Variant \glsentryshort{rnn} architectures}
+\subsubsection{Variant \glsentryshort{rnn} Architectures}
 
 The model defined above is the simplest version for a \gls{rnn}. The
 computation of the output values with the \vref{eq:rnn-hidden,eq:rnn-out} can
@@ -634,7 +635,7 @@ layer to obtain a vector of \emph{probabilities}.
 The process of trainning a neural networks consists in adjust the parameters of
 the model to fit a particular dataset. Moreover, it is mandatory to define a
 loss function function (also known as error function) that quantifies how good
-or bad the neural network is performing when feeded with a dataset.
+or bad the neural network is performing when fed with a dataset.
 
 A dataset \(\Omega\) consists of input-output pairs \((x, y)\), where \(x\)
 represents the input and \(y\) the \emph{desired} output. We shall denote the
@@ -644,14 +645,14 @@ The loss function quantifies how different is the desired output \(y\) and the
 calculated (\emph{predicted}) output \(\hat{y}\) of the neural network on input
 \(x\) for a set of input-output pairs \((x , y) \in \Omega\) and a particular
 value of the model parameters \(\theta\). We will denote the loss function by
-\(\loss (\Omega, \theta)\) and we will assume that it is continuosly
-differentiable (i.e., \(\mathcal{C}^1\)).\footnote{The regularity assummed for
+\(\loss (\Omega, \theta)\) and we will assume that it is continuously
+differentiable (i.e., \(\mathcal{C}^1\)).\footnote{The regularity assumed for
   this functions is important, since we will be optimizing in the future by
   computing partial derivatives (as discussed in \vref{sec:optimization}).}
 
-It is common (and we will assume it that way) that the loss funcion is a mean
+It is common (and we will assume it that way) that the loss function is a mean
 of the errors of a particular pair \((x, y) \in \Omega\). This is, there exists
-a continuosly differentiable function \(\ell (x, y, \Omega)\), such that,
+a continuously differentiable function \(\ell (x, y, \Omega)\), such that,
 \begin{equation} \label{eq:loss}
   \loss(\Omega, \theta) =
   \frac{1}{N} \sum_{(x, y) \in \Omega} \ell (x, y, \theta).
@@ -667,7 +668,7 @@ given that the above exists.
 
 \subsection{Optimization}\label{sec:optimization}\index{Optimization}
 
-There exists several optimization techniques, amon then, the most important,
+There exists several optimization techniques, among then, the most important,
 are gradient-based optimization algorithms. This techniques are iterative
 methods that, given an initial value \(\theta^{(0)}\) for the parameters
 proceed, as follows,
@@ -699,7 +700,7 @@ method iterative consisting of the following,
 \begin{equation}\label{eq:gd}
   \Delta\theta^{(t)} = - \nabla\loss(\theta^{(t)}).
 \end{equation}
-Considering the typical form of the losss function (see \vref{eq:loss}), the
+Considering the typical form of the loss function (see \vref{eq:loss}), the
 gradient can be calculated using the linearity of the derivatives,
 \begin{equation}\label{eq:nabla-loss}
   \nabla_{\theta}\,\loss(\Omega, \theta) =
@@ -744,9 +745,41 @@ out. The best known are the following,
     -\beta\Delta\theta^{(t-1)} -\nabla\loss(\theta^{(t)} +
     \beta\Delta\theta^{(t-1)}).
   \end{equation}
+  \item \textbf{\gls{rmsprop}\index{RMS Propagation}.} This optimization
+  algorithm includes an adaptive learning rate (decaying exponentially with the
+  mean of the square of the gradients). The following update value is used,
+  \begin{equation}
+    \Delta\theta^{(t)} =
+    -\frac{\mu}{\sqrt{\delta + v^{(t)}}}\nabla\loss(\theta^{(t)}),
+  \end{equation}
+  where,
+  \begin{equation}
+    v^{(t)} = \rho v^{(t - 1)} + (1 - \rho)(\nabla\loss(\theta^{(t)}))^2,
+  \end{equation}
+  \(\rho\) is the forgetting factor and \(\delta\) is a small real number to
+  make sure no divisions are made by \(0\).
+  \item \textbf{\gls{adam}\index{Adam optimizer}.} Proposed by
+  \myCite{kingma14:adam}, in this optimization algorithm the following
+  estimates are used,
+  \begin{equation}
+    \begin{cases}
+      m^{(t+1)} = \beta _{1}m^{(t)}
+      + (1 - \beta_{1})\nabla\loss(\theta^{(t)}), \\
+      v^{(t+1)} = \beta_{2}v^{(t)}
+      + (1 - \beta _{2})(\nabla\loss(\theta^{(t)}))^{2}, \\
+      \hat{m} = \displaystyle\frac{m^{(t+1)}}{1 - \beta_{1}^{t+1}}, \\
+      \Delta\theta^{(t)} = \displaystyle\frac{v^{(t+1)}}{1-\beta _{2}^{t+1}}, \\
+    \end{cases}
+  \end{equation}
+  where \(\delta\) is a small real number to make sure no divisions are made by
+  \(0\) and \(\beta_1\) and \(\beta_2\) are the forgetting factors for
+  gradients and second moment gradients. A good starting point for these
+  parameters is usually set to \(\beta_1 = 0.9\) and \(\beta = 0.999\). The
+  \gls{adam} method can be interpreted as that the first moment is taking the
+  role of impulse and with the second it is used to adapt the learning
+  rate. This is the algorithm that that we will be using for the training of
+  models.
 \end{itemize}
-
-TODO. More optimization methods exist such as AdaGrad, RMSProp and Adam.
 
 \subsubsection{Weight Initialization}\index{Weight initialization}
 
@@ -792,7 +825,7 @@ chain rule applied to \(\ell (x, y, \theta)\) yields,
   \frac{\partial \ell}{\partial y_i^l}
   \frac{\partial y_i^l}{\partial w_{ij}^l}.
 \end{equation}
-And, then, to compute the first part, the cain rule can be applied recursively
+And, then, to compute the first part, the chain rule can be applied recursively
 again, in terms of \(y^L, y^{L - 1}, \ldots, y^{l + 1}\). A more rigorous
 approach and formalized version of the backpropagation algorithm is given by
 \myCite{bishop95:neural_networ_patter_recog} (see Section~4.8 for more
@@ -850,15 +883,15 @@ early stopping and the data augmentation technique.
 This regularization technique, also known as \emph{ridge
   regression}\index{Ridge regression} in statistics and
 \emph{Tikhonov}\index{Tikhonov regression} regularization in mathematics, it is
-widely used in \gls{dl}. It consits in adding a term to the loss function that
+widely used in \gls{dl}. It consists in adding a term to the loss function that
 takes into account the complexity of the model, i.e., minimize the following,
 \begin{equation}
   \hat{\loss}(\Omega, \theta) =
   \loss(\Omega, \theta) + \lambda\,\text{complexity}(\theta),
 \end{equation}
 where \(\lambda\) is the regularization hyperparameter\footnote{Model
-  \emph{hyperparameters} are properties that govern the entire training
-  proccess and must be set before the training starts (therefore, they are not
+  \emph{hyperparameters} are properties that govern the entire training process
+  and must be set before the training starts (therefore, they are not
   trainable).}\index{Hyperparameter} and the complexity is measured using the
 \(L_2\) norm, i.e.,
 \begin{equation}
@@ -880,17 +913,18 @@ In this way, as we iterate through the training process, we can compute the
 loss function both in the dataset of \code{train} and in that of \code{val}
 (see \vref{fig:early}). With the goal in mind of finding models that generalize
 well, we will stop training the neural network at the moment the error function
-in the validation dataset starts to increase.
+in the validation dataset starts to increase. At the beginning of the training
+process the error function decreases in the two datasets of training and
+validation at the same time. At the time when the error function in the
+validation set begins to increase is when the overfitting problem, so we will
+stop the training there.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=.45\textwidth]{Images/Early stopping.jpg}
   \caption[Early stopping regularization technique]{Early stopping
-    regularization technique. At the beginning of the training process the
-    error function decreases in the two datasets of training and validation at
-    the same time. At the time when the error function in the validation set
-    begins to increase is when the overfitting problem, so we will stop the
-    training there. From
+    regularization technique. The error in \code{val} and in \code{test} is
+    shown and the separation of the graph is seen. From
     \figcite{brownlee28:gentl_introd_early_stopp_avoid}.}\label{fig:early}
 \end{figure}
 
@@ -925,11 +959,11 @@ It is common to reserve a part of the dataset as a \code{test} dataset in order
 to evaluate the model. This division is part of the well-known
 \code{train}/\code{val}/\code{test} split. The \code{test} will not be used in
 any case to train the model, nor to validate it during training, nor to adjust
-the hyperparameters, nor for any other topic related to the training of a
-neural network. It will \emph{only} be used to evaluate the model once it has
-already been trained, so that it can be compared with other models using some
-evaluation metric (typically quantitative). In this way, it will be possible to
-compare different models using \emph{objective} criteria.
+the hyperparameters\index{Hyperparameter}, nor for any other topic related to
+the training of a neural network. It will \emph{only} be used to evaluate the
+model once it has already been trained, so that it can be compared with other
+models using some evaluation metric (typically quantitative). In this way, it
+will be possible to compare different models using \emph{objective} criteria.
 
 \begin{remarkBox}
   Using the \code{test} dataset to train the model would lead to \emph{false}

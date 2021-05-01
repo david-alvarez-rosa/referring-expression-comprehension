@@ -1,0 +1,56 @@
+% -*- TeX-master: "Thesis.tex" -*-
+
+
+% Don't be afraid. Trust me--if you are an /autistic/ adult--this *must* be
+% done:
+%   well-known mathematical constants typeset where they belong,
+%   and nice meme features added for other pages (just for the fun).
+%
+% *Disclaimer*
+%   You can be expelled from your university for using the code below. But, who
+%   cares? Fuck academia, their narcissism, their endogamy and the stupid
+%   children's theater they have created. They don't deserve my respect. David.
+\makeatletter
+\AddEverypageHook{%
+  \if@mainmatter%
+  \ifnum\value{page} = 1 % Page 2.
+  \begin{textblock*}{.65cm}[0, .5](.05\paperwidth, .414213562373095\paperheight)
+    \noindent\resizebox{.65cm}{!}{\(\sqrt{2}\)}
+  \end{textblock*}
+  \begin{textblock*}{.45cm}[0, .5](.05\paperwidth, .618033988749894\paperheight)
+    \noindent\resizebox{.45cm}{!}{\(\varphi\)}
+  \end{textblock*}
+  \fi
+  \ifnum\value{page} = 2 % Page 3.
+  \begin{textblock*}{.65cm}[1, .5](.95\paperwidth, .23606797749978\paperheight)
+    \noindent\resizebox{.65cm}{!}{\(\sqrt{5}\)}
+  \end{textblock*}
+  \begin{textblock*}{.4cm}[1, .5](.95\paperwidth, .718281828459045\paperheight)
+    \noindent\resizebox{.4cm}{!}{\(e\)}
+  \end{textblock*}
+  \fi
+  \ifnum\value{page} = 3 % Page 4.
+  \begin{textblock*}{.5cm}[0, .5](.05\paperwidth, .141592653589793\paperheight)
+    \noindent\resizebox{.5cm}{!}{\(\pi\)}
+  \end{textblock*}
+  \fi
+  \ifnum\value{page} = 41 % Page 42.
+  \begin{textblock*}{0pt}[0, 1](1pt, 1pt)
+    \noindent\scalebox{0.000000000000001}{\textcolor{white}{blowjob}}
+  \end{textblock*}
+  \fi
+  \ifnum\value{page} = 68 % Page 69.
+  \begin{textblock*}{0pt}[0, 1](1pt, 1pt)
+    \noindent\scalebox{0.000000000000001}{\textcolor{white}{kamasutra}}
+  \end{textblock*}
+  \fi
+  \fi
+  % Hopefully frontmatter is less than 96 pages.
+  \ifnum\value{page} = 95 % Page 96.
+  \begin{textblock*}{0pt}[0, 1](1pt, 1pt)
+    \noindent\scalebox{0.000000000000001}{\textcolor{white}{Catholicism\\
+        Your god is dead, fuck your Pope}}
+  \end{textblock*}
+  \fi
+}
+\makeatother

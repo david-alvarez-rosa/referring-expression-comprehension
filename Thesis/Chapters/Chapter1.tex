@@ -78,9 +78,9 @@ intersection between computer vision and \gls{nlp}.
     \caption{Army officer white suit.}
     \includegraphics[width=\textwidth]{Images/Army officer.jpg}
   \end{subfigure}
-  \caption[Examples of \glsentrylong{rec}]{Examples of \acl{rec}. Como se puede
-    ver, podemos referirnos a objetos de la imagen con \gls{re} en lenguaje
-    natural y se produce la segmentación. Figures created by the author
+  \caption[Examples of \glsentrylong{rec}]{Examples of \acl{rec}. As you can
+    see, we can refer to objects in the image with \gls{re} in natural language
+    and segmentation occurs. Figures created by the author
     (all).}\label{fig:demo}
 \end{figure}
 
@@ -100,7 +100,8 @@ expanding the input and output set that the model can obtain.
   manually. Likewise, the model can be expanded accepting in addition to
   images, videos. In this thesis we will work on the part of \emph{audio}.
   \item \textbf{Output.} The output can also be extended by generating, in
-  addition to the binary mask of the segmentation, a bounding box.
+  addition to the binary mask of the segmentation, a bounding
+  box\index{Bounding box}.
 \end{itemize}
 
 This work will add a great facility mainly in the human-computer interaction,
@@ -110,20 +111,20 @@ be discussed in \vref{sec:applications}.
 
 \subsection{Objectives}
 
-This research thesis has different different objectives. The first one is to
-\emph{learn} the operation of \gls{ai}, without any prior knowledge. Mainly in
-the area of \gls{dl}, which is where the presented model fits. It is essential
-to know the fundamentals of neural models to be able to understand in depth how
-it is possible to solve the problem of \gls{rec}. This \emph{learning}
-objective can be divided into learning the \gls{dl} fundamentals and
-understanding the state-of-the-art papers for solving the task of \gls{rec}.
+This research thesis has different objectives. The first one is to \emph{learn}
+the operation of \gls{ai}, without any prior knowledge. Mainly in the area of
+\gls{dl}, which is where the presented model fits. It is essential to know the
+fundamentals of neural models to be able to understand in depth how it is
+possible to solve the problem of \gls{rec}. This \emph{learning} objective can
+be divided into learning the \gls{dl} fundamentals and understanding the
+state-of-the-art papers for solving the task of \gls{rec}.
 
 With this knowledge, we will proceed to \emph{modeling}, the search for models
 that work well in \gls{rec} and in \gls{stt}. Its way of operation and how to
 improve it will be studied. For this, the Python programming language has been
 used with the Pytorch framework. All these results will be collected on an
 interactive website for \emph{visualization}. Before working on web
-development, it will be necessary to learn about frontend web programming
+development, it will be necessary to learn about front-end web programming
 languages (HTML, CSS, JS), languages to develop the \gls{api} in the back end
 (PHP) and use of web servers (Apache).
 
@@ -139,7 +140,7 @@ robotics and home automation are gaining great importance. This work enhances
 the interaction between human and robot/computer. For example, it could make it
 easier for a machine to understand commands from a human. The possible
 applications of this work have been divided into four large groups:
-theoretical, industry, domotics and \acs{iot}, and security.
+theoretical, industry, home automation and \acs{iot}, and security.
 
 \subsubsection{Theoretical}
 
@@ -194,11 +195,11 @@ in the industry. The vast majority of sectors could benefit from the
 implementation of interaction systems between their operators and their
 machines by means of voice and using \gls{re}.
 
-\subsubsection{Domotics and \glsentryshort{iot}}
+\subsubsection{Home Automation and \glsentryshort{iot}}
 
-In the world of domotics and \gls{iot}, so fashionable today, the topic that
-concerns this thesis could also be useful. Mainly for the ease it adds to the
-interaction between machines and humans.
+In the world of home automation and \gls{iot}, so fashionable today, the topic
+that concerns this thesis could also be useful. Mainly for the ease it adds to
+the interaction between machines and humans.
 
 \begin{figure}[ht]
   \centering
@@ -291,7 +292,7 @@ presented.
   will be compared with current state-of-the-art works. \chapRef{cha:results}
   \item [Chapter 6] It will present all the code developed to achieve an
   interactive web application with which it will be possible to evaluate and
-  validate the model in a simple way. Both frontend and backend will be
+  validate the model in a simple way. Both front end and back end will be
   discussed. \chapRef{cha:web}
   \item [Chapter 7] In this chapter the project will be analyzed from a
   management point of view. The different activities carried out and its

@@ -46,8 +46,9 @@ Respecto al overall \gls{iou}, se han recogido datos de múltiples modelos, los
 cuales se muestran de manera resumida en la \vref{tab:overall-iou}. Se ha
 realizado la evaluación en los datasets RefCOCO y RefCOCO+ con los splits
 \code{val/testA/testB}. Como ya se ha comentado anteriormente, el dataset
-RefCOCO+ presenta \gls{re} de mayor complejidad, por lo que presenta valores de
-overall \gls{iou} más bajos que en el dataset RefCOCO para todos los modelos.
+RefCOCO+ presenta \glspl{re} de mayor complejidad, por lo que presenta valores
+de overall \gls{iou} más bajos que en el dataset RefCOCO para todos los
+modelos.
 
 \begin{table}[p]
   \centering
@@ -131,25 +132,35 @@ se puede hacer en diferntes escalas.
 
 \begin{table}[p]
   \centering
-  \caption[TODO]{TODO.}\label{tab:accuracy}
+  \caption[Accuracy or Prec@0.5 model comparison]{Accuracy or Prec@0.5 model
+    comparison. For each of the models the accuracy percentage or Prec@0.5 is
+    shown for the splits \code{val/testA/testB} in the datasets RefCOCO and
+    RefCOCO+. The state of the art in each category is shown in bold. Full
+    names for model acronyms can be found in section \textsl{Model Acronyms} on
+    page~\pageref{sec:ac-model}. Table created by the author using data from
+    second column references.}\label{tab:accuracy}
   \rowcolors{5}{rowColor}{}
   \begin{tabular}{lc*6c}
     \toprule
     & & \multicolumn{3}{c}{\textbf{RefCOCO}} & \multicolumn{3}{c}{\textbf{RefCOCO+}} \\
     \cmidrule(lr){3-5}\cmidrule(lr){6-8}
-    \textbf{Method} & \textbf{Paper}                                               & \code{val}     & \code{testA}   & \code{testB}   & \code{val}     & \code{testA}   & \code{testB}   \\
+    \textbf{Method}  & \textbf{Paper}                                               & \code{val} & \code{testA} & \code{testB} & \code{val} & \code{testA} & \code{testB} \\
     \midrule
-    \acs{asgn}    & \cite{qiu20:refer_image_segmen_gener_adver_learn}            &  &  &  &  &  &  \\
-    \acs{brinet}  & \cite{hu20:bi_direc_relat_infer_networ}                      &  &  &  &  &  &  \\
-    \acs{cac}     & \cite{chen19:refer_expres_objec_segmen_caption_aware_consis} &  &  &  &  &  &  \\
-    \acs{cmpc}    & \cite{huang20:refer_image_segmen_cross_modal_progr_compr}    &  &  &  &  &  &  \\
-    \acs{cmsa}    & \cite{ye21:refer_segmen_images_videos_cross}                 &  &  &  &  &  &  \\
-    \acs{dmn}     & \cite{margffoy-tuay18:dynam_multim_instan_segmen}            &  &  &  &  &  &  \\
-    \acs{mattnet} & \cite{yu18:mattn} & 80.94 & 79.99 & 82.30 & 63.07 & 65.04 & 61.77  \\
-    \acs{refvos}  & \cite{bellver20:refvos}                                      &  &  &  &  &  &  \\
-    \acs{rmi}     & \cite{liu17:recur_multim_inter_refer_image_segmen}           &  &  &  &  &  &  \\
-    \acs{rrn}     & \cite{li18:refer_image_segmen_recur_refin_networ}            &  &  &  &  &  &  \\
-    \acs{step}    & \cite{chen19:see_throug_text_group_refer_image_segmen}       &  &  &  &  &  &  \\
+    \acs{brinet}     & \cite{hu20:bi_direc_relat_infer_networ}                      & 71.83      & 75.09        & 68.38        & -          & -            & -            \\
+    \acs{cac}        & \cite{chen19:refer_expres_objec_segmen_caption_aware_consis} & 77.08      & 80.34        & 70.62        & -          & -            & -            \\
+    \acs{cmpc}       & \cite{huang20:refer_image_segmen_cross_modal_progr_compr}    & 71.27      & -            & -            & -          & -            & -            \\
+    \acs{cmsa}       & \cite{ye21:refer_segmen_images_videos_cross}                 & 69.24      & 73.87        & 64.55        & 45.48      & 51.41        & 37.57        \\
+    \acs{mattnet}    & \cite{yu18:mattn}                                            & 76.65      & 81.14        & 69.99        & 65.33      & 71.62        & 56.02        \\
+    \acs{refvos}     & \cite{bellver20:refvos}                                      &            &              &              &            &              &              \\
+    \acs{rmi}        & \cite{liu17:recur_multim_inter_refer_image_segmen}           & 42.99      & 42.99        & 44.99        & 20.52      & 21.22        & 20.78        \\
+    \acs{rrn}        & \cite{li18:refer_image_segmen_recur_refin_networ}            & 61.66      & 64.13        & 59.35        & 37.32      & 40.80        & 32.42        \\
+    \acs{step}       & \cite{chen19:see_throug_text_group_refer_image_segmen}       & 70.15      & -            & -            & -          & -            & -            \\
+    \acs{mmi}        & \cite{mao16:gener}                                           & -          & 64.90        & 54.51        & -          & 54.03        & 42.81        \\
+    \acs{cmatterase} & \cite{liu19:improv_refer_expres_groun_cross_atten_erasin}    & 78.35      & 83.14        & 71.32        & 68.09      & 73.65        & 58.03        \\
+    \acs{lgran}      & \cite{wang19:neigh}                                          & -          & 76.6         & 66.4         & -          & 64.00        & 53.40        \\
+    \acs{faoa}       & \cite{yang19:fast_accur_one_stage_approac_visual_groun}      & 71.15      & 74.88        & 66.32        & 56.88      & 61.89        & 49.46        \\
+    \acs{nmtree}     & \cite{liu19:learn_assem_neural_modul_tree}                   & 74.71      & 79.71        & 68.93        & 65.06      & 70.24        & 56.15        \\
+    \acs{vilbert}    & \cite{lu19:vilber}                                           & -          & -            & -            & 72.34      & 78.52        & 62.61        \\
     \bottomrule
   \end{tabular}\\[1.25ex]
   {\small\textbf{Note}. Models arranged in alphabetical order.}

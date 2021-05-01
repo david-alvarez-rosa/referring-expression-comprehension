@@ -34,8 +34,8 @@ related to language and the other to vision.
   representations will be admitted.\index{Referring expression}
 \end{itemize}
 And, the output of this problem will be the generation of a binary segmentation
-mask with the referred object or a bounding box (in this thesis functionality
-will be added to generate both).
+mask with the referred object or a bounding box\index{Bounding box} (in this
+thesis functionality will be added to generate both).
 
 In order to understand it, multiple examples of this problem are shown in
 \vref{fig:rec-examples}. They have tried to show all the possibilities, from
@@ -57,7 +57,7 @@ the simplest to the most complex.
   (car) as the main object (bus).
 \end{itemize}
 
-\begin{figure}[tp]
+\begin{figure}[p]
   \centering
   \begin{subfigure}[t]{.32\textwidth}
     \centering
@@ -129,16 +129,16 @@ present the most used datasets (see \vref{sec:datasets}) and the loss functions
 There are different datasets created exclusively for the training and
 evaluation of neural models created to solve the problem discussed here. The
 first three datasets considered (RefCOCO, RefCOCO+ and RefCOCOg) take their
-images from the well-known dataset \gls{coco}, createt by
+images from the well-known dataset \gls{coco}, created by
 \myCite{lin14:micros}, while the last one (CLEVR-Ref+) uses synthetic images.
 
 The dataset \gls{coco}, as its name suggests, contains images of everyday life
 in everyday environments. Contains multi-object labeling, segmentation mask
 annotations, image captioning, key-point detection and panoptic segmentation
 annotations. They have a total of 81 categories, divided into 13
-supercategories.
+super-categories.
 \begin{itemize}
-  \item \textbf{Supercategories.} They are as follows: person, vehicle,
+  \item \textbf{Super-categories.} They are as follows: person, vehicle,
   vehicle, outdoor, animal, accessory, sports, kitchen, food, furniture,
   electronic, appliance, indoor.
   \item \textbf{Categories.} They are as follows: person, bicycle, car,
@@ -146,11 +146,12 @@ supercategories.
   stop sign, parking meter, bench, bird, cat, dog, horse, sheep, cow, elephant,
   bear, zebra, giraffe, backpack, umbrella, handbag, tie, suitcase, frisbee,
   skis, snowboard, sports ball, kite, baseball bat, baseball glove, skateboard,
-  surfboard, tennis racket, bottle, wine glass, cup, fork, knife , spoon, bowl,
+  surfboard, tennis racket, bottle, wine glass, cup, fork, knife, spoon, bowl,
   banana, apple, sandwich, orange, broccoli, carrot, hot dog, pizza, donut,
   cake, chair, couch, potted plant, bed, dining table, toilet, tv, laptop,
   mouse, remote, keyboard, cell phone, microwave, oven, toaster, sink,
-  refrigerator, book, clock, vase, scissors, teddy bear, hair drier, toothbrus.
+  refrigerator, book, clock, vase, scissors, teddy bear, hair drier,
+  toothbrush.
 \end{itemize}
 Contains a total of \num{2500000} images.
 
@@ -166,7 +167,7 @@ for the next image. In this way, a process was created in which \gls{re} were
 generated and validated for different objects in images in the same game.
 
 The main difference between RefCOCO and RefCOCO+ is that in RefCOCO+ the
-\emph{location} information was disallowded. In total, RefCOCO has \num{142209}
+\emph{location} information was disallowed. In total, RefCOCO has \num{142209}
 \gls{re} for a total of \num{50000} objects in \num{19994} images. RefCOCO+ has
 a similar number of \gls{re} objects and images. An example of each of these
 datasets is shown in \vref{fig:refcoco}.
@@ -304,8 +305,8 @@ useful for training various neural models. TODO. rewrite this section.
 
 Another type of measure arises with the use of the intersection and union of
 the predicted segmentation and the ground truth. This type of loss functions
-provide us with \emph{global} information. The well-known Jaccard index or
-coefficient \gls{iou},
+provide us with \emph{global} information. The well-known Jaccard
+index\index{Jaccard index} or coefficient \gls{iou},
 \begin{equation}
   J(A,B) = \frac{|A \cap B|}{|A \cup B|} =
   \frac{|A \cap B|}{|A| + |B| - |A \cap B|},
@@ -342,13 +343,14 @@ the evaluation of the model in \vref{sec:quantitative-eval}.
 \subsubsection{\glsentrylong{giou} Loss}
 
 See first \vref{sec:quantitative-measures} for a detailed explanation of the
-Jaccard index or \gls{iou}, which is a quantitative measure widely used as an
-evaluation technique.
+Jaccard index\index{Jaccard index} or \gls{iou}, which is a quantitative
+measure widely used as an evaluation technique.
 
 \begin{remarkBox}
   The reason why \gls{iou} cannot be used directly as a loss function is that
-  optimization is infeasible in the case of non-overlapping bounding boxes
-  (since, in this case, \gls{iou} has no value and therefore no gradient).
+  optimization is infeasible in the case of non-overlapping bounding
+  boxes\index{Bounding box} (since, in this case, \gls{iou} has no value and
+  therefore no gradient).
 \end{remarkBox}
 
 \myCite{rezatofighi19:gener} solve this problem by introducing a loss function
@@ -361,7 +363,7 @@ suitable for use in an optimization process.
   \includegraphics[width=.65\textwidth]{Images/GIoU.png}
   \caption[\glsentrylong{giou} algorithm]{\acf{giou} general algorithm applied
     to arbitrary multi-dimensional sets. In the specific case of \gls{rec} they
-    will be bounding boxes in \(\R^2\). From
+    will be bounding boxes\index{Bounding box} in \(\R^2\). From
     \figcite{rezatofighi19:gener}.}\label{fig:giou}
 \end{figure}
 
@@ -397,10 +399,11 @@ out a visual / qualitative evaluation (see \vref{sec:qualitative-eval}).
 
 This corresponds to an evaluation of the model in a numerical way with
 metrics. The different evaluation measures typically used to address this
-problem are related to the computation of \gls{iou} or Jaccard index. This
-index is based on the concepts of intersection and union between the predicted
-segmentation (which is a \emph{binary} mask) and the ground truth (diagrams
-with these concepts are shown in \vref{fig:sets}).
+problem are related to the computation of \gls{iou} or Jaccard
+index\index{Jaccard index}. This index is based on the concepts of intersection
+and union between the predicted segmentation (which is a \emph{binary} mask)
+and the ground truth (diagrams with these concepts are shown in
+\vref{fig:sets}).
 
 \begin{figure}[ht]
   \begin{subfigure}[t]{.5\textwidth}
@@ -418,7 +421,8 @@ with these concepts are shown in \vref{fig:sets}).
     \figcite{contributors21:jaccar} (both).}\label{fig:sets}
 \end{figure}
 
-From here arises the well-known Jaccard index or coefficient \gls{iou},
+From here arises the well-known Jaccard index\index{Jaccard index} or
+coefficient \gls{iou},
 \begin{equation}
   J(A,B) = \frac{|A \cap B|}{|A \cup B|} =
   \frac{|A \cap B|}{|A| + |B| - |A \cap B|},
@@ -430,7 +434,8 @@ differentiable application.
 \begin{figure}[ht]
   \begin{subfigure}[t]{.45\textwidth}
     \centering
-    \caption{Bounding boxes example.}
+    \caption[Bounding boxes example]{Bounding boxes\index{Bounding box}
+      example.}
     \includegraphics[width=.8\textwidth]{Images/Object detection Bounding Boxes.jpg}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{.45\textwidth}
@@ -438,23 +443,24 @@ differentiable application.
     \caption{\gls{iou} visual equation.}
     \includegraphics[width=.8\textwidth]{Images/Intersection over Union.png}
   \end{subfigure}
-  \caption[Jaccard Index explanation]{Explanation and example of the Jaccard
-    Index in the case of bounding boxes. From
+  \caption[Jaccard index explanation]{Explanation and example of the Jaccard
+    index\index{Jaccard index} in the case of bounding boxes. From
     \figcite{contributors21:jaccar} (both).}
 \end{figure}
 
-This index provides relevant information on how tight a bounding box
-is.\footnote{The case of bounding box is studied for simplicity, but the same
-  concept applies in the case of pixel by pixel segmentation.} It is evident
-that the Jaccard index takes a value between \(0\) and \(1\), being \(0\) when
-there is no intersection between the bounding boxes and taking the value of
-\(1\) when the correspondence is exact.
+This index provides relevant information on how tight a bounding
+box\index{Bounding box} is.\footnote{The case of bounding box is studied for
+  simplicity, but the same concept applies in the case of pixel by pixel
+  segmentation.} It is evident that the Jaccard index\index{Jaccard index}
+takes a value between \(0\) and \(1\), being \(0\) when there is no
+intersection between the bounding boxes\index{Bounding box} and taking the
+value of \(1\) when the correspondence is exact.
 
 \subsubsection{Mean and Overall \glsentryshort{iou}}
 
-Using \gls{iou} as a metric to evaluate a segmentation or bounding box can be
-done in two ways. The first is to average all the \gls{iou} values on the
-test dataset, as follows,
+Using \gls{iou} as a metric to evaluate a segmentation or bounding
+box\index{Bounding box} can be done in two ways. The first is to average all
+the \gls{iou} values on the test dataset, as follows,
 \begin{equation}
   \text{\Acl{miou}} = \frac{1}{N}\sum_{i=0}^N \text{\gls{iou}}_i,
 \end{equation}
@@ -483,10 +489,10 @@ This metric is commonly used in segmentation task (e.g., is used in
 \acs{pascal} \gls{voc} challenge, by
 \myCite{everingham10:pascal_visual_objec_class_voc_chall}).
 
-Here, for each sample from the test datset, it will be judged as true/false
-positivie by using the \gls{iou} index. A particular sample will be considered
-a correct detection iff the \gls{iou} between the prediction and the ground
-truth is greater than some predefined threshold. For example, Prec@0.5 is the
+Here, for each sample from the test dataset, it will be judged as true/false
+positive by using the \gls{iou} index. A particular sample will be considered a
+correct detection iff the \gls{iou} between the prediction and the ground truth
+is greater than some predefined threshold. For example, Prec@0.5 is the
 percentage of samples where the predicted segmentation overlaps with the ground
 truth region by at least 50\%.
 
@@ -524,7 +530,7 @@ main classes: joint embedding (see \vref{sec:joint}), modular models (see
 Multimodal embedding methods are very typical in any of the multimodal learning
 tasks. What is sought in them is to find a multidimensional space where
 encodings of image and language can ``coexist'' in common. This idea is
-represented graphically in \vref{fig:joint}. This multidmensional space will
+represented graphically in \vref{fig:joint}. This multidimensional space will
 typically be \(\R^n\), which is a normed space. One of the desirable
 characteristics would be that the encodings of images and language similar to
 each other were ``close'' in this space (in terms of norm).
@@ -587,7 +593,7 @@ based on the idea of erasing the part most used by the model from the
 linguistic or visual part, so that the model is forced to learn more complex
 structures.\footnote{It is partly similar to the strategy of \emph{dropout}
   used in the training of fully connected neural networks, which is used to
-  avoid dependency on specific nuerones and thus prevent overfitting of the
+  avoid dependency on specific neurons and thus prevent overfitting of the
   model.} Likewise, it modifies the initial model (\gls{mattnet}), considering
 the global image as one more characteristic.
 

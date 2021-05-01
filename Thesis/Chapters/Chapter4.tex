@@ -82,14 +82,14 @@ convolutions (also known as dilated convolutions).
 
 In the model used, the well-known ResNet101 network (created by
 \myCite{he16:deep}) and a \code{output\_stride}\footnote{The
-  \code{output\_stride} is the ratio of input images patial resolution to final
-  output resolution will be used as backbone. Setting this ratio to smaller
-  values allow the model to extract denser feature responses (view section~3.1
-  from~\cite{chen17:rethin}).} of 8. Likewise, \((12, 24, 36)\) will be used as
-\code{rates} of the convolutions in \gls{aspp}. These pyramids are part of the
-DeepLab model and consist of performing atrous convolutions in parallel (with
-different rates). In this way, by using different rates, it is possible to
-capture information from different scales at the same time.
+  \code{output\_stride} is the ratio of input images partial resolution to
+  final output resolution will be used as backbone. Setting this ratio to
+  smaller values allow the model to extract denser feature responses (view
+  section~3.1 from~\cite{chen17:rethin}).} of 8. Likewise, \((12, 24, 36)\)
+will be used as \code{rates} of the convolutions in \gls{aspp}. These pyramids
+are part of the DeepLab model and consist of performing atrous convolutions in
+parallel (with different rates). In this way, by using different rates, it is
+possible to capture information from different scales at the same time.
 
 \subsubsection{Language Encoder}\index{Language encoder}
 
@@ -100,8 +100,8 @@ making use of transformers. Specifically, a transformer created by
 \myCite{devlin19:bert} and called \gls{bert} is used.
 
 \gls{bert} is a multi-layer bidirectional Transformer encoder (see
-\vref{sec:transformers}) that removes the unidirectionality constraint present
-in previous models related to language representation. It uses \gls{mlm}, i.e.,
+\vref{sec:transformers}) that removes the unidirectional constraint present in
+previous models related to language representation. It uses \gls{mlm}, i.e.,
 randomly masks some tokens from the input and tries to predict the original
 token of masked word (just relying on its context). This allows the model to
 learn from both left and right context.\footnote{The model \gls{bert} also uses
@@ -118,7 +118,7 @@ from~\cite{devlin19:bert}) will be taken.
 
 \subsubsection{Multimodal Embedding}\index{Multimodal!embedding}
 
-Once we have the encoded \gls{re} and the map of visuald features from the
+Once we have the encoded \gls{re} and the map of visual features from the
 convolutional network, it is necessary to obtain a multimodal embedding, which
 combines the information from both encoders. The output from the visual encoder
 is a tensor of depth 256 and the output from the language encoder is a
@@ -235,7 +235,7 @@ For this task, we will use a pre-trained neural model to convert from
 \gls{stt}. The model, created by
 \myCite{veysov20:towar_imagen_momen_speec_text}, is called Silero (see
 \vref{fig:silero}), and it allows converting from mono audio to text in
-different languages: english, german, spanish and ukraniain.
+different languages: English, German, Spanish and Ukrainian.
 
 \begin{figure}[p]
   \centering
