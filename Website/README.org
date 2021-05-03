@@ -1,0 +1,2 @@
+* Bachelor's Thesis Website
+This repository will contain the source code of my senior Bachelor's Thesis.
