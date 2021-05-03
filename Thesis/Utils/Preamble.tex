@@ -22,7 +22,7 @@
 \usepackage[backend=biber, style=alphabetic]{biblatex}
 \usepackage{imakeidx}
 \usepackage{siunitx, eurosym, chemformula}
-\usepackage{tikz, pgfplots, pgfgantt, pgfornament}
+\usepackage{tikz, pgfplots, pgfgantt, pgfornament, dirtree}
 \usepackage[outputdir=Build, cachedir=Minted]{minted}
 \usepackage[most]{tcolorbox}
 \usepackage{hyperxmp}
@@ -339,11 +339,58 @@
   top = 0pt,
   bottom = 0pt,
 }
+\tcbset{
+  baseBox/.append style = {
+    colbacktitle = #1!60!black,
+  }
+}
+\newtcbinputlisting[auto counter]{\codeInFull}[2]{
+  listing only,
+  minted language = #1,
+  listing file = {#2},
+  title = {#2},
+  minted options = {
+    fontsize = \footnotesize,
+    linenos,
+    numbersep = 6pt,
+  },
+  baseBox = Gray,
+  left = 4pt,
+  halign title = center,
+  toptitle = 2pt,
+  bottomtitle = 2pt,
+  fonttitle = \ttfamily,
+}
 
 % Gantt chart colors.
 \definecolor{blueGantt}{HTML}{0066FF}
 \definecolor{greenGantt}{HTML}{33CC33}
 \definecolor{yellowGantt}{HTML}{FFFFCC}
+
+% Custom commands for dirtree.
+\newcommand*{\imgInline}[1]{%
+  \raisebox{-.125\baselineskip}{\includegraphics[height=.75\baselineskip]{#1}}
+}
+\newcommand*{\myDir}[1]{\faFolderOpen\ {#1}}
+\newcommand*{\myFile}[1]{\faFileTextO\ {#1} }
+\newcommand*{\myPdf}[1]{\faFilePdfO\ {#1.pdf}}
+\newcommand*{\myZip}[1]{\faFileZipO\ {#1.zip}}
+\newcommand*{\myPy}[1]{\faFileCodeO\ {#1.py} \imgInline{Icons/Python.png}}
+\newcommand*{\myTorch}[1]{\faFileArchiveO\ {#1} \imgInline{Icons/PyTorch.png}}
+\newcommand*{\myJs}[1]{\faFileCodeO\ {#1.js} \imgInline{Icons/JS.png}}
+\newcommand*{\myPhp}[1]{\faFileCodeO\ {#1.php} \imgInline{Icons/PHP.png}}
+\newcommand*{\myHtml}[1]{\faFileCodeO\ {#1.html} \imgInline{Icons/HTML.png}}
+\newcommand*{\myCss}[1]{\faFileCodeO\ {#1.css} \imgInline{Icons/CSS.png}}
+\newcommand*{\myOrg}[1]{\faFileTextO\ {#1.org} \imgInline{Icons/Emacs.png}}
+\newcommand*{\myJson}[1]{\faFileTextO\ {#1.json} \imgInline{Icons/JSON.png}}
+\newcommand*{\myTex}[1]{\faFileCodeO\ {#1.tex} \TeX}
+\newcommand*{\myBib}[1]{\faFileTextO\ {#1.bib} Bib\LaTeX}
+\newcommand*{\myGit}[1]{\faFileTextO\ {#1} \imgInline{Icons/Git.png}}
+\newcommand*{\myApache}[1]{\faFileTextO\ {#1} \imgInline{Icons/Apache.png}}
+\newcommand*{\myBash}[1]{\faFileCodeO\ {#1.sh} \imgInline{Icons/Bash.png}}
+\newcommand*{\mySlurm}[1]{\faFileCodeO\ {#1} \imgInline{Icons/Slurm.png}}
+\newcommand*{\myLink}[1]{\faLink\ {#1}}
+\newcommand*{\myImg}[1]{\faFileImageO\ {#1}}
 
 % Configuration for SVG package.
 \svgsetup{
@@ -355,7 +402,7 @@
 \renewcommand{\LettrineFontHook}{\bfseries}
 \setlength{\DefaultFindent}{.12em}
 \setlength{\DefaultNindent}{.12em}
-\renewcommand*{\DefaultLhang}{0.04}
+\renewcommand*{\DefaultLhang}{0.05}
 \LettrineRealHeighttrue
 
 % Change ToC title name.
@@ -418,5 +465,5 @@ This \namecref{#1}, entitled \textsl{\nameref*{#1}}, begins on page~\pageref{#1}
 
 
 % \includeonly{Chapters/Chapter7}
-% \includeonly{Appendices/AppendixC}
+% \includeonly{Appendices/AppendixB}
 % \includeonly{FrontBack/FrontMatter}

@@ -1,168 +1,205 @@
 % -*- TeX-master: "../Thesis.tex" -*-
 
 
-\chapter{Introduction}\label{cha:introduction}
+\chapter{File Structure}\label{cha:files}
 
 \epigraphhead[75]{
-  \epigraph{\itshape Begin at the beginning, the King said
-    gravely, ``and go on till you come to the end: then stop.''}
-  {---\textsc{Lewis Carroll}\\ \textit{Alice in Wonderland}}
+  \epigraph{\itshape Organizing files is like organizing your room: \\
+    it should be clean and easy to navigate through.}
+  {---George \textsc{Sun}}
 }
 
 
-\lettrine{L}{orem ipsum dolor} sit amet, consectetur adipiscing elit, sed do
-eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\lettrine{D}{uring the development} of this work, different code files have
+been created and used in different programming languages. Establishing a
+consistent, logical, clear and easy-to-navigate file structure has been a
+critical element in facilitating the creation and editing of these files. In
+addition, Git has been used as a version control system for tracking changes in
+the text and code files. If the reader wishes, he can consult all the files in
+the project
+\fhref{https://gitlab.com/david-alvarez-rosa/bachelor-thesis}{repository}. Below
+is the first level main structure.\medskip
 
-Here I present a complete list of all the papers I have read for developing this
-thesis. It's similar to a commented bibliography reference.
+\dirtree{%
+  .1 \myDir{Bachelor's Thesis}.
+  .2 \myDir{Code}.
+  .2 \myDir{Datasets}.
+  .2 \myDir{Thesis}.
+  .2 \myDir{Website}.
+  .2 \myFile{.gitignore}.
+  .2 \myOrg{README}.
+}\medskip
+
+The total set of files is divided into 4 large groups that will be explored
+individually: the code directory (see \vref{sec:code}), the datasets directory
+(see \vref{sec:datasets}), the directory containing the code of this thesis
+(see \vref{sec:thesis}) and the website directory (see \vref{sec:website}).
 
 
-\section{Activation functions}
-Here a list of activation functions.
+
+\section{Code Directory}\label{sec:code}
+
+Inside this directory you will find all the code related to the implementation
+of the model used, as well as files for the train and test of the model. Also,
+here you will find the files for reading the dataset and those that are
+executed in the backend of the server (they are called by the \gls{api} in
+PHP). The files used for the iterations of the different models are also
+collected here (some of these files should possibly be retrieved from the Git
+history).\medskip
+
+\dirtree{%
+  .1 \myDir{Code}.
+  .2 \myDir{.venv}.
+  .3 {* Python virtual environment}.
+  .2 \myDir{checkpoints}.
+  .3 \myTorch{model.pth}.
+  .3 {* Possibly other checkpoints}.
+  .2 \myDir{lib}.
+  .3 \myPy{\_utils}.
+  .3 \myPy{deeplabv3\_emb}.
+  .3 \myPy{segmentation}.
+  .2 \myGit{.gitignore}.
+  .2 \myPy{args}.
+  .2 \myPy{compehend}.
+  .2 \myPy{dataset}.
+  .2 \myPy{model}.
+  .2 \myOrg{README}.
+  .2 \myPy{refer}.
+  .2 \myPy{test}.
+  .2 \myPy{train}.
+  .2 \myPy{transforms}.
+  .2 \myPy{utils}.
+}
 
 
-\begin{itemize}
-  \item \textbf{\acf{relu}.}
-  \item \textbf{Hyperbolic tangent.}
-  \item \textbf{Sigmoid function.}
-\end{itemize}
 
-\begin{figure}[ht]
-  \begin{subfigure}[b]{.475\textwidth}
-    \centering
-    \begin{tikzpicture}
-      \begin{axis}[
-        activationFunction,
-        xmin = -1, xmax = 3,
-        ymin = 0, ymax = 3]
-        \addplot[myPlot] {max(0, x)};
-        \addlegendentry{\(f(x) = \max\{0, x\}\)}
-      \end{axis}
-    \end{tikzpicture}
-    \caption{Activation function.}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{.475\textwidth}
-    \centering
-    \begin{tikzpicture}
-      \begin{axis}[
-        activationFunction,
-        xmin = -1, xmax = 3,
-        ymin = 0, ymax = 3]
-        \addplot[myPlot, red, sharp plot, samples at={-5, -1e-6, 1e-6, 5}] {x>=0};
-        \addlegendentry{\(f^\prime(x) = \mathbf{1}_{\R^+}(x)\)}
-      \end{axis}
-    \end{tikzpicture}
-    \caption{Activation function derivative.}
-  \end{subfigure}
-  \caption[\glsentrylong{relu} and derivative]{\acf{relu} activation function.}
-\end{figure}
+\section{Datasets Directory}\label{sec:dataset}
 
-\begin{figure}[ht]
-  \begin{subfigure}[b]{.475\textwidth}
-    \centering
-    \begin{tikzpicture}
-      \begin{axis}[
-        activationFunction,
-        xmin = -3, xmax = 3,
-        ymin = -1, ymax = 1,
-        ytick distance = .5]
-        \addplot[myPlot] {tanh(x)};
-        \addlegendentry{\(f(x) = \tanh x\)}
-      \end{axis}
-    \end{tikzpicture}
-    \caption{Activation function.}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{.475\textwidth}
-    \centering
-    \begin{tikzpicture}
-      \begin{axis}[
-        activationFunction,
-        xmin = -3, xmax = 3,
-        ymin = -1, ymax = 1,
-        ytick distance = .5]
-        \addplot[myPlot, red] {1 - tanh(x)^2};
-        \addlegendentry{\(f^\prime(x) = 1 - \tanh^2 x\)}
-      \end{axis}
-    \end{tikzpicture}
-    \caption{Activation function derivative.}
-  \end{subfigure}
-  \caption[Hyperbolic tangent and derivative]{Hyperbolic tangent and derivative.
-  TODO.}
-\end{figure}
+The datasets used in their original format will be stored in this
+directory.\medskip
 
-\begin{figure}[ht]
-  \begin{subfigure}[b]{.475\textwidth}
-    \centering
-    \begin{tikzpicture}
-      \begin{axis}[
-        activationFunction,
-        xmin = -4, xmax = 4,
-        ymin = 0, ymax = 1,
-        xtick distance = 2,
-        ytick distance = .5]
-        \addplot[myPlot, domain=-8:8] {(1 + e^(-x))^(-1)};
-        \addlegendentry{\(\sigma(x) = {(1 + e^{-x})}^{-1}\)}
-      \end{axis}
-    \end{tikzpicture}
-    \caption{Activation function.}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{.475\textwidth}
-    \centering
-    \begin{tikzpicture}
-      \begin{axis}[
-        activationFunction,
-        xmin = -4, xmax = 4,
-        ymin = 0, ymax = 1,
-        xtick distance = 2,
-        ytick distance = .5]
-        \addplot[myPlot, domain=-8:8, red] {(1 + e^(-x))^(-1)*(1 - (1 + e^(-x))^(-1))};
-        \addlegendentry{\(\sigma^\prime(x) = \sigma(x)(1 - \sigma(x))\)}
-      \end{axis}
-    \end{tikzpicture}
-    \caption{Activation function derivative.}
-  \end{subfigure}
-  \caption[Sigmoid function and derivative]{Sigmoid function and derivative
-    (also called logistic function and soft step). TODO.}
-\end{figure}
+\dirtree{%
+  .1 \myDir{Datasets}.
+  .2 \myDir{refcoco}.
+  .3 \myDir{images}.
+  .3 \myJson{annotations}.
+  .3 \myPy{refs(google).p}.
+  .3 \myPy{refs(unc).p}.
+  .2 \myDir{refcoco+}.
+  .3 {* Similar to refcoco \(\uparrow\)}.
+  .2 \myDir{refcocog}.
+  .3 {* Similar to refcoco \(\uparrow\)}.
+  .2 \myOrg{README}.
+}
 
-\begin{figure}[ht]
-  \begin{subfigure}[b]{.475\textwidth}
-    \centering
-    \begin{tikzpicture}
-      \begin{axis}[
-        activationFunction,
-        xmin = -3, xmax = 3,
-        ymin = -1, ymax = 1.5]
-        \addplot[myPlot] {max(0, x)};
-        \addlegendentry{\(f(x) = \max\{0, x\}\)}
-        \addplot[myPlot, red] {tanh(x)};
-        \addlegendentry{\(g(x) = \tanh x\)}
-        \addplot[myPlot, green] {(1 + e^(-x))^(-1)};
-        \addlegendentry{\(\sigma(x) = {(1 + e^{-x})}^{-1}\)}
-      \end{axis}
-    \end{tikzpicture}
-    \caption{TODO.}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{.475\textwidth}
-    \centering
-    \begin{tikzpicture}
-      \begin{axis}[
-        activationFunction,
-        xmin = -3, xmax = 3,
-        ymin = -1, ymax = 1.5]
-        \addplot[myPlot, sharp plot, samples at={-5, -1e-6, 1e-6, 5}] {x>=0};
-        \addlegendentry{\(f^\prime(x) = \mathbf{1}_{\R^+}(x)\)}
-        \addplot[myPlot, red] {1 - tanh(x)^2};
-        \addlegendentry{\(g^\prime(x) = 1 - \tanh^2 x\)}
-        \addplot[myPlot, green] {(1 + e^(-x))^(-1)*(1 - (1 + e^(-x))^(-1))};
-        \addlegendentry{\(\sigma^\prime(x) = \sigma(x)(1 - \sigma(x))\)}
-      \end{axis}
-    \end{tikzpicture}
-    \caption{TODO.}
-  \end{subfigure}
-  \caption[TODO]{TODO.}
-\end{figure}
+
+
+\section{Thesis Directory}\label{sec:thesis}
+
+This directory contains all the files that this thesis typed with \LaTeX{}
+makes possible: source code, images, vector graphics, acronyms, references,
+etc.\medskip
+
+\dirtree{%
+  .1 \myDir{Thesis}.
+  .2 \myDir{Appendices}.
+  .3 \myTex{Appendix\{A,B\}}.
+  .2 \myDir{Build}.
+  .3 {* Externalized build files}.
+  .2 \myDir{Chapters}.
+  .3 \myTex{Chapter\{1,2, \ldots,8\}}.
+  .2 \myDir{Figures}.
+  .3 \myDir{Images}.
+  .4 {* Document images}.
+  .3 \myDir{Logos}.
+  .4 {* University logos}.
+  .3 \myDir{Icons}.
+  .4 {* Program icons}.
+  .3 \myDir{SVGs}.
+  .3 {* Document SVGs}.
+  .3 \myDir{Tikz}.
+  .4 {* Vector graphics}.
+  .2 \myDir{FrontBack}.
+  .3 \myTex{FrontMatter}.
+  .3 \myTex{BackMatter}.
+  .2 \myDir{Utils}.
+  .3 \myTex{Acronyms}.
+  .3 \myTex{EasterEgg}.
+  .3 \myFile{Index.ist}.
+  .3 \myTex{Preamble}.
+  .3 \myBib{References}.
+  .2 \myGit{.gitignore}.
+  .2 \myOrg{README}.
+  .2 \myTex{Thesis}.
+}
+
+
+
+\section{Utils Directory}\label{sec:utils}
+
+Directory containing different files useful for various functions. Among them
+are the shell executables to synchronize files with the remote server for
+training and with the web server. Slurm\footnote{Slurm is an free and
+  open-source job scheduler that is used in the servers provided by
+  VectorInstitute.} configurations files used are also present here.\medskip
+
+\dirtree{%
+  .1 \myDir{Utils}.
+  .2 \myGit{.gitignore}.
+  .2 \myPy{createSmall}.
+  .2 \myPy{getImgNames}.
+  .2 \mySlurm{launch}.
+  .2 \myBash{newServer}.
+  .2 \myBash{testAPI}.
+  .2 \myBash{vector}.
+  .2 \myBash{vectorInteractive}.
+}
+
+
+
+\section{Website Directory}\label{sec:website}
+
+This directory is an exact replica of the one on the web server, and contains
+all the files necessary for its operation.\medskip
+
+\dirtree{%
+  .1 \myDir{Website}.
+  .2 \myDir{api}.
+  .3 \myDir{.cache}.
+  .4 {* PyTorch cache files}.
+  .3 \myDir{audio}.
+  .4 {* Temp audio files}.
+  .3 \myDir{results}.
+  .4 {* Temp output images}.
+  .3 \myLink{Code -> ../../Code}.
+  .3 \myPhp{comprehend}.
+  .3 \myPhp{upload\_wav}.
+  .2 \myDir{css}.
+  .3 \myCss{audio}.
+  .3 \myCss{bootstrap.min}.
+  .3 \myCss{main}.
+  .2 \myDir{img}.
+  .3 {* Website images and icons}.
+  .2 \myDir{js}.
+  .3 \myDir{recorderjs}.
+  .4 \myJs{recorder}.
+  .4 \myJs{recorderWorker}.
+  .3 \myJs{audio}.
+  .3 \myJs{audiodisplay}.
+  .3 \myJs{bootstrap.bundle.min}.
+  .3 \myJs{imgFileNames}.
+  .3 \myJs{jquery-3.5.1.slim.min}.
+  .3 \myJs{main}.
+  .2 \myGit{.gitignore}.
+  .2 \myApache{.htaccess}.
+  .2 \myLink{datasets -> ../Datasets}.
+  .2 \myImg{favicon.ico}.
+  .2 \myHtml{index}.
+  .2 \myOrg{README}.
+  .2 \myFile{site.webmanifest}.
+  .2 \myPdf{thesis}.
+}\medskip
+
+Note that there is a symbolic link here pointing to the datasets directory and
+another pointing to the code directory. Therefore, all these directories are
+actually part of the web server.
