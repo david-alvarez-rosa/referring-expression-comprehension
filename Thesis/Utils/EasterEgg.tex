@@ -1,17 +1,34 @@
-% -*- TeX-master: "Thesis.tex" -*-
+% -*- TeX-master: "../Thesis.tex" -*-
 
 
 % Don't be afraid. Trust me--if you are an /autistic/ adult--this *must* be
 % done:
+%   hidden note from author to reader,
 %   well-known mathematical constants typeset where they belong,
 %   and nice meme features added for other pages (just for the fun).
 %
 % *Disclaimer*
-%   You can be expelled from your university for using the code below. But, who
-%   cares? Fuck academia, their narcissism, their endogamy and the stupid
-%   children's theater they have created. They don't deserve my respect. David.
+%   You can be expelled from your university for using the code below. But,
+%   let's be honest, who cares? Fuck academia, their narcissism, their endogamy
+%   and the stupid children's theater they have created. They don't deserve my
+%   respect. Born to be free. David.
 \makeatletter
 \AddEverypageHook{%
+  \begin{textblock*}{0pt}(1pt, 1pt)
+    \scalebox{0.0000001}{
+      \begin{minipage}{.5\paperwidth}
+        \color{white}
+        Dear reader, \\
+        This thesis is the result of my academic failure. It is a compendium of
+        text without content from various sources and fake experiments that do
+        not add anything to the state of the art. Enjoy the aesthetics of the
+        \LaTeX{} typeset document, but do yourself a favor and don't read
+        it. It just isn't worth your time. \\
+        Thanks, \\
+        The author.
+      \end{minipage}
+    }
+  \end{textblock*}
   \if@mainmatter%
   \ifnum\value{page} = 1 % Page 2.
   \begin{textblock*}{.65cm}[0, .5](.05\paperwidth, .414213562373095\paperheight)
@@ -36,20 +53,25 @@
   \fi
   \ifnum\value{page} = 41 % Page 42.
   \begin{textblock*}{0pt}[0, 1](1pt, 1pt)
-    \noindent\scalebox{0.000000000000001}{\textcolor{white}{blowjob}}
+    \noindent\scalebox{0.0000001}{\textcolor{white}{blowjob}}
   \end{textblock*}
   \fi
   \ifnum\value{page} = 68 % Page 69.
   \begin{textblock*}{0pt}[0, 1](1pt, 1pt)
-    \noindent\scalebox{0.000000000000001}{\textcolor{white}{kamasutra}}
+    \noindent\scalebox{0.0000001}{\textcolor{white}{kamasutra}}
   \end{textblock*}
   \fi
   \fi
   % Hopefully frontmatter is less than 96 pages.
   \ifnum\value{page} = 95 % Page 96.
   \begin{textblock*}{0pt}[0, 1](1pt, 1pt)
-    \noindent\scalebox{0.000000000000001}{\textcolor{white}{Catholicism\\
-        Your god is dead, fuck your Pope}}
+    \scalebox{0.0000001}{
+      \begin{minipage}{\paperwidth}
+        \color{white}
+        Catholic,\\
+        Your god is dead, fuck your Pope and leave.
+      \end{minipage}
+    }
   \end{textblock*}
   \fi
 }
