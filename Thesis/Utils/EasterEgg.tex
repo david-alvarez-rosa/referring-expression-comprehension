@@ -13,10 +13,10 @@
 %   and the stupid children's theater they have created. They don't deserve my
 %   respect. Born to be free. David.
 \makeatletter
-\AddEverypageHook{%
+\AddToHook {shipout/background}{
   \begin{textblock*}{0pt}(1pt, 1pt)
     \scalebox{0.0000001}{
-      \begin{minipage}{.5\paperwidth}
+      \begin{minipage}{.5\layoutwidth}
         \color{white}
         Dear reader, \\
         This thesis is the result of my academic failure. It is a compendium of
@@ -31,23 +31,23 @@
   \end{textblock*}
   \if@mainmatter%
   \ifnum\value{page} = 1 % Page 2.
-  \begin{textblock*}{.65cm}[0, .5](.05\paperwidth, .414213562373095\paperheight)
+  \begin{textblock*}{.65cm}[0, .5](.05\layoutwidth, .414213562373095\layoutheight)
     \noindent\resizebox{.65cm}{!}{\(\sqrt{2}\)}
   \end{textblock*}
-  \begin{textblock*}{.45cm}[0, .5](.05\paperwidth, .618033988749894\paperheight)
+  \begin{textblock*}{.45cm}[0, .5](.05\layoutwidth, .618033988749894\layoutheight)
     \noindent\resizebox{.45cm}{!}{\(\varphi\)}
   \end{textblock*}
   \fi
   \ifnum\value{page} = 2 % Page 3.
-  \begin{textblock*}{.65cm}[1, .5](.95\paperwidth, .23606797749978\paperheight)
+  \begin{textblock*}{.65cm}[1, .5](.95\layoutwidth, .23606797749978\layoutheight)
     \noindent\resizebox{.65cm}{!}{\(\sqrt{5}\)}
   \end{textblock*}
-  \begin{textblock*}{.4cm}[1, .5](.95\paperwidth, .718281828459045\paperheight)
+  \begin{textblock*}{.4cm}[1, .5](.95\layoutwidth, .718281828459045\layoutheight)
     \noindent\resizebox{.4cm}{!}{\(e\)}
   \end{textblock*}
   \fi
   \ifnum\value{page} = 3 % Page 4.
-  \begin{textblock*}{.5cm}[0, .5](.05\paperwidth, .141592653589793\paperheight)
+  \begin{textblock*}{.5cm}[0, .5](.05\layoutwidth, .141592653589793\layoutheight)
     \noindent\resizebox{.5cm}{!}{\(\pi\)}
   \end{textblock*}
   \fi
@@ -66,7 +66,7 @@
   \ifnum\value{page} = 95 % Page 96.
   \begin{textblock*}{0pt}[0, 1](1pt, 1pt)
     \scalebox{0.0000001}{
-      \begin{minipage}{\paperwidth}
+      \begin{minipage}{\layoutwidth}
         \color{white}
         Catholic,\\
         Your god is dead, fuck your Pope and leave.

@@ -13,7 +13,7 @@
 \usepackage{amsmath, amsthm, amssymb, mathtools, bm}
 \usepackage[cmyk, dvipsnames, table]{xcolor}
 \usepackage{graphicx, float, svg}
-\usepackage{microtype, emptypage, fancyhdr, lettrine, epigraph, everypage}
+\usepackage{microtype, emptypage, fancyhdr, lettrine, epigraph}
 \usepackage[absolute]{textpos}
 \usepackage{booktabs, caption, subcaption}
 \usepackage[nottoc]{tocbibind}
@@ -28,23 +28,26 @@
 \usepackage{hyperxmp}
 \usepackage{varioref}
 \usepackage[pdfusetitle]{hyperref}
-\usepackage[nomain, acronym, nolangwarn, savewrites]{glossaries}
+\usepackage[nomain, nolangwarn, savewrites]{glossaries}
 \usepackage{glossary-longbooktabs}
 \usepackage[noabbrev, capitalize]{cleveref}
 
 
 % Customize page layout.
+\newlength\layoutwidth\setlength\layoutwidth{7in}
+\newlength\layoutheight\setlength\layoutheight{10in}
 \geometry{
-  layout = b5paper,
-  paper = b5paper,
+  layoutsize = {\the\layoutwidth, \the\layoutheight},
+  papersize = {\the\layoutwidth, \the\layoutheight},
   top = 1in,
   bottom = .875in,
   inner = .75in,
   outer = .75in,
   bindingoffset = .25in,
-  % showframe
+  % showframe,
   % paper = a4paper,
-  % showcrop
+  % showcrop,
+  % layoutoffset = {0.634in, .8465in},
 }
 
 % Customize captions for floating elements.
@@ -56,9 +59,10 @@
 
 \hypersetup{
   % Info.
-  pdfsubject = {Computer Vision}, pdfkeywords = {Referring Expression
-    Comprehension, Artificial Intelligence, Machine Learning, Deep Learning,
-    Computer Vision, Natural Language Processing, Multimodal Learning},
+  pdfsubject = {Computer Vision},
+  pdfkeywords = {Referring Expression Comprehension, Artificial Intelligence,
+    Machine Learning, Deep Learning, Computer Vision, Natural Language Processing,
+    Multimodal Learning},
   % Links.
   hidelinks,
   linktoc = all,
@@ -452,8 +456,8 @@ This \namecref{#1}, entitled \textsl{\nameref*{#1}}, begins on page~\pageref{#1}
 \DeclareMathOperator*{\argmin}{arg\,min}
 
 % Create custom units.
-\DeclareSIUnit\ects{\text{crédito \gls*{ects}}}
-\DeclareSIUnit\ectss{\text{créditos \gls*{ects}}}
+\DeclareSIUnit\ects{\text{\gls*{ects} credit}}
+\DeclareSIUnit\ectss{\text{\gls*{ects} credits}}
 
 % Custom commands.
 \newcommand*{\re}[1]{\texttt{#1}}

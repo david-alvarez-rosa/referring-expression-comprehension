@@ -774,7 +774,7 @@ out. The best known are the following,
   where \(\delta\) is a small real number to make sure no divisions are made by
   \(0\) and \(\beta_1\) and \(\beta_2\) are the forgetting factors for
   gradients and second moment gradients. A good starting point for these
-  parameters is usually set to \(\beta_1 = 0.9\) and \(\beta = 0.999\). The
+  parameters is usually set to \(\beta_1 = 0.9\) and \(\beta_2 = 0.999\). The
   \gls{adam} method can be interpreted as that the first moment is taking the
   role of impulse and with the second it is used to adapt the learning
   rate. This is the algorithm that that we will be using for the training of
@@ -925,7 +925,7 @@ stop the training there.
   \caption[Early stopping regularization technique]{Early stopping
     regularization technique. The error in \code{val} and in \code{test} is
     shown and the separation of the graph is seen. From
-    \figcite{brownlee28:gentl_introd_early_stopp_avoid}.}\label{fig:early}
+    \figcite{gencay01:pricin}.}\label{fig:early}
 \end{figure}
 
 This regularization method has been used in this work (see \vref{cha:models})
