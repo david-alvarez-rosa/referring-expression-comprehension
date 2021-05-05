@@ -135,7 +135,8 @@ of this type of architecture is shown in \vref{fig:fully-conn-network}.
   \caption[\glsentrylong{fnn} topology]{Example of \acl{fnn}. It consists of 4
     differentiated layers of neurons and the connections between them are shown
     graphically with arrows. Figure created by the
-    author.}\label{fig:fully-conn-network}
+    author.}%
+  \label{fig:fully-conn-network}
 \end{figure}
 
 Next we will discuss the main constituent parts of this type of neural
@@ -288,7 +289,8 @@ architecture can be seen in \vref{fig:lenet-5}.
   \caption[Example of topology of a \glsentryshort{cnn} (LeNet-5)]{Example of
     topology of a \gls{cnn}. Specifically, it is
     \href{http://yann.lecun.com/exdb/lenet}{LeNet-5}, a \acp{cnn} created by
-    Yann \textsc{LeCun}. From \figcite{lecun98:lenet}.}\label{fig:lenet-5}
+    Yann \textsc{LeCun}. From \figcite{lecun98:lenet}.}%
+  \label{fig:lenet-5}
 \end{figure}
 
 \subsubsection{Convolutional Layers}\index{Convolutional!layer}
@@ -334,7 +336,8 @@ on \emph{padding}\footnote{There are different techniques to define the
   \caption[Example of convolution operation]{Example of a convolution with a
     kernel (filter) of dimensions \((3, 3, 1)\) and an input feature map
     (tensor) of size \((8, 8, 1)\). From
-    \figcite{hachilif19:graduat_thesis_implem_optim_neural_networ_tiram}.}\label{fig:convolution}
+    \figcite{hachilif19:graduat_thesis_implem_optim_neural_networ_tiram}.}%
+  \label{fig:convolution}
 \end{figure}
 
 An example of convolution is shown graphically in \vref{fig:convolution}. As
@@ -354,7 +357,8 @@ local changes in spatial location.
   \caption[Pooling layer example: max pooling]{Pooling layer example:
     \(2 \times 2\) max pooling. The input tensor is divided into blocks
     \(2 \times 2\) and the Max Pool returns an output tensor with the maximum
-    value of each block. From \figcite{wiki18:max_poolin}.}\label{fig:max-pool}
+    value of each block. From \figcite{wiki18:max_poolin}.}%
+  \label{fig:max-pool}
 \end{figure}
 
 There are different types of pooling. The best known are \emph{max} pooling and
@@ -417,7 +421,8 @@ represented by the hidden state \(\mathbf{h}^{t - 1}\), therefore the output
   \caption[Basic topology of \glsentrylong{rnn}]{Basic topology of
     \acf{rnn}. Two versions of the same network are shown, one is the compact
     version and the other is the same network but unfolded in time. From
-    \figcite{li20:cs231}.}\label{fig:rnn}
+    \figcite{li20:cs231}.}%
+  \label{fig:rnn}
 \end{figure}
 
 \subsubsection{Different Types of \glsentryshort{rnn}}
@@ -435,7 +440,8 @@ architectures that may exist are listed in \vref{fig:rnn-types}.
   \caption[Types of architectures for \glsentrylong{rnn}]{Types of
     architectures for \gls{rnn}. All possibilities are considered (i.e., all
     combinations are presented). From
-    \figcite{li20:cs231}.}\label{fig:rnn-types}
+    \figcite{li20:cs231}.}%
+  \label{fig:rnn-types}
 \end{figure}
 
 These different possibilities then have their application in various fields
@@ -484,7 +490,8 @@ problems:
     \caption[\glsentrylong{lstm} representation]{\acf{lstm}
       representation. Input (\(i\)), output (\(o\)) and forget (\(f\)) gates
       are shown in the image. From
-      \figcite{enwiki:1005032489}.}\label{fig:lstm}
+      \figcite{enwiki:1005032489}.}%
+    \label{fig:lstm}
   \end{figure}
 
   The value of the different gates is described by the following equation,
@@ -580,7 +587,8 @@ where \(d_k\) is the dimension of the queries and keys.
   \caption[Transformer attention mechanism]{Transformer attention
     mechanism. Scaled Dot-Product Attention (right) and Multi-Headed Attention
     that involves attention layers running in parallel (left). From
-    \figcite{vaswani17:atten_all_you_need}.}\label{fig:attention}
+    \figcite{vaswani17:atten_all_you_need}.}%
+  \label{fig:attention}
 \end{figure}
 
 The problem with this attention function is that it only allows one way that
@@ -605,7 +613,8 @@ where \(\text{head}_i = \text{Attention}(QW_i^Q, KW_i^k, VW_i^V)\) (see
   \caption[Transformer model architecture]{Transformer model
     architecture/topology. Here you can observe the two main segments: the
     encoder and the decoder. From
-    \figcite{vaswani17:atten_all_you_need}.}\label{fig:transformer}
+    \figcite{vaswani17:atten_all_you_need}.}%
+  \label{fig:transformer}
 \end{figure}
 
 Currently there are different types of architectures based on this idea. The
@@ -869,7 +878,8 @@ data, but with a huge generalization error (see \vref{fig:overfit}).
     function presents a perfect fit on existing data, but it is to be expected
     that it generalizes worse. If both functions were used to extrapolate out
     of the fitted data, the linear function will display better
-    predictions. From \figcite{contributors21:overf}.}\label{fig:overfit}
+    predictions. From \figcite{contributors21:overf}.}%
+  \label{fig:overfit}
 \end{figure}
 
 A well-known saying in the field of \gls{ml} is that of ``memorizing is
@@ -925,7 +935,8 @@ stop the training there.
   \caption[Early stopping regularization technique]{Early stopping
     regularization technique. The error in \code{val} and in \code{test} is
     shown and the separation of the graph is seen. From
-    \figcite{gencay01:pricin}.}\label{fig:early}
+    \figcite{gencay01:pricin}.}%
+  \label{fig:early}
 \end{figure}
 
 This regularization method has been used in this work (see \vref{cha:models})

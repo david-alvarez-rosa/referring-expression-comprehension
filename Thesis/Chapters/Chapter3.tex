@@ -110,8 +110,9 @@ the simplest to the most complex.
   \end{subfigure}
   \caption[Examples of \glsentrylong{rec}]{Examples of \acl{rec}. As can be
     seen, we can refer to objects of the image with \gls{re} in natural
-    language and segmentation occurs. Figures created by the author
-    (all).}\label{fig:rec-examples}
+    language and segmentation occurs. Figures created by the author (all). View
+    images in color to better appreciate segmentation.}%
+  \label{fig:rec-examples}
 \end{figure}
 
 
@@ -187,7 +188,8 @@ datasets is shown in \vref{fig:refcoco}.
   \caption[Examples from RefCOCO and RefCOCO+ datasets]{Examples from RefCOCO
     and RefCOCO+ datasets. It can be seen that in RefCOCO+ the use of location
     information is not allowed, while in RefCOCO it is valid. Adapted from
-    \figcite{kazemzadeh14:refer_game}.}\label{fig:refcoco}
+    \figcite{kazemzadeh14:refer_game}.}%
+  \label{fig:refcoco}
 \end{figure}
 
 The difference between RefCOCOg and these two previous ones is that, it
@@ -364,7 +366,8 @@ suitable for use in an optimization process.
   \caption[\glsentrylong{giou} algorithm]{\acf{giou} general algorithm applied
     to arbitrary multi-dimensional sets. In the specific case of \gls{rec} they
     will be bounding boxes\index{Bounding box} in \(\R^2\). From
-    \figcite{rezatofighi19:gener}.}\label{fig:giou}
+    \figcite{rezatofighi19:gener}.}%
+  \label{fig:giou}
 \end{figure}
 
 This loss function is summarized in \vref{fig:giou}. It is a generalization
@@ -418,7 +421,8 @@ and the ground truth (diagrams with these concepts are shown in
   \end{subfigure}
   \caption[Union and intersection of sets \(A\) and \(B\)]{Graphic
     representation of the union and intersection of sets called \(A\) and
-    \(B\). From \figcite{contributors21:jaccar} (both).}\label{fig:sets}
+    \(B\). From \figcite{contributors21:jaccar} (both).}%
+  \label{fig:sets}
 \end{figure}
 
 From here arises the well-known Jaccard index\index{Jaccard index} or
@@ -541,7 +545,8 @@ each other were ``close'' in this space (in terms of norm).
   \caption[Multimodal embedding technique]{Multimodal embedding into
     visual-semantic space. As you can see, matching pairs are closer (in terms
     of norm) that non-matching pairs in the joint space. From
-    \figcite{cornia18:towar_cycle_consis_model_text_image_retriev}.}\label{fig:joint}
+    \figcite{cornia18:towar_cycle_consis_model_text_image_retriev}.}%
+  \label{fig:joint}
 \end{figure}
 
 Therefore, here, to perform \gls{rec}, the first thing we will do is encode the
@@ -576,8 +581,8 @@ reasoning.
   \caption[\glsentrylong{mattnet}]{\gls{mattnet}: given an expression, it is
     divided into three phrase embeddings, which are input to three visual
     modules that process the described visual region in different ways and
-    compute individual matching scores. From
-    \figcite{yu18:mattn}.}\label{fig:mattnet}
+    compute individual matching scores. From \figcite{yu18:mattn}.}%
+  \label{fig:mattnet}
 \end{figure}
 
 An example of these modular models is the one presented by \myCite{yu18:mattn},
@@ -614,8 +619,9 @@ objects and the different edges are the existing relationship between objects
   \caption[Graph based model representation]{Summary representation of
     graph-based models. From the image, the graph representation is built,
     which is then updated with the expression embedding and computed a matching
-    score between objects and
-    expression. From \figcite{qiao20:refer_expres_compr}.}\label{fig:graph}
+    score between objects and expression. From
+    \figcite{qiao20:refer_expres_compr}.}%
+  \label{fig:graph}
 \end{figure}
 
 The use of graphs in the task of \gls{rec} has been used with success by
