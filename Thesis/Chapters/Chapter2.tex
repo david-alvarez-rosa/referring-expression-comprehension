@@ -4,7 +4,7 @@
 \chapter{Theoretical Background}\label{cha:theory}
 
 \epigraphhead[75]{
-  \epigraph{\itshape
+  \epigraph{\itshape{}
     Without theory, there is nothing to revise. \\
     Without theory, experience has no meaning. \\
     Without theory, one has no questions to ask. \\
@@ -90,7 +90,7 @@ Let \(\mathbf{T}\) and \(\mathbf{S}\) be tensors of rank \(r\). Let \(\star\)
 be a binary operation for real numbers (e.g., ordinary sum or
 multiplication). Then, the element-wise operation is defined as follows,
 \begin{equation}
-  (\mathbf{T} \star \mathbf{S})_i = \mathbf{T}_i \star \mathbf{S}_i,
+  {(\mathbf{T} \star \mathbf{S})}_i = \mathbf{T}_i \star \mathbf{S}_i,
 \end{equation}
 for all multi-indices \(i \in \N^r\).
 
@@ -106,18 +106,18 @@ different ones.
 \begin{itemize}\index{Neural network!architectures}
   \item \textbf{\acl{fnn}.} These networks are the simplest type of neural
   model that exists and on which more complex models are built. A more detailed
-  description of this type of network can be found in \vref{sec:fnn}.
+  description of this type of network can be found in\ \vref{sec:fnn}.
   \item \textbf{\acl{cnn}.} This type of neural network is especially useful in
   image processing, since it allows preserving the spatial information of the
   relationship between pixels. They will be studied in
-  \vref{sec:conv-neur-netw}.
+ \ \vref{sec:conv-neur-netw}.
   \item \textbf{\acl{rnn}.} Ideal neural models for the analysis of time series
-  (such as text or audio). They will be studied in \vref{sec:rnn}.
+  (such as text or audio). They will be studied in\ \vref{sec:rnn}.
   \item \textbf{Transformers.} The transformer-based models are part of the
   current state of the art.\footnote{On \today, current date of the document.}
   They are being used extensively in \gls{nlp} and studying their possible
   applications in computer vision and image processing. They will be described
-  in \vref{sec:transformers}.
+  in\ \vref{sec:transformers}.
 \end{itemize}
 
 
@@ -127,7 +127,7 @@ different ones.
 the basis for more complex neural structures. This type of neural network is
 characterized by a neural structure organized in different layers, so that the
 neurons between adjacent layers are connected to each other by arcs. An example
-of this type of architecture is shown in \vref{fig:fully-conn-network}.
+of this type of architecture is shown in\ \vref{fig:fully-conn-network}.
 
 \begin{figure}[ht]
   \centering
@@ -192,7 +192,7 @@ follows,
 \end{equation}
 
 The \emph{matrix} of all weights in the \(l\)-th layer will be denoted by
-\(\mathbf{W}^l\). This is, \((\mathbf{W}^l)_{ij} = w_{ij}^ l\).
+\(\mathbf{W}^l\). This is, \({(\mathbf{W}^l)}_{ij} = w_{ij}^ l\).
 
 \begin{exampleBox}
   To gain some intuition on how this work, let's think about the handwritten
@@ -264,7 +264,7 @@ differentiable (i.e., \(\mathcal{C}^1\)).
 vision. They are commonly applied in image analysis, since they have the main
 characteristic of having the ability to preserve the spatial relationship
 between pixels. Likewise, they are regularized versions of fully connected
-networks (explained in \vref{sec:fnn}), that is, it is less likely
+networks (explained in\ \vref{sec:fnn}), that is, it is less likely
 to overfit the data.
 
 \myCite{lecun98:lenet}, a renowned scientist known as the father of
@@ -281,7 +281,7 @@ input layer, hidden layers and an output layer. In a \gls{cnn} the hidden
 layers include layers that calculate convolutions. These convolutional layers
 are followed by different ones, among which the pooling layers, fully connected
 layers and normalization layers stand out. An example of this type of
-architecture can be seen in \vref{fig:lenet-5}.
+architecture can be seen in\ \vref{fig:lenet-5}.
 
 \begin{figure}[ht]
   \centering
@@ -306,7 +306,7 @@ convolution between \(f\) and \(g\) is given by,
 where \(\star\) is the convolution operator.
 
 This is the mathematical definition of the discrete convolution. However, the
-use of convolution in image processing does not work exactly as defined in
+use of convolution in image processing does not work exactly as defined in\
 \vref{eq:math-conv}. In practice, the input images\footnote{At deeper levels in
   a \gls{cnn} we will stop understanding the layers as images and call them
   \emph{feature maps}.} are three-dimensional tensors for the images
@@ -340,8 +340,8 @@ on \emph{padding}\footnote{There are different techniques to define the
   \label{fig:convolution}
 \end{figure}
 
-An example of convolution is shown graphically in \vref{fig:convolution}. As
-can be seen for each of the elements of the output tensor, the computation of
+An example of convolution is shown graphically in\ \vref{fig:convolution}. As
+can be seen for each of the elements of the output tensor, the computation of\
 \vref{eq:convolution} is performed with the filter shown.
 
 \subsubsection{Pooling Layers}\index{Pooling!layer}
@@ -364,7 +364,7 @@ local changes in spatial location.
 There are different types of pooling. The best known are \emph{max} pooling and
 \emph{average} pooling. The first uses the maximum value of each cluster of
 neurons in the previous level. Average pooling, however, uses the average
-value. In \vref{fig:max-pool} we can see a representation of a \(2 \times 2\)
+value. In\ \vref{fig:max-pool} we can see a representation of a \(2 \times 2\)
 max-pool. In this specific case, the mathematical operation to be performed is
 given by the following expression,
 \begin{equation}
@@ -399,7 +399,7 @@ sequences (as for example in the scope of \gls{nlp}). Analogously to the
 of neural network specialized to process sequences of values of the type
 \(\mathbf{x}^1, \ldots \mathbf{x}^{\tau}\) with \(\mathbf{x}^t \in \R^n\).
 
-Looking at \vref{fig:rnn}, we can see the architecture of a \gls{rnn}. The
+Looking at\ \vref{fig:rnn}, we can see the architecture of a \gls{rnn}. The
 input values \(\mathbf{x}^1, \ldots \mathbf{x}^\tau\) are fed into the network
 in an orderly manner. Therefore, to obtain the output vector \(\mathbf{y}^t\),
 the hidden state \(\mathbf{h}^{t - 1}\) and the input \(\mathbf{y}^{t}\) are
@@ -432,7 +432,7 @@ represented by the hidden state \(\mathbf{h}^{t - 1}\), therefore the output
   that they are only \emph{one} multidimensional vector of \(\R^n\).}, but in
 the case of \glspl{rnn} it is not. There are different possibilities, in which
 the length of the inlet and outlet can vary. All the different types of
-architectures that may exist are listed in \vref{fig:rnn-types}.
+architectures that may exist are listed in\ \vref{fig:rnn-types}.
 
 \begin{figure}[ht]
   \centering
@@ -449,7 +449,7 @@ such as: image captioning (\re{one to many}), action prediction (\re{many to
   one}), video captioning (\re{many to many} first option), and video
 classification on frame label (\re{many to many} second option). The extreme
 case of \re{one to one} corresponds precisely to a normal fully connected
-layered neural network such as the one studied in \vref{sec:fnn}.
+layered neural network such as the one studied in\ \vref{sec:fnn}.
 
 \subsubsection{Model: feed forward}\index{Feed forward}
 
@@ -470,7 +470,7 @@ where \(W_{hy}\) is an array of parameters (trainable).
 \subsubsection{Variant \glsentryshort{rnn} Architectures}
 
 The model defined above is the simplest version for a \gls{rnn}. The
-computation of the output values with the \vref{eq:rnn-hidden,eq:rnn-out} can
+computation of the output values with the\ \vref{eq:rnn-hidden,eq:rnn-out} can
 cause problems with the gradients and, therefore, limit the ability of the
 information to travel in time\footnote{These problems are know as
   vanishing/exploding gradient. The problem of \emph{exploding} gradients can
@@ -483,7 +483,7 @@ problems:
   gates that define its behavior. Its name is given by the function they
   perform: \emph{input} gate (\(i\)), \emph{output} gate (\(o\)) and
   \emph{forget} gate (\(f\)). A graphical representation of this type of
-  elements is shown in \vref{fig:lstm}.
+  elements is shown in\ \vref{fig:lstm}.
   \begin{figure}[ht]
     \centering
     \includesvg[width=.6\textwidth]{SVGs/LSTM.svg}
@@ -595,12 +595,12 @@ The problem with this attention function is that it only allows one way that
 words can interact with each other. To solve this, they propose a
 ``Multi-Headed Attention'', where \(h\) attention layers are used running in
 parallel (they use \(h = 8\) in their work) and then concatenate the outputs
-(see \vref{fig:attention}). This attention is computed as follows,
+(see\ \vref{fig:attention}). This attention is computed as follows,
 \begin{equation}
   \text{MultiHead}(Q, K, V) =
   \text{Concat}(\text{head}_1, \ldots, \text{head}_h)W^O,
 \end{equation}
-where \(\text{head}_i = \text{Attention}(QW_i^Q, KW_i^k, VW_i^V)\) (see
+where \(\text{head}_i = \text{Attention}(QW_i^Q, KW_i^k, VW_i^V)\) (see\
 \vref{eq:attention}), and the projections are parameter matrices
 \(W_i^Q \in \R^{d_{\text{model}} \times d_k}, W_i^k \in \R^{d_{\text{model}}
   \times d_k}, W_i^V \in \R^{d_{\text{model}} \times d_v}\) and
@@ -618,7 +618,7 @@ where \(\text{head}_i = \text{Attention}(QW_i^Q, KW_i^k, VW_i^V)\) (see
 \end{figure}
 
 Currently there are different types of architectures based on this idea. The
-original architecture of the Transformer model is shown in
+original architecture of the Transformer model is shown in\
 \vref{fig:transformer}. As you can see, two distinct segments can be
 distinguished:
 \begin{itemize}
@@ -632,7 +632,7 @@ distinguished:
 \end{itemize}
 
 This model uses input/output embeddings to obtain vector representations that
-can be fed into the Transformer. And, at the end, after the last segment (see
+can be fed into the Transformer. And, at the end, after the last segment (see\
 \vref{fig:transformer}), the encoded output is fed into a \gls{fnn} (is a
 linear transformation, no activation functions presented) and into a softmax
 layer to obtain a vector of \emph{probabilities}.
@@ -657,7 +657,7 @@ value of the model parameters \(\theta\). We will denote the loss function by
 \(\loss (\Omega, \theta)\) and we will assume that it is continuously
 differentiable (i.e., \(\mathcal{C}^1\)).\footnote{The regularity assumed for
   this functions is important, since we will be optimizing in the future by
-  computing partial derivatives (as discussed in \vref{sec:optimization}).}
+  computing partial derivatives (as discussed in\ \vref{sec:optimization}).}
 
 It is common (and we will assume it that way) that the loss function is a mean
 of the errors of a particular pair \((x, y) \in \Omega\). This is, there exists
@@ -709,7 +709,7 @@ method iterative consisting of the following,
 \begin{equation}\label{eq:gd}
   \Delta\theta^{(t)} = - \nabla\loss(\theta^{(t)}).
 \end{equation}
-Considering the typical form of the loss function (see \vref{eq:loss}), the
+Considering the typical form of the loss function (see\ \vref{eq:loss}), the
 gradient can be calculated using the linearity of the derivatives,
 \begin{equation}\label{eq:nabla-loss}
   \nabla_{\theta}\,\loss(\Omega, \theta) =
@@ -717,14 +717,14 @@ gradient can be calculated using the linearity of the derivatives,
 \end{equation}
 
 Typically the datasets \(\Omega\) used for training have very cardinal large
-(\(N > 10^4\)), so the computation of \vref{eq:nabla-loss} is too expensive in
+(\(N > 10^4\)), so the computation of\ \vref{eq:nabla-loss} is too expensive in
 terms of computational resources. Therefore, in the In practice, the
 alternative known as \gls{sgd} is used, which consists of estimate the gradient
 at each iteration in a random subset from the dataset.
 
-\gls{sgd} is an implementation of \vref{eq:gd} in which it is estimated
+\gls{sgd} is an implementation of\ \vref{eq:gd} in which it is estimated
 \(\nabla \loss (\theta^{(t)})\) using a randomly chosen subset
-\(B \subset \Omega\). That is, the computation of \vref{eq:nabla-loss} is
+\(B \subset \Omega\). That is, the computation of\ \vref{eq:nabla-loss} is
 replace with the following estimate,
 \begin{equation}\label{eq:nabla-loss-sto}
   \nabla_{\theta}\,\loss(\Omega, \theta) \approx
@@ -763,7 +763,7 @@ out. The best known are the following,
   \end{equation}
   where,
   \begin{equation}
-    v^{(t)} = \rho v^{(t - 1)} + (1 - \rho)(\nabla\loss(\theta^{(t)}))^2,
+    v^{(t)} = \rho v^{(t - 1)} + (1 - \rho){(\nabla\loss(\theta^{(t)}))}^2,
   \end{equation}
   \(\rho\) is the forgetting factor and \(\delta\) is a small real number to
   make sure no divisions are made by \(0\).
@@ -775,7 +775,7 @@ out. The best known are the following,
       m^{(t+1)} = \beta _{1}m^{(t)}
       + (1 - \beta_{1})\nabla\loss(\theta^{(t)}), \\
       v^{(t+1)} = \beta_{2}v^{(t)}
-      + (1 - \beta _{2})(\nabla\loss(\theta^{(t)}))^{2}, \\
+      + (1 - \beta _{2}){(\nabla\loss(\theta^{(t)}))}^{2}, \\
       \hat{m} = \displaystyle\frac{m^{(t+1)}}{1 - \beta_{1}^{t+1}}, \\
       \Delta\theta^{(t)} = \displaystyle\frac{v^{(t+1)}}{1-\beta _{2}^{t+1}}, \\
     \end{cases}
@@ -813,7 +813,7 @@ proposed by \myCite{he15:delvin_deep_rectif}.
 As we have already discussed, the calculation of the gradient of the loss
 function \(\nabla _{\theta}\,\loss (\Omega, \theta)\) will be a fundamental
 element in the training of neural models. To do this, by virtue of what was
-discussed above (see, for example, \vref{eq:nabla-loss}), it will be sufficient
+discussed above (see, for example,\ \vref{eq:nabla-loss}), it will be sufficient
 to compute the gradient with respect to a single element of the dataset, that
 is, \(\nabla _{\theta }\,\ell (x, y, \theta)\). This calculation can be done
 efficiently using the well-known recursive algorithm
@@ -827,7 +827,7 @@ rule.\footnote{In calculus, the chain rule is a formula to compute the
 
 Assuming we are facing a \gls{fnn}, this backpropagation algorithm can be
 exemplified: let it be an individual weight \(w_ {ij} ^ l\), which is involved
-in computing the output \(y_i^l\) according to \vref{eq:fnn-forward}, then the
+in computing the output \(y_i^l\) according to\ \vref{eq:fnn-forward}, then the
 chain rule applied to \(\ell (x, y, \theta)\) yields,
 \begin{equation}
   \frac{\partial \ell}{\partial w_{ij}^l} =
@@ -867,7 +867,7 @@ if it appears not to follow any pattern. But these settings will be
 meaningless, as they won't capture any genuine information on the structure of
 the data and, therefore, will not be able to generalize correctly. We will have
 an astonishingly good fit (even perfect in some cases) for currently available
-data, but with a huge generalization error (see \vref{fig:overfit}).
+data, but with a huge generalization error (see\ \vref{fig:overfit}).
 
 \begin{figure}[ht]
   \centering
@@ -921,7 +921,7 @@ we should stop the training process to avoid overfitting\index{Overfitting}.
 
 In this way, as we iterate through the training process, we can compute the
 loss function both in the dataset of \code{train} and in that of \code{val}
-(see \vref{fig:early}). With the goal in mind of finding models that generalize
+(see\ \vref{fig:early}). With the goal in mind of finding models that generalize
 well, we will stop training the neural network at the moment the error function
 in the validation dataset starts to increase. At the beginning of the training
 process the error function decreases in the two datasets of training and
@@ -939,7 +939,7 @@ stop the training there.
   \label{fig:early}
 \end{figure}
 
-This regularization method has been used in this work (see \vref{cha:models})
+This regularization method has been used in this work (see\ \vref{cha:models})
 for model training.
 
 \subsubsection{Data Augmentation}\index{Data augmentation}

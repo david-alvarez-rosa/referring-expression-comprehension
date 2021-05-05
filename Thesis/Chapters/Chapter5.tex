@@ -4,24 +4,24 @@
 \chapter{Results and Comparison}\label{cha:results}
 
 \epigraphhead[75]{
-  \epigraph{\itshape However beautiful the strategy, \\
+  \epigraph{\itshape{}However beautiful the strategy, \\
     you should occasionally look at the results.}
   {---Winston \textsc{Churchill}}
 }
 
 
-The results obtained with the model described in \vref{cha:models} will now be
+The results obtained with the model described in\ \vref{cha:models} will now be
 studied and compared with other state-of-the-art models. Here the evolution of
 the model in its different iterations will not be shown, but only the last
 version selected will be considered. The evaluation will be carried out both
-quantitatively (see \vref{sec:quantitative-eval}) and qualitatively (see
+quantitatively (see\ \vref{sec:quantitative-eval}) and qualitatively (see\
 \vref{sec:qualitative-eval-res}).
 
 
 
 \section{Quantitative Evaluation}\label{sec:quantitative-eval}
 
-Regarding the quantitative evaluation of the model (as already discussed in
+Regarding the quantitative evaluation of the model (as already discussed in\
 \vref{sec:quantitative-measures}) there are different metrics to use. Among
 them, three stand out: the mean and overall \gls{iou}, and precision at
 threshold. In the case of the model created in this work, we can evaluate it
@@ -35,8 +35,8 @@ overlaps with the ground truth region by at least 50\% is computed.
 
 In this section we will show comparative tables of the quantitative evaluation
 of the model of this work and of other current models. For this, a study of the
-overall \gls{iou} (see \vref{sec:overall-iou}) and a study of the accuracy or
-Prec@0.5 (see \vref{sec:accuracy}) will be carried out. Unfortunately, it was
+overall \gls{iou} (see\ \vref{sec:overall-iou}) and a study of the accuracy or
+Prec@0.5 (see\ \vref{sec:accuracy}) will be carried out. Unfortunately, it was
 not possible to present the same number of models in both two sections, due to
 the absence of these evaluation metrics in the original publications of the
 models.
@@ -45,7 +45,7 @@ models.
 \subsection{Overall \glsentrylong{iou}}\label{sec:overall-iou}
 
 Regarding the overall \gls{iou}, data have been collected from multiple models,
-which are shown in a summarized way in \vref{tab:overall-iou}. The evaluation
+which are shown in a summarized way in\ \vref{tab:overall-iou}. The evaluation
 has been carried out on the RefCOCO and RefCOCO+ datasets with the splits
 \code{val/testA/testB}. As previously mentioned, the RefCOCO+ dataset presents
 \glspl{re} of greater complexity, therefore it presents lower overall \gls{iou}
@@ -84,7 +84,7 @@ values than in the RefCOCO dataset for all models.
   {\small\textbf{Note}. Models arranged in alphabetical order.}
 \end{table}
 
-Several of the evaluated models have been previously described in
+Several of the evaluated models have been previously described in\
 \vref{sec:sota}. It should be noted that the differences between the overall
 metric \gls{iou} are not too large comparatively by model. You can see an
 approximate range of 50--60 for the RefCOCO dataset and 40--50 for the RefCOCO+
@@ -107,8 +107,8 @@ structure. In the words of its authors,
   further leverage a module to integrate the reasoned multimodal features from
   different levels with the guidance of textual information. In this way,
   features from multilevels could communicate with each other and be refined
-  based on the textual context. \tcblower
-  \quotecite{berners-lee21:introd_web_acces}
+  based on the textual context.
+  \tcblower\quotecite{berners-lee21:introd_web_acces}
 \end{quoteBox}
 
 The model \gls{cmpc}, despite being superior in terms of this metric, also
@@ -127,13 +127,13 @@ because this model is also based on a joint embedding of language and image.
 \subsection{Accuracy or Precision at 0.5}\label{sec:accuracy}
 
 Regarding the accuracy or Prec@0.5, a comparative study has also been made,
-which is shown in \vref{tab:accuracy}. It should be remembered that Prec@0.5
+which is shown in\ \vref{tab:accuracy}. It should be remembered that Prec@0.5
 consists of computing the number of percentage of samples where the predicted
 segmentation overlaps with the ground truth region by at least 50
 \%. Unfortunately the comparison of models in this section is not easy due to
 the significant lack of data for some models. For example, the state-of-the-art
 model in the previous section (\gls{cmpc}) only presents accuracy data for the
-split of \code{val} in RefCOCO. Likewise, the state-of-the-art model in
+split of \code{val} in RefCOCO\@. Likewise, the state-of-the-art model in
 RefCOCO+ (shown in bold) does not present data for the RefCOCO dataset, which
 makes comparison considerably difficult.
 
@@ -195,8 +195,8 @@ field of multimodal learning in general and this is what its authors express,
 \begin{quoteBox}
   Our work represents a shift away from learning groundings between vision and
   language only as part of task training and towards treating visual grounding
-  as a pretrainable and transferable capability. \tcblower
-  \quotecite{lu19:vilber}
+  as a pretrainable and transferable capability.
+  \tcblower\quotecite{lu19:vilber}
 \end{quoteBox}
 
 TODO. Comment here how RefVOS relates to the rest.
@@ -219,15 +219,15 @@ consistent and accurate results. The reader can go to
 \fhref{https://recomprehension.com}{página web} of this project to test for
 himself the operation of the model. Here we will show several examples where
 different images have been used and \gls{re} very varied. More specifically,
-successful results will be shown in \vref{sec:succesful} and also, a study of
+successful results will be shown in\ \vref{sec:succesful} and also, a study of
 examples will be made in which the model fails---or does not achieve a
-sufficiently precise segmentation---in \vref{sec:failed}.
+sufficiently precise segmentation---in\ \vref{sec:failed}.
 
 
 \subsection{Study of Successful Samples}\label{sec:succesful}
 
 The model presented in this work behaves successfully before a great variety of
-images and \glspl{re}. Various examples have been collected in
+images and \glspl{re}. Various examples have been collected in\
 \vref{fig:success}, where the result of the segmentation on the image is shown
 in blue and \gls{re} used in the upper part of each figure. We can see, for
 example, in the first row (\vref{fig:baseball-1,fig:baseball-2,fig:baseball-3})
@@ -317,7 +317,7 @@ positioning (\re{in the left}).
 In the second row of this same figure
 (\vref{fig:donut-1,fig:donut-2,fig:donut-3}) you can see in this case a tray
 with donuts and in which \glspl{re} considered more complex have been used,
-such as \re{with topping}. Also, in \vref{fig:donut-2} you can see an example
+such as \re{with topping}. Also, in\ \vref{fig:donut-2} you can see an example
 of multiple selection of objects, solved successfully.
 
 \begin{remarkBox}
@@ -334,21 +334,21 @@ correctly segmented images
 they have been used as a sample \gls{re} towards different objects (e.g.,
 \re{bike}, \re{train}). An example of highly complex segmentation has also been
 shown (\re{person with watch}), in which the model works correctly despite not
-being too precise. In the case of figure \vref{fig:bike} it is worth
+being too precise. In the case of figure\ \vref{fig:bike} it is worth
 highlighting as a positive point a very precise segmentation given the
 geometric complexity of the object. The segmentation of the object \re{train}
-in the \vref{fig:train} as a whole is also satisfactory (the segmentation in
+in the\ \vref{fig:train} as a whole is also satisfactory (the segmentation in
 this case is not trivial due to the length of the object and the small size
 within the image of the final part of it).
 
 Finally, within this qualitative evaluation section, we have wanted to add
-examples of different \glspl{re} applied to the same image in
+examples of different \glspl{re} applied to the same image in\
 \vref{fig:cats}. Here we have started from the original image
 (\vref{fig:cats-orig}) and the model has been executed with different
 \glspl{re}, starting from the simplest to other more complex ones and in which
 extra reference elements have been added. As a novel contribution in this
 figure is the use of a \gls{re} in which differentiates between instances using
-a comparison: \re{blackest cat}, in \vref{fig:cat-blackest} and of a \gls{re}
+a comparison: \re{blackest cat}, in\ \vref{fig:cat-blackest} and of a \gls{re}
 taking into account the position of the referred object (\re{with one leg
   extended}).
 
@@ -411,7 +411,7 @@ taking into account the position of the referred object (\re{with one leg
 \end{figure}
 
 A subjective \gls{re} (in which the referred object is not properly selected)
-has also been added, as a curiosity (see \vref{fig:cat-prettiest}). In this
+has also been added, as a curiosity (see\ \vref{fig:cat-prettiest}). In this
 case, it is the same model that is using the information extracted from the
 dataset to determine something as complex and subjective as aesthetics or
 beauty. Of course, this example is also outside the scope of this paper.
@@ -424,7 +424,7 @@ section, we might think that the model is perfect. Now, unfortunately, this is
 not the case. Different problems appear depending on the image and the \gls{re}
 used, either by completely failing, or by performing an insufficiently precise
 segmentation or because \gls{re} is wrongly specified. Different examples of
-failures with this model are presented in \vref{fig:failure}.
+failures with this model are presented in\ \vref{fig:failure}.
 
 \begin{figure}[p]
   \centering
@@ -493,23 +493,23 @@ sufficiently precise segmentation to be considered a successful sample. In
 other cases, furthermore, the location of the object is not even carried out
 correctly (\vref{fig:statue-1,fig:statue-2}), where it is quite possibly due to
 the ``ignorance'' of the specialized vocabulary model (as is the case of
-\re{statue}). This is also the case with object \re{hair dryer} in
+\re{statue}). This is also the case with object \re{hair dryer} in\
 \vref{fig:dryer-1}.\footnote{The claim that the model ``ignores'' this
   vocabulary is conjecture by the author. Another feasible possibility in this
   case is that, due to the reduced size of the referred object, the
   segmentation is not correct.} Another example of incorrect segmentation is
-the one shown in \vref{fig:banana}, but here the error is due to a bad \gls{re}
+the one shown in\ \vref{fig:banana}, but here the error is due to a bad \gls{re}
 wrong specified (there are multiple instances of the object being referred to).
 
 Sometimes also, correct segmentations happen but ``by chance''. This is the
-case of \vref{fig:dryer-1}: at first we can believe that the segmentation is
+case of\ \vref{fig:dryer-1}: at first we can believe that the segmentation is
 correct and that the model is working correctly, but it really is not. Why? The
-model is not able to understand the vocabulary of \re{hair dryer} (see
+model is not able to understand the vocabulary of \re{hair dryer} (see\
 \vref{fig:dryer-2}), so it is not really reasoning. She is simply using the
 word \re{woman} that she understands well and is making a conjecture as to
 which of the two women the \gls{re} is referring to.
 
-Finally, in \vref{fig:referee-1,fig:referee-2}, an example is shown in which
+Finally, in\ \vref{fig:referee-1,fig:referee-2}, an example is shown in which
 \gls{re} at first is not enough (possibly because the model is not capable of
 understanding the specialized word of \re{referee}), but when presenting a
 \gls{re} more specifically yes that the segmentation is carried out

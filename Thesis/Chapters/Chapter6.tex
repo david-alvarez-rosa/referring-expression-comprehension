@@ -4,7 +4,7 @@
 \chapter{Visualization}\label{cha:web}
 
 \epigraphhead[75]{
-  \epigraph{\itshape By visualizing information, we turn it into a landscape
+  \epigraph{\itshape{}By visualizing information, we turn it into a landscape
     that you can explore with your eyes.}
   {---David \textsc{McCandless}}
 }
@@ -20,9 +20,9 @@ browser.
 On this website you can find all the information related to this project, as
 well as tools to interact with the created models that solve the task of
 \gls{rec}. All the functionality present for the user and its creation will be
-discussed in \vref{sec:frontend}. Now, as is well condo in the field of web
+discussed in\ \vref{sec:frontend}. Now, as is well condo in the field of web
 application design, all \gls{ui} needs code in the back end that makes it
-possible (see \vref{sec:backend} for a detailed explanation).
+possible (see\ \vref{sec:backend} for a detailed explanation).
 
 
 
@@ -31,7 +31,7 @@ possible (see \vref{sec:backend} for a detailed explanation).
 
 \gls{ui} has been created with the idea of being as simple as possible. In this
 way, any type of non-specialized user will be able to carry out a qualitative
-evaluation of the model used. See \vref{fig:web} for a screenshot of the web
+evaluation of the model used. See\ \vref{fig:web} for a screenshot of the web
 interface.
 
 \begin{figure}[ht]
@@ -72,7 +72,7 @@ interaction with the model. These are the following,
   \item \textbf{Voice.} You can also enter \gls{re} more comfortably using your
   voice. To do this, it is only necessary to press the corresponding button on
   the main page so that the window corresponding to the voice input of commands
-  opens (see \vref{fig:voice}). Here we will have to give permissions to the
+  opens (see\ \vref{fig:voice}). Here we will have to give permissions to the
   web to access the microphone and we will be able to record the \gls{re} that
   we want.
   \begin{figure}[ht]
@@ -104,8 +104,8 @@ a computer, tablet or mobile monitor. Accessibility is concerned with ensuring
 that the content is easily usable, navigable by people with certain
 disabilities (e.g., vision problems).
 
-We can see how the web created adapts to different widths by comparing
-\vref{fig:web} with \vref{fig:responsive}. Among other aspects, the gallery
+We can see how the web created adapts to different widths by comparing\
+\vref{fig:web} with\ \vref{fig:responsive}. Among other aspects, the gallery
 adapts the number of columns according to the device and the navigation bar
 expands or collapses also depending on the width of the screen.
 
@@ -157,7 +157,7 @@ To carry out the task of \gls{rec} on an image, it is only necessary to carry
 out these three steps,
 \begin{enumerate}
   \item \textbf{Choose image.} As we have already discussed at the beginning of
-  \vref{sec:frontend}, three ways are available: select from the gallery, add
+ \ \vref{sec:frontend}, three ways are available: select from the gallery, add
   the web address or choose it from the local storage of the computer.
   \item \textbf{Enter \gls{re}.} Likewise, for the introduction of \gls{re}
   there are two methods: by using the keyboard and by using voice.
@@ -200,16 +200,16 @@ backend. These are the following,
   \item \textbf{\gls{rec}.} Internally called \code{api/comprehend.php}, which
   allows to perform the task of \gls{rec} by calling the appropriate Python
   files internally on the server (executing the segmentation model on user
-  input, see \vref{sec:rec-model}.) It takes into account the different ways in
+  input, see\ \vref{sec:rec-model}.) It takes into account the different ways in
   which the image and \gls{re} have been added.
   \item \textbf{\gls{stt}.} Internally called \code{api/stt.php}, which allows
   to perform the task of converting between speech and text. Run the Silero
-  model (see \vref{sec:speech}) to convert the audio recorded with the
+  model (see\ \vref{sec:speech}) to convert the audio recorded with the
   microphone by the user to text.
 \end{itemize}
 
 Here we will see the structure of the back end. An explanatory graph is found
-in \vref{fig:server}.
+in\ \vref{fig:server}.
 
 \begin{figure}[p]
   \centering

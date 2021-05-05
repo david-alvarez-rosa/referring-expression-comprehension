@@ -5,18 +5,18 @@
 \label{cha:rec}\index{Referring expresion!comprehension}
 
 \epigraphhead[75]{
-  \epigraph{\itshape We may hope that machines will eventually compete with men
-in all purely intellectual fields.}
+  \epigraph{\itshape{}We may hope that machines will eventually compete with
+    men in all purely intellectual fields.}
   {---Alan \textsc{Turing}}}
 
 
 \lettrine{T}{he task of} \gls{rec} consists in, given a linguistic phrase
 (\gls{re}) and an image, generate binary masks for the object which the phrase
 refers to. In this chapter we will specifically formulate the problem to be
-solved (see \vref{sec:formulation}), we will analyze the existing datasets and
-the evaluation measures (see \vref{sec:rec-trainning}) and finally, we will
+solved (see\ \vref{sec:formulation}), we will analyze the existing datasets and
+the evaluation measures (see\ \vref{sec:rec-trainning}) and finally, we will
 make an exhaustive study of state-of-the-art works in this area by reviewing
-the more recent literature (see \vref{sec:sota}).
+the more recent literature (see\ \vref{sec:sota}).
 
 
 
@@ -37,22 +37,22 @@ And, the output of this problem will be the generation of a binary segmentation
 mask with the referred object or a bounding box\index{Bounding box} (in this
 thesis functionality will be added to generate both).
 
-In order to understand it, multiple examples of this problem are shown in
+In order to understand it, multiple examples of this problem are shown in\
 \vref{fig:rec-examples}. They have tried to show all the possibilities, from
 the simplest to the most complex.
 \begin{itemize}
-  \item \textbf{Multiple objects.} In \vref{fig:rec-man} an example is shown
+  \item \textbf{Multiple objects.} In\ \vref{fig:rec-man} an example is shown
   with two people who differ from each other by a differentiating element
-  (\re{cap}). In \vref{fig:rec-laptop} the different objects are differentiated
-  by their relative position (\re{right}). In \vref{fig:rec-army} they are
+  (\re{cap}). In\ \vref{fig:rec-laptop} the different objects are differentiated
+  by their relative position (\re{right}). In\ \vref{fig:rec-army} they are
   differentiated by one quality (\re{white suit}).
   \item \textbf{Multiple categories.} As can be seen in
-  \vref{fig:rec-umbrella,fig:rec-parent,fig:rec-girl}, it can refer to both
+ \ \vref{fig:rec-umbrella,fig:rec-parent,fig:rec-girl}, it can refer to both
   objects and people within the same image.
-  \item \textbf{Specialized vocabulary.} In \vref{fig:rec-elephant} we refer to
-  a specific type of animal (\re{elephant}) and in \vref{fig:rec-couch} the
+  \item \textbf{Specialized vocabulary.} In\ \vref{fig:rec-elephant} we refer to
+  a specific type of animal (\re{elephant}) and in\ \vref{fig:rec-couch} the
   expression \re{couch} is used.
-  \item \textbf{Secondary objects.} In \vref{fig:rec-car} we refer to a small
+  \item \textbf{Secondary objects.} In\ \vref{fig:rec-car} we refer to a small
   secondary object in the image (\re{car}), which is part of the same category
   (car) as the main object (bus).
 \end{itemize}
@@ -121,8 +121,8 @@ the simplest to the most complex.
 
 There are two fundamental things in the process of training a model: a dataset
 and a loss function. For the specific task of this work (\gls{rec}), we will
-present the most used datasets (see \vref{sec:datasets}) and the loss functions
-(see \vref{sec:loss-functions}).
+present the most used datasets (see\ \vref{sec:datasets}) and the loss functions
+(see\ \vref{sec:loss-functions}).
 
 
 \subsection{Datasets}\label{sec:datasets}
@@ -171,7 +171,7 @@ The main difference between RefCOCO and RefCOCO+ is that in RefCOCO+ the
 \emph{location} information was disallowed. In total, RefCOCO has \num{142209}
 \gls{re} for a total of \num{50000} objects in \num{19994} images. RefCOCO+ has
 a similar number of \gls{re} objects and images. An example of each of these
-datasets is shown in \vref{fig:refcoco}.
+datasets is shown in\ \vref{fig:refcoco}.
 
 \begin{figure}[ht]
   \centering
@@ -279,7 +279,7 @@ useful for training various neural models. TODO. rewrite this section.
   is defined as follows,
   \begin{equation}
     \text{\gls*{fl}}(p, \hat{p}) =
-    -(\alpha (1 - \hat{p})^\gamma p\log\hat{p} +
+    -(\alpha {(1 - \hat{p})}^\gamma p\log\hat{p} +
     (1 - \alpha)p^\gamma (1 - p)\log(1 - \hat{p})).
   \end{equation}
   When \(\gamma = 0\) we obtain \gls{bce}.
@@ -294,13 +294,13 @@ useful for training various neural models. TODO. rewrite this section.
   where,
   \begin{equation}
     w(p) = \beta +
-    w_0 \cdot \exp\left(-\frac{(d_1(p) + d_2(p))^2}{2\sigma^2}\right).
+    w_0 \cdot \exp\left(-\frac{{(d_1(p) + d_2(p))}^2}{2\sigma^2}\right).
   \end{equation}
   Here \(d_1(p)\) denotes the distance to the edge of the nearest cell and
   \(d_2(p)\) the distance to the edge of the second nearest cell. The rest are
   hyperparameters of the loss function.\footnote{The authors use \(w_0 = 10\)
-    and \(\sigma \approx 5\) in their experiments (see Section~3 from
-    \cite{ronneberger15:u}).}
+    and \(\sigma \approx 5\) in their experiments (see Section~3
+    from~\cite{ronneberger15:u}).}
 \end{itemize}
 
 \subsubsection{Overlap Measures}\index{Overlap measures}
@@ -315,7 +315,7 @@ index\index{Jaccard index} or coefficient \gls{iou},
 \end{equation}
 is typically used to measure the accuracy of a model, but it cannot be used as
 a loss function as it is not a differentiable mapping. Yes, it will be used for
-the evaluation of the model in \vref{sec:quantitative-eval}.
+the evaluation of the model in\ \vref{sec:quantitative-eval}.
 
 \begin{itemize}
   \item \textbf{\gls{dil}.} It is based on \gls{dc}, a coefficient similar to
@@ -344,7 +344,7 @@ the evaluation of the model in \vref{sec:quantitative-eval}.
 
 \subsubsection{\glsentrylong{giou} Loss}
 
-See first \vref{sec:quantitative-measures} for a detailed explanation of the
+See first\ \vref{sec:quantitative-measures} for a detailed explanation of the
 Jaccard index\index{Jaccard index} or \gls{iou}, which is a quantitative
 measure widely used as an evaluation technique.
 
@@ -370,7 +370,7 @@ suitable for use in an optimization process.
   \label{fig:giou}
 \end{figure}
 
-This loss function is summarized in \vref{fig:giou}. It is a generalization
+This loss function is summarized in\ \vref{fig:giou}. It is a generalization
 that preserves the relevant properties of \gls{iou}, but that corrects the
 problems related to its differentiability.
 
@@ -393,9 +393,9 @@ be able to decide if the results obtained with the model are good enough and
 also to be able to make comparisons.
 
 The most useful techniques are usually quantitative metrics, which will be
-discussed in \vref{sec:quantitative-measures}. Furthermore, in the specific
+discussed in\ \vref{sec:quantitative-measures}. Furthermore, in the specific
 case of \gls{rec}, due to the use of images, it will also be possible to carry
-out a visual / qualitative evaluation (see \vref{sec:qualitative-eval}).
+out a visual / qualitative evaluation (see\ \vref{sec:qualitative-eval}).
 
 
 \subsection{Quantitative Measures}\label{sec:quantitative-measures}
@@ -405,7 +405,7 @@ metrics. The different evaluation measures typically used to address this
 problem are related to the computation of \gls{iou} or Jaccard
 index\index{Jaccard index}. This index is based on the concepts of intersection
 and union between the predicted segmentation (which is a \emph{binary} mask)
-and the ground truth (diagrams with these concepts are shown in
+and the ground truth (diagrams with these concepts are shown in\
 \vref{fig:sets}).
 
 \begin{figure}[ht]
@@ -524,8 +524,8 @@ object, number of existing objects, relative size of the object, etc.
 \section{Related Work}\label{sec:sota}
 
 The current state-of-the-art methods for \gls{rec} can be divided into three
-main classes: joint embedding (see \vref{sec:joint}), modular models (see
-\vref{sec:modular}) and graph convolution based models (see \vref{sec:graph}).
+main classes: joint embedding (see\ \vref{sec:joint}), modular models (see\
+\vref{sec:modular}) and graph convolution based models (see\ \vref{sec:graph}).
 
 
 \subsection{Multimodal Embedding}%
@@ -534,7 +534,7 @@ main classes: joint embedding (see \vref{sec:joint}), modular models (see
 Multimodal embedding methods are very typical in any of the multimodal learning
 tasks. What is sought in them is to find a multidimensional space where
 encodings of image and language can ``coexist'' in common. This idea is
-represented graphically in \vref{fig:joint}. This multidimensional space will
+represented graphically in\ \vref{fig:joint}. This multidimensional space will
 typically be \(\R^n\), which is a normed space. One of the desirable
 characteristics would be that the encodings of images and language similar to
 each other were ``close'' in this space (in terms of norm).
@@ -566,7 +566,7 @@ where a neural network of type \gls{cnn} is also used for the encoding of the
 image, but the transformer is used as a language encoder. Then to achieve
 multimodal embedding, the encoded linguistic phrase is converted into a
 256-dimensional vector and multiplied element-wise with the visual
-features. This model will be studied in depth in \vref{cha:models}.
+features. This model will be studied in depth in\ \vref{cha:models}.
 
 
 \subsection{Modular Models}\label{sec:modular}\index{Modular model}
@@ -586,7 +586,7 @@ reasoning.
 \end{figure}
 
 An example of these modular models is the one presented by \myCite{yu18:mattn},
-which is graphically represented in \vref{fig:mattnet}. In this case there are
+which is graphically represented in\ \vref{fig:mattnet}. In this case there are
 three differentiated modules: the \emph{subject} module, the \emph{location}
 module and the \emph{relationship} module. Each of them computes different
 scores, which are then used to calculate an overall score.
@@ -611,7 +611,7 @@ not only because of its intrinsic properties, but also because of its
 relationship with the objects that surround it. The mathematical tool that best
 represents this phenomenon is that of a graph: the nodes represent different
 objects and the different edges are the existing relationship between objects
-(see \vref{fig:graph}).
+(see\ \vref{fig:graph}).
 
 \begin{figure}[ht]
   \centering
@@ -644,7 +644,7 @@ the graph. But from here on they use a module they call ``analyzer'' and that
 is capable of exploring the linguistic structure of \gls{re} and dividing it
 into a sequence of constituent expressions. In this way \gls{dga} is able to
 carry out a step-by-step reasoning process on these constituent
-expressions. Finally, as is common in these models (see \vref{fig:graph}), a
+expressions. Finally, as is common in these models (see\ \vref{fig:graph}), a
 matching score between objects and expression is computed.
 
 \myCite{yang19:cross_modal_relat_infer_groun_refer_expres} also create a
