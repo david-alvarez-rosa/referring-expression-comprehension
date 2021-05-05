@@ -10,12 +10,12 @@
 }
 
 
-\lettrine{A}{quí mostraremos los resultados} del modelo final seleccionado (en
-nuestro caso RefVOS). \textbf{No se mostrarán resultados entre diferentes
-  iteracciones del modelo}. Lo dividiremos en varias partes, la parte
-cualitativa y la cuantitativa. Compararemos con modelos SOTA siempre y con
-diferentes datasets. La información la puedo sacar del paper de REfvOS y del de
-RelatedWorks.
+Los resultados obtenidos con el modelo descrito en el \vref{cha:models} serán
+ahora estudiados y comparados con otros state-of-the-art models. Aquí no se
+mostrará la evolución del modelo en sus diferentes iteracciones, sino que se
+considerará únicamente la última versión seleccionada. La evaluación se
+realizará tanto de manera cuantitativa (see \vref{sec:quantitative-eval}), como
+de manera cualitativa (see \vref{sec:qualitative-eval-res}).
 
 
 
@@ -31,13 +31,16 @@ poder compararlo con otros modelos state-of-the-art existentes actualmente. La
 literatura consultada en este trabajo típicamente usa dos métricas
 fundamentales: overall \gls{iou} y precisión at 0.5. La Prec@0.5 es usada como
 una medida de accuracy, i.e., se computa el número de porcentaje de samples
-donde la segmentación predecida overlaps with the ground trhut region by at
+donde la segmentación predecida overlaps with the ground truth region by at
 least 50\%.
 
 En este apartado mostraremos tablas comparativas de la evaluación cuantitativa
 del modelo de este trabajo y de otros modelos actuales. Para ello se hará un
 estudio del overall \gls{iou} (see \vref{sec:overall-iou}) y un estudio del
-accuracy o Prec@0.5 (see \vref{sec:accuracy}).
+accuracy o Prec@0.5 (see \vref{sec:accuracy}). Desgraciadamente, no se han
+podido presentar el mismo número de modelos en ambas dos secciones, debido a
+la ausencia de estas métricas de evaluaciones en las publicaciones originales
+de los modelos.
 
 
 \subsection{Overall \glsentrylong{iou}}\label{sec:overall-iou}
@@ -82,53 +85,59 @@ modelos.
   {\small\textbf{Note}. Models arranged in alphabetical order.}
 \end{table}
 
-Podemos destacar como modelos interesantes en este estudio el: TODO. hablar
-aquí de diferentes modelos y qué son y cómo lo hacen.
+Varios de los modelos evaluados han sido descritos previamente en
+\vref{sec:sota}. Cabe destacar que las diferencias entre la métrica de overall
+\gls{iou} no son demasiado grandes comparativamente por modelo. Se puede
+observar un rango aproximado entre 50--60 para el dataset RefCOCO y de 40--50
+para el dataset RefCOCO+ (que presenta expresiones más complejas). El modelo
+presentado en este trabajo supera a parte de los modelos en el dataset RefCOCO
+y se queda cerca del estado del arte. Sin embargo, en el dataset RefCOCO+
+presenta una resultados no tan prometedores.
 
 El ganador absoluto respecto a esta métrica es el modelo creado por
 \myCite{huang20:refer_image_segmen_cross_modal_progr_compr} y llamado
 \gls{cmpc}. Presenta los valores más altos de overall \gls{iou} en todas las
-categorías. Este modelo está basado en... TODO.
+categorías. Este complejo método de razonamiento se basa en una estructura
+multi-paso. En palabras de sus autores,
+
+\begin{quoteBox}
+  The \gls{cmpc} module first employs entity and attribute words to perceive
+  all the related entities that might be considered by the expression. Then,
+  the relational words are adopted to highlight the correct entity as well as
+  suppress other irrelevant ones by multimodal graph reasoning. In addition, we
+  further leverage a module to integrate the reasoned multimodal features from
+  different levels with the guidance of textual information. In this way,
+  features from multilevels could communicate with each other and be refined
+  based on the textual context.
+  \tcblower\quotecite{berners-lee21:introd_web_acces}
+\end{quoteBox}
+
+El modelo \gls{cmpc}, a pesar de ser superior en términos de esta métrica
+también presenta una complejidad considerablemente superior al modelo
+presentado en este trabajo. Similarmente, el modelo \gls{brinet}, creado por
+\myCite{hu20:bi_direc_relat_infer_networ}, es superior en términos de
+performance, pero a cambio de presentar una complejidad mayor. Precisamente, el
+modelo presentado en esta tesis consiste en una red más sencilla and fully
+end-to-end, y que presenta resultados competitivos con el estado del arte
+actual.
+
+También, cabe destacar que el modelo propuesto outperforms the \gls{mmi} model
+created by \myCite{mao16:gener}. Es interasante esta comparativa concreta
+porque este modelo también se basa en un joint embedding de lenguaje e imagen.
 
 
-Aquí TODO tiene que haber mucho más texto para que se pueda llenar toda esta
-página. Debería haber más TODO más texto para que se complete en un principio
-hasta el finla. Aquí TODO tiene que haber mucho más texto para que se pueda
-llenar toda esta página. Debería haber más TODO más texto para que se complete
-en un principio hasta el finla.  Aquí TODO tiene que haber mucho más texto para
-que se pueda llenar toda esta página. Debería haber más TODO más texto para que
-se complete en un principio hasta el finla. Aquí TODO tiene que haber mucho más
-texto para que se pueda llenar toda esta página.
+\subsection{Accuracy or Precision at 0.5}\label{sec:accuracy}
 
-Aquí TODO tiene que haber mucho más texto para que se pueda llenar toda esta
-página. Debería haber más TODO más texto para que se complete en un principio
-hasta el finla. Aquí TODO tiene que haber mucho más texto para que se pueda
-llenar toda esta página. Debería haber más TODO más texto para que se complete
-en un principio hasta el finla.
-
-
-\subsection{Accuracy or Prec@0.5}\label{sec:accuracy}
-
-TODO.
-Ahora lo que falta añadir es la tabla de Prec@0.5 que está en el paper de
-related works. Añadir los modelos más representativos, y hacer una estimación
-para la precisión.
-
-- Añadir aquí también algún comentario relacionado con lo de que la precisión
-se puede hacer en diferntes escalas.
-
-
-
-
-
-
-
-
-
-
-
-
-
+Respecto al accuracy o Prec@0.5 también se ha hecho un estudio comparativo que
+se muestra en la \vref{tab:accuracy}. Cabe recordar que Prec@0.5 consiste en
+computar el número de porcentaje de samples donde la segmentación predecida
+overlaps with the ground truth region by at least 50\%. Desgraciadamente la
+comparación de modelos en este apartado no es sencilla debido a la
+significativa falta de datos para algunos modelos. Por ejemplo, el modelo
+state-of-the-art del apartado anterior (\gls{cmpc}) solo presenta datos de
+accuracy para el split de \code{val} en RefCOCO. Así mismo, el state-of-the-art
+model en RefCOCO+ (mostrado en negrita), no presenta datos para el dataset
+RefCOCO, lo que dificulta considerablemente la comparación.
 
 \begin{table}[p]
   \centering
@@ -144,53 +153,381 @@ se puede hacer en diferntes escalas.
     \toprule
     & & \multicolumn{3}{c}{\textbf{RefCOCO}} & \multicolumn{3}{c}{\textbf{RefCOCO+}} \\
     \cmidrule(lr){3-5}\cmidrule(lr){6-8}
-    \textbf{Method}  & \textbf{Paper}                                               & \code{val} & \code{testA} & \code{testB} & \code{val} & \code{testA} & \code{testB} \\
+    \textbf{Method}  & \textbf{Paper}                                               & \code{val}     & \code{testA}   & \code{testB}   & \code{val}     & \code{testA}   & \code{testB}   \\
     \midrule
-    \acs{brinet}     & \cite{hu20:bi_direc_relat_infer_networ}                      & 71.83      & 75.09        & 68.38        & -          & -            & -            \\
-    \acs{cac}        & \cite{chen19:refer_expres_objec_segmen_caption_aware_consis} & 77.08      & 80.34        & 70.62        & -          & -            & -            \\
-    \acs{cmpc}       & \cite{huang20:refer_image_segmen_cross_modal_progr_compr}    & 71.27      & -            & -            & -          & -            & -            \\
-    \acs{cmsa}       & \cite{ye21:refer_segmen_images_videos_cross}                 & 69.24      & 73.87        & 64.55        & 45.48      & 51.41        & 37.57        \\
-    \acs{mattnet}    & \cite{yu18:mattn}                                            & 76.65      & 81.14        & 69.99        & 65.33      & 71.62        & 56.02        \\
-    \acs{refvos}     & \cite{bellver20:refvos}                                      &            &              &              &            &              &              \\
-    \acs{rmi}        & \cite{liu17:recur_multim_inter_refer_image_segmen}           & 42.99      & 42.99        & 44.99        & 20.52      & 21.22        & 20.78        \\
-    \acs{rrn}        & \cite{li18:refer_image_segmen_recur_refin_networ}            & 61.66      & 64.13        & 59.35        & 37.32      & 40.80        & 32.42        \\
-    \acs{step}       & \cite{chen19:see_throug_text_group_refer_image_segmen}       & 70.15      & -            & -            & -          & -            & -            \\
-    \acs{mmi}        & \cite{mao16:gener}                                           & -          & 64.90        & 54.51        & -          & 54.03        & 42.81        \\
-    \acs{cmatterase} & \cite{liu19:improv_refer_expres_groun_cross_atten_erasin}    & 78.35      & 83.14        & 71.32        & 68.09      & 73.65        & 58.03        \\
-    \acs{lgran}      & \cite{wang19:neigh}                                          & -          & 76.6         & 66.4         & -          & 64.00        & 53.40        \\
-    \acs{faoa}       & \cite{yang19:fast_accur_one_stage_approac_visual_groun}      & 71.15      & 74.88        & 66.32        & 56.88      & 61.89        & 49.46        \\
-    \acs{nmtree}     & \cite{liu19:learn_assem_neural_modul_tree}                   & 74.71      & 79.71        & 68.93        & 65.06      & 70.24        & 56.15        \\
-    \acs{vilbert}    & \cite{lu19:vilber}                                           & -          & -            & -            & 72.34      & 78.52        & 62.61        \\
+    \acs{brinet}     & \cite{hu20:bi_direc_relat_infer_networ}                      & 71.83          & 75.09          & 68.38          & -              & -              & -              \\
+    \acs{cac}        & \cite{chen19:refer_expres_objec_segmen_caption_aware_consis} & 77.08          & 80.34          & 70.62          & -              & -              & -              \\
+    \acs{cmatterase} & \cite{liu19:improv_refer_expres_groun_cross_atten_erasin}    & \textbf{78.35} & \textbf{83.14} & \textbf{71.32} & 68.09          & 73.65          & 58.03          \\
+    \acs{cmpc}       & \cite{huang20:refer_image_segmen_cross_modal_progr_compr}    & 71.27          & -              & -              & -              & -              & -              \\
+    \acs{cmsa}       & \cite{ye21:refer_segmen_images_videos_cross}                 & 69.24          & 73.87          & 64.55          & 45.48          & 51.41          & 37.57          \\
+    \acs{faoa}       & \cite{yang19:fast_accur_one_stage_approac_visual_groun}      & 71.15          & 74.88          & 66.32          & 56.88          & 61.89          & 49.46          \\
+    \acs{lgran}      & \cite{wang19:neigh}                                          & -              & 76.6           & 66.4           & -              & 64.00          & 53.40          \\
+    \acs{mattnet}    & \cite{yu18:mattn}                                            & 76.65          & 81.14          & 69.99          & 65.33          & 71.62          & 56.02          \\
+    \acs{mmi}        & \cite{mao16:gener}                                           & -              & 64.90          & 54.51          & -              & 54.03          & 42.81          \\
+    \acs{nmtree}     & \cite{liu19:learn_assem_neural_modul_tree}                   & 74.71          & 79.71          & 68.93          & 65.06          & 70.24          & 56.15          \\
+    \acs{refvos}     & \cite{bellver20:refvos}                                      &                &                &                &                &                &                \\
+    \acs{rmi}        & \cite{liu17:recur_multim_inter_refer_image_segmen}           & 42.99          & 42.99          & 44.99          & 20.52          & 21.22          & 20.78          \\
+    \acs{rrn}        & \cite{li18:refer_image_segmen_recur_refin_networ}            & 61.66          & 64.13          & 59.35          & 37.32          & 40.80          & 32.42          \\
+    \acs{step}       & \cite{chen19:see_throug_text_group_refer_image_segmen}       & 70.15          & -              & -              & -              & -              & -              \\
+    \acs{vilbert}    & \cite{lu19:vilber}                                           & -              & -              & -              & \textbf{72.34} & \textbf{78.52} & \textbf{62.61} \\
     \bottomrule
   \end{tabular}\\[1.25ex]
   {\small\textbf{Note}. Models arranged in alphabetical order.}
 \end{table}
 
+A pesar de ello, como se puede observar, en el dataset RefCOCO el modelo que
+presenta una performance superior es el de \gls{cmatterase}, creado por
+\myCite{liu19:improv_refer_expres_groun_cross_atten_erasin}. Este modelo se
+basa principalmente en una estrategia de entrenamiento fundamentada en la idea
+de eliminar las partes más usadas por el modelo de la parte linguistica o
+visual, de manera que se fuerce al mismo a aprender estrcturas más
+complejas. Hay que tener en cuenta, que a pesar de ser este modelo el que
+obtiene unos valores de accuracy más altos, posiblemente podría ser
+outperformed por el modelo \acs{vilbert} (del que, desgraciadamente, no se
+disponen datos de evaluación para este dataset).
+
+En el dataset RefCOCO+ se proclama como vencededor y, por tanto, estado del
+arte el modelo \gls{vilbert}, creado por \myCite{lu19:vilber}. A grandes rasgos
+consiste en reutilizar la conocida y popular arquitectura de \gls{bert} a un
+modelo multimodal con inputs visuales y textuales que interaccionan entre ellos
+usando co-attentional transformer layers. Es un approach muy interesante, no
+solo para esta tarea concreta, sino también para el ámbito de aprendizaje
+multimodal en general y así lo expresan sus autores,
+
+\begin{quoteBox}
+  Our work represents a shift away from learning groundings between vision and
+  language only as part of task training and towards treating visual grounding
+  as a pretrainable and transferable capability.
+  \tcblower\quotecite{lu19:vilber}
+\end{quoteBox}
+
+TODO. Comentar aquí cómo se relaciona RefVOS con el resto.
+
+La métrica estandarizada de accuracy es la de Precission at 0.5 (Prec@0.5),
+ahora bien esto se podría realizar con diferentes thresholds (0.6, 0.7, 0.8,
+etc.) y la accuracy debería ir disminuyendo al aumentar este valor, ya que cada
+vez buscamos una segmentación más perfecta para considerarlo como una sample
+positiva. Aquí no se presentará un estudio para un threshold diferente por la
+sencilla razón de falta de datos para los modelos estudiados: son pocas o
+ninguna las publicaciones que hacen un estudio y presentan sus resultados de
+precision para valores de threshold diferentes.
 
 
+\section{Qualitative Evaluation}\label{sec:qualitative-eval-res}
+
+Este trabajo también puede ser evaluado fácilmente de manera cualitativa, ya
+que el resultado de la segmentación se puede ver de manera gráfica superpuesto
+en la imagen de entrada. En general, el modelo propuesto en este trabajo
+considerablemente bien en esta tarea con resultados bastante coherentes y
+precisos. El lector puede dirigirse a la
+\fhref{https://recomprehension.com}{página web} de este proyecto para probar
+por sí mismo el funcionamiento del modelo. Aquí mostraremos diversos ejemplos
+donde se han usado diferentes imágenes y \gls{re} muy variadas. Más
+concretamente, se mostrarán resultados exitosos en la \vref{sec:succesful} y
+también, se hará un estudio de ejemplos en los que el modelo fracasa---o no
+consigue una segmentación suficientemente precisa---en la \vref{sec:failed}.
 
 
+\subsection{Study of Successful Samples}\label{sec:succesful}
+
+El modelo presentado en este trabajo se comporta de manera exitosa antes una
+gran variedad de imágenes y de \glspl{re}. Diversos ejemplos se han recogido en
+la \vref{fig:success}, donde se muestra el resultado de la segmentación sobre
+la imagen en color azul y la \gls{re} usada en la parte superior de cada
+figura. Podemos ver por ejemplo en la primera fila
+(\vref{fig:baseball-1,fig:baseball-2,fig:baseball-3}) una misma imagen
+representando una fotografía tomada en un partido de beisbol, donde se han
+usado con éxito diferentes \glspl{re} para referirse de manera única a cada uno
+de los tres jugadores que aparecen en la imagen. La segmentación obtenida es
+correcta y muy precisa. Además, los jugadores han sido referidos de diferentes
+maneras: \re{player} y \re{man}, y particularizados con: referencia entre
+objetos (\re{with baseball bat} y \re{with glove}) y posicionamiento relativo
+(\re{in the left}).
+
+\begin{figure}[p]
+  \centering
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Player with baseball bat}\label{fig:baseball-1}
+    \includegraphics[width=\textwidth]{Images/Player with baseball bat.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Middle player with glove}\label{fig:baseball-2}
+    \includegraphics[width=\textwidth]{Images/Middle player with glove.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Man in the left}\label{fig:baseball-3}
+    \includegraphics[width=\textwidth]{Images/Man in the left.jpg}
+  \end{subfigure}
+
+  \bigskip
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Donuts with topping}\label{fig:donut-1}
+    \includegraphics[width=\textwidth]{Images/Donuts with topping.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{White background donuts}\label{fig:donut-2}
+    \includegraphics[width=\textwidth]{Images/White background donut.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{White donut left behind}\label{fig:donut-3}
+    \includegraphics[width=\textwidth]{Images/White donut left behind.jpg}
+  \end{subfigure}
+
+  \bigskip
+  \begin{subfigure}[t]{.3\textwidth}
+    \centering
+    \caption{Person in blue}\label{fig:bar-1}
+    \includegraphics[width=.95\textwidth]{Images/Person in blue.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.3\textwidth}
+    \centering
+    \caption{Person with watch}\label{fig:bar-2}
+    \includegraphics[width=.95\textwidth]{Images/Person with watch.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.3\textwidth}
+    \centering
+    \caption{Woman}\label{fig:bar-3}
+    \includegraphics[width=.95\textwidth]{Images/Woman.jpg}
+  \end{subfigure}
+
+  \bigskip
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Man in white shirt}\label{fig:man-shirt}
+    \includegraphics[width=\textwidth]{Images/Man in white shirt.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Bike}\label{fig:bike}
+    \includegraphics[width=\textwidth]{Images/Bike.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Train}\label{fig:train}
+    \includegraphics[width=\textwidth]{Images/Train.jpg}
+  \end{subfigure}
+  \caption[Model evaluation succesful examples]{Model evaluation succesful
+    examples. Tested with different images and with varied \glspl{re}. Figures
+    created by the author (all). View images in color to better appreciate
+    segmentation.}\label{fig:success}
+\end{figure}
+
+En la segunda fila de esta misma figura
+(\vref{fig:donut-1,fig:donut-2,fig:donut-3}) se puede ver en este caso una
+bandeja con donuts y en la que se han usado \glspl{re} consideradas de mayor
+complejidad, como \re{with topping}. Además, en \vref{fig:donut-2} se puee ver
+un ejemplo de selección múltiple de objetos, resuelto de manera exitosa.
+
+\begin{remarkBox}
+  Este caso de segmentación múltiple de objetos no forma parte realmente del
+  ámbito de este trabajo, a pesar de ser resuelto de manera exitosa por el
+  modelo. Hay que recordar que uno de las hipótesis de la \gls{rec} es la de
+  que la \gls{re} debe ser suficientemente descriptiva para referenciar a
+  uno---y solo uno-- objeto. Es decir, se parte de la hipótesis de que el
+  objeto referenciado es único.
+\end{remarkBox}
+
+La tercera y última fila de esta misma figura recogen más ejemplos con
+diferentes imágenes segmentadas correctamente
+(\vref{fig:bar-1,fig:bar-2,fig:bar-3,fig:man-shirt,fig:bike,fig:train}). Aquí
+se han usado a modo de muestra \gls{re} hacia objetos diferentes (e.g.,
+\re{bike}, \re{train}). También se ha mostrado un ejemplo de segmentación de
+elevada complejidad (\re{person with watch}), en la cual el modelo funciona
+correctamente a pesar de noser demasiado preciso. En el caso de la figura
+\vref{fig:bike} cabe destacar como punto positivo una segmentación muy precisa
+dada la complejidad geométrica del objeto. También es satisfactoria la
+segmentación del objeto \re{train} en la \vref{fig:train} en su totalidad (la
+segmentación en este caso no es trivial debido a la longitud del objeto y del
+pequeño tamaño dentro de la imagen de la parte final del mismo).
+
+Por último dentro de esta sección de evaluación cualitativa se han querido
+añadir ejemplos de diferentes \glspl{re} aplicados a una misma imagen en la
+\vref{fig:cats}. Aquí se ha partido de la imagen original
+(\vref{fig:cats-orig}) y se ha ejecutado el modelo con diferentes \glspl{re},
+partiendo de las más sencillas a otras más complejas y en las que se han
+añadido elementos extra de referencia. Como aportación novedosa en esta figura
+está la del uso de una \gls{re} en la que se diferencia entre instancias usando
+una comparativa: \re{blackest cat}, en la \vref{fig:cat-blackest} y de una
+\gls{re} teniendo en cuenta la posición del objeto referido (\re{with one leg
+  extended}).
+
+\begin{figure}[p]
+  \centering
+  \begin{subfigure}[t]{.3\textwidth}
+    \centering
+    \caption{Original image}\label{fig:cats-orig}
+    \includegraphics[width=.96\textwidth]{Images/Cats.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.3\textwidth}
+    \centering
+    \caption{Brown cat}
+    \includegraphics[width=.96\textwidth]{Images/Brown cat.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.3\textwidth}
+    \centering
+    \caption{White cat right}
+    \includegraphics[width=.96\textwidth]{Images/White cat right.jpg}
+  \end{subfigure}
+
+  \bigskip
+  \begin{subfigure}[t]{.3\textwidth}
+    \centering
+    \caption{Blackest cat}\label{fig:cat-blackest}
+    \includegraphics[width=.96\textwidth]{Images/Blackest cat.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.3\textwidth}
+    \centering
+    \caption{Cat closer to the camera}
+    \includegraphics[width=.96\textwidth]{Images/Cat closer to the camera.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.3\textwidth}
+    \centering
+    \caption{Show me the blackest cat}
+    \includegraphics[width=.96\textwidth]{Images/Show me the blackest cat.jpg}
+  \end{subfigure}
+
+  \bigskip
+  \begin{subfigure}[t]{.3\textwidth}
+    \centering
+    \caption{Show me the blackest cat on the bed}
+    \includegraphics[width=.96\textwidth]{Images/Show me the blackest cat on the bed.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.3\textwidth}
+    \centering
+    \caption{Show me the blackest cat on bed with one leg extended}
+    \includegraphics[width=.96\textwidth]{Images/Show me the blackest cat on bed with one leg extended.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.3\textwidth}
+    \centering
+    \caption{Select prettiest cat among them}\label{fig:cat-prettiest}
+    \includegraphics[width=.96\textwidth]{Images/Prettiest cat.jpg}
+  \end{subfigure}
+  \caption[Comprehension results in an image with cats]{Comprehension results
+    in an image with cats laying on a bed. The same image is tested with
+    different \glspl{re}. Figures created by the author (all). View images in
+    color to better appreciate segmentation.}\label{fig:cats}
+\end{figure}
+
+Se ha añadido también, a modo de curiosidad, una \gls{re} subjetiva (en la que
+el objeto referido no está debidamente seleccioinado) (see
+\vref{fig:cat-prettiest}). En este caso, es el mismo modelo el que está usando
+la información extraída del dataset para determinar algo tan complejo y
+subjetivo como es la estética o belleza. Claro está que este ejemplo queda
+también fuera del alcance de este trabajo.
 
 
+\subsection{Study of Failed Samples}\label{sec:failed}
 
+Después de ver todas estas muestras de comprehension exitosa en la sección
+anterior, podríamos pensar que el modelo es perfecto. Ahora bien, por
+desgracia, esto no es así. Diferentes problemas aparecen dependiendo de la
+imagen y de la \gls{re} utilizada, ya sea por fracasar completamente, o por
+realizar una segmentación no suficientemente precisa o porque la \gls{re} está
+mal especificada. Diferentes ejemplos de fallos con este modelo se presentan en
+la \vref{fig:failure}.
 
+\begin{figure}[p]
+  \centering
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Left tennis racket}\label{fig:racket}
+    \includegraphics[width=\textwidth]{Images/Left tennis racket.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Blond boy looking back}\label{fig:blond}
+    \includegraphics[width=\textwidth]{Images/Blond boy looking back.jpg}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Banana}\label{fig:banana}
+    \includegraphics[width=\textwidth]{Images/Banana.jpg}
+  \end{subfigure}
 
+  \bigskip
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Woman holding hair dryer}\label{fig:dryer-1}
+    \includegraphics[width=.9\textwidth]{Images/Woman holding hair dryer.jpg}
+  \end{subfigure}\hspace{.1\textwidth}
+  \begin{subfigure}[t]{.32\textwidth}
+    \centering
+    \caption{Hair dryer}\label{fig:dryer-2}
+    \includegraphics[width=.9\textwidth]{Images/Hair dryer.jpg}
+  \end{subfigure}
 
+  \bigskip
+  \begin{subfigure}[t]{.4\textwidth}
+    \centering
+    \caption{Statue}\label{fig:statue-1}
+    \includegraphics[width=\textwidth]{Images/Statue.jpg}
+  \end{subfigure}\hspace{.06\textwidth}
+  \begin{subfigure}[t]{.4\textwidth}
+    \centering
+    \caption{Statue of a bird}\label{fig:statue-2}
+    \includegraphics[width=\textwidth]{Images/Statue of a bird.jpg}
+  \end{subfigure}
 
+  \bigskip
+  \begin{subfigure}[t]{.45\textwidth}
+    \centering
+    \caption{Tennis match referee}\label{fig:referee-1}
+    \includegraphics[width=.9\textwidth]{Images/Tennis match referee.jpg}
+  \end{subfigure}\hspace{.05\textwidth}
+  \begin{subfigure}[t]{.45\textwidth}
+    \centering
+    \caption{Tennis match referee sitting behind}\label{fig:referee-2}
+    \includegraphics[width=.9\textwidth]{Images/Tennis match referee sitting behind.jpg}
+  \end{subfigure}
+  \caption[Failed comprehension examples]{Failed comprehension
+    examples. \gls{rec} task fails due to model errors, \gls{re} specification
+    errors and lack of vocabulary. Figures created by the author (all). View
+    images in color to better appreciate segmentation.}\label{fig:failure}
+\end{figure}
 
+Entre ellos mostramos ejemplos de segmentación poca precisa
+(\vref{fig:racket,fig:blond}). En esto casos el modelo funciona de manera
+aproximadamente correcta localizando el objeto referido, pero no es capaz de
+generar una segmentación suficientemente precisa para ser considerado una
+muestra exitosa. En otros casos, además, ni siquiera se realiza correctamente
+la localización del objeto (\vref{fig:statue-1,fig:statue-2}), donde muy
+posiblemente se trata por el ``desconocimiento'' del modelo a vocabulario
+especializado (como es el caso de \re{statue}). Esto ocurre también con el
+objeto \re{hair dryer} en la \vref{fig:dryer-1}.\footnote{La afirmación de que
+  el modelo ``desconoce'' este vocabulario es una conjetura del autor. Otra
+  posibilidad factible en este caso es que, debido al tamaño reducido del
+  objeto referido, la segmentación no sea correcta.} Otro ejemplo de
+segmentación incorrecta es el mostrado en la \vref{fig:banana}, pero aquí el
+error se debe a una mala \gls{re} mal especificada (existen múltiples
+instancias del objeto que está siendo referido).
 
+A veces también, suceden segmentaciones correctas pero ``por azar''. Este es el
+caso de la \vref{fig:dryer-1}: en un primer momento podemos creer que la
+segmentación es correcta y que el modelo está funcionando correctamente, pero
+realmente no es así. ¿Por qué? El modelo no es capaz de entender el vocabulario
+de \re{hair dryer} (see \vref{fig:dryer-2}), por lo que realmente no está
+razonando. Simplemente está usando la palabra \re{woman} que entiende bien y
+está haciendo una conjetura acerca de a cuál de las dos mujeres la \gls{re} se
+refiere.
 
-
-
-
-\section{Qualitative Evaluation}
-
-Aquí mostraremos de una manera visual diferentes ejemplos y patologías
-encontradas en el procesado del sistema.
-
-
-Aquí mostrar diferentes ejemplos con:
-- Donde funciona bien.
-- Donde funciona mal.
-- Variando el tamaño.
-- Variando la clase de objeto: animal, persona, objeto, fruta, comida,...
+Por último, en \vref{fig:referee-1,fig:referee-2}, se muestra un ejemplo en el
+que la \gls{re} en un primer momento no es suficiente (posiblemente porque el
+modelo no es capaz de comprender la palabra especializada de \re{referee}),
+pero que al presentar una \gls{re} más concreta sí que la segmentación se
+realizacorrectamente. Esto lleva a pensar en que ---en un nivel de aplicación
+práctica--- podría ser útil de no realizar la segmentación siempre. Es decir,
+sería de utilidad implementar una funcionalidad extra de ``confianza'' en la
+segmentación realizada. De esta manera el modelo podría ``avisar'' si el nivel
+de confianza no es lo suficientemente alto. En palabras coloquiales y usando el
+ejemplo descrito: si quisiéramos segmentar al árbitro del partido y
+comenzáramos con la \gls{re} \re{tennis match referee}, el modelo podría
+avisarnos de que la confianza que tiene de realizar una segmentación correcta
+no es suficientemente alta, de manera que podamos ampliar esta \gls{re} para
+aportar más detalles al modelo (\re{tennis match referee sitting behind}) y que
+este pueda segmentar el objeto referido más fácilmente.
