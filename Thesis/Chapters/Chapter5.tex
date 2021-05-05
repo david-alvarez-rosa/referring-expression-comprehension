@@ -10,48 +10,46 @@
 }
 
 
-Los resultados obtenidos con el modelo descrito en el \vref{cha:models} serán
-ahora estudiados y comparados con otros state-of-the-art models. Aquí no se
-mostrará la evolución del modelo en sus diferentes iteracciones, sino que se
-considerará únicamente la última versión seleccionada. La evaluación se
-realizará tanto de manera cuantitativa (see \vref{sec:quantitative-eval}), como
-de manera cualitativa (see \vref{sec:qualitative-eval-res}).
+The results obtained with the model described in \vref{cha:models} will now be
+studied and compared with other state-of-the-art models. Here the evolution of
+the model in its different iterations will not be shown, but only the last
+version selected will be considered. The evaluation will be carried out both
+quantitatively (see \vref{sec:quantitative-eval}) and qualitatively (see
+\vref{sec:qualitative-eval-res}).
 
 
 
 \section{Quantitative Evaluation}\label{sec:quantitative-eval}
 
-Respecto a la evaluación cuantitativa del modelo (como ya se ha discutido en la
-\vref{sec:quantitative-measures}) existen diferentes métricas a usar. Entre
-ellas destacan tres: el mean y overall \gls{iou}, y precisión at threshold. En
-el caso del modelo creado en este trabajo podemos evaluarlo con cualquier
-métrica que consideremos oportuna y en cualquier dataset, ya que disponemos de
-la implementación del mismo. Ahora bien, lo que realmente es interesante, es
-poder compararlo con otros modelos state-of-the-art existentes actualmente. La
-literatura consultada en este trabajo típicamente usa dos métricas
-fundamentales: overall \gls{iou} y precisión at 0.5. La Prec@0.5 es usada como
-una medida de accuracy, i.e., se computa el número de porcentaje de samples
-donde la segmentación predecida overlaps with the ground truth region by at
-least 50\%.
+Regarding the quantitative evaluation of the model (as already discussed in
+\vref{sec:quantitative-measures}) there are different metrics to use. Among
+them, three stand out: the mean and overall \gls{iou}, and precision at
+threshold. In the case of the model created in this work, we can evaluate it
+with any metric that we consider appropriate and in any dataset, since we have
+its implementation. Now, what is really interesting is being able to compare it
+with other state-of-the-art models that currently exist. The literature
+consulted in this work typically uses two fundamental metrics: overall
+\gls{iou} and precision at 0.5. The Prec@0.5 is used as a measure of accuracy,
+i.e., the number of percentage of samples where the predicted segmentation
+overlaps with the ground truth region by at least 50\% is computed.
 
-En este apartado mostraremos tablas comparativas de la evaluación cuantitativa
-del modelo de este trabajo y de otros modelos actuales. Para ello se hará un
-estudio del overall \gls{iou} (see \vref{sec:overall-iou}) y un estudio del
-accuracy o Prec@0.5 (see \vref{sec:accuracy}). Desgraciadamente, no se han
-podido presentar el mismo número de modelos en ambas dos secciones, debido a
-la ausencia de estas métricas de evaluaciones en las publicaciones originales
-de los modelos.
+In this section we will show comparative tables of the quantitative evaluation
+of the model of this work and of other current models. For this, a study of the
+overall \gls{iou} (see \vref{sec:overall-iou}) and a study of the accuracy or
+Prec@0.5 (see \vref{sec:accuracy}) will be carried out. Unfortunately, it was
+not possible to present the same number of models in both two sections, due to
+the absence of these evaluation metrics in the original publications of the
+models.
 
 
 \subsection{Overall \glsentrylong{iou}}\label{sec:overall-iou}
 
-Respecto al overall \gls{iou}, se han recogido datos de múltiples modelos, los
-cuales se muestran de manera resumida en la \vref{tab:overall-iou}. Se ha
-realizado la evaluación en los datasets RefCOCO y RefCOCO+ con los splits
-\code{val/testA/testB}. Como ya se ha comentado anteriormente, el dataset
-RefCOCO+ presenta \glspl{re} de mayor complejidad, por lo que presenta valores
-de overall \gls{iou} más bajos que en el dataset RefCOCO para todos los
-modelos.
+Regarding the overall \gls{iou}, data have been collected from multiple models,
+which are shown in a summarized way in \vref{tab:overall-iou}. The evaluation
+has been carried out on the RefCOCO and RefCOCO+ datasets with the splits
+\code{val/testA/testB}. As previously mentioned, the RefCOCO+ dataset presents
+\glspl{re} of greater complexity, therefore it presents lower overall \gls{iou}
+values than in the RefCOCO dataset for all models.
 
 \begin{table}[p]
   \centering
@@ -85,20 +83,20 @@ modelos.
   {\small\textbf{Note}. Models arranged in alphabetical order.}
 \end{table}
 
-Varios de los modelos evaluados han sido descritos previamente en
-\vref{sec:sota}. Cabe destacar que las diferencias entre la métrica de overall
-\gls{iou} no son demasiado grandes comparativamente por modelo. Se puede
-observar un rango aproximado entre 50--60 para el dataset RefCOCO y de 40--50
-para el dataset RefCOCO+ (que presenta expresiones más complejas). El modelo
-presentado en este trabajo supera a parte de los modelos en el dataset RefCOCO
-y se queda cerca del estado del arte. Sin embargo, en el dataset RefCOCO+
-presenta una resultados no tan prometedores.
+Several of the evaluated models have been previously described in
+\vref{sec:sota}. It should be noted that the differences between the overall
+metric \gls{iou} are not too large comparatively by model. You can see an
+approximate range of 50--60 for the RefCOCO dataset and 40--50 for the RefCOCO+
+dataset (which has more complex expressions). The model presented in this work
+outperforms some of the models in the RefCOCO dataset and remains close to the
+state of the art. However, in the RefCOCO+ dataset it presents less promising
+results.
 
-El ganador absoluto respecto a esta métrica es el modelo creado por
-\myCite{huang20:refer_image_segmen_cross_modal_progr_compr} y llamado
-\gls{cmpc}. Presenta los valores más altos de overall \gls{iou} en todas las
-categorías. Este complejo método de razonamiento se basa en una estructura
-multi-paso. En palabras de sus autores,
+The absolute winner regarding this metric is the model created by
+\myCite{huang20:refer_image_segmen_cross_modal_progr_compr} and called
+\gls{cmpc}. It presents the highest values of overall \gls{iou} in all the
+categories. This complex reasoning method is based on a multi-step
+structure. In the words of its authors,
 
 \begin{quoteBox}
   The \gls{cmpc} module first employs entity and attribute words to perceive
@@ -108,36 +106,35 @@ multi-paso. En palabras de sus autores,
   further leverage a module to integrate the reasoned multimodal features from
   different levels with the guidance of textual information. In this way,
   features from multilevels could communicate with each other and be refined
-  based on the textual context.
-  \tcblower\quotecite{berners-lee21:introd_web_acces}
+  based on the textual context. \tcblower
+  \quotecite{berners-lee21:introd_web_acces}
 \end{quoteBox}
 
-El modelo \gls{cmpc}, a pesar de ser superior en términos de esta métrica
-también presenta una complejidad considerablemente superior al modelo
-presentado en este trabajo. Similarmente, el modelo \gls{brinet}, creado por
-\myCite{hu20:bi_direc_relat_infer_networ}, es superior en términos de
-performance, pero a cambio de presentar una complejidad mayor. Precisamente, el
-modelo presentado en esta tesis consiste en una red más sencilla and fully
-end-to-end, y que presenta resultados competitivos con el estado del arte
-actual.
+The model \gls{cmpc}, despite being superior in terms of this metric, also
+presents a considerably higher complexity than the model presented in this
+work. Similarly, the model \gls{brinet}, created by
+\myCite{hu20:bi_direc_relat_infer_networ}, is superior in terms of performance,
+but in exchange for presenting greater complexity. Precisely, the model
+presented in this thesis consists of a simpler and fully end-to-end network,
+which presents results that are competitive with the current state of the art.
 
-También, cabe destacar que el modelo propuesto outperforms the \gls{mmi} model
-created by \myCite{mao16:gener}. Es interasante esta comparativa concreta
-porque este modelo también se basa en un joint embedding de lenguaje e imagen.
+Also, it should be noted that the proposed model outperforms the \gls{mmi}
+model created by \myCite{mao16:gener}. This specific comparison is interesting
+because this model is also based on a joint embedding of language and image.
 
 
 \subsection{Accuracy or Precision at 0.5}\label{sec:accuracy}
 
-Respecto al accuracy o Prec@0.5 también se ha hecho un estudio comparativo que
-se muestra en la \vref{tab:accuracy}. Cabe recordar que Prec@0.5 consiste en
-computar el número de porcentaje de samples donde la segmentación predecida
-overlaps with the ground truth region by at least 50\%. Desgraciadamente la
-comparación de modelos en este apartado no es sencilla debido a la
-significativa falta de datos para algunos modelos. Por ejemplo, el modelo
-state-of-the-art del apartado anterior (\gls{cmpc}) solo presenta datos de
-accuracy para el split de \code{val} en RefCOCO. Así mismo, el state-of-the-art
-model en RefCOCO+ (mostrado en negrita), no presenta datos para el dataset
-RefCOCO, lo que dificulta considerablemente la comparación.
+Regarding the accuracy or Prec@0.5, a comparative study has also been made,
+which is shown in \vref{tab:accuracy}. It should be remembered that Prec@0.5
+consists of computing the number of percentage of samples where the predicted
+segmentation overlaps with the ground truth region by at least 50
+\%. Unfortunately the comparison of models in this section is not easy due to
+the significant lack of data for some models. For example, the state-of-the-art
+model in the previous section (\gls{cmpc}) only presents accuracy data for the
+split of \code{val} in RefCOCO. Likewise, the state-of-the-art model in
+RefCOCO+ (shown in bold) does not present data for the RefCOCO dataset, which
+makes comparison considerably difficult.
 
 \begin{table}[p]
   \centering
@@ -175,74 +172,70 @@ RefCOCO, lo que dificulta considerablemente la comparación.
   {\small\textbf{Note}. Models arranged in alphabetical order.}
 \end{table}
 
-A pesar de ello, como se puede observar, en el dataset RefCOCO el modelo que
-presenta una performance superior es el de \gls{cmatterase}, creado por
-\myCite{liu19:improv_refer_expres_groun_cross_atten_erasin}. Este modelo se
-basa principalmente en una estrategia de entrenamiento fundamentada en la idea
-de eliminar las partes más usadas por el modelo de la parte linguistica o
-visual, de manera que se fuerce al mismo a aprender estrcturas más
-complejas. Hay que tener en cuenta, que a pesar de ser este modelo el que
-obtiene unos valores de accuracy más altos, posiblemente podría ser
-outperformed por el modelo \acs{vilbert} (del que, desgraciadamente, no se
-disponen datos de evaluación para este dataset).
+Despite this, as can be seen, in the RefCOCO dataset the model that presents a
+superior performance is that of \gls{cmatterase}, created by
+\myCite{liu19:improv_refer_expres_groun_cross_atten_erasin}. This model is
+mainly based on a training strategy based on the idea of eliminating the parts
+most used by the model from the linguistic or visual part, so that it is forced
+to learn more complex structures. It must be taken into account that despite
+this model being the one that obtains the highest accuracy values, it could
+possibly be outperformed by the model \acs{vilbert} (of which, unfortunately,
+no evaluation data is available for this dataset).
 
-En el dataset RefCOCO+ se proclama como vencededor y, por tanto, estado del
-arte el modelo \gls{vilbert}, creado por \myCite{lu19:vilber}. A grandes rasgos
-consiste en reutilizar la conocida y popular arquitectura de \gls{bert} a un
-modelo multimodal con inputs visuales y textuales que interaccionan entre ellos
-usando co-attentional transformer layers. Es un approach muy interesante, no
-solo para esta tarea concreta, sino también para el ámbito de aprendizaje
-multimodal en general y así lo expresan sus autores,
+In the RefCOCO+ dataset, the model \gls{vilbert}, created by
+\myCite{lu19:vilber}, is proclaimed as the winner and, therefore, state of the
+art. Broadly speaking, it consists of reusing the well-known and popular
+architecture of \gls{bert} to a multimodal model with visual and textual inputs
+that interact with each other using co-attentional transformer layers. It is a
+very interesting approach, not only for this specific task, but also for the
+field of multimodal learning in general and this is what its authors express,
 
 \begin{quoteBox}
   Our work represents a shift away from learning groundings between vision and
   language only as part of task training and towards treating visual grounding
-  as a pretrainable and transferable capability.
-  \tcblower\quotecite{lu19:vilber}
+  as a pretrainable and transferable capability. \tcblower
+  \quotecite{lu19:vilber}
 \end{quoteBox}
 
-TODO. Comentar aquí cómo se relaciona RefVOS con el resto.
+TODO. Comment here how RefVOS relates to the rest.
 
-La métrica estandarizada de accuracy es la de Precission at 0.5 (Prec@0.5),
-ahora bien esto se podría realizar con diferentes thresholds (0.6, 0.7, 0.8,
-etc.) y la accuracy debería ir disminuyendo al aumentar este valor, ya que cada
-vez buscamos una segmentación más perfecta para considerarlo como una sample
-positiva. Aquí no se presentará un estudio para un threshold diferente por la
-sencilla razón de falta de datos para los modelos estudiados: son pocas o
-ninguna las publicaciones que hacen un estudio y presentan sus resultados de
-precision para valores de threshold diferentes.
+The standardized accuracy metric is Precission at 0.5 (Prec@0.5), now this
+could be done with different thresholds (0.6, 0.7, 0.8, etc.) and the accuracy
+should decrease as this value increases, since each instead we look for a more
+perfect segmentation to consider it as a positive sample. A study for a
+different threshold will not be presented here for the simple reason of lack of
+data for the models studied: few or none of the publications do a study and
+present their precision results for different threshold values.
 
 
 \section{Qualitative Evaluation}\label{sec:qualitative-eval-res}
 
-Este trabajo también puede ser evaluado fácilmente de manera cualitativa, ya
-que el resultado de la segmentación se puede ver de manera gráfica superpuesto
-en la imagen de entrada. En general, el modelo propuesto en este trabajo
-considerablemente bien en esta tarea con resultados bastante coherentes y
-precisos. El lector puede dirigirse a la
-\fhref{https://recomprehension.com}{página web} de este proyecto para probar
-por sí mismo el funcionamiento del modelo. Aquí mostraremos diversos ejemplos
-donde se han usado diferentes imágenes y \gls{re} muy variadas. Más
-concretamente, se mostrarán resultados exitosos en la \vref{sec:succesful} y
-también, se hará un estudio de ejemplos en los que el modelo fracasa---o no
-consigue una segmentación suficientemente precisa---en la \vref{sec:failed}.
+This work can also be easily evaluated qualitatively, since the result of the
+segmentation can be seen graphically superimposed on the input image. Overall,
+the model proposed in this work considerably well at this task with fairly
+consistent and accurate results. The reader can go to
+\fhref{https://recomprehension.com}{página web} of this project to test for
+himself the operation of the model. Here we will show several examples where
+different images have been used and \gls{re} very varied. More specifically,
+successful results will be shown in \vref{sec:succesful} and also, a study of
+examples will be made in which the model fails---or does not achieve a
+sufficiently precise segmentation---in \vref{sec:failed}.
 
 
 \subsection{Study of Successful Samples}\label{sec:succesful}
 
-El modelo presentado en este trabajo se comporta de manera exitosa antes una
-gran variedad de imágenes y de \glspl{re}. Diversos ejemplos se han recogido en
-la \vref{fig:success}, donde se muestra el resultado de la segmentación sobre
-la imagen en color azul y la \gls{re} usada en la parte superior de cada
-figura. Podemos ver por ejemplo en la primera fila
-(\vref{fig:baseball-1,fig:baseball-2,fig:baseball-3}) una misma imagen
-representando una fotografía tomada en un partido de beisbol, donde se han
-usado con éxito diferentes \glspl{re} para referirse de manera única a cada uno
-de los tres jugadores que aparecen en la imagen. La segmentación obtenida es
-correcta y muy precisa. Además, los jugadores han sido referidos de diferentes
-maneras: \re{player} y \re{man}, y particularizados con: referencia entre
-objetos (\re{with baseball bat} y \re{with glove}) y posicionamiento relativo
-(\re{in the left}).
+The model presented in this work behaves successfully before a great variety of
+images and \glspl{re}. Various examples have been collected in
+\vref{fig:success}, where the result of the segmentation on the image is shown
+in blue and \gls{re} used in the upper part of each figure. We can see, for
+example, in the first row (\vref{fig:baseball-1,fig:baseball-2,fig:baseball-3})
+the same image representing a photograph taken in a baseball game, where
+different \glspl{re} have been used successfully to refer uniquely to each of
+the three players that appear in the image. The segmentation obtained is
+correct and very precise. Furthermore, the players have been referred to in
+different ways: \re{player} and \re{man}, and particularized with: reference
+between objects (\re{with baseball bat} and \re{with glove}) and relative
+positioning (\re{in the left}).
 
 \begin{figure}[p]
   \centering
@@ -313,48 +306,45 @@ objetos (\re{with baseball bat} y \re{with glove}) y posicionamiento relativo
     \includegraphics[width=\textwidth]{Images/Train.jpg}
   \end{subfigure}
   \caption[Model evaluation succesful examples]{Model evaluation succesful
-    examples. Tested with different images and with varied \glspl{re}. Figures
-    created by the author (all). View images in color to better appreciate
-    segmentation.}\label{fig:success}
+    examples. Tested with different images and with varied \glspl{re}. Figures created by the author (all). View images in color to better appreciate segmentation.}\label{fig:success}
 \end{figure}
 
-En la segunda fila de esta misma figura
-(\vref{fig:donut-1,fig:donut-2,fig:donut-3}) se puede ver en este caso una
-bandeja con donuts y en la que se han usado \glspl{re} consideradas de mayor
-complejidad, como \re{with topping}. Además, en \vref{fig:donut-2} se puee ver
-un ejemplo de selección múltiple de objetos, resuelto de manera exitosa.
+In the second row of this same figure
+(\vref{fig:donut-1,fig:donut-2,fig:donut-3}) you can see in this case a tray
+with donuts and in which \glspl{re} considered more complex have been used,
+such as \re{with topping}. Also, in \vref{fig:donut-2} you can see an example
+of multiple selection of objects, solved successfully.
 
 \begin{remarkBox}
-  Este caso de segmentación múltiple de objetos no forma parte realmente del
-  ámbito de este trabajo, a pesar de ser resuelto de manera exitosa por el
-  modelo. Hay que recordar que uno de las hipótesis de la \gls{rec} es la de
-  que la \gls{re} debe ser suficientemente descriptiva para referenciar a
-  uno---y solo uno-- objeto. Es decir, se parte de la hipótesis de que el
-  objeto referenciado es único.
+  This case of multiple object segmentation is not really part of the scope of
+  this work, despite being successfully solved by the model. It must be
+  remembered that one of the hypotheses of \gls{rec} is that \gls{re} must be
+  descriptive enough to refer to one---and only one---object. That is, it is
+  assumed that the referenced object is unique.
 \end{remarkBox}
 
-La tercera y última fila de esta misma figura recogen más ejemplos con
-diferentes imágenes segmentadas correctamente
-(\vref{fig:bar-1,fig:bar-2,fig:bar-3,fig:man-shirt,fig:bike,fig:train}). Aquí
-se han usado a modo de muestra \gls{re} hacia objetos diferentes (e.g.,
-\re{bike}, \re{train}). También se ha mostrado un ejemplo de segmentación de
-elevada complejidad (\re{person with watch}), en la cual el modelo funciona
-correctamente a pesar de noser demasiado preciso. En el caso de la figura
-\vref{fig:bike} cabe destacar como punto positivo una segmentación muy precisa
-dada la complejidad geométrica del objeto. También es satisfactoria la
-segmentación del objeto \re{train} en la \vref{fig:train} en su totalidad (la
-segmentación en este caso no es trivial debido a la longitud del objeto y del
-pequeño tamaño dentro de la imagen de la parte final del mismo).
+The third and last row of this same figure collect more examples with different
+correctly segmented images
+(\vref{fig:bar-1,fig:bar-2,fig:bar-3,fig:man-shirt,fig:bike,fig:train}). Here
+they have been used as a sample \gls{re} towards different objects (e.g.,
+\re{bike}, \re{train}). An example of highly complex segmentation has also been
+shown (\re{person with watch}), in which the model works correctly despite not
+being too precise. In the case of figure \vref{fig:bike} it is worth
+highlighting as a positive point a very precise segmentation given the
+geometric complexity of the object. The segmentation of the object \re{train}
+in the \vref{fig:train} as a whole is also satisfactory (the segmentation in
+this case is not trivial due to the length of the object and the small size
+within the image of the final part of it).
 
-Por último dentro de esta sección de evaluación cualitativa se han querido
-añadir ejemplos de diferentes \glspl{re} aplicados a una misma imagen en la
-\vref{fig:cats}. Aquí se ha partido de la imagen original
-(\vref{fig:cats-orig}) y se ha ejecutado el modelo con diferentes \glspl{re},
-partiendo de las más sencillas a otras más complejas y en las que se han
-añadido elementos extra de referencia. Como aportación novedosa en esta figura
-está la del uso de una \gls{re} en la que se diferencia entre instancias usando
-una comparativa: \re{blackest cat}, en la \vref{fig:cat-blackest} y de una
-\gls{re} teniendo en cuenta la posición del objeto referido (\re{with one leg
+Finally, within this qualitative evaluation section, we have wanted to add
+examples of different \glspl{re} applied to the same image in
+\vref{fig:cats}. Here we have started from the original image
+(\vref{fig:cats-orig}) and the model has been executed with different
+\glspl{re}, starting from the simplest to other more complex ones and in which
+extra reference elements have been added. As a novel contribution in this
+figure is the use of a \gls{re} in which differentiates between instances using
+a comparison: \re{blackest cat}, in \vref{fig:cat-blackest} and of a \gls{re}
+taking into account the position of the referred object (\re{with one leg
   extended}).
 
 \begin{figure}[p]
@@ -409,28 +399,24 @@ una comparativa: \re{blackest cat}, en la \vref{fig:cat-blackest} y de una
     \includegraphics[width=.96\textwidth]{Images/Prettiest cat.jpg}
   \end{subfigure}
   \caption[Comprehension results in an image with cats]{Comprehension results
-    in an image with cats laying on a bed. The same image is tested with
-    different \glspl{re}. Figures created by the author (all). View images in
-    color to better appreciate segmentation.}\label{fig:cats}
+    in an image with cats laying on a bed. The same image is tested with different \glspl{re}. Figures created by the author (all). View images in color to better appreciate segmentation.}\label{fig:cats}
 \end{figure}
 
-Se ha añadido también, a modo de curiosidad, una \gls{re} subjetiva (en la que
-el objeto referido no está debidamente seleccioinado) (see
-\vref{fig:cat-prettiest}). En este caso, es el mismo modelo el que está usando
-la información extraída del dataset para determinar algo tan complejo y
-subjetivo como es la estética o belleza. Claro está que este ejemplo queda
-también fuera del alcance de este trabajo.
+A subjective \gls{re} (in which the referred object is not properly selected)
+has also been added, as a curiosity (see \vref{fig:cat-prettiest}). In this
+case, it is the same model that is using the information extracted from the
+dataset to determine something as complex and subjective as aesthetics or
+beauty. Of course, this example is also outside the scope of this paper.
 
 
 \subsection{Study of Failed Samples}\label{sec:failed}
 
-Después de ver todas estas muestras de comprehension exitosa en la sección
-anterior, podríamos pensar que el modelo es perfecto. Ahora bien, por
-desgracia, esto no es así. Diferentes problemas aparecen dependiendo de la
-imagen y de la \gls{re} utilizada, ya sea por fracasar completamente, o por
-realizar una segmentación no suficientemente precisa o porque la \gls{re} está
-mal especificada. Diferentes ejemplos de fallos con este modelo se presentan en
-la \vref{fig:failure}.
+After looking at all these samples of successful comprehension in the previous
+section, we might think that the model is perfect. Now, unfortunately, this is
+not the case. Different problems appear depending on the image and the \gls{re}
+used, either by completely failing, or by performing an insufficiently precise
+segmentation or because \gls{re} is wrongly specified. Different examples of
+failures with this model are presented in \vref{fig:failure}.
 
 \begin{figure}[p]
   \centering
@@ -486,48 +472,43 @@ la \vref{fig:failure}.
     \includegraphics[width=.9\textwidth]{Images/Tennis match referee sitting behind.jpg}
   \end{subfigure}
   \caption[Failed comprehension examples]{Failed comprehension
-    examples. \gls{rec} task fails due to model errors, \gls{re} specification
-    errors and lack of vocabulary. Figures created by the author (all). View
-    images in color to better appreciate segmentation.}\label{fig:failure}
+    examples. \gls{rec} task fails due to model errors, \gls{re} specification errors and lack of vocabulary. Figures created by the author (all). View images in color to better appreciate segmentation.}\label{fig:failure}
 \end{figure}
 
-Entre ellos mostramos ejemplos de segmentación poca precisa
-(\vref{fig:racket,fig:blond}). En esto casos el modelo funciona de manera
-aproximadamente correcta localizando el objeto referido, pero no es capaz de
-generar una segmentación suficientemente precisa para ser considerado una
-muestra exitosa. En otros casos, además, ni siquiera se realiza correctamente
-la localización del objeto (\vref{fig:statue-1,fig:statue-2}), donde muy
-posiblemente se trata por el ``desconocimiento'' del modelo a vocabulario
-especializado (como es el caso de \re{statue}). Esto ocurre también con el
-objeto \re{hair dryer} en la \vref{fig:dryer-1}.\footnote{La afirmación de que
-  el modelo ``desconoce'' este vocabulario es una conjetura del autor. Otra
-  posibilidad factible en este caso es que, debido al tamaño reducido del
-  objeto referido, la segmentación no sea correcta.} Otro ejemplo de
-segmentación incorrecta es el mostrado en la \vref{fig:banana}, pero aquí el
-error se debe a una mala \gls{re} mal especificada (existen múltiples
-instancias del objeto que está siendo referido).
+Among them we show examples of imprecise segmentation
+(\vref{fig:racket,fig:blond}). In these cases the model works approximately
+correctly locating the referred object, but it is not capable of generating a
+sufficiently precise segmentation to be considered a successful sample. In
+other cases, furthermore, the location of the object is not even carried out
+correctly (\vref{fig:statue-1,fig:statue-2}), where it is quite possibly due to
+the ``ignorance'' of the specialized vocabulary model (as is the case of
+\re{statue}). This is also the case with object \re{hair dryer} in
+\vref{fig:dryer-1}.\footnote{The claim that the model ``ignores'' this
+  vocabulary is conjecture by the author. Another feasible possibility in this
+  case is that, due to the reduced size of the referred object, the
+  segmentation is not correct.} Another example of incorrect segmentation is
+the one shown in \vref{fig:banana}, but here the error is due to a bad \gls{re}
+wrong specified (there are multiple instances of the object being referred to).
 
-A veces también, suceden segmentaciones correctas pero ``por azar''. Este es el
-caso de la \vref{fig:dryer-1}: en un primer momento podemos creer que la
-segmentación es correcta y que el modelo está funcionando correctamente, pero
-realmente no es así. ¿Por qué? El modelo no es capaz de entender el vocabulario
-de \re{hair dryer} (see \vref{fig:dryer-2}), por lo que realmente no está
-razonando. Simplemente está usando la palabra \re{woman} que entiende bien y
-está haciendo una conjetura acerca de a cuál de las dos mujeres la \gls{re} se
-refiere.
+Sometimes also, correct segmentations happen but ``by chance''. This is the
+case of \vref{fig:dryer-1}: at first we can believe that the segmentation is
+correct and that the model is working correctly, but it really is not. Why? The
+model is not able to understand the vocabulary of \re{hair dryer} (see
+\vref{fig:dryer-2}), so it is not really reasoning. She is simply using the
+word \re{woman} that she understands well and is making a conjecture as to
+which of the two women the \gls{re} is referring to.
 
-Por último, en \vref{fig:referee-1,fig:referee-2}, se muestra un ejemplo en el
-que la \gls{re} en un primer momento no es suficiente (posiblemente porque el
-modelo no es capaz de comprender la palabra especializada de \re{referee}),
-pero que al presentar una \gls{re} más concreta sí que la segmentación se
-realizacorrectamente. Esto lleva a pensar en que ---en un nivel de aplicación
-práctica--- podría ser útil de no realizar la segmentación siempre. Es decir,
-sería de utilidad implementar una funcionalidad extra de ``confianza'' en la
-segmentación realizada. De esta manera el modelo podría ``avisar'' si el nivel
-de confianza no es lo suficientemente alto. En palabras coloquiales y usando el
-ejemplo descrito: si quisiéramos segmentar al árbitro del partido y
-comenzáramos con la \gls{re} \re{tennis match referee}, el modelo podría
-avisarnos de que la confianza que tiene de realizar una segmentación correcta
-no es suficientemente alta, de manera que podamos ampliar esta \gls{re} para
-aportar más detalles al modelo (\re{tennis match referee sitting behind}) y que
-este pueda segmentar el objeto referido más fácilmente.
+Finally, in \vref{fig:referee-1,fig:referee-2}, an example is shown in which
+\gls{re} at first is not enough (possibly because the model is not capable of
+understanding the specialized word of \re{referee}), but when presenting a
+\gls{re} more specifically yes that the segmentation is carried out
+correctly. This leads one to think that---on a practical application level---it
+might be useful not to always segment. In other words, it would be useful to
+implement an extra ``trust'' functionality in the segmentation performed. In
+this way, the model could ``warn'' if the confidence level is not high
+enough. In colloquial words and using the example described: if we wanted to
+segment the match referee and start with \gls{re} \re{tennis match referee},
+the model could warn us that the confidence it has of performing a correct
+segmentation is not high enough, so that we can extend this \gls{re} to provide
+more details to the model (\re{tennis match referee sitting behind}) and that
+it can segment the referred object more easily.
