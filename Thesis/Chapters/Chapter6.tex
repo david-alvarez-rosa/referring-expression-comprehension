@@ -184,18 +184,18 @@ the input method of \gls{re} (by voice it will take longer).
 The main functionality offered by this website is to be able to interact with
 this work, i.e., to be able to execute the present model to perform
 \gls{rec}. This entails the execution of code, which could be chosen to execute
-it in two different places: on the user's computer (JavaScript should be used)
-or on the web server (the back end).
+it in two different places: on the user's computer (\acl{js} should be used) or
+on the web server (the back end).
 
 Due to the high use of computational resources in the execution of the model,
 it has been decided to carry it out completely in the back end.\footnote{This
   also facilitates the possibility of executing the code in Python, since if it
-  would not be necessary to port all the code to JavaScript or use libraries
-  with which to emulate Python within the client's browser.} For this, a
-\gls{api} (created in PHP) has been created to facilitate communication between
-front end and back end without having to reload the page. We have two main
-routes that we will use to communicate the web interface with the
-backend. These are the following,
+  would not be necessary to port all the code to \acl{js} or use libraries with
+  which to emulate Python within the client's browser.} For this, a \gls{api}
+(created in PHP) has been created to facilitate communication between front end
+and back end without having to reload the page. We have two main routes that we
+will use to communicate the web interface with the backend. These are the
+following,
 \begin{itemize}
   \item \textbf{\gls{rec}.} Internally called \code{api/comprehend.php}, which
   allows to perform the task of \gls{rec} by calling the appropriate Python

@@ -23,7 +23,7 @@ spoken natural language.
 For the task of \gls{rec} it will be necessary to find/create a neural model
 that solves it. To do this, we will start from a base architecture (a model to
 start with) (see\ \vref{sec:base-arch}) and from there variations will be
-proposed (both in the model and in the way of training it) in
+proposed (both in the model and in the way of training it) in\
 \vref{sec:model-iterations}. That is, starting from the base model, an
 iterative process of improvement will be carried out.
 
@@ -136,21 +136,6 @@ tensor with two classes, which separate the \emph{background} from the
 \subsection{Model Iterations}\label{sec:model-iterations}
 
 \begin{comment}
-
-TODO. Model iterations. Lo tengo en Notas.org, mirar a ver si se puede exportar
-a LaTeX.
-
-\url{https://www.reddit.com/r/emacs/comments/lzsx1q/perfect_emacs_org_mode_exports_to_latex_easy_and/}
-
-TODO. Mirar para hacer las gráficas. Mejor generar CSV con Python y plotear en
-LaTeX.
-
-\url{https://tex.stackexchange.com/questions/83888/how-to-plot-data-from-a-csv-file-using-tikz-and-csvsimple}.
-
-\url{https://www.latex4technics.com/?note=lj0uix}
-
-
-
   1. He estado trabajando con el modelo de RefVOS, pero no he conseguido
   obtener ninguna mejora significativa. Hasta ahora lo que he probado ha sido:
 
@@ -216,6 +201,24 @@ lineal. Aquí hay que volver a realizar todo el entrenamiento. Comentar que esto
 simplemente está añadiendo complejidad al modelo, pero sin ningún interés
 práctico real. El modelo ya es lo suficientemente complejo para funcionar
 bien.
+
+\begin{table}[ht]
+  \centering
+  \caption[TODO]{TODO. Comparative study about different fusion strategies
+    between visual and language features on RefCOCO.}%
+  \label{table:results_refcoco_ablation}
+  \rowcolors{2}{rowColor}{}
+  \begin{tabular}{l*3c}
+    \toprule
+    \rowcolor{topRowColor}
+    Type           & \code{val}     & \code{testA}   & \code{testB}   \\
+    \midrule
+    Addition       & 56.60          & 60.87          & 51.29          \\
+    Multiplication & \textbf{59.45} & \textbf{63.19} & \textbf{54.17} \\
+    Concatenation  & 55.12          & 58.88          & 49.59          \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 
 \subsubsection{Model}
