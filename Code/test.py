@@ -1,6 +1,8 @@
-"""File for testing the model.
+"""File for testing the model
 
-A more detailed explanation.
+This file can evlauate the model in different datasets and computes the metrics
+related to the Jaccard Index (also called Intersection over Union) and also
+accuracy or Precision at Threshold (such as, for instances, Prec@0.5).
 """
 
 import time
@@ -38,7 +40,8 @@ def evaluate(data_loader, model, device, dataset=None, results_dir=None):
 
         with torch.no_grad():
             outputs = model(sents, attentions, imgs)
-            loss = torch.nn.functional.cross_entropy(outputs, targets, ignore_index=255)
+            loss = torch.nn.functional.cross_entropy(outputs, targets,
+                                                     ignore_index=255)
             masks = outputs.argmax(1)
 
         loss_value += loss.item()
@@ -77,18 +80,11 @@ def main(args):
                            split=args.split,
                            transforms=transforms.get_transform())
 
-
-
-    # Modification.
-    # print(len(dataset))
-    # dataset = torch.utils.data.Subset(dataset, torch.arange(1))
-
-
-
     data_loader = torch.utils.data.DataLoader(dataset,
-                                         batch_size=args.batch_size,
-                                         num_workers=args.workers,
-                                         collate_fn=utils.collate_fn_emb_berts)
+                                              batch_size=args.batch_size,
+                                              num_workers=args.workers,
+                                              collate_fn=
+                                              utils.collate_fn_emb_berts)
 
     # Segmentation model.
     seg_model = segmentation.deeplabv3_resnet101(num_classes=2,
