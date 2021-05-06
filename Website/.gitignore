@@ -3,3 +3,4 @@ tmp/
 bootstrap.min.css
 bootstrap.bundle.min.js
 jquery-3.5.1.slim.min.js
+*.pdf
