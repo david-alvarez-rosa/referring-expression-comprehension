@@ -1,1 +1,12 @@
 * Thesis
+
+The document can be compiled using the following.
+
+
+#+BEGIN_SRC bash
+  pdflatex -shell-escape Thesis.tex
+  biber Thesis
+  makeglossaries Thesis
+  pdflatex -shell-escape Thesis.tex
+  pdflatex -shell-escape Thesis.tex
+#+END_SRC
