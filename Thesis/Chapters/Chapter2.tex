@@ -380,15 +380,9 @@ to use activation functions with the aim of introducing non-linearities in the
 model without affecting the receptive fields of the convolutions. They are
 typically added just after convolution.
 
-The main functions used are the following: TODO.
-\begin{itemize}
-  \item \textbf{\gls{relu}.} It is the function \(f (x) = \max \{0, x\}\),
-  which is the most used. Removes negative values from the feature map and sets
-  them to zero.
-  \item \textbf{TODO. Tangente hiperbolica.} \(f (x) = \tanh x\)
-  \item \textbf{Sigmoid function.} \(\sigma (x) ={(1 + e - x)} -1\).
-  \item \(f (x) = | \tanh x |\)
-\end{itemize}
+The main functions used are the following: \gls{relu}, hyperbolic tangent,
+sigmoid function, etc. See\ \vref{sec:activation} for a graphic representantion
+of these functions.
 
 
 \subsection{\glsentrylong{rnn}}\label{sec:rnn}\index{Recurrent network}
@@ -639,7 +633,7 @@ layer to obtain a vector of \emph{probabilities}.
 
 
 
-\section{Trainning}\index{Trainning}
+\section{Trainning}\label{sec:trainning}\index{Trainning}
 
 The process of trainning a neural networks consists in adjust the parameters of
 the model to fit a particular dataset. Moreover, it is mandatory to define a
@@ -847,7 +841,8 @@ the chain rule. PyTorch has a built-in differentiation engine called
 \code{torch.autograd} that supports automatic computation of gradient for any
 computational graph.
 
-\subsection{Regularization Techniques}\index{Regularization}
+\subsection{Regularization Techniques}%
+\label{sec:regularization}\index{Regularization}
 
 One of the biggest problems facing \gls{dl} and more generally predictive
 statistics is that of \emph{overfitting}\index{Overfitting}. Overfitting is

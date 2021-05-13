@@ -5,10 +5,8 @@
 \begin{tikzpicture}
   \begin{axis}[trainPlot]
     \addplot table[col sep = comma]{Figures/Tikz/Data/train.csv};
-    \legend{\code{train}}
+    \addplot table[col sep = comma]{Figures/Tikz/Data/val.csv};
+    \draw[dashed] (25, 0.39) -- node[right]{Stop} (25, 0.401);
+    \legend{\code{train}, \code{val}}
   \end{axis}
 \end{tikzpicture}
-
-
-    % \addplot table[col sep = comma]{Figures/Tikz/Data/val.csv};
-    % \legend{\code{train}, \code{val}}

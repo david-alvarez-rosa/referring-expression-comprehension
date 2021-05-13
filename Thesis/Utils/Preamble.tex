@@ -263,12 +263,12 @@
   },
   trainPlot/.style = {
     width = \textwidth,
+    height = .5\textwidth,
     grid = major,
     grid style = {dashed, gray!40},
-    xlabel = Epoch,
-    ylabel = Loss function,
+    xlabel = {Epoch number},
     thick,
-    legend pos = north east
+    legend pos = north east,
   }
 }
 
@@ -333,18 +333,18 @@
 \tcbset{
   listing engine = minted
 }
-\newtcbinputlisting[auto counter]{\codeIn}[3][]{
+\newtcbinputlisting[auto counter]{\codeIn}[2]{
   listing only,
-  minted language = #2,
-  listing file = {#3},
+  minted language = #1,
+  listing file = {#2},
   minted options = {
     fontsize = \footnotesize,
-    #1
+    linenos,
+    numbersep = 6pt
   },
   baseBox = Gray,
   left = 5pt,
   top = 0pt,
-  bottom = 0pt,
 }
 \tcbset{
   baseBox/.append style = {
@@ -362,7 +362,7 @@
     numbersep = 6pt,
   },
   baseBox = Gray,
-  left = 4pt,
+  left = 5pt,
   halign title = center,
   toptitle = 2pt,
   bottomtitle = 2pt,
@@ -463,6 +463,6 @@ This \namecref{#1}, entitled \textsl{\nameref*{#1}}, begins on page~\pageref{#1}
 \date{\today}
 
 
-% \includeonly{Chapters/Chapter2}
+% \includeonly{Chapters/Chapter4}
 % \includeonly{Appendices/AppendixC}
 % \includeonly{FrontBack/FrontMatter}

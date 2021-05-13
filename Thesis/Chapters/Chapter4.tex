@@ -135,103 +135,240 @@ tensor with two classes, which separate the \emph{background} from the
 
 \subsection{Model Iterations}\label{sec:model-iterations}
 
-\begin{comment}
-  1. He estado trabajando con el modelo de RefVOS, pero no he conseguido
-  obtener ninguna mejora significativa. Hasta ahora lo que he probado ha sido:
-
-  - Cambiar la manera en la que se unen las neuronas que provienen de la imagen
-  y las que provienen del texto (en el modelo se usa multiplicación). He
-  probado a entrenar con suma, resta, concatenación y proyectando usando una
-  aplicación lineal (multiplicándolas por una matriz y luego combinándolas).
-
-  - Probar diferentes funciones de error: "weighted cross entropy", "balanced
-  cross entropy", "focal loss". Quiero probar también con otras como: "dice
-  loss", "tversky index", "IoU loss"...  Las variaciones que he probado
-  partiendo de parámetros pre-entrenados apenas varían el modelo (<1\mejora),
-  posiblemente porque ya esté el modelo en cierto mínimo local de la función de
-  error (al final son todas similares) y los gradientes son prácticamente
-  nulos.
-
-  Y probando variaciones con parámetros no-entrenados no consigo llegar a la
-  precisión de RefVOS (entreno con train/validation/test y guardo los
-  parámetros de la época con mejores resultados en validación).
-
-  Por otro lado, he tratado de crear algún modelo desde 0, sin basarme en
-  RefVOS, pero he obtenido resultados nefastos (cercanos a la aleatoriedad).
-\end{comment}
-
-
-\begin{figure}[p]
-  \centering
-  \input{Figures/Tikz/Prueba.tex}
-  \caption[TODO]{TODO.}
-\end{figure}
-
-
-Ahora, en este apartada lo que trataremos de hacer es entender el
-funcionamiento de la arquitectura base explicada y proceder a realizar un
-proceso iterativo de mejora de dicho modelo. Para ello atacaremos a las partes
-fundamentales constituyentes de cualquier modelo neuronal: cambiar la
-arquitectura o cambiar la manera de entrenar. Como sabemos, respecto a la
-arquitectura, en este caso, tenemos tres partes diferenciadas (el image
-encoder, el language encoder y el multimodal embedding). Y, respecto al
-entrenamiento del modelo también se pueden distinguir diferentes partes: loss
-function, criterio para parar el entrenamiento, técnica de optimización, uso de
-parámetros pre-entrenados, etc.
+Now, in this section, what we will try to do is understand the operation of the
+base architecture explained and proceed to carry out an iterative process of
+improvement of said model. For this we will attack the fundamental constituent
+parts of any neural model: change the architecture or change the way of
+training. As we know, regarding the architecture, in this case, we have three
+different parts (the image encoder, the language encoder and the multimodal
+embedding). And, regarding the training of the model, different parts can also
+be distinguished: loss function, criteria to stop training, optimization
+technique, use of pre-trained parameters, etc.
 
 \subsubsection{Loss Functions}\index{Loss function}
 
-Originalmente la función utilizada para el entrenamiento es la de \gls{ce}, sin
-embargo, para la tarea de segmentación (concretamente para segmentación binaria
-como es este caso) existen muchas más (see\ \vref{sec:loss-functions}). Dentro
-de todo este listado hay muchas de ellas que son variaciones precisamente de
-\gls{ce}. Entrenar un modelo con estas variaciones resulta poco significado de
-cara a resultados. Aquí comentar que no se encuentran resultados significados,
-ya que, al tratarse de un modelo ya pre-entrenado y ser las funciones de loss
-bastante similares, no se avanza en el entrenamiento se llega a una zona donde
-los gradientes son prácticamente nulos.
+Originally the function used for training is that of \gls{ce}, however, for the
+segmentation task (specifically for binary segmentation as is this case) there
+are many more (see\ \vref{sec:loss-functions}). Within this entire list there
+are many of them that are variations precisely of \gls{ce}. Training a model
+with these variations is of little significance in terms of results. Here,
+comment that no significant results are found, since, as it is a pre-trained
+model and the loss functions are quite similar, there is no progress in
+training, reaching an area where the gradients are practically zero.
 
-Otras loss functions que podrían ser más interesantes son las basadas en
-overlap measures. Entre ellas destacamos la de \gls{dil}.
+Other loss functions that could be more interesting are those based on overlap
+measures. Among them we highlight that of \gls{dil}, which has been used to
+train the model based on pre-trained parameters. This loss function, which has
+already been defined in\ \vref{sec:loss-functions}, can be implemented in
+PyTorch as follows.
 
-\codeIn[firstline=119, lastline=132]{python}{../Code/utils.py}
+\codeIn{python}{Code/diceLoss.py}
 
-Aquí sí o sí tengo que meter gráficas de cómo evoluciona la función de pérdida
-respecto a las iteracciones en train/val. La tengo por ahí en un archivo .csv.
+Using this loss function the evaluation of the training of the model is
+collected in\ \vref{fig:dl-train}. The training process is decided to stop at
+the moment when the loss function is lowest in the split \code{val}. It is
+important to observe the magnitudes on the vertical axis of the graph, since
+the variations are insignificant. It might seem at first glance that the
+evolution of the loss function is quite satisfactory due to the shape of the
+graph, but it must be taken into account that the scale of the vertical axis is
+extremely small, so the variations of the model parameters are really
+insignificant.
 
+\begin{figure}[p]
+  \centering
+  \tikzset{external/export next=false}
+  \begin{tikzpicture}
+    \begin{axis}[trainPlot, ylabel={Dice Loss}]
+      \addplot table[col sep=comma]{Data/train.csv};
+      \addplot table[col sep=comma]{Data/val.csv};
+      \draw[dashed] (21, 0.39) -- node[right]{Stop} (21, 0.401);
+      \legend{\code{train}, \code{val}}
+    \end{axis}
+  \end{tikzpicture}
+  \caption[Training graph with \glsentrylong{dil}]{Training graph with
+    \glsentrylong{dil}. The evolution of the loss function for the different
+    epochs for the \code{train/val} splits is shown. We are left with the epoch
+    that presents a lower value of the loss function in the split
+    \code{val}. Figure created by the author.}%
+  \label{fig:dl-train}
+\end{figure}
+
+In order to better understand this evolution of the model, the overall
+\gls{iou} on this same training process has also been plotted (see \
+\vref{fig:dl-val}). In it we can see a very important presence of noise,
+variations really without any direction and without presenting a clear
+trend. It is also important to highlight in this case that the scale of the
+vertical axis is quite small: this same graph on a vertical axis in the range
+\((0, 1)\) would be practically flat.
+
+\begin{figure}[p]
+  \centering
+  \tikzset{external/export next=false}
+  \begin{tikzpicture}
+    \begin{axis}[trainPlot, ylabel={Overall \acs{iou}}]
+      \addplot table[col sep=comma]{Data/other.csv};
+      \legend{\code{val}}
+    \end{axis}
+  \end{tikzpicture}
+  \caption[Gráfica de overall \glsentryshort{iou} con
+  \glsentrylong{dil}]{Gráfica de overall \glsentryshort{iou} con
+    \glsentrylong{dil}. In this case, under the same evolution of the model
+    optimizing the \gls{dil} function, it is shown how the overall \gls{iou}
+    evolves. Figure created by the author.}%
+  \label{fig:dl-val}
+\end{figure}
+
+Taking into account that the best epoch corresponds to the number 21 (see \
+\vref{fig:dl-train}), we would obtain a value of overall \gls{iou} in this
+lower than that obtained by the initial model (see\ \vref{tab:ablation})
+. Yes, it is true that we could decide to take the values of the parameters at
+another time taking into account the peak of overall \gls{iou} at time number
+16. Now, this graph actually presents very small fluctuations that are due to
+simple noise produced by the slight variation of the parameters when training
+and does not represent a significant improvement in the model.
 
 \subsubsection{Multimodal Embedding}\index{Multimodal!embedding}
 
-Aquí lo que comentaremos es que en vez de sumar o restar o multiplicar las
-diferentes características hemos probado a proyectar usando una aplicación
-lineal. Aquí hay que volver a realizar todo el entrenamiento. Comentar que esto
-simplemente está añadiendo complejidad al modelo, pero sin ningún interés
-práctico real. El modelo ya es lo suficientemente complejo para funcionar
-bien.
+Regarding multimodal embedding, there are different possibilities that can be
+carried out to obtain joint information both in terms of vision and
+language. Among them, those studied by the model \gls{refvos} are those of
+addiction, multiplication and concatenation. That is, we can join the visual
+features and the language features with an element-wise operation. These
+different strategies are shown in\ \vref{tab:ablation} evaluated using the
+overall metric \gls{iou} in the RefCOCO dataset in the splits of
+\code{val/testA/testB}. As we can see, the fusion strategy that obtains a
+superior performance is that of \emph{multiplication}, so it will be the one
+used in the future.
 
 \begin{table}[ht]
   \centering
-  \caption[TODO]{TODO. Comparative study about different fusion strategies
-    between visual and language features on RefCOCO.}%
-  \label{table:results_refcoco_ablation}
-  \rowcolors{2}{rowColor}{}
+  \caption[Performance of fusion strategies in RefCOCO dataset]{Performance of
+    fusion strategies in RefCOCO dataset. The overall \gls{iou} for each fusion
+    strategy for visual and language features is shown for the
+    \code{val/testA/testB} splits in the RefCOCO dataset. Table created by the
+    author.}%
+  \label{tab:ablation}
+  \rowcolors{3}{}{rowColor}
   \begin{tabular}{l*3c}
     \toprule
-    \rowcolor{topRowColor}
-    \textbf{Type}  & \code{val}     & \code{testA}   & \code{testB}   \\
+    & \multicolumn{3}{c}{\textbf{RefCOCO}} \\
+    \cmidrule(lr){2-4}
+    \textbf{Strategy} & \code{val}     & \code{testA}   & \code{testB}   \\
     \midrule
-    Addition       & 56.60          & 60.87          & 51.29          \\
-    Multiplication & \textbf{59.45} & \textbf{63.19} & \textbf{54.17} \\
-    Concatenation  & 55.12          & 58.88          & 49.59          \\
+    Addition          & 56.60          & 60.87          & 51.29          \\
+    Multiplication    & \textbf{59.45} & \textbf{63.19} & \textbf{54.17} \\
+    Concatenation     & 55.12          & 58.88          & 49.59          \\
+    Projection        & Infeasible     & Infeasible     & Infeasible     \\
+    Projection v2     & 21.08          & -              & -              \\
     \bottomrule
   \end{tabular}
 \end{table}
 
+These three multimodal feature fusion strategies have in common that they are
+presented in an ``arbitrary'' way, so it was studied as an improvement that
+this multimodal fusion was learned by the model and not imposed
+externally. That is, it was tried that the fusion of features was learned by
+the model using data. To do this, using the notation \(V\) for the visual
+features tensor and \(L\) for the language features tensor, we have that their
+dimensions are \(w \times h \times d\) and \(d\) respectively (\(w\) and \(h\)
+represent the width and the height of the visual features respectively). Then,
+the idea of following an approach similar to the one proposed by
+\myCite{faghri18:vse} arises, where linear porjections are defined from the
+features to an embedding space. To do this, it is necessary to reshape the
+visual features tensor and think of it as a vector \(V \in \R^{w \times h
+\times d}\), (we will define to simplify the notation \(D := w \times h \times
+d\), so we will write \(V \in \R^D\)). And, we will also use the vector of
+language features \(L \in \R^{d}\). In this way, it is now possible to define
+applications to map features to a vector space of common dimension \(J\). That
+is, the application \(\phi\) is defined,
+\begin{equation}
+  \begin{aligned}
+    \phi \colon \R^{D} \times \R^{D \times J} &\longrightarrow \R^J \\ (V, W_v)
+    &\longmapsto \phi(V, W_v) := W_v V,
+  \end{aligned}
+\end{equation}
+which maps the visual features \(V\) to the joint space \(\R^J\) via the linear
+projection defined by the matrix of visual parameters \(W_v\). In the same way,
+the application \(\psi\) is defined,
+\begin{equation}
+  \begin{aligned}
+    \psi \colon \R^{d} \times \R^{J \times d} &\longrightarrow \R^J \\ (L, W_l)
+    &\longmapsto \psi(L, W_l) := W_l L,
+  \end{aligned}
+\end{equation}
+which maps the language features \(L\) to the joint space \(\R^J\) via the
+linear projection defined by the language parameter matrix \(W_l\).
 
-\subsubsection{Model}
+Some decisions had to be made, including the decision of the size of the joint
+space \(D\). Taking into account that the vector of language features had
+dimension \(d\) and that it would not be useful to propose a reduction in
+dimensionality or increase it (since the model already has enough complexity
+and free trainable parameters), it was decided to fix that it would not be used
+of parameters and \(\psi = \text{Id}\). Therefore, it only remained to add the
+function \(\phi\), which was completely defined by the matrix of visual weights
+\(W_v\). Now, this initial idea of projection that seemed very useful, was
+found to be infeasible due to the enormous size of this matrix and the
+impossibility of training this huge number of parameters due to limited
+computational resources. We must take into account that \(W_v \in \R^{D \times
+J}\), where \(D = w \times h \times d\), and we have chosen \(J = d = 256\) for
+\(\psi = \text{Id}\). In other words, the number of parameters in \(W_v\) is on
+the order of billions, which makes it infeasible.
 
+Once this problem has been detected, another similar approach is proposed, but
+drastically reducing the number of parameters. To do this, it is proposed to
+reuse parameters in the depth of the image characteristics (and continue using
+\(\psi = \text{Id}\)). That is, use an array for each of the slices in the
+depth of the visual features. This is for each slice \(V^i\) in the depth of
+the visual features tensor, a weight matrix \(W_v\) is used (the same for all
+slices), so that the corresponding embedding for slice \(i\) is defined as
+follows \(\tilde{V}^i = W_v V^i\). That is, in this case each of the visual
+features matrices is not extended as a vector, but rather is multiplied. To
+keep the original dimensions, use \(W_v \in \R^{w \times h}\). In this way, it
+was possible to send the visual features tensor \(V\) to another modified
+visual features tensor \(\hat{V}\) through a linear projection with trainable
+parameters. Later, the multiplication of features was used again to now achieve
+the fusion with the language (multiplication is used because it is what had
+been shown as more efficient before). Now, what was obtained from these
+variations to the model? Pretty bad results. Specifically, in the split of
+\code{val} in the RefCOCO dataset an overall \gls{iou} value of 21.08 was
+obtained, which is significantly lower than the values obtained by other
+techniques, so it was not decided to use this technique. After a reasoning of
+the method of the method used, the causes that cause problems in this case are:
+\begin{itemize}
+  \item \textbf{Loss of spatial information.} The first and most important
+  thing is to highlight that this technique described here causes the loss of
+  spatial information that comes from the beginning from the image (and this is
+  preserved by the convolution operations). That is, when performing the
+  multiplication operation between matrices we are at the end combining
+  ``pixels'' from different parts of the image without too much success.
+  \item \textbf{Meaningless transformation to visual information.} Another
+  problem that arises in the application of this technique is that it does not
+  contribute significantly to the multimodal fusion between
+  characteristics. Rather, it is an addition to the convolutional network used,
+  which is not useful, since the model used is a well-known state-of-the-art
+  model. In other words, we are adding one more layer without much sense to an
+  existing model whose topology has already been precisely selected by its
+  creators.
+  \item \textbf{Adding unnecessary non-pretrained parameters.} Besides that, we
+  have the problem that a significant number of parameters are being added
+  (trainable, yes), but they are not pre-trained. That is, we are giving the
+  model the ability to more easily overfit with these new parameters that have
+  been added.
+\end{itemize}
 
-\subsubsection{Trai proccess}
+\subsubsection{Training Proccess}
+
+Another possibility to modify is the model training process. This consists of
+modifying the optimization algorithm so that the development of the model can
+be improved. In\ \vref{sec:trainning} different possibilities have already been
+discussed. In the original case of \gls{refvos}, the optimizer \gls{sgd} is
+used with Nesterov momentum\index{Nesterov momentum} \num{0.9} and
+\code{weight\_decay} of \num{1e-6}, this corresponds to the regularization
+\(L_2\) (see\ \vref{sec:regularization}). Another possibility to consider would
+be Adam's optimizer\index{Adam optimizer}, for example with the
+hyperparameters\index{Hyperparameter} typical of \(\beta_1 = 0.9\), \(\beta_2 =
+0.999\). However, it has not been recommended to change this optimization
+process, since it is not usual for it to report significant improvements.
 
 
 

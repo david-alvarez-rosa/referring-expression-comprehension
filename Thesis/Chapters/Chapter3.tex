@@ -264,7 +264,7 @@ are. The penalty will grow exponentially until it becomes infinite for the
 value \(\hat{p} = 0\). Case \(p = 0\) is symmetric.
 
 Various variations of this loss function will be discussed below that may be
-useful for training various neural models. TODO. rewrite this section.
+useful for training various neural models.
 
 \begin{itemize}
   \item \textbf{\gls{wce}.} It is a variant of \gls{ce} in which the positive
@@ -274,8 +274,7 @@ useful for training various neural models. TODO. rewrite this section.
     -(\beta p\log\hat{p} + (1 - p)\log(1 - \hat{p})).
   \end{equation}
   Typically used when unbalanced classes appear. It is not too interesting for
-  this case. (TODO. es interesante cuando la ground truth es un trozo muy
-  pequeño de la imagen)
+  this case.
   \item \textbf{\gls{bce}.} It is similar to \gls{wce} with the only difference
   that a weight is also added to the negative examples. It is defined as
   follows,
@@ -333,9 +332,7 @@ the evaluation of the model in\ \vref{sec:quantitative-eval}.
   \begin{equation}
     \text{\gls*{dc}}(X, Y) = \frac{2|X \cap Y|}{|X| + |Y|}.
   \end{equation}
-  This says coefficient can be defined as a loss function, TODO, explain more
-  in depth (see Loss\ functions.pdf), also for intuititve explanation see
-  \url{https://www.jeremyjordan.me/semantic-segmentation/#loss}.
+  This says coefficient can be defined as a loss function,
   \begin{equation}
     \text{\gls*{dil}}(p, \hat{p}) = 1 -
     \frac{2\sum p_{h, w}\hat{p}_{h, w}}{\sum p_{h, w} + \sum \hat{p}_{h, w}},

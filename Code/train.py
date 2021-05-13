@@ -1,4 +1,7 @@
-"""TODO"""
+"""File for testing the model
+
+This script has been used for model training.
+"""
 
 import time
 import torch
@@ -11,9 +14,6 @@ import utils
 import gc
 from dataset import ReferDataset
 from model import Model
-
-
-
 import test
 
 
@@ -25,7 +25,8 @@ def adjust_learning_rate(optimizer, epoch, args):
         param_group["lr"] = lr
 
 
-def train_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch, args):
+def train_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch,
+                args):
     """Train and compute loss and accuracy on train dataset_train.
     """
 
@@ -41,7 +42,8 @@ def train_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch, args
 
         # Compute model output and loss.
         outputs = model(sents, attentions, imgs)
-        loss = torch.nn.functional.cross_entropy(outputs, targets, ignore_index=255)
+        loss = torch.nn.functional.cross_entropy(outputs, targets,
+                                                 ignore_index=255)
 
         # Backpropagate.
         optimizer.zero_grad()
@@ -60,15 +62,13 @@ def train_epoch(model, optimizer, data_loader, lr_scheduler, device, epoch, args
         torch.cuda.empty_cache()
 
 
-def evaluate_epoch(results_dir, device, model, loader_train, loader_val, dataset_val):
+def evaluate_epoch(results_dir, device, model, loader_train, loader_val,
+                   dataset_val):
     # Evaluate in train dataset.
     print("--- Train ---")
     test.evaluate(data_loader=loader_train,
                   model=model,
                   device=device)
-
-    return                      # Remove this for evaluation in validation.
-
 
     # Evaluate in validation dataset.
     print("\n--- Validation ---")
@@ -79,7 +79,8 @@ def evaluate_epoch(results_dir, device, model, loader_train, loader_val, dataset
                   results_dir=results_dir)
 
 
-def new_epoch(model, optimizer, dataset_train, dataset_val, loader_train, loader_val, lr_scheduler, device, epoch, args):
+def new_epoch(model, optimizer, dataset_train, dataset_val, loader_train,
+              loader_val, lr_scheduler, device, epoch, args):
     time_start_epoch = time.time()
 
     # Train.
@@ -108,7 +109,8 @@ def new_epoch(model, optimizer, dataset_train, dataset_val, loader_train, loader
 
     print("\n--- Time ---")
     print("time_train: {:.2f}s".format(time_end_train - time_start_train))
-    print("time_evaluate: {:.2f}s".format(time_end_evaluate - time_start_evaluate))
+    print("time_evaluate: {:.2f}s".format(time_end_evaluate -
+                                          time_start_evaluate))
     print("time_epoch: {:.2f}s".format(time_end_epoch - time_start_epoch))
 
 
@@ -116,25 +118,9 @@ def main(args):
     device = torch.device(args.device)
 
     # Train dataset.
-    dataset_train = ReferDataset(args=args,
-                                 split="train",
-                                 transforms=transforms.get_transform(train=True))
-
-
-
-
-
-
-
-    # Modification.
-    dataset_train = torch.utils.data.Subset(dataset_train, torch.arange(30))
-
-
-
-
-
-
-
+    dataset_train = ReferDataset(args=args, split="train",
+                                 transforms=transforms.get_transform(train=
+                                                                     True))
 
     sampler_train = torch.utils.data.RandomSampler(dataset_train)
     loader_train = torch.utils.data.DataLoader(
@@ -158,22 +144,6 @@ def main(args):
         num_workers=args.workers,
         collate_fn=utils.collate_fn_emb_berts)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     # Segmentation model.
     seg_model = segmentation.deeplabv3_resnet101(num_classes=2,
                                                  aux_loss=False,
@@ -182,8 +152,6 @@ def main(args):
 
     # BERT model.
     bert_model = BertModel.from_pretrained(args.ck_bert)
-
-
 
     # Load checkpoint.
     device = torch.device(args.device)
@@ -198,15 +166,22 @@ def main(args):
     model.to(device)
 
     params_to_optimize = [
-        {"params": [p for p in seg_model.backbone.parameters() if p.requires_grad]},
-        {"params": [p for p in seg_model.classifier.parameters() if p.requires_grad]},
+        {"params": [p for p in seg_model.backbone.parameters()
+                    if p.requires_grad]},
+        {"params": [p for p in seg_model.classifier.parameters()
+                    if p.requires_grad]},
         # the following are the parameters of bert
-        {"params": reduce(operator.concat, [[p for p in bert_model.encoder.layer[i].parameters() if p.requires_grad] for i in range(10)])},
-        {"params": [p for p in bert_model.pooler.parameters() if p.requires_grad]}
+        {"params": reduce(operator.concat,
+                          [[p for p
+                            in bert_model.encoder.layer[i].parameters()
+                            if p.requires_grad] for i in range(10)])},
+        {"params": [p for p in bert_model.pooler.parameters()
+                    if p.requires_grad]}
     ]
 
     if args.aux_loss:
-        params = [p for p in seg_model.aux_classifier.parameters() if p.requires_grad]
+        params = [p for p in seg_model.aux_classifier.parameters()
+                  if p.requires_grad]
         params_to_optimize.append({"params": params, "lr": args.lr * 10})
 
     optimizer = torch.optim.SGD(
@@ -235,7 +210,8 @@ def main(args):
 
 
     for epoch in range(args.epochs):
-        print(("\n" + "="*25 + " Epoch {}/{} " + "="*25).format(epoch + 1, args.epochs))
+        print(("\n" + "="*25 + " Epoch {}/{} " + "="*25).format(epoch + 1,
+                                                                args.epochs))
         new_epoch(model=model,
                   optimizer=optimizer,
                   dataset_train=dataset_train,
@@ -260,9 +236,11 @@ def main(args):
             if not args.linear_lr:
                 dict_to_save["lr_scheduler"] = lr_scheduler.state_dict()
 
-            utils.save_on_master(dict_to_save, args.output_dir + "model_best_{}.pth".format(args.model_id))
+            utils.save_on_master(dict_to_save, args.output_dir +
+                                 "model_best_{}.pth".format(args.model_id))
 
             t_iou = iou
+
 
 if __name__ == "__main__":
     from args import get_parser
