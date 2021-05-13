@@ -44,6 +44,7 @@
   inner = .75in,
   outer = .75in,
   bindingoffset = .25in,
+  footskip = 30pt,
   % showframe,
   % paper = a4paper,
   % showcrop,
@@ -447,6 +448,9 @@ This \namecref{#1}, entitled \textsl{\nameref*{#1}}, begins on page~\pageref{#1}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\loss}{\mathcal{L}}
 
+% Set hyphenation for special words.
+\babelhyphenation[english]{hy-per-pa-ra-me-ter}
+
 % Basic math operators.
 \DeclareMathOperator*{\argmin}{arg\,min}
 
@@ -455,7 +459,7 @@ This \namecref{#1}, entitled \textsl{\nameref*{#1}}, begins on page~\pageref{#1}
 \DeclareSIUnit\ectss{\text{\gls*{ects} credits}}
 
 % Custom commands.
-\newcommand*{\re}[1]{\texttt{#1}}
+\newcommand*{\re}[1]{\textsf{#1}}
 \newcommand*{\code}[1]{\texttt{#1}}
 
 \title{Exploring and Visualizing Referring Expression Comprehension}
