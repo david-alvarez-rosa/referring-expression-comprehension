@@ -74,7 +74,7 @@ history).\medskip
 
 
 
-\section{Datasets}\label{sec:datasets-dir}
+\section{Datasets and Utils}\label{sec:datasets-dir}
 
 The datasets used in their original format will be stored in this
 directory.\medskip
@@ -91,6 +91,24 @@ directory.\medskip
   .2 \myDir{refcocog}.
   .3 {* Similar to refcoco \(\uparrow\)}.
   .2 \myOrg{README}.
+}\medskip
+
+The \emph{utils} directory containing different files useful for various
+functions. Among them are the shell executables to synchronize files with the
+remote server for training and with the web server. Slurm\footnote{Slurm is an
+  free and open-source job scheduler that is used in the servers provided by
+  VectorInstitute.} configurations files used are also present here.\medskip
+
+\dirtree{%
+  .1 \myDir{Utils}.
+  .2 \myGit{.gitignore}.
+  .2 \myPy{createSmall}.
+  .2 \myPy{getImgNames}.
+  .2 \mySlurm{launch}.
+  .2 \myBash{newServer}.
+  .2 \myBash{testAPI}.
+  .2 \myBash{vector}.
+  .2 \myBash{vectorInteractive}.
 }
 
 
@@ -104,11 +122,11 @@ etc.\medskip
 \dirtree{%
   .1 \myDir{Thesis}.
   .2 \myDir{Appendices}.
-  .3 \myTex{Appendix\{A,B\}}.
+  .3 \myTex{Appendix\{A,B,C\}}.
   .2 \myDir{Build}.
   .3 {* Externalized build files}.
   .2 \myDir{Chapters}.
-  .3 \myTex{Chapter\{1,2, \ldots,8\}}.
+  .3 \myTex{Chapter\{1,2,\ldots{},8\}}.
   .2 \myDir{Figures}.
   .3 \myDir{Images}.
   .4 {* Document images}.
@@ -133,28 +151,6 @@ etc.\medskip
   .2 \myOrg{README}.
   .2 \myTex{Slides}.
   .2 \myTex{Thesis}.
-}
-
-
-
-\section{Utils}\label{sec:utils}
-
-Directory containing different files useful for various functions. Among them
-are the shell executables to synchronize files with the remote server for
-training and with the web server. Slurm\footnote{Slurm is an free and
-  open-source job scheduler that is used in the servers provided by
-  VectorInstitute.} configurations files used are also present here.\medskip
-
-\dirtree{%
-  .1 \myDir{Utils}.
-  .2 \myGit{.gitignore}.
-  .2 \myPy{createSmall}.
-  .2 \myPy{getImgNames}.
-  .2 \mySlurm{launch}.
-  .2 \myBash{newServer}.
-  .2 \myBash{testAPI}.
-  .2 \myBash{vector}.
-  .2 \myBash{vectorInteractive}.
 }
 
 

@@ -32,7 +32,11 @@ possible (see\ \vref{sec:backend} for a detailed explanation).
 The \gls{ui} has been created with the idea of being as simple as possible. In
 this way, any type of non-specialized user will be able to carry out a
 qualitative evaluation of the model used. See\ \vref{fig:web} for a screenshot
-of the web interface.
+of the web interface. In addition to proposing an interactive medium where
+\gls{rec} can be done with arbitrary images and \gls{re}, on the web you can
+also find explanations about this work, download this report and find all the
+source code developed. This website will be a public and transparent online
+version containing all the work of this thesis.
 
 \begin{figure}[ht]
   \centering
@@ -43,48 +47,38 @@ of the web interface.
   \label{fig:web}
 \end{figure}
 
-In addition to proposing an interactive medium where \gls{rec} can be done with
-arbitrary images and \gls{re}, on the web you can also find explanations about
-this work, download this report and find all the source code developed. This
-website will be a public and transparent online version containing all the work
-of this thesis.
-
 Different ways of interacting with this interface are possible. Among them, for
 example, three options have been added to introduce images for the realization
-of \gls{rec}. These are the following,
-\begin{itemize}
-  \item \textbf{Gallery.} Different images are shown in a gallery inserted on
-  the web. These are taken from the \gls{coco} dataset.\footnote{It should be
-    noted here that, when taken from the \gls{coco} dataset, most of the images
-    that appear in this gallery \emph{no} have been used to train the neural
-    model.}
-  \item \textbf{Web address.} An image can also be added to the web from an
-  external source using its web address (the URL).
-  \item \textbf{Locally.} Finally, it is possible to upload an image from your
-  own computer's local storage to the web.
-\end{itemize}
+of \gls{rec}. Withing this options is that of \emph{gallery}; different images
+are shown in a gallery inserted on the web. These are taken from the \gls{coco}
+dataset.%
+\footnote{It should be noted here that, when taken from the \gls{coco} dataset,
+  most of the images that appear in this gallery have \emph{not} been used to
+  train the neural model.} There is also the possibility of using a \emph{web
+  address}, in which an image can also be added to the web from an external
+source using its web address (the URL). Finally, it is possible to use the
+\emph{local} option, in which you can upload an image from your own computer's
+local storage to the web.
 
 In the case of adding \gls{re} there are two options in order to facilitate
-interaction with the model. These are the following,
-\begin{itemize}
-  \item \textbf{Keyboard.} \gls{re} can be entered using the keyboard in the
-  usual way.
-  \item \textbf{Voice.} You can also enter \gls{re} more comfortably using your
-  voice. To do this, it is only necessary to press the corresponding button on
-  the main page so that the window corresponding to the voice input of commands
-  opens (see\ \vref{fig:voice}). Here we will have to give permissions to the
-  web to access the microphone and we will be able to record the \gls{re} that
-  we want.
-  \begin{figure}[ht]
-    \centering
-    \includegraphics[width=.75\textwidth]{Images/Voice.png}
-    \caption[Web interface for voice input]{Web interface for voice input. Here
-      you can speak directly into the computer's microphone as an alternative
-      method of entering a \gls{re}. This audio will be converted using a
-      neural model to text. Figure created by the author.}%
-    \label{fig:voice}
-  \end{figure}
-\end{itemize}
+interaction with the model. These are the following: keyboard and
+voice. Firstly, the \gls{re} can be entered using the \emph{keyboard} in the
+usual way. But also it is possible to enter \gls{re} more comfortably using
+your own \emph{voice}. To do this, it is only necessary to press the
+corresponding button on the main page so that the window corresponding to the
+voice input of commands opens (see\ \vref{fig:voice}). Here we will have to
+give permissions to the web to access the microphone and we will be able to
+record the \gls{re} that we want.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=.75\textwidth]{Images/Voice.png}
+  \caption[Web interface for voice input]{Web interface for voice input. Here
+    you can speak directly into the computer's microphone as an alternative
+    method of entering a \gls{re}. This audio will be converted using a
+    neural model to text. Figure created by the author.}%
+  \label{fig:voice}
+\end{figure}
 
 
 \subsection{Responsive Design and Accessibility}%
@@ -107,7 +101,10 @@ disabilities (e.g., vision problems).
 We can see how the web created adapts to different widths by comparing\
 \vref{fig:web} with\ \vref{fig:responsive}. Among other aspects, the gallery
 adapts the number of columns according to the device and the navigation bar
-expands or collapses also depending on the width of the screen.
+expands or collapses also depending on the width of the screen. In addition to
+these two commented elements (navigation bar and gallery) other different
+elements also adjust to the different screen widths. Among them the footer, the
+width of the resulting segmented image, the size of the \gls{re} and many more.
 
 \begin{figure}[ht]
   \centering
@@ -128,16 +125,16 @@ expands or collapses also depending on the width of the screen.
   \label{fig:responsive}
 \end{figure}
 
-In addition to these two commented elements (navigation bar and gallery) other
-different elements also adjust to the different screen widths. Among them the
-footer, the width of the resulting segmented image, the size of the \gls{re}
-and many more.
-
 Another fundamental aspect when making a web design is that of
-\emph{accessibility}\index{Accesibility}. In the words of
-\myCite{berners-lee21:introd_web_acces}, \gls{w3c}\footnote{Is the main
+\emph{accessibility}\index{Accesibility}. With the term accessibility we refer
+to that all kinds of people could be accessed regardless of their
+disabilities. That is, we try to keep the whole population as possible in mind
+as possible users and guarantee access and use of the
+web. \myCite{berners-lee21:introd_web_acces}, \gls{w3c}\footnote{Is the main
   international standards organization for the World Wide Web} Director and
-inventor of the World Wide Web,
+inventor of the World Wide Web, gives a very interesting affirmation of
+accessibility within the scope of web development, where he defends the right
+of all people without ingrousing their disability.
 
 \begin{quoteBox}
   The power of the Web is in its universality. Access by everyone regardless of
@@ -174,7 +171,7 @@ the input method of \gls{re} (by voice it will take longer).
   To have an approximation, using images from the gallery shown on the web,
   with a single user browsing (unsaturated server, which is usual) and entering
   the \gls{re} using the keyboard, the complete execution of the program is
-  about 6 seconds.
+  about 5 seconds.
 \end{exampleBox}
 
 
@@ -213,7 +210,7 @@ in\ \vref{fig:server}.
 
 \begin{figure}[p]
   \centering
-  \resizebox{\textwidth}{!}{\input{Figures/Tikz/Server.tex}}
+  \input{Figures/Tikz/Server.tex}
   \caption[Program architecture]{Program architecture. You can observe the
     transmission of data from the client (the user with his web browser), up to
     the generation of results through the \gls{api} on the server. Figure

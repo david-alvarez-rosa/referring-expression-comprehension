@@ -39,54 +39,51 @@
     very thick
   }
   ]
-  % Cliente.
-  \node[boxp=magenta] (Us) {User};
-  \node[box=magenta] (UN) [right=of Us] {Browser};
+  % Client.
+  \node[boxp=magenta] (UA) {User};
+  \node[box=magenta] (UB) [right=of UA] {Browser};
   \begin{scope}[on background layer]
-    \node[fit=(Us)(UN), cont=magenta, label={Client}] (U) {};
+    \node[fit=(UA)(UB), cont=magenta, label={Client}] (U) {};
   \end{scope}
 
-  % Servidor Web.
-  \node[boxp=gray] (SI) [below=1.25 of U, xshift=-6.5] {\textit{Index}};
-  \node[box=gray] (ST) [left=.75 of SI] {Tablero};
-  \node[box=gray] (SN) [right=.75 of SI] {\textit{Navbar}};
-  \node[box=gray] (SD) [below=.5 of ST] {Data};
-  \node[box=gray] (SA) [right=.35 of SD] {Animación};
-  \node[box=gray] (SC) [below=.5 of SN] {Controles};
-  \node[box=gray] (SCi) [below=.5 of SD] {Animación};
-  \node[box=gray] (SF) [below=.5 of SA, xshift=.25cm] {\textit{Footer}};
-  \node[box=gray] (SE) [below=.5 of SC, xshift=.55cm] {Otros \ldots};
+  % Web server.
+  \node[boxp=gray] (WA) [below=1.25 of U] {Index};
+  \node[box=gray] (WB) [left=.75 of WA] {Bootstrap};
+  \node[box=gray] (WC) [right=.75 of WA] {\phantom{a}Navbar\phantom{a}};
+  \node[box=gray] (WD) [below=.5 of WB] {JQuery};
+  \node[box=gray] (WE) [below=.5 of WA] {Audio};
+  \node[box=gray] (WF) [below=.5 of WC] {Footer};
+  \node[box=gray] (WG) [below=.5 of WE] {Others\ldots};
   \begin{scope}[on background layer]
-    \node[fit=(SI)(ST)(SN)(SC)(SCi)(SD)(SE)(SA), cont=gray,
-    label=above right:{Web Server}] (S) {};
+    \node[fit=(WA)(WB)(WC)(WD)(WE)(WF)(WG), cont=gray,
+    label=above right:{Web Server}] (W) {};
   \end{scope}
 
-  % Programa Principal.
-  \node[boxp=orange] (Mai) [below=1.5 of S] {Main};
+  % API.
+  \node[boxp=orange] (AA) [below=1.5 of W] {\Acs{api}};
+  \node[box=orange] (AB) [below=.5 of AA] {Comprehend};
+  \node[box=orange] (AC) [below=.5 of AB] {Audio};
   \begin{scope}[on background layer]
-    \node[fit=(Mai), cont=orange, label=below:{Main program}] (Ma) {};
+    \node[fit=(AA)(AB)(AC), cont=orange, label=below:{\Acs{api}}] (A) {};
   \end{scope}
 
-  % Brazo robótico.
-  \node[boxp=red] (MM) [above right=.25 and 4 of Ma] {Main};
-  \node[box=red] (MP) [below=.5 of MM] {Plano};
-  \node[box=red] (MI) [below=.5 of MP] {Interpolación};
+  % Silero.
+  \node[boxp=red] (SA) [right=2.5 of A, yshift=-.5cm] {\Acs{stt}};
+  \node[box=red] (SB) [below=.5 of SA] {Silero};
   \begin{scope}[on background layer]
-    \node[fit=(MM)(MP)(MI), cont=red, label={Movimiento robot}] (M) {};
+    \node[fit=(SA)(SB), cont=red, label={\Acl{stt}}] (S) {};
   \end{scope}
 
-  % Tres en Raya.
-  \node[boxp=blue] (TEs) [above left=.78 and 4 of Ma] {Main};
-  \node[box=blue] (TB) [below=.5 of TEs] {Básica};
-  \node[box=blue] (TEq) [below=.5 of TB] {Equivalencias};
-  \node[box=blue] (TA) [below=.5 of TEq] {Auxiliar};
+  % Comprehension.
+  \node[boxp=blue] (CA) [left=2.5 of A, yshift=-.5cm] {\Acs{rec}};
+  \node[box=blue] (CB) [below=.5 of CA] {Comprehend};
   \begin{scope}[on background layer]
-    \node[fit=(TEs)(TB)(TEq)(TA), cont=blue, label={Estrategia Tres en Raya}] (T) {};
+    \node[fit=(CA)(CB), cont=blue, label={Comprehension}] (C) {};
   \end{scope}
 
-  % Conexiones globales.
-  \connectV{U}{S};
-  \connectV{S}{Ma};
-  \connectH{T}{Ma};
-  \connectH{Ma}{M};
+  % Global connects.
+  \connectV{U}{W};
+  \connectV{W}{A};
+  \connectH{C}{A};
+  \connectH{A}{S};
 \end{tikzpicture}

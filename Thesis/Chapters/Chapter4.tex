@@ -20,10 +20,10 @@ spoken natural language.
 
 \section{\glsentrylong{rec}}\label{sec:rec-model}
 
-For the task of \gls{rec} it will be necessary to find/create a neural model
-that solves it. To do this, we will start from a base architecture (a model to
-start with) (see\ \vref{sec:base-arch}) and from there variations will be
-proposed (both in the model and in the way of training it) in\
+For the task of \gls{rec} it will be necessary to find or create a neural model
+that solves it. To do this, we will start from a base architecture, i.e., a
+model to start with (see\ \vref{sec:base-arch}) and from there variations will
+be proposed---both in the model and in the way of training it---in\
 \vref{sec:model-iterations}. That is, starting from the base model, an
 iterative process of improvement will be carried out.
 
@@ -106,7 +106,7 @@ previous models related to language representation. It uses \gls{mlm}, i.e.,
 randomly masks some tokens from the input and tries to predict the original
 token of masked word (just relying on its context). This allows the model to
 learn from both left and right context.\footnote{The model \gls{bert} also uses
-  the task of \gls{nsp} as an objective training function (see Task~\# 2 in
+  the task of \gls{nsp} as an objective training function (see Task~\#{}2 in
   section~3.1 from~\cite{devlin19:bert}).}
 
 To integrate \gls{bert} within the model, it is necessary to convert each of
@@ -237,7 +237,9 @@ different strategies are shown in\ \vref{tab:ablation} evaluated using the
 overall metric \gls{iou} in the RefCOCO dataset in the splits of
 \code{val/testA/testB}. As we can see, the fusion strategy that obtains a
 superior performance is that of \emph{multiplication}, so it will be the one
-used in the future.
+used in the future. In the original publication of the \gls{refvos} paper,
+these comparative values did not appear, so they have been calculated to
+confirm the theory present in their work.
 
 \begin{table}[ht]
   \centering
@@ -306,12 +308,13 @@ and free trainable parameters), it was decided to fix that it would not be used
 of parameters and \(\psi = \text{Id}\). Therefore, it only remained to add the
 function \(\phi\), which was completely defined by the matrix of visual weights
 \(W_v\). Now, this initial idea of projection that seemed very useful, was
-found to be infeasible due to the enormous size of this matrix and the
+found to be \emph{infeasible} due to the enormous size of this matrix and the
 impossibility of training this huge number of parameters due to limited
-computational resources. We must take into account that \(W_v \in \R^{D \times
-J}\), where \(D = w \times h \times d\), and we have chosen \(J = d = 256\) for
-\(\psi = \text{Id}\). In other words, the number of parameters in \(W_v\) is on
-the order of billions, which makes it infeasible.
+computational resources. We must take into account that
+\(W_v \in \R^{D \times J}\), where \(D = w \times h \times d\), and we have
+chosen \(J = d = 256\) for \(\psi = \text{Id}\). In other words, the number of
+parameters in \(W_v\) is on the order of billions, which makes it
+computationally infeasible.
 
 Once this problem has been detected, another similar approach is proposed, but
 drastically reducing the number of parameters. To do this, it is proposed to
@@ -355,7 +358,7 @@ the method of the method used, the causes that cause problems in this case are:
   been added.
 \end{itemize}
 
-\subsubsection{Training Proccess}
+\subsubsection{Training Process}
 
 Another possibility to modify is the model training process. This consists of
 modifying the optimization algorithm so that the development of the model can

@@ -10,13 +10,14 @@
   {---Alan \textsc{Turing}}}
 
 
-\lettrine{T}{he task of} \gls{rec} consists in, given a linguistic phrase
-(\gls{re}) and an image, generate binary masks for the object which the phrase
-refers to. In this chapter we will specifically formulate the problem to be
-solved (see\ \vref{sec:formulation}), we will analyze the existing datasets and
-the evaluation measures (see\ \vref{sec:rec-trainning}) and finally, we will
-make an exhaustive study of state-of-the-art works in this area by reviewing
-the more recent literature (see\ \vref{sec:sota}).
+\lettrine{T}{he task of} \gls{rec} consists in, given a \gls{re}---is a
+linguistic phrase or human speech---and an image, generate a segmentation for
+the object which the phrase refers to (i.e., a binary mask). In this chapter we
+will specifically formulate the problem to be solved (see\
+\vref{sec:formulation}), we will analyze the existing datasets and the
+evaluation measures (see\ \vref{sec:rec-trainning}) and finally, we will make
+an exhaustive study of state-of-the-art works in this area by reviewing the
+more recent literature (see\ \vref{sec:sota}).
 
 Regarding the nomenclature, some publications do not agree with the name to
 use. Several authors make use of the expression ``Referring Expression
@@ -33,19 +34,18 @@ complexity (but it can be done using neural models).
 \section{Problem Formulation}\label{sec:formulation}
 
 In the task of \gls{rec} two different entries must be given, one of them
-related to language and the other to vision.
-\begin{itemize}
-  \item \textbf{Vision.} It can be an image or a video. In our case we will
-  only deal with images.\footnote{The same model would also apply in the case
-    of video if we worked frame by frame, but we will not offer a model that
-    takes into account the temporal evolution of the frames.}
-  \item \textbf{\gls{re}.} It is a linguistic phrase that refers to an
-  object. It can occur in two media: audio and text. In this thesis, both
-  representations will be admitted.\index{Referring expression}
-\end{itemize}
-And, the output of this problem will be the generation of a binary segmentation
-mask with the referred object or a bounding box\index{Bounding box} (in this
-thesis functionality will be added to generate both).
+related to language and the other to vision. Regarding the \textbf{vision}
+part, t can be an image or a video. In our case we will only deal with images.%
+\footnote{The same model would also apply in the case of video if we worked
+  frame by frame, but we will not offer a model that takes into account the
+  temporal evolution of the frames.} It is also necessary a
+\gls{re}\index{Referring expression}, that is a linguistic phrase that refers
+to an object. It can occur in two media: audio and text. In this thesis, both
+representations will be admitted. And, the output of this problem will be the
+generation of a binary segmentation mask with the referred object or a bounding
+box\index{Bounding box}. In this thesis only the segmentation will be
+considered, but this is because is more general; generating the bounding box
+from the segmentation is trivial (which is not true in the other direction).
 
 In order to understand it, multiple examples of this problem are shown in\
 \vref{fig:rec-examples}. They have tried to show all the possibilities, from
@@ -56,8 +56,8 @@ the simplest to the most complex.
   (\re{cap}). In\ \vref{fig:rec-laptop} the different objects are differentiated
   by their relative position (\re{right}). In\ \vref{fig:rec-army} they are
   differentiated by one quality (\re{white suit}).
-  \item \textbf{Multiple categories.} As can be seen in
- \ \vref{fig:rec-umbrella,fig:rec-parent,fig:rec-girl}, it can refer to both
+  \item \textbf{Multiple categories.} As you can see in\
+  \vref{fig:rec-umbrella,fig:rec-parent,fig:rec-girl}, it can refer to both
   objects and people within the same image.
   \item \textbf{Specialized vocabulary.} In\ \vref{fig:rec-elephant} we refer to
   a specific type of animal (\re{elephant}) and in\ \vref{fig:rec-couch} the
@@ -118,10 +118,10 @@ the simplest to the most complex.
     \caption{Little girl pink coat}\label{fig:rec-girl}
     \includegraphics[width=\textwidth]{Images/Little girl.jpg}
   \end{subfigure}
-  \caption[Examples of \glsentrylong{rec}]{Examples of \acl{rec}. As can be
-    seen, we can refer to objects of the image with \gls{re} in natural
-    language and segmentation occurs. Figures created by the author (all). View
-    images in color to better appreciate segmentation.}%
+  \caption[Examples of \glsentrylong{rec}]{Examples of \acl{rec}. As you can
+    see, we can refer to objects of the image with \gls{re} in natural language
+    and segmentation occurs. Figures created by the author (all). View images
+    in color to better appreciate segmentation.}%
   \label{fig:rec-examples}
 \end{figure}
 
@@ -131,8 +131,8 @@ the simplest to the most complex.
 
 There are two fundamental things in the process of training a model: a dataset
 and a loss function. For the specific task of this work (\gls{rec}), we will
-present the most used datasets (see\ \vref{sec:datasets}) and the loss functions
-(see\ \vref{sec:loss-functions}).
+present the most used datasets (see\ \vref{sec:datasets}) and a list of loss
+functions (see\ \vref{sec:loss-functions}).
 
 
 \subsection{Datasets}\label{sec:datasets}
@@ -225,7 +225,7 @@ non-fictional images and natural language.
 
 \subsection{Loss Functions}\label{sec:loss-functions}\index{Loss function}
 
-To train the models it is necessary to have loss functions, which must be
+To train the models it is necessary to have a loss functions, that must be
 differentiable since in the optimization process we will need to use the
 partial derivatives of the loss function with respect to the different
 parameters to be trained.
@@ -236,7 +236,10 @@ binary mask).
 \subsubsection{\glsentrylong{ce}}\index{Cross entropy}
 
 One of the best known loss functions in image segmentation is that of
-\gls{ce}. We have two probability distributions
+\gls{ce}. Next we will explain this loss function for a single pixel, but
+applied to a complete image it would consist of taking the arithmetic mean of
+each pixel. That is, we will define the function pixel-wise. For each pixel, we
+have two probability distributions.
 
 \begin{enumerate}
   \item \textbf{Prediction} can be \(P(\hat{Y} = 0) = \hat{p}\) or
@@ -245,7 +248,7 @@ One of the best known loss functions in image segmentation is that of
   \(P(Y = 1) = 1 - p\). It will always be \(p \in \{0, 1\}\).
 \end{enumerate}
 
-The loss function is then defined as
+The loss function is then defined as,
 \begin{equation}
   \text{CE}(p, \hat{p}) = -(p\log\hat{p} + (1 - p)\log(1 - \hat{p})).
 \end{equation}
@@ -317,7 +320,7 @@ useful for training various neural models.
 Another type of measure arises with the use of the intersection and union of
 the predicted segmentation and the ground truth. This type of loss functions
 provide us with \emph{global} information. The well-known Jaccard
-index\index{Jaccard index} or coefficient \gls{iou},
+index\index{Jaccard index} or the \gls{iou} coefficient,
 \begin{equation}
   J(A,B) = \frac{|A \cap B|}{|A \cup B|} =
   \frac{|A \cap B|}{|A| + |B| - |A \cap B|},
@@ -345,8 +348,8 @@ the evaluation of the model in\ \vref{sec:quantitative-eval}.
     \text{\gls*{ti}}(p, \hat{p}) = 1 -
     \frac{p\hat{p}}{p\hat{p} + \beta(1 - p)\hat{p} + (1 - \beta)p(1 - \hat{p})}.
   \end{equation}
-  With the value \(\beta = \frac{1}{2}\), we recover the previous function
-  \gls{dil}.
+  Note that with the value \(\beta = \frac{1}{2}\), we recover the previous
+  function \gls{dil}.
 \end{itemize}
 
 \subsubsection{\glsentrylong{giou} Loss}
@@ -402,7 +405,7 @@ also to be able to make comparisons.
 The most useful techniques are usually quantitative metrics, which will be
 discussed in\ \vref{sec:quantitative-measures}. Furthermore, in the specific
 case of \gls{rec}, due to the use of images, it will also be possible to carry
-out a visual / qualitative evaluation (see\ \vref{sec:qualitative-eval}).
+out a visual or qualitative evaluation (see\ \vref{sec:qualitative-eval}).
 
 
 \subsection{Quantitative Measures}\label{sec:quantitative-measures}
@@ -563,10 +566,10 @@ features) and for the coding of phrases \gls{rnn} (with, for example,
 \gls{lstm}) and transformers are used.
 
 The first deep learning model for referring expression generation and
-comprehension is from \myCite{mao16:gener}, where they use a model \gls{cnn}
+comprehension is from \myCite{mao16:gener}, where they use a \gls{cnn} model
 with which they extract the visual features and a network of type \gls{lstm}
-for \emph{generating} the referring expression. It also gives a solution for the
-inverse problem of \emph{comprehension}.
+for \emph{generating} the referring expression. It also gives a solution for
+the inverse problem of \emph{comprehension}.
 
 Within this type of model fits the one proposed by \myCite{bellver20:refvos}
 where a neural network of type \gls{cnn} is also used for the encoding of the
