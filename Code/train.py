@@ -223,8 +223,8 @@ def main(args):
                   epoch=epoch,
                   args=args)
 
-        # only save if checkpoint improves
-        if False and t_iou < iou: # TODO: recompute IoU.
+        # Only save if checkpoint improves.
+        if t_iou < iou:
             print("Better epoch: {}\n".format(epoch))
 
             dict_to_save = {"seg_model": seg_model.state_dict(),

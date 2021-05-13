@@ -1,9 +1,8 @@
-"""File for new testing the model. TODO.
+"""File for the comprehension (forward of the model).
 
 A more detailed explanation.
 """
 
-import numpy as np
 import torch
 from transformers import BertModel
 from lib import segmentation
@@ -101,8 +100,6 @@ def main(args):
 
     print("savefigure: ", time.time() - tic)
     tic = time.time()
-
-
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-
-# Update to vector
+# Sync all files with remote server (excluding GÇIT, datasets, flycheck, Python
+# venv and other caches and datasets).
 
 rsync -avzhP \
       --delete \

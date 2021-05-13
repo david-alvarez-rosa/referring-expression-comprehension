@@ -1,3 +1,8 @@
+"""Code for the Speech to Text (STT) task.
+
+Using Silero model.
+"""
+
 import argparse
 import torch
 import zipfile
@@ -5,7 +10,7 @@ import torchaudio
 from glob import glob
 
 
-device = torch.device('cpu')  # gpu also works, but our models are fast enough for CPU
+device = torch.device('cpu')
 
 model, decoder, utils = torch.hub.load(repo_or_dir='snakers4/silero-models',
                                        model='silero_stt',
@@ -14,10 +19,10 @@ model, decoder, utils = torch.hub.load(repo_or_dir='snakers4/silero-models',
                                        verbose=False)
 
 (read_batch, split_into_batches,
- read_audio, prepare_model_input) = utils  # see function signature for details
+ read_audio, prepare_model_input) = utils
 
-parser = argparse.ArgumentParser(description="TODO: description.")
-parser.add_argument("--file", help="name of file to test. TODO", required=True)
+parser = argparse.ArgumentParser(description="ArgumentParser")
+parser.add_argument("--file", help="Name of audio file", required=True)
 
 args = parser.parse_args()
 

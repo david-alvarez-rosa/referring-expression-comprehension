@@ -25,7 +25,6 @@ switch ($_POST['imgMethod']) {
 
 $referringExpression = $_POST['referringExpression'];
 
-// TODO: remember to check if it's neccesary to set XDG_CACHE_HOME
 $command = '. Code/.venv/bin/activate 2>&1 &&'.
          ' XDG_CACHE_HOME=.cache/ MPLCONFIGDIR=.cache/' .
          ' python Code/comprehend.py' .
@@ -53,9 +52,4 @@ if (isset($_POST['debug'])) {
 }
 else
     echo json_encode($output);
-
-
-// TODO: should I delete the file?
-/* unlink($baseFileName); */
-
 ?>

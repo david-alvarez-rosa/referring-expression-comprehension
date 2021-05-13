@@ -11,19 +11,19 @@ This interface provides access to four datasets:
 split by unc and google
 
 The following API functions are defined:
-Refer      - Refer api class
-get_ref_ids  - get ref ids that satisfy given filter conditions.
-getAnnIds  - get ann ids that satisfy given filter conditions.
-get_img_ids  - get image ids that satisfy given filter conditions.
-get_cat_ids  - get category ids that satisfy given filter conditions.
-loadRefs   - load refs with the specified ref ids.
-loadAnns   - load anns with the specified ann ids.
-loadImgs   - load images with the specified image ids.
-loadCats   - load category names with the specified category ids.
-getRefBox  - get ref"s bounding box [x, y, w, h] given the ref_id
-showRef    - show image, segmentation or box of the referred object with the ref
+Refer       - Refer api class
+get_ref_ids - get ref ids that satisfy given filter conditions.
+getAnnIds   - get ann ids that satisfy given filter conditions.
+get_img_ids - get image ids that satisfy given filter conditions.
+get_cat_ids - get category ids that satisfy given filter conditions.
+loadRefs    - load refs with the specified ref ids.
+loadAnns    - load anns with the specified ann ids.
+loadImgs    - load images with the specified image ids.
+loadCats    - load category names with the specified category ids.
+getRefBox   - get ref"s bounding box [x, y, w, h] given the ref_id
+showRef     - show image, segmentation or box of referred object with ref
 get_mask    - get mask and area of the referred object given ref
-showMask   - show mask of the referred object given ref
+showMask    - show mask of the referred object given ref
 """
 
 import json
@@ -37,39 +37,21 @@ from pycocotools import mask as mask_utils
 from collections import defaultdict
 
 
-__author__ = "Rob Knight, Gavin Huttley, and Peter Maxwell"
-__copyright__ = "Copyright 2007, The Cogent Project"
-__credits__ = ["Rob Knight", "Peter Maxwell", "Gavin Huttley",
-               "Matthew Wakefield"]
-__license__ = "GPL"
-__version__ = "1.0.1"
-__maintainer__ = "Rob Knight"
-__email__ = "rob@spot.colorado.edu"
-__status__ = "Production"
-
-
 def _is_array_like(obj):
     return hasattr(obj, "__iter__") and hasattr(obj, "__len__")
 
 
 class Refer:
-    """Description of class.
-
-    Longer description of class.
-    Longer description of class.
+    """This is the Refer class.
     """
 
     def __init__(self, ann_file, ref_file):
-        """Short description.
+        """Init Refer class.
 
-        provide data_root folder which contains refclef, refcoco, refcoco+ and
+        Provide data_root folder which contains refclef, refcoco, refcoco+ and
         refcocog also provide ann_dataset name and splitBy information e.g.,
         ann_dataset = "refcoco", splitBy = "unc"
         """
-
-        # TODO: remove this
-        self.image_dir = ("/home/david/Documents/UPC/Cuatrimestre 9/"
-                          "Bachelor's Thesis/datasets/refcoco/images")
 
         print("Loading annotations into memory...")
         tic = time.time()
