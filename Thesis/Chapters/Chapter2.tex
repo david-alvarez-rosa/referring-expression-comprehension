@@ -25,20 +25,29 @@ one of the first neurocomputers), in an article by
   \tcblower\quotecite{caudill87:neural_networ_primer_part_i}
 \end{quoteBox}
 
-\subsubsection{Mathematical perspective}
-
 Although the analogy made above of an \gls{ann} with a biological brain, there
-is no need for this, we can just think of a neural network as a mathematical
-optimization problem. We can think of the whole network to be a function that
-takes some inputs to some outputs, and this function dependent on
-parameters. The idea is to adjust this parameters to get a function that works
-well with some known dataset, and we will trust that it will generalize
-well. If the network is big enough and we carefully adjust the parameters, we
-will be able to learn and calculate very complex functions.
+is no need for this, we can just think of a neural network---from a
+mathematical perspective---as an optimization problem. We can think of the
+whole network to be a function that takes some inputs to some outputs, and this
+function dependent on parameters. The idea is to adjust this parameters to get
+a function that works well with some known dataset, and we will trust that it
+will generalize well. If the network is big enough and we carefully adjust the
+parameters, we will be able to learn and compute very complex functions.
+
+This chapter will consist of establishing the theoretical foundations that will
+later be useful to understand the models that will be presented. The reader
+will be assumed to have a base of mathematical foundations, but not necessarily
+with knowledge in the field of \gls{ml}. In this way, we will begin by laying
+the foundations on the use of the mathematical tool of tensors in the\
+\vref{sec:tensor} and the main existing architectures of neural networks will
+be defined (see\ \vref{sec:nn-architectures}). The two main paradigms of
+\gls{ml}, training (see\ \vref{sec:training}) and testing (see\
+\vref{sec:testing}) will be discussed below. In this way, this chapter will
+contain all the necessary knowledge to develop neural models in a general
+view.
 
 
-
-\section{Tensors}\index{Tensor}
+\section{Tensors}\label{sec:tensor}\index{Tensor}
 
 In our context, it will be useful to use the mathematical tool of
 tensors. There are different approaches to define this mathematical objects,
@@ -59,9 +68,9 @@ the tensor \(\mathbf{T}\).
   (rank \(1\) tensors) and matrices (rank \(2\)).
 \end{exampleBox}
 
-Most popular \gls{dl} frameworks such as PyTorch (used in this thesis), are
+Most popular \gls{dl} frameworks such as PyTorch---used in this thesis---are
 just programming libraries that provide efficient tensor data structures and
-fast tensor computation (with the ability to compute in \gls{gpu}). These
+fast tensor computation---with the ability to compute in \gls{gpu}. These
 tensors store the data used to train neuronal models. In the case of \gls{cv},
 the following tensors appear:
 \begin{itemize}
@@ -73,9 +82,9 @@ the following tensors appear:
     the above notation \(C = 1\)).}
   \item \textbf{Batch of \acs{rgb} images.} A batch of \acs{rgb} images is a
   set of \acs{rgb} images, therefore, can be interpreted as a tensor of rank 4,
-  \(\mathbf{I} \in \R^{B \times C \times H \times W}\), where \(B\) corresponds
-  to the batch size, and \((C, H, W)\) have the same meaning as in the case of
-  an \acs{rgb} image.
+  i.e., \(\mathbf{I} \in \R^{B \times C \times H \times W}\), where \(B\)
+  corresponds to the batch size, and \((C, H, W)\) have the same meaning as in
+  the case of an \acs{rgb} image.
 \end{itemize}
 
 
@@ -96,12 +105,12 @@ for all multi-indices \(i \in \N^r\).
 
 
 
-\section{Neural Network Architectures}\index{Neural network}
+\section{Neural Network Architectures}%
+\label{sec:nn-architectures}\index{Neural network}
 
 During the last few years, there have been significant advances in the field of
-artificial intelligence and multiple new models of neural networks have
-appeared. In a very general classification of neural models we can find
-different ones.
+\gls{ai} and multiple new models of neural networks have appeared. In a very
+general classification of neural models we can find different ones.
 
 \begin{itemize}\index{Neural network!architectures}
   \item \textbf{\acl{fnn}.} These networks are the simplest type of neural
@@ -109,38 +118,44 @@ different ones.
   description of this type of network can be found in\ \vref{sec:fnn}.
   \item \textbf{\acl{cnn}.} This type of neural network is especially useful in
   image processing, since it allows preserving the spatial information of the
-  relationship between pixels. They will be studied in
- \ \vref{sec:conv-neur-netw}.
+  relationship between pixels. They will be studied in\
+  \vref{sec:conv-neur-netw}.
   \item \textbf{\acl{rnn}.} Ideal neural models for the analysis of time series
   (such as text or audio). They will be studied in\ \vref{sec:rnn}.
   \item \textbf{Transformers.} The transformer-based models are part of the
-  current state of the art.\footnote{On \today, current date of the document.}
+  current\footnote{On \today, current date of the document.} state of the art.
   They are being used extensively in \gls{nlp} and studying their possible
   applications in computer vision and image processing. They will be described
   in\ \vref{sec:transformers}.
 \end{itemize}
 
+Of course other types of architectures exist in addition to those presented in
+this work. However, understanding these it is easier to extrapolate to other
+models, since many are based on these. In addition, in the multimodal
+learning\index{Multimodal learning} environment, many times what are used are
+combinations of the existing ones.
+
 
 \subsection{\glsentrylong{fnn}}\label{sec:fnn}
 
-\Gls{fnn} are the simplest type of neural model that exists and that constitute
-the basis for more complex neural structures. This type of neural network is
-characterized by a neural structure organized in different layers, so that the
-neurons between adjacent layers are connected to each other by arcs. An example
-of this type of architecture is shown in\ \vref{fig:fully-conn-network}.
+\Glspl{fnn} are the simplest type of neural models that exists and that
+constitute the basis for more complex neural structures. This type of neural
+network is characterized by a neural structure organized in different layers,
+so that the neurons between adjacent layers are connected to each other by
+arcs. An example of this type of architecture is shown in\
+\vref{fig:fully-conn-network}.
 
 \begin{figure}[ht]
   \centering
   \input{Figures/Tikz/Fully Connected Neural Network.tex}
-  \caption[\glsentrylong{fnn} topology]{Example of \acl{fnn}. It consists of 4
-    differentiated layers of neurons and the connections between them are shown
-    graphically with arrows. Figure created by the
-    author.}%
+  \caption[\glsentrylong{fnn} topology]{Example of a \acl{fnn}. It consists of
+    4 differentiated layers of neurons and the connections between them are
+    shown graphically with arrows. Figure created by the author.}%
   \label{fig:fully-conn-network}
 \end{figure}
 
-Next we will discuss the main constituent parts of this type of neural
-networks: layers, neurons and connections.
+This type of neural network has 3 main constituent parts, which will be
+discussed below; these are: layers, neurons and connections.
 
 \subsubsection{Layers}\index{Layer}
 
@@ -151,7 +166,9 @@ inner layers) and \emph{output} layer (is the last layer, where the answer is
 obtained).
 
 We will denote with \(L\) the number of layers and with \(n_l\) the size of the
-\(l\)-th layer.
+\(l\)-th layer. This number of layers and the number of neurons in each is a
+hyperparameter that is not easy to set, it is an area of active research to
+find the optimal and most efficient topologies for a given problem.
 
 \subsubsection{Neurons}\index{Neuron}
 
@@ -260,12 +277,12 @@ differentiable (i.e., \(\mathcal{C}^1\)).
 \subsection{\glsentrylong{cnn}}%
 \label{sec:conv-neur-netw}\index{Convolutional!network}
 
-\glspl{cnn} are a class of \glspl{dnn} that are widely used in computer
+\glspl{cnn} are a class of \glspl{ann} that are widely used in computer
 vision. They are commonly applied in image analysis, since they have the main
 characteristic of having the ability to preserve the spatial relationship
 between pixels. Likewise, they are regularized versions of fully connected
-networks (explained in\ \vref{sec:fnn}), that is, it is less likely
-to overfit the data.
+networks (explained in\ \vref{sec:fnn}), that is, it is less likely to overfit
+the data.
 
 \myCite{lecun98:lenet}, a renowned scientist known as the father of
 \glspl{cnn}, defines them as follows:
@@ -633,7 +650,7 @@ layer to obtain a vector of \emph{probabilities}.
 
 
 
-\section{Trainning}\label{sec:trainning}\index{Trainning}
+\section{Training}\label{sec:training}\index{Trainning}
 
 The process of trainning a neural networks consists in adjust the parameters of
 the model to fit a particular dataset. Moreover, it is mandatory to define a
@@ -835,11 +852,11 @@ approach and formalized version of the backpropagation algorithm is given by
 details).
 
 Computationally, this recursive process of gradient computation is performed
-using a computational graph and using \gls{ad} techniques, rather than the
-techniques used to computationally compute derivatives repeatedly making use of
-the chain rule. PyTorch has a built-in differentiation engine called
-\code{torch.autograd} that supports automatic computation of gradient for any
-computational graph.
+using a computational graph and using techniques for automatic differentiation,
+rather than the techniques used to computationally compute derivatives
+repeatedly making use of the chain rule. PyTorch has a built-in differentiation
+engine called \code{torch.autograd} that supports automatic computation of
+gradient for any computational graph.
 
 \subsection{Regularization Techniques}%
 \label{sec:regularization}\index{Regularization}
@@ -958,7 +975,7 @@ the transformations performed in the dataset.
 
 
 
-\section{Testing}\index{Testing}
+\section{Testing}\label{sec:testing}\index{Testing}
 
 
 It is common to reserve a part of the dataset as a \code{test} dataset in order

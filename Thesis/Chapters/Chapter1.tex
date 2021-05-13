@@ -15,15 +15,16 @@
 
 
 \lettrine{A}{rtificial Intelligence} (\acs{ai}\glsunset{ai})\index{Artificial
-  intelligence} is one of the topics related to \gls{cs} that are most
-current\footnote{On \today, current date of the document.} in recent years. It
-has gained great importance mainly due to its applications in industry and
-everyday world, such as autonomous driving.
+  intelligence} is one of the branches of \gls{cs} that is most fashionable in
+recent years%
+\footnote{On \today, current date of the document.}. It has gained great
+importance mainly due to its applications in industry and everyday world, such
+as autonomous driving. It is an area of research in which, curiously, there is
+no precise definition universally accepted by the community of researchers and
+developers who work every day in the field of
+\gls{ai}. \myCite{nilsson09:quest_artif_intel}, however, provides a useful
+definition.
 
-It is an area of research in which, curiously, there is no precise definition
-universally accepted by the community of researchers and developers who work
-every day in the field of \gls{ai}. \myCite{nilsson09:quest_artif_intel},
-however, provides a useful definition:
 \begin{quoteBox}
   Artificial intelligence is that activity devoted to making machines
   intelligent, and intelligence is that quality that enables an entity to
@@ -33,14 +34,15 @@ however, provides a useful definition:
 
 In other words, \gls{ai} is a very broad concept that encompasses all those
 systems that perform tasks that can be considered intelligent. Within this
-broad world of \gls{ai} is the scope of \gls{ml}\index{Machine
-  learning}. \Gls{ml} is the set of computational algorithms that are
-responsible for automatically improving models through experience and with the
-use of \emph{data}. \Gls{ml} algorithms build models using sample data to be
-able to make predictions or make decisions in future new situations without
-being explicitly programmed for it.
+broad world of \gls{ai} is the scope of \gls{ml}\index{Machine learning}, that
+is the set of computational algorithms that are responsible for automatically
+improving models through experience and with the use of \emph{data}. \Gls{ml}
+algorithms build models using sample data to be able to make predictions or
+make decisions in future new situations without being explicitly programmed for
+it. That is, it seeks to imitate human learning, which is very interesting in
+various fields, such as automation for example.
 
-Within this scope appear the \gls{ann}, which are the basis of a large family
+Within this scope appear the \glspl{ann}, which are the basis of a large family
 of \gls{ml} methods called \gls{dl}\index{Deep learning}. The adjective
 ``deep'' arises from the fact that neural models make use of multiple layers in
 the network. The models presented in this work will be part of precisely this
@@ -56,10 +58,10 @@ three of these types (audio \(\rightarrow\) text and image). Next in\
 
 \section{Description and Motivation}\label{sec:description}
 
-\gls{rec} is the task of, given a \gls{re} (is a linguistic phrase) and an
-image, generate binary masks for the object which the phrase refers to. This
-type of task is framed within the field of multimodal learning: at the
-intersection between computer vision and \gls{nlp}.
+\gls{rec} is the task of, given a \gls{re}---is a linguistic phrase or human
+speech---and an image, generate a binary mask for the object which the phrase
+refers to. This type of task is framed within the field of multimodal learning:
+at the intersection between computer vision and \gls{nlp}.
 
 \begin{figure}[ht]
   \centering
@@ -94,16 +96,13 @@ of object + relative \emph{positioning} (\re{laptop on the right}) and object
 description + \emph{color} distinctive (\re{army officer white suit}).
 
 Optionally this task can be exploited and expanded in various ways. Among them,
-expanding the input and output set that the model can obtain.
-\begin{itemize}
-  \item \textbf{Input.} We can propose more general models that are capable
-  of understanding \gls{re} from audio, without having to enter the phrase
-  manually. Likewise, the model can be expanded accepting in addition to
-  images, videos. In this thesis we will work on the part of \emph{audio}.
-  \item \textbf{Output.} The output can also be extended by generating, in
-  addition to the binary mask of the segmentation, a bounding
-  box\index{Bounding box}.
-\end{itemize}
+expanding the input and output set that the model can obtain. For the
+\emph{input}, We can propose more general models that are capable of
+understanding \gls{re} from audio, without having to enter the phrase
+manually. Likewise, the model can be expanded accepting in addition to images,
+videos. In this thesis we will work on the part of audio. Furthermore, the
+\emph{output} can also be extended by generating, in addition to the binary
+mask of the segmentation, a bounding box\index{Bounding box}.
 
 This work will add a great facility mainly in the human-computer interaction,
 so it is of great practical interest. Different applications of this model will
@@ -238,7 +237,9 @@ want to purchase by simply using their voice and referring to it in
 \subsubsection{Security}
 
 Another possible application would be that used by the police to control road
-safety. In\ \vref{fig:dgt} we can see one of these drones.
+safety. In\ \vref{fig:dgt} we can see one of these drones. Today, drones are
+already used for road control, but their control is done more manually. A much
+more automated approach is proposed here.
 
 \begin{figure}[ht]
   \centering
@@ -251,21 +252,15 @@ safety. In\ \vref{fig:dgt} we can see one of these drones.
 
 This type of drones could incorporate systems such as the one presented in this
 final degree project to be able to track vehicles using voice commands. For
-example, syntactic structures composed of action and \gls{re} could be used,
-such as the following.
-
-\begin{itemize}
-  \item \textbf{Actions.} Different actions could be desired to control and
-  guarantee road safety such as: follow, record, speed up, etc.
-  \item \textbf{\gls{re}.} It would correspond to linguistic phrases that
-  identify the vehicle to be studied or the offender to be pursued: blue/
-  black/red/\ldots car, large truck, sports car, van on the right, etc.
-\end{itemize}
-
-In this way, combinations such as: ``speed up the black car'' or ``record the
-sports car'' could help control road safety. This work, as has already been
-commented previously, focuses on \gls{rec} and not on the use made of this
-comprehension after.
+example, syntactic structures composed of action and \gls{re} could be
+used. Different \emph{actions} could be desired to control and guarantee road
+safety such as: follow, record, speed up, etc. For the \emph{\glspl{re}} this
+would correspond to linguistic phrases that identify the vehicle to be studied
+or the offender to be pursued: blue/black/red/\ldots{} car, large truck, sports
+car, van on the right, etc. In this way, combinations such as: ``speed up the
+black car'' or ``record the sports car'' could help control road safety. This
+work, as has already been commented previously, focuses on \gls{rec} and not on
+the use made of this comprehension after.
 
 
 
@@ -280,7 +275,7 @@ presented.
   motivation behind this work, its objectives and its possible applications
   will be discussed. \chapRef{cha:intro}
   \item[Chapter 2] This chapter will focus on the general theoretical
-  foundations in the field of \gls{ai}, so that the following chapters can be
+  foundations in the field of \gls{ml}, so that the following chapters can be
   understood. \chapRef{cha:theory}
   \item[Chapter 3] It will deal with the central theme of this thesis. The
   problem will be formulated in a concrete way, the existing datasets and the
@@ -311,8 +306,11 @@ Supplementary material will also be included in the appendices.
 \begin{description}
   \item[Appendix A] All files created and used in this project will be
   displayed graphically. \chapRef{cha:files}
-  \item[Appendix B] TODO b. \chapRef{cha:code}
-  \item[Appendix C] TODO c. \chapRef{cha:introduction} Fix me.
+  \item[Appendix B] This appendix shows the details of the implementation of
+  the models, and of the web. The most representative code files are
+  shown. \chapRef{cha:code}
+  \item[Appendix C] Extra material that has been referenced in this thesis will
+  be added here. \chapRef{cha:extra}
 \end{description}
 
 Finally, after the appendices, there is the full \textsl{Bibliography} (begins
@@ -322,23 +320,25 @@ page~\pageref{cha:index}).
 
 \subsubsection{How to Read this Thesis}
 
-Throughout the thesis, three types of boxes will be used to include extra
-content: \emph{quote} box, \emph{example} box and \emph{remark} box.
+Throughout the thesis, four types of different boxes will be used to include
+extra content: \emph{quote} box, \emph{example} box, \emph{remark} box and
+\emph{code} box.
 
 \begin{quoteBox}
-  This will be a quote box.
-  \tcblower\textsc{Author Name}
+  This is a quote box.
+  \tcblower{}Name \textsc{Surname}
 \end{quoteBox}
 
 \begin{exampleBox}
-  This will be an example box.
+  This is an example box.
 \end{exampleBox}
 
 \begin{remarkBox}
-  This will be a remark/alert box.
+  This is a remark/alert box.
 \end{remarkBox}
 
 \codeIn{python}{Code/example.py}
 
-All the figures that appear in this thesis show the source from which they have
-been extracted or, failing that, they have been created by the author.
+These different colored boxes also have different shapes to ensure the reading
+of the printed document in black and white, and to guarantee accessibility for
+the color blind.

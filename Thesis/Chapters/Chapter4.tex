@@ -210,11 +210,10 @@ vertical axis is quite small: this same graph on a vertical axis in the range
       \legend{\code{val}}
     \end{axis}
   \end{tikzpicture}
-  \caption[Gráfica de overall \glsentryshort{iou} con
-  \glsentrylong{dil}]{Gráfica de overall \glsentryshort{iou} con
-    \glsentrylong{dil}. In this case, under the same evolution of the model
-    optimizing the \gls{dil} function, it is shown how the overall \gls{iou}
-    evolves. Figure created by the author.}%
+  \caption[Overall \glsentryshort{iou} graph with \glsentrylong{dil}]{Gráfica
+    de overall \glsentryshort{iou} con \glsentrylong{dil}. In this case, under
+    the same evolution of the model optimizing the \gls{dil} function, it is
+    shown how the overall \gls{iou} evolves. Figure created by the author.}%
   \label{fig:dl-val}
 \end{figure}
 
@@ -242,8 +241,8 @@ used in the future.
 
 \begin{table}[ht]
   \centering
-  \caption[Performance of fusion strategies in RefCOCO dataset]{Performance of
-    fusion strategies in RefCOCO dataset. The overall \gls{iou} for each fusion
+  \caption[Fusion strategies performance in RefCOCO dataset]{Fusion strategies
+    performance in RefCOCO dataset. The overall \gls{iou} for each fusion
     strategy for visual and language features is shown for the
     \code{val/testA/testB} splits in the RefCOCO dataset. Table created by the
     author.}%
@@ -360,15 +359,16 @@ the method of the method used, the causes that cause problems in this case are:
 
 Another possibility to modify is the model training process. This consists of
 modifying the optimization algorithm so that the development of the model can
-be improved. In\ \vref{sec:trainning} different possibilities have already been
+be improved. In\ \vref{sec:training} different possibilities have already been
 discussed. In the original case of \gls{refvos}, the optimizer \gls{sgd} is
 used with Nesterov momentum\index{Nesterov momentum} \num{0.9} and
 \code{weight\_decay} of \num{1e-6}, this corresponds to the regularization
 \(L_2\) (see\ \vref{sec:regularization}). Another possibility to consider would
 be Adam's optimizer\index{Adam optimizer}, for example with the
-hyperparameters\index{Hyperparameter} typical of \(\beta_1 = 0.9\), \(\beta_2 =
-0.999\). However, it has not been recommended to change this optimization
-process, since it is not usual for it to report significant improvements.
+hyperparameters\index{Hyperparameter} typical of \(\beta_1 = 0.9\),
+\(\beta_2 = 0.999\). However, it has not been recommended to change this
+optimization process, since it is not usual for it to report significant
+improvements.
 
 
 
