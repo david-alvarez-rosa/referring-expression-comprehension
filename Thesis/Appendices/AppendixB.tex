@@ -16,11 +16,8 @@ consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-
 TODO. Añadir aquí los archivos de código más representativos.
 
-
-\codeInFull{python}{../Code/comprehend.py}
 
 
 \section{Code}
@@ -29,12 +26,60 @@ TODO. Añadir aquí los archivos de código más representativos.
 
 \codeInFull{python}{../Code/train.py}
 
+\codeInFull{python}{../Code/refer.py}
+
+\codeInFull{python}{../Code/model.py}
+
 
 
 \section{Website}
 
+En relación a la website, mostraremos los archivos más importantes
+creados. Separaremos entre el front end (see \vref{sec:code-front}) y el back
+end (see \vref{sec:code-back})
+
+\subsection{Front End}\label{sec:code-front}
+
+Dentro del front end el archivo más importante es el de la página principal
+(\acs{html}), que es el \code{index.html}.
+
+\codeInFull{html}{../Website/index.html}
+
+También añadimos la hoja de estilos \acs{css}, \code{css/main.css}.
+
+\codeInFull{css}{../Website/css/main.css}
+
+Además, como parte fundamental de la interactividad de la web, es fundamental
+el archivo de \acs{js}, \code{js/main.js}
+
+\codeInFull{js}{../Website/js/main.js}
 
 
-\section{Web Server}
+\subsection{Back End}\label{sec:code-back}
+
+En el back end destacand dos archivos, que son los que realmente son la
+\gls{api}. Entre ellos
+
+
+\codeInFull{php}{../Website/api/comprehend.php}
+
+% \codeInFull{php}{../Website/api/upload\_wav.php}
+
+Además, a continuación se añaden los archivos de Python que se ejecutan en el
+back end tras ser llamados por las diferentes funciones de la \gls{api}. Estos
+son, \code{comprehend.py} y \code{silero.py}.
+
+\codeInFull{python}{../Code/comprehend.py}
+
+\codeInFull{python}{../Code/silero.py}
+
+
+
+\section{Server}
 Comentar aquí qué servidor se ha escogido y cómo se ha configurado con PHP y
 demás para funcionar de manera correcta en los servidores.
+
+
+\codeInFull{bash}{../Utils/newServer}
+
+\codeInFull{bash}{../Utils/launch}

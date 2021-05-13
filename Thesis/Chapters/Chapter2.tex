@@ -117,16 +117,16 @@ general classification of neural models we can find different ones.
   model that exists and on which more complex models are built. A more detailed
   description of this type of network can be found in\ \vref{sec:fnn}.
   \item \textbf{\acl{cnn}.} This type of neural network is especially useful in
-  image processing, since it allows preserving the spatial information of the
-  relationship between pixels. They will be studied in\
-  \vref{sec:conv-neur-netw}.
+  image processing\index{Image processing}, since it allows preserving the
+  spatial information of the relationship between pixels. They will be studied
+  in\ \vref{sec:conv-neur-netw}.
   \item \textbf{\acl{rnn}.} Ideal neural models for the analysis of time series
   (such as text or audio). They will be studied in\ \vref{sec:rnn}.
   \item \textbf{Transformers.} The transformer-based models are part of the
   current\footnote{On \today, current date of the document.} state of the art.
   They are being used extensively in \gls{nlp} and studying their possible
-  applications in computer vision and image processing. They will be described
-  in\ \vref{sec:transformers}.
+  applications in computer vision and image processing\index{Image
+    processing}. They will be described in\ \vref{sec:transformers}.
 \end{itemize}
 
 Of course other types of architectures exist in addition to those presented in
@@ -192,17 +192,18 @@ subparts that form a neuron.
     neuron-independent (i.e., \(f_i^l\) does not really depend on \(i\) or
     \(l\)).} Of course, it is needed \(1 \leq i \leq n_l\). The regularity
   assummed for this functions is important, since we will be optimizing in the
-  future by taking derivatives.
+  future by taking derivatives.See\ \vref{sec:activation} for examples of these
+  functions.
 \end{itemize}
 
 \subsubsection{Connections}\index{Connection}
 
 As we discussed, in the topology of this network, all neurons between adjacent
-layers are required to be connected, this are the connections, that should have
-associated a \emph{weight}. For the connection between the \(i\)-th neuron in
-the \(l\)-th layer and the \(j\)-th neuron in the \(l + 1\)-th layer, we will
-denote this weight by \(w_{ij}^l \in \R\). The set of all this weights is as
-follows,
+layers are required to be connected---with the so-called
+\emph{connections}---that should have associated a \emph{weight}. For the
+connection between the \(i\)-th neuron in the \(l\)-th layer and the \(j\)-th
+neuron in the \(l + 1\)-th layer, we will denote this weight by
+\(w_{ij}^l \in \R\). The set of all this weights is as follows,
 \begin{equation}
   \{w_{ij}^l \mid 1 \leq i \leq n_{l}, \, 1 \leq j \leq n_{l+1}, \,
   1 \leq l < L \} \subset \R.
@@ -223,7 +224,9 @@ The \emph{matrix} of all weights in the \(l\)-th layer will be denoted by
   neurons (one for each number between 0 and 9), and we will like that when we
   feed our network with an image holding a handwritten number 3, then the
   output is one 1 in the position corresponding to the number 3 and the rest of
-  zeros.
+  zeros. In this case we want the output vector to be really a
+  \emph{probability} vector, where higher probability indicates greater
+  similarity with that number
 \end{exampleBox}
 
 \subsubsection{Model Feed Forward}\label{subsec:forward}\index{Feed forward}
@@ -271,21 +274,25 @@ The error function quantifies how different is the desired output
 input-output pairs \((\mathbf{x} , \mathbf{y}) \in \Omega\) and a particular
 value of the parameters \(\theta\). We will denote the error function by
 \(E (\Omega, \theta)\) and we will assume that it is continuously
-differentiable (i.e., \(\mathcal{C}^1\)).
+differentiable (i.e., \(\mathcal{C}^1\)). The training process itself will be
+discussed in more depth in\ \vref{sec:training}.
 
 
 \subsection{\glsentrylong{cnn}}%
 \label{sec:conv-neur-netw}\index{Convolutional!network}
 
 \glspl{cnn} are a class of \glspl{ann} that are widely used in computer
-vision. They are commonly applied in image analysis, since they have the main
-characteristic of having the ability to preserve the spatial relationship
-between pixels. Likewise, they are regularized versions of fully connected
-networks (explained in\ \vref{sec:fnn}), that is, it is less likely to overfit
+vision. They are commonly applied in image processing\index{Image processing},
+since they have the main characteristic of having the ability to preserve the
+spatial relationship between pixels. Likewise, they are regularized versions of
+\gls{fnn} (explained in\ \vref{sec:fnn}), that is, it is less likely to overfit
 the data.
 
 \myCite{lecun98:lenet}, a renowned scientist known as the father of
-\glspl{cnn}, defines them as follows:
+\glspl{cnn}, defines them in a similar way to other neural models---since they
+are trained in the same way---and with the only difference present in their
+topology.
+
 \begin{quoteBox}
   \acsp{cnn} are a special kind of multi-layer neural networks. Like almost
   every other neural networks they are trained with a version of the
@@ -323,15 +330,15 @@ convolution between \(f\) and \(g\) is given by,
 where \(\star\) is the convolution operator.
 
 This is the mathematical definition of the discrete convolution. However, the
-use of convolution in image processing does not work exactly as defined in\
-\vref{eq:math-conv}. In practice, the input images\footnote{At deeper levels in
-  a \gls{cnn} we will stop understanding the layers as images and call them
-  \emph{feature maps}.} are three-dimensional tensors for the images
-\acs{rgb}. In convolutional layers, a two-dimensional convolution is made with
-a three-dimensional filter (also called kernel) on each channel of the input
-image and then all these feature maps are stacked in the output tensor, where
-the number of output channels coincides with the number of filters in that
-layer.
+use of convolution in image processing\index{Image processing} does not work
+exactly as defined in\ \vref{eq:math-conv}. In practice, the input
+images\footnote{At deeper levels in a \gls{cnn} we will stop understanding the
+  layers as images and call them \emph{feature maps}.} are three-dimensional
+tensors for the images \acs{rgb}. In convolutional layers, a two-dimensional
+convolution is made with a three-dimensional filter (also called kernel) on
+each channel of the input image and then all these feature maps are stacked in
+the output tensor, where the number of output channels coincides with the
+number of filters in that layer.
 
 We can mathematically express the operation performed on the convolutional
 layers as follows. Let \(\mathbf{X}\) be the input characteristics map,
@@ -365,13 +372,13 @@ can be seen for each of the elements of the output tensor, the computation of\
 Another type of layer used in this type of network is pooling. Pooling layers
 reduce the dimension of the network by combining the output of neurons in one
 layer into a single neuron in the next layer. These types of layers also add
-non-linearities to the model. They also make \gls{cnn} less sensitive to small
-local changes in spatial location.
+non-linearities to the model. They also make \glspl{cnn} less sensitive to
+small local changes in spatial location.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=.75\textwidth]{Images/Max pooling.png}
-  \caption[Pooling layer example: max pooling]{Pooling layer example:
+  \caption[Pooling layer example with max pooling]{Pooling layer example with
     \(2 \times 2\) max pooling. The input tensor is divided into blocks
     \(2 \times 2\) and the Max Pool returns an output tensor with the maximum
     value of each block. From \figcite{wiki18:max_poolin}.}%
@@ -390,7 +397,7 @@ given by the following expression,
 where \(S\) is every depth slice in the input. This discharges 75 \% of the
 activations.\index{Pooling!operation}
 
-\subsubsection{Activation functions}\index{Activation function}
+\subsubsection{Activation Functions}\index{Activation function}
 
 Analogously to fully connected neural networks, in this case it is also common
 to use activation functions with the aim of introducing non-linearities in the
@@ -404,11 +411,12 @@ of these functions.
 
 \subsection{\glsentrylong{rnn}}\label{sec:rnn}\index{Recurrent network}
 
-\glspl{rnn} are a class of \glspl{ann} that are widely used with temporal
+\Glspl{rnn} are a class of \glspl{ann} that are widely used with temporal
 sequences (as for example in the scope of \gls{nlp}). Analogously to the
-\glspl{cnn} that are suitable for image processing, the \glspl{rnn} are a type
-of neural network specialized to process sequences of values of the type
-\(\mathbf{x}^1, \ldots \mathbf{x}^{\tau}\) with \(\mathbf{x}^t \in \R^n\).
+\glspl{cnn} that are suitable for image processing\index{Image processing}, the
+\glspl{rnn} are a type of neural network specialized to process sequences of
+values of the type \(\mathbf{x}^1, \ldots \mathbf{x}^{\tau}\) with
+\(\mathbf{x}^t \in \R^n\).
 
 Looking at\ \vref{fig:rnn}, we can see the architecture of a \gls{rnn}. The
 input values \(\mathbf{x}^1, \ldots \mathbf{x}^\tau\) are fed into the network
@@ -429,7 +437,7 @@ represented by the hidden state \(\mathbf{h}^{t - 1}\), therefore the output
     \caption{Unfolded basic \gls{rnn}}
     \includegraphics[height=4cm]{Images/Unfolded RNN.png}
   \end{subfigure}
-  \caption[Basic topology of \glsentrylong{rnn}]{Basic topology of
+  \caption[Basic topology of a \glsentrylong{rnn}]{Basic topology of a
     \acf{rnn}. Two versions of the same network are shown, one is the compact
     version and the other is the same network but unfolded in time. From
     \figcite{li20:cs231}.}%
@@ -438,11 +446,11 @@ represented by the hidden state \(\mathbf{h}^{t - 1}\), therefore the output
 
 \subsubsection{Different Types of \glsentryshort{rnn}}
 
-\gls{fnn} send an input to an output\footnote{The input and output can be
-  vector. It does not mean, therefore, that they are only a number, it means
-  that they are only \emph{one} multidimensional vector of \(\R^n\).}, but in
-the case of \glspl{rnn} it is not. There are different possibilities, in which
-the length of the inlet and outlet can vary. All the different types of
+In oposition to \glspl{fnn}, that send one input to one output\footnote{The
+  input and output can be vector. It does not mean, therefore, that they are
+  only a number, it means that they are only \emph{one} multidimensional vector
+  of \(\R^n\).}, \glspl{rnn} do not. There are different possibilities, in
+which the length of the inlet and outlet can vary. All the different types of
 architectures that may exist are listed in\ \vref{fig:rnn-types}.
 
 \begin{figure}[ht]
@@ -483,12 +491,12 @@ where \(W_{hy}\) is an array of parameters (trainable).
 The model defined above is the simplest version for a \gls{rnn}. The
 computation of the output values with the\ \vref{eq:rnn-hidden,eq:rnn-out} can
 cause problems with the gradients and, therefore, limit the ability of the
-information to travel in time\footnote{These problems are know as
-  vanishing/exploding gradient. The problem of \emph{exploding} gradients can
-  be solved by gradient clipping (scaling it if the norm is too big). However
-  for the \emph{vanishing} gradient problem, it is necessary to change the
-  \gls{rnn} architecture.}. We introduce two new variants to solve these
-problems:
+information to travel in time.%
+\footnote{These problems are know as vanishing/exploding gradient. The problem
+  of \emph{exploding} gradients can be solved by gradient clipping (scaling it
+  if the norm is too big). However for the \emph{vanishing} gradient problem,
+  it is necessary to change the \gls{rnn} architecture.} We introduce two new
+variants to solve these problems.
 \begin{itemize}
   \item \textbf{\gls{lstm}.} A unit of \gls{lstm} is composed of different
   gates that define its behavior. Its name is given by the function they
@@ -556,20 +564,18 @@ problems:
 
 Analogously to other models, here the training of \gls{rnn} is also carried out
 using first-order optimization methods, i.e., calculating the partial
-derivatives of the error function with respect to the model parameters.
-
-In this specific case of \gls{rnn}, the backpropagation process is known as
-\gls{bptt}, which is a generalization of backpropagation in feed-forward
-networks.
+derivatives of the error function with respect to the model parameters. In this
+specific case of \gls{rnn}, the backpropagation process is known as \gls{bptt},
+which is a generalization of backpropagation in feed-forward networks.
 
 
 \subsection{Transformer Model}%
 \label{sec:transformers}\index{Transformer}
 
-The Transformer is a deep learning model recently introduced by
+The Transformer is a \gls{dl} model recently introduced by
 \myCite{vaswani17:atten_all_you_need}. Here they presented the idea that
 recurrent building blocks are not needed in a model to work well in \gls{nlp}
-tasks. In the words of its authors:
+tasks. Its authors define it precisely.
 
 \begin{quoteBox}
   The Transformer, the first sequence transduction model based entirely
@@ -616,7 +622,6 @@ where \(\text{head}_i = \text{Attention}(QW_i^Q, KW_i^k, VW_i^V)\) (see\
 \(W_i^Q \in \R^{d_{\text{model}} \times d_k}, W_i^k \in \R^{d_{\text{model}}
   \times d_k}, W_i^V \in \R^{d_{\text{model}} \times d_v}\) and
 \(W^O \in \R^{hd_v \times d_{\text{model}}}\).
-
 
 \begin{figure}[p]
   \centering
@@ -692,7 +697,7 @@ There exists several optimization techniques, among then, the most important,
 are gradient-based optimization algorithms. This techniques are iterative
 methods that, given an initial value \(\theta^{(0)}\) for the parameters
 proceed, as follows,
-\begin{equation}
+\begin{equation}\label{eq:iterative}
   \theta^{(t + 1)} = \theta^{(t)} + \alpha\,\Delta\theta^{(t)},
 \end{equation}
 where \(\alpha\) is called the step size (or learning rate), and
@@ -709,29 +714,29 @@ local minimums).\footnote{These are called first-order optimization methods
   since they only focus in first-order (partial) derivatives of the loss
   function. Higher order methods exists, but involve computing the Hessian of
   \(\loss\) and in the scope of \gls{dl} it is too expensive in terms of
-  computing time.}
+  computing resources.}
 
 \subsubsection{Optimization Methods}\index{Optimization!methods}
 
 Different optimization methods exist, the most basic and best known method of
 first-order optimization is \emph{gradient descent}. The idea is to move in the
-direction of the gradient and in the opposite direction, that is, it is a
-method iterative consisting of the following,
+opposite direction of the gradient, that is, it is an iterative method,
+following the same rules as in \vref{eq:iterative}, consisting of the following,
 \begin{equation}\label{eq:gd}
   \Delta\theta^{(t)} = - \nabla\loss(\theta^{(t)}).
 \end{equation}
 Considering the typical form of the loss function (see\ \vref{eq:loss}), the
-gradient can be calculated using the linearity of the derivatives,
+gradient can be computed using the derivative property of linearity,
 \begin{equation}\label{eq:nabla-loss}
   \nabla_{\theta}\,\loss(\Omega, \theta) =
   \frac{1}{N} \sum_{(x, y) \in \Omega} \nabla_{\theta}\,\ell (x, y, \theta).
 \end{equation}
 
-Typically the datasets \(\Omega\) used for training have very cardinal large
+Typically the datasets \(\Omega\) used for training have very large cardinal
 (\(N > 10^4\)), so the computation of\ \vref{eq:nabla-loss} is too expensive in
-terms of computational resources. Therefore, in the In practice, the
-alternative known as \gls{sgd} is used, which consists of estimate the gradient
-at each iteration in a random subset from the dataset.
+terms of computational resources. Therefore, in practice, the alternative known
+as \gls{sgd} is used, which consists of estimate the gradient at each iteration
+in a random subset from the dataset.
 
 \gls{sgd} is an implementation of\ \vref{eq:gd} in which it is estimated
 \(\nabla \loss (\theta^{(t)})\) using a randomly chosen subset
@@ -756,7 +761,13 @@ out. The best known are the following,
   \end{equation}
   where \(\beta\) is a hyperparameter. This algorithm maintains the previous
   velocity as an average of the above gradients and the parameter \(\beta\) can
-  be understood as a parameter of ``friction'' (thinking in physical terms).
+  be understood as a parameter of ``friction'' (thinking in physical
+  terms). This optimization process can be understood in physical terms as
+  follows: supposing that the function to be optimized were two variables
+  (parameters), the path we want to follow to find the minimum is the same as a
+  ball dropped in the initial guess would follow (pulled solely by gravity and
+  braked by friction with the ground). So, moment will help us avoid saddle
+  points, which is very interesting in an optimization process.
   \item \textbf{Nesterov Momentum\index{Nesterov momentum}.} Similarly to
   previous method uses a term of ``velocity'', but calculating the gradient not
   at the current point, but at the point where the velocity would carry, i.e.,
@@ -816,7 +827,7 @@ scaled in all layers.
 
 However, in Xavier initialization it assumes that the activation function is
 centered at 0, therefore, when the activation function \gls{relu} is used, it
-is It is preferable to use another type of weight initialization, such as that
+is preferable to use another type of weight initialization, such as that
 proposed by \myCite{he15:delvin_deep_rectif}.
 
 \subsubsection{Backpropagation Error}\index{Backpropagation}
@@ -824,10 +835,10 @@ proposed by \myCite{he15:delvin_deep_rectif}.
 As we have already discussed, the calculation of the gradient of the loss
 function \(\nabla _{\theta}\,\loss (\Omega, \theta)\) will be a fundamental
 element in the training of neural models. To do this, by virtue of what was
-discussed above (see, for example,\ \vref{eq:nabla-loss}), it will be sufficient
-to compute the gradient with respect to a single element of the dataset, that
-is, \(\nabla _{\theta }\,\ell (x, y, \theta)\). This calculation can be done
-efficiently using the well-known recursive algorithm
+discussed above (see, for example,\ \vref{eq:nabla-loss}), it will be
+sufficient to compute the gradient with respect to a single element of the
+dataset, that is, \(\nabla _{\theta }\,\ell (x, y, \theta)\). This computation
+can be done efficiently using the well-known recursive algorithm
 \emph{backpropagation}. This algorithm will depend on the topology and type of
 neural model used, but it consists of the recursive application of the chain
 rule.\footnote{In calculus, the chain rule is a formula to compute the
@@ -837,8 +848,8 @@ rule.\footnote{In calculus, the chain rule is a formula to compute the
   applies for multi-variable functions.}
 
 Assuming we are facing a \gls{fnn}, this backpropagation algorithm can be
-exemplified: let it be an individual weight \(w_ {ij} ^ l\), which is involved
-in computing the output \(y_i^l\) according to\ \vref{eq:fnn-forward}, then the
+exemplified: let \(w_ {ij} ^ l\) be an individual weight, which is involved in
+computing the output \(y_i^l\) according to\ \vref{eq:fnn-forward}, then the
 chain rule applied to \(\ell (x, y, \theta)\) yields,
 \begin{equation}
   \frac{\partial \ell}{\partial w_{ij}^l} =
@@ -872,14 +883,14 @@ observations. In words of \myCite{neumann14:common_mistak_statis},
   \tcblower\quotecite{neumann14:common_mistak_statis}
 \end{quoteBox}
 
-What he is referring to here is that we should not be surprised at the ability
-to a model complex enough to fit a given dataset very well. Models with a large
-number of parameters are capable of adjusting to any given amount of data, even
-if it appears not to follow any pattern. But these settings will be
-meaningless, as they won't capture any genuine information on the structure of
-the data and, therefore, will not be able to generalize correctly. We will have
-an astonishingly good fit (even perfect in some cases) for currently available
-data, but with a huge generalization error (see\ \vref{fig:overfit}).
+What he is referring to here is that we should not be surprised at the
+ability---of a complex enough model---to fit a given dataset very well. Models
+with a large number of parameters are capable of adjusting to any given amount
+of data, even if it appears not to follow any pattern. But these settings will
+be meaningless, as they won't capture any genuine information on the structure
+of the data and, therefore, will not be able to generalize correctly. We will
+have an astonishingly good fit (even perfect in some cases) for currently
+available data, but with a huge generalization error (see\ \vref{fig:overfit}).
 
 \begin{figure}[ht]
   \centering
@@ -896,16 +907,17 @@ data, but with a huge generalization error (see\ \vref{fig:overfit}).
 
 A well-known saying in the field of \gls{ml} is that of ``memorizing is
 \emph{not} learning''. It is important that we take into account the effect of
-overfitting to the time to train the models. To avoid this there are different
-techniques, among which highlight the \(L_2\) regularization, the concept of
-early stopping and the data augmentation technique.
+overfitting\index{Overfitting} at the time to train the models. To avoid this
+there are different techniques, among which highlight the \(L_2\)
+regularization, the concept of early stopping and the data augmentation
+technique.
 
 \subsubsection{\(L_2\) Regularization}
 
 This regularization technique, also known as \emph{ridge
   regression}\index{Ridge regression} in statistics and
 \emph{Tikhonov}\index{Tikhonov regression} regularization in mathematics, it is
-widely used in \gls{dl}. It consists in adding a term to the loss function that
+widely used in \gls{ml}. It consists in adding a term to the loss function that
 takes into account the complexity of the model, i.e., minimize the following,
 \begin{equation}
   \hat{\loss}(\Omega, \theta) =
@@ -926,7 +938,7 @@ Probably the best known and most used method when it comes to training neural
 models. What you do is divide the dataset of \emph{training} into two: the
 training part and the validation part\index{Validation} (\code{train/val}
 split).\footnote{Consequently, what to do with the full dataset is actually to
-  divide it into three, the famous \code{train/val/test} split.}. For the
+  divide it into three, the well-known \code{train/val/test} split.}. For the
 training process only the part of \code{train} (i.e., for updating the
 parameters of the model). The part of \code{val} will be used to determine when
 we should stop the training process to avoid overfitting\index{Overfitting}.
@@ -958,11 +970,12 @@ for model training.
 
 The use of data augmentation as a regularization technique is the process of
 artificially generate new training samples from existing ones using random
-transformations. In image processing, more typical transformations are: color
-transformation, geometric translation, rotations, etc.
+transformations. In image processing\index{Image processing}, more typical
+transformations are: color transformation, geometric translation, rotations,
+etc.
 
 In this way we increase the cardinal of the dataset (which prevents the
-overfitting) and we also artificially force one more dataset generalist. This,
+overfitting) and we also artificially force a more general dataset. This,
 consequently, will make the trained model better generalize and be invariant to
 the transformations performed in the dataset.
 

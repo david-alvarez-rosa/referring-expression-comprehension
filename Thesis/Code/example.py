@@ -1,3 +1,3 @@
 def code_box():
-    """This will be a code box."""
+    """This is a code box."""
     return None
