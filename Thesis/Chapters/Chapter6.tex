@@ -17,12 +17,13 @@ been chosen, mainly because of its versatility and ease of use: it does not
 require the installation of any specific program, only the use of a web
 browser.
 
-On this website you can find all the information related to this project, as
-well as tools to interact with the created models that solve the task of
-\gls{rec}. All the functionality present for the user and its creation will be
-discussed in\ \vref{sec:frontend}. Now, as is well condo in the field of web
-application design, all \glspl{ui} needs code in the back end that makes it
-possible (see\ \vref{sec:backend} for a detailed explanation).
+On this \fhref{https://recomprehension.com}{website} you can find all the
+information related to this project, as well as tools to interact with the
+created models that solve the task of \gls{rec}. All the functionality present
+for the user and its creation will be discussed in\ \vref{sec:frontend}. Now,
+as is well condo in the field of web application design, all \glspl{ui} needs
+code in the back end that makes it possible (see\ \vref{sec:backend} for a
+detailed explanation).
 
 
 
@@ -206,7 +207,17 @@ following,
 \end{itemize}
 
 Here we will see the structure of the back end. An explanatory graph is found
-in\ \vref{fig:server}.
+in\ \vref{fig:server}. As you can see, the server architecture is divided into
+two parts, the front end part and the backend part. It is in the first instance
+the client (user) who, using his browser, accesses the web address. Once the
+request is received, the web server returns the generic request to the user:
+that is, the \code{index.html} along with all its corresponding \acs{css} style
+sheets and \acs{js} code files. The client will then interact as desired with
+the different elements present in the interface. When you decide to add audio
+or perform the \gls{rec} task, it will be a \acs{js} file that responds to your
+request through the \gls{api} of the server. This \gls{api} is in charge of
+understanding, processing and responding to the user's request, by executing
+the corresponding Python code.
 
 \begin{figure}[p]
   \centering

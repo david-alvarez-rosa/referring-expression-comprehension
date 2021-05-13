@@ -21,29 +21,29 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 \section{Activation Functions}%
 \label{sec:activation}\index{Activation function}
 
-Las funciones de activación como ya se ha discutido en el\ \vref{cha:theory}
-son fundamentales para la creación de \gls{ann}. Esto es debido principalmente
-a la necesidad de introducir no-linealidades a los modelos, de manera que se
-facilite el ajuste de estos a funciones complejas: la naturaleza es altamente
-no-lineal y sería imposible conseguir resultados útiles usando solo funciones
-lineales para el ajuste de datos. En esta sección se discutirán y se compararán
-tres de las funciones de activación más usadas: la \gls{relu}, la hyperbolic
+The activation functions as already discussed in\ \vref{cha:theory} are
+fundamental for the creation of \gls{ann}. This is mainly due to the need to
+introduce non-linearities to the models, so as to facilitate the adjustment of
+these to complex functions: the nature is highly non-linear and it would be
+impossible to achieve useful results using only linear functions for the
+adjustment of data. In this section, three of the most used activation
+functions will be discussed and compared: \gls{relu}, the hyperbolic
 tangent\index{Hyperbolic tangent} and the sigmoid function\index{Sigmoid
   function}.
 
-La \gls{relu} es una de las funciones de activación más simples, conocidas y
-usadas. Es la función que viene definida por la siguiente expresión,
+\gls{relu} is one of the simplest, known and most widely used activation
+functions. It is the function that is defined by the following expression,
 \begin{equation}
   f(x) = \max\{0, x\},
 \end{equation}
-con derivada \(f^\prime(x) = \mathbf{1}_{\R^+}(x)\). Presenta diversas ventajas
-como: sparse activation (si los valores de las neuronas fueran aleatorios solo
-el 50\% de las neuronas tendrían activación no nula), propagación del gradiente
-eficiente (no presenta problemas de vanishing gradient o ---al menos---
-presenta menos problemas que las funciones de activaciones que saturan en las
-dos direcciones) y es el cómputo de la activación es muy eficiente a nivel
-computacional. En la \vref{fig:relu} se muestra tanto la gráfica de la función
-como de su derivada.
+with derivative \(f^\prime(x) = \mathbf{1}_{\R^+}(x)\). It presents several
+advantages such as: sparse activation (if the neuron values were random, only
+50\% of the neurons would have non-zero activation), efficient gradient
+propagation (it does not present problems of vanishing gradient or---at
+least---it presents fewer problems than the activation functions that saturate
+in both directions) and the computation of the activation is very efficient at
+the computational level. In\ \vref{fig:relu} both the graph of the function and
+its derivative are shown.
 
 \begin{figure}[ht]
   \centering
@@ -78,18 +78,17 @@ como de su derivada.
   \label{fig:relu}
 \end{figure}
 
-Cabe destacar que en algunas aplicaciones se pueden presentar complicaciones
-con el uso de la función de activación \gls{relu}. Este es debido
-principalmente a tres factores: no es diferenciable en el \(0\), no es
-zero-centered (que sería una característica deseable en algunos casos) y no
-es una función acotada, lo que podría dar problemas de overflow a nivel
-computacional.
+It should be noted that in some applications complications may occur with the
+use of the activation function \gls{relu}. This is mainly due to three factors:
+it is not differentiable in \(0\), it is not zero-centered (which would be a
+desirable feature in some cases) and it is not a bounded function, which could
+lead to overflow problems at the computational level.
 
-Otra de las funciones de activación típicamente usadas en este ámbito es el de
-la \emph{hyperbolic tangent}\index{Hyperbolic tangent}. Esta función, cuya
-gráfica y derivada viene representada en la\ \vref{fig:tangent} presenta
-simetría impar y satura de manera simétrica. Pueden aparecer problemas de
-vanishing gradient al usar este función.
+Another of the activation functions typically used in this area is that of
+\emph{hyperbolic tangent}\index{Hyperbolic tangent}. This function, whose graph
+and derivative are represented in\ \vref{fig:tangent}, presents odd symmetry
+and saturates symmetrically. Vanishing gradient issues may appear when using
+this feature.
 
 \begin{figure}[ht]
   \centering
@@ -126,24 +125,23 @@ vanishing gradient al usar este función.
   \label{fig:tangent}
 \end{figure}
 
-Por último, otra de las funciones de activación conocidas es la de la
-logistic\index{Logistic function} o sigmoid function\index{Sigmoid
-  function}. Esta función es muy conocida dentro del ámbito de \gls{ml} por su
-uso en la logistic regression\index{Logistic regression}, definida por la
-siguiente expresión,
+Finally, another of the known activation functions is that of the
+logistic\index{Logistic function} or sigmoid function\index{Sigmoid
+  function}. This function is well known within the scope of \gls{ml} for its
+use in the logistic regression\index{Logistic regression}, defined by the
+following expression,
 \begin{equation}
   \sigma(x) = {(1 + e^{-x})}^{-1},
 \end{equation}
-y cuya derivada se puede expresar en términos de la función original como
+and whose derivative can be expressed in terms of the original function as
 \(\sigma^\prime(x) = \sigma(x)(1 - \sigma(x))\).
 
-Es una función (see \vref{fig:sigmoid}) que presenta buenas propiedas
-matemáticas como la continuidad y diferenciabilidad en todo su dominio y que
-limita la activación de la neurona al rango \([0, 1]\). Esta función es
-especialmente útil en el caso de clasificación binaria, pero no es demasiado
-usada a día de hoy debido principalmente a que: es posible que cause el
-problema de vanishing gradient, no está centrada en el \(0\) y su cálculo es
-computationally expensive.
+It is a function (see\ \vref{fig:sigmoid}) that has good mathematical
+properties such as continuity and differentiability throughout its domain and
+that limits the activation of the neuron to the range \([0, 1]\). This function
+is especially useful in the case of binary classification, but it is not widely
+used today mainly because: it may cause the vanishing gradient problem, it is
+not centered on \(0\) and its calculation is computationally expensive.
 
 \begin{figure}[ht]
   \centering
@@ -183,9 +181,9 @@ computationally expensive.
   \label{fig:sigmoid}
 \end{figure}
 
-Las funciones de activación descritas: \gls{relu}, hyperbolic tangent and the
-sigmoid function se encuentran ploteadas en conjunto en la
-\vref{fig:activation-functions}, donde pueden ser comparadas.
+The activation functions described: \gls{relu}, hyperbolic tangent and the
+sigmoid function are plotted together in\ \vref{fig:activation-functions},
+where they can be compared.
 
 \begin{figure}[p]
   \centering
@@ -229,22 +227,6 @@ sigmoid function se encuentran ploteadas en conjunto en la
     author (both).}%
   \label{fig:activation-functions}
 \end{figure}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
