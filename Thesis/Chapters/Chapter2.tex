@@ -789,9 +789,9 @@ out. The best known are the following,
   \end{equation}
   \(\rho\) is the forgetting factor and \(\delta\) is a small real number to
   make sure no divisions are made by \(0\).
-  \item \textbf{\gls{adam}\index{Adam optimizer}.} Proposed by
-  \myCite{kingma14:adam}, in this optimization algorithm the following
-  estimates are used,
+  \item \textbf{Adaptive moment estimation (Adam)\index{Adam optimizer}.}
+  Proposed by \myCite{kingma14:adam}, in this optimization algorithm the
+  following estimates are used,
   \begin{equation}
     \begin{cases}
       m^{(t+1)} = \beta _{1}m^{(t)}
@@ -806,10 +806,9 @@ out. The best known are the following,
   \(0\) and \(\beta_1\) and \(\beta_2\) are the forgetting factors for
   gradients and second moment gradients. A good starting point for these
   parameters is usually set to \(\beta_1 = 0.9\) and \(\beta_2 = 0.999\). The
-  \gls{adam} method can be interpreted as that the first moment is taking the
-  role of impulse and with the second it is used to adapt the learning
-  rate. This is the algorithm that that we will be using for the training of
-  models.
+  Adam method can be interpreted as that the first moment is taking the role of
+  impulse and with the second it is used to adapt the learning rate. This is
+  the algorithm that that we will be using for the training of models.
 \end{itemize}
 
 \subsubsection{Weight Initialization}\index{Weight initialization}
