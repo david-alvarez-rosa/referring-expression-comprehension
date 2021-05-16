@@ -8,50 +8,46 @@
   {---Linus \textsc{Torvalds}}
 }
 
-
-\lettrine{L}{os detalles más representativos} sobre la implementación y
-programación de este proyecto serán recogidos en este capítulo. Los archivos de
-código que recogen las ideas generales usadas en este trabajo serán expuestos
-literalmente, pero diversos archivos auxilares existentes no serán mostrados
-aquí para evitar extenderse demasiado. El lector curioso puede consultar todo
-el grueso del código usado y la evolución de este mismo en el
+\lettrine{T}{he most representative details} about the implementation and
+programming of this project will be collected in this chapter. The code files
+that collect the general ideas used in this work will be exposed verbatim, but
+various existing auxiliary files will not be shown here to avoid being extended
+too much. The curious reader can consult the entire bulk of the code used and
+its evolution in
 \fhref{https://gitlab.com/david-alvarez-rosa/bachelor-thesis}{repositorio
-  oficial} de este proyecto (consultar también la
-\fhref{https://recomprehension.com}{web} para más información). Este capítulo
-se dividirá en sí en los archivos de código---principalmente implementación del
-modelo en Python---en la \vref{sec:code-files}, la implementación relacionada
-con el servidor web (see \vref{sec:code-web}) y los archivos relacionados con
-el uso de servidores (see \vref{sec:code-server}).
+  oficial} of this project (also consult
+\fhref{https://recomprehension.com}{web} for more information). This chapter
+will divide itself into the code files---mainly Python model implementation
+---in\ \vref{sec:code-files}, the web server-related implementation (see\
+\vref{sec:code-web}), and files related to using servers (see\
+\vref{sec:code-server}).
 
 
 \section{Code Files}\label{sec:code-files}
 
-Dentro de los diferentes archivos usados para la implementación, entrenamiento
-y testing del modelo están los que se muestran a continuación. Muchos más que
-estos archivos han sido utilizados, ya que el proceso de creación del modelo ha
-sido un proceso iterativo, en el que se han hecho pruebas con diversas
-modificaciones del modelo base.
+Among the different files used for the implementation, training and testing of
+the model are those shown below. Many more than these files have been used,
+since the model creation process has been an iterative process, in which
+various modifications of the base model have been tested.
 
-A continuación se incluye el código usado para la realización del testing del
-modelo.
+Below is the code used to carry out the testing of the model.
 
 \codeInFull{python}{../Code/test.py}
 
-A continuación se incluye el código usado para el entrenamiento de las
-diferentes versiones del modelo (tener en cuenta que diferentes partes de
-archivos son dependientes de parámetros). Realmente múltiples versiones de este
-mismo archivo han sido usadas, ya que se han ido modificando diferentes partes
-del mismo.
+Below is the code used for training the different versions of the model (keep
+in mind that different parts of files are parameter dependent). Actually
+multiple versions of this same file have been used, since different parts of it
+have been modified.
 
 \codeInFull{python}{../Code/train.py}
 
-Para realizar el acceso a los datasets usados durantes este trabajo es
-necesario el uso del siguiente archivo a modo de \gls{api}.
+To access the datasets used during this work, it is necessary to use the
+following file as \gls{api}.
 
 \codeInFull{python}{../Code/refer.py}
 
-Para el uso del modelo ha sido de utilidad la creación de un archivo en Python
-conteniendo el mismo modelo como un objeto. Se adjunta a continuación.
+For the use of the model, it has been useful to create a file in Python
+containing the same model as an object. Attached below.
 
 \codeInFull{python}{../Code/model.py}
 
@@ -59,42 +55,41 @@ conteniendo el mismo modelo como un objeto. Se adjunta a continuación.
 
 \section{Website}\label{sec:code-web}
 
-En relación a la website, mostraremos los archivos más importantes
-creados. Separaremos entre el front end (see \vref{sec:code-front}) y el back
-end (see \vref{sec:code-back})
+In relation to the website, we will show the most important files created. We
+will separate between the front end (see\ \vref{sec:code-front}) and the back
+end (see\ \vref{sec:code-back})
 
 \subsection{Front End}\label{sec:code-front}
 
-Dentro del front end el archivo principal es, evidentemente, el
-\code{index.html}, pero por su extensión no se ha incluido. Además tampoco
-aporta demasiado funcionalidad extra al trabajo. Sí que se incluye a
-continuación la hoja de estilos \acs{css}.
+Within the front end the main file is obviously \code{index.html}, but due to
+its extension it has not been included. It also doesn't bring too much extra
+functionality to work. Yes, the stylesheet \acs{css} is included below.
 
 \codeInFull{css}{../Website/css/main.css}
 
-Además, como parte fundamental de la interactividad de la web, es fundamental
-el archivo conteniendo el código de \acs{js}, el cual realiza los request a la
-\gls{api} del back end para recoger la información.
+In addition, as a fundamental part of the interactivity of the web, the file
+containing the code of \acs{js} is fundamental, which makes the requests to the
+\gls{api} of the back end to collect the information.
 
 \codeInFull{js}{../Website/js/main.js}
 
 
 \subsection{Back End}\label{sec:code-back}
 
-En el back end destacand dos archivos, que son los que realmente son la
-\gls{api}. El primero es el que se ocupa de realizar la tarea principal
-realmente de este trabajo, es decir la segmentación.
+In the back end highlighting two files, which are the ones that really are
+\gls{api}. The first is the one that deals with actually performing the main
+task of this work, that is, segmentation.
 
 \codeInFull{php}{../Website/api/comprehend.php}
 
-El siguiente archivo constituye de la parte de la \gls{api} del back end es el
-de conversión de audio a texto, que se muestra a continuación.
+The following file constitutes the part of the \gls{api} of the back end is the
+one for converting audio to text, which is shown below.
 
 \codeInFull{php}{../Website/api/uploadWav.php}
 
-Además, a continuación se añaden los archivos de Python que se ejecutan en el
-back end tras ser llamados por las diferentes funciones de la \gls{api}. Estos
-son, \code{comprehend.py} y \code{silero.py}.
+In addition, the Python files that are executed in the back end after being
+called by the different functions of \gls{api} are added below. These are,
+\code{comprehend.py} and \code{silero.py}.
 
 \codeInFull{python}{../Code/comprehend.py}
 
@@ -104,18 +99,17 @@ son, \code{comprehend.py} y \code{silero.py}.
 
 \section{Server}\label{sec:code-server}
 
-Para la conexión y uso del servidor se muestran a continuación los archivos
-principales que han sido necesarios. El primero de ellos es el script que se
-usado para realizar la sincronización de archivos entre el ordenador local y
-los servidores en remoto, adjunto a continuación.
+For the connection and use of the server, the main files that have been
+necessary are shown below. The first one is the script used to synchronize
+files between the local computer and the remote servers, attached below.
 
 \codeInFull{bash}{../Utils/newServer}
 
-Además, el servidor hace uso de un sistema de gestión llamado Slurm, que es un
-open-source job scheduler para que sea posible hacer uso de los recursos
-computacionales de múltiples servidores por parte de numerosos usuarios y hacer
-todo esto de una manera ordenada. Para ello este programa tienen una sintaxis
-muy concreta con la que ejecutar el código deseado. Un script tipo para este
-tipo de tareas se muestra a continuación.
+In addition, the server makes use of a management system called Slurm, which is
+an open-source job scheduler so that it is possible to make use of the
+computational resources of multiple servers by numerous users and do all this
+in an orderly manner. For this, this program has a very specific syntax with
+which to execute the desired code. A typical script for this type of task is
+shown below.
 
 \codeInFull{bash}{../Utils/launch}
