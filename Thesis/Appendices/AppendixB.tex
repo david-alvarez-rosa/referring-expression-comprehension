@@ -9,32 +9,55 @@
 }
 
 
-\lettrine{L}{orem ipsum dolor} sit amet, consectetur adipiscing elit, sed do
-eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\lettrine{L}{os detalles más representativos} sobre la implementación y
+programación de este proyecto serán recogidos en este capítulo. Los archivos de
+código que recogen las ideas generales usadas en este trabajo serán expuestos
+literalmente, pero diversos archivos auxilares existentes no serán mostrados
+aquí para evitar extenderse demasiado. El lector curioso puede consultar todo
+el grueso del código usado y la evolución de este mismo en el
+\fhref{https://gitlab.com/david-alvarez-rosa/bachelor-thesis}{repositorio
+  oficial} de este proyecto (consultar también la
+\fhref{https://recomprehension.com}{web} para más información). Este capítulo
+se dividirá en sí en los archivos de código---principalmente implementación del
+modelo en Python---en la \vref{sec:code-files}, la implementación relacionada
+con el servidor web (see \vref{sec:code-web}) y los archivos relacionados con
+el uso de servidores (see \vref{sec:code-server}).
 
-TODO. Añadir aquí los archivos de código más representativos.
 
+\section{Code Files}\label{sec:code-files}
 
-\section{Code Files}
+Dentro de los diferentes archivos usados para la implementación, entrenamiento
+y testing del modelo están los que se muestran a continuación. Muchos más que
+estos archivos han sido utilizados, ya que el proceso de creación del modelo ha
+sido un proceso iterativo, en el que se han hecho pruebas con diversas
+modificaciones del modelo base.
 
-Aquí se muestra lo básico: definición del modelo, métodos para leer bases de
-datos y luego ejemplo de train y de test.
+A continuación se incluye el código usado para la realización del testing del
+modelo.
 
 \codeInFull{python}{../Code/test.py}
 
+A continuación se incluye el código usado para el entrenamiento de las
+diferentes versiones del modelo (tener en cuenta que diferentes partes de
+archivos son dependientes de parámetros). Realmente múltiples versiones de este
+mismo archivo han sido usadas, ya que se han ido modificando diferentes partes
+del mismo.
+
 \codeInFull{python}{../Code/train.py}
 
+Para realizar el acceso a los datasets usados durantes este trabajo es
+necesario el uso del siguiente archivo a modo de \gls{api}.
+
 \codeInFull{python}{../Code/refer.py}
+
+Para el uso del modelo ha sido de utilidad la creación de un archivo en Python
+conteniendo el mismo modelo como un objeto. Se adjunta a continuación.
 
 \codeInFull{python}{../Code/model.py}
 
 
 
-\section{Website}
+\section{Website}\label{sec:code-web}
 
 En relación a la website, mostraremos los archivos más importantes
 creados. Separaremos entre el front end (see \vref{sec:code-front}) y el back
@@ -42,16 +65,16 @@ end (see \vref{sec:code-back})
 
 \subsection{Front End}\label{sec:code-front}
 
-Dentro del front end el archivo más importante es el de la página principal
-(\acs{html}), que es el \code{index.html}. Aquí al final no lo he añadido. El
-archivo realmente importante es el de js.
-
-También añadimos la hoja de estilos \acs{css}, \code{css/main.css}.
+Dentro del front end el archivo principal es, evidentemente, el
+\code{index.html}, pero por su extensión no se ha incluido. Además tampoco
+aporta demasiado funcionalidad extra al trabajo. Sí que se incluye a
+continuación la hoja de estilos \acs{css}.
 
 \codeInFull{css}{../Website/css/main.css}
 
 Además, como parte fundamental de la interactividad de la web, es fundamental
-el archivo de \acs{js}, \code{js/main.js}
+el archivo conteniendo el código de \acs{js}, el cual realiza los request a la
+\gls{api} del back end para recoger la información.
 
 \codeInFull{js}{../Website/js/main.js}
 
@@ -59,10 +82,13 @@ el archivo de \acs{js}, \code{js/main.js}
 \subsection{Back End}\label{sec:code-back}
 
 En el back end destacand dos archivos, que son los que realmente son la
-\gls{api}. Entre ellos
-
+\gls{api}. El primero es el que se ocupa de realizar la tarea principal
+realmente de este trabajo, es decir la segmentación.
 
 \codeInFull{php}{../Website/api/comprehend.php}
+
+El siguiente archivo constituye de la parte de la \gls{api} del back end es el
+de conversión de audio a texto, que se muestra a continuación.
 
 \codeInFull{php}{../Website/api/uploadWav.php}
 
@@ -76,11 +102,20 @@ son, \code{comprehend.py} y \code{silero.py}.
 
 
 
-\section{Server}
-Comentar aquí qué servidor se ha escogido y cómo se ha configurado con PHP y
-demás para funcionar de manera correcta en los servidores.
+\section{Server}\label{sec:code-server}
 
+Para la conexión y uso del servidor se muestran a continuación los archivos
+principales que han sido necesarios. El primero de ellos es el script que se
+usado para realizar la sincronización de archivos entre el ordenador local y
+los servidores en remoto, adjunto a continuación.
 
 \codeInFull{bash}{../Utils/newServer}
+
+Además, el servidor hace uso de un sistema de gestión llamado Slurm, que es un
+open-source job scheduler para que sea posible hacer uso de los recursos
+computacionales de múltiples servidores por parte de numerosos usuarios y hacer
+todo esto de una manera ordenada. Para ello este programa tienen una sintaxis
+muy concreta con la que ejecutar el código deseado. Un script tipo para este
+tipo de tareas se muestra a continuación.
 
 \codeInFull{bash}{../Utils/launch}
