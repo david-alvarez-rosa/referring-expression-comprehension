@@ -164,7 +164,7 @@ makes comparison considerably difficult.
     \acs{mattnet}    & \cite{yu18:mattn}                                            & 76.65          & 81.14          & 69.99          & 65.33          & 71.62          & 56.02          \\
     \acs{mmi}        & \cite{mao16:gener}                                           & -              & 64.90          & 54.51          & -              & 54.03          & 42.81          \\
     \acs{nmtree}     & \cite{liu19:learn_assem_neural_modul_tree}                   & 74.71          & 79.71          & 68.93          & 65.06          & 70.24          & 56.15          \\
-    \acs{refvos}     & \cite{bellver20:refvos}                                      &                &                &                &                &                &                \\
+    \acs{refvos}     & \cite{bellver20:refvos}                                      & 67.34          & 70.47          & 65.02          & 57.28          & 60.31          & 46.37          \\
     \acs{rmi}        & \cite{liu17:recur_multim_inter_refer_image_segmen}           & 42.99          & 42.99          & 44.99          & 20.52          & 21.22          & 20.78          \\
     \acs{rrn}        & \cite{li18:refer_image_segmen_recur_refin_networ}            & 61.66          & 64.13          & 59.35          & 37.32          & 40.80          & 32.42          \\
     \acs{step}       & \cite{chen19:see_throug_text_group_refer_image_segmen}       & 70.15          & -              & -              & -              & -              & -              \\
@@ -200,7 +200,11 @@ field of multimodal learning in general and this is what its authors express.
 \end{quoteBox}
 
 As we can see, the model presented in this work is not the state of the art,
-but it presents quite reasonable precision values.
+but it presents quite reasonable precision values. As with the rest of the
+models, the precision decreases in the RefCOCO+ dataset due to the added
+complexity in the \glspl{re}, as previously mentioned. Yes it is true, that
+there is still a lot of room for improvement in the field of precision, but the
+results are quite promising.
 
 The standardized accuracy metric is Precission at 0.5 (Prec@0.5), now this
 could be done with different thresholds (0.6, 0.7, 0.8, etc.) and the accuracy

@@ -219,12 +219,54 @@ vertical axis is quite small: this same graph on a vertical axis in the range
 
 Taking into account that the best epoch corresponds to the number 21 (see \
 \vref{fig:dl-train}), we would obtain a value of overall \gls{iou} in this
-lower than that obtained by the initial model (see\ \vref{tab:ablation})
-. Yes, it is true that we could decide to take the values of the parameters at
-another time taking into account the peak of overall \gls{iou} at time number
-16. Now, this graph actually presents very small fluctuations that are due to
-simple noise produced by the slight variation of the parameters when training
-and does not represent a significant improvement in the model.
+lower than that obtained by the initial model (see\ \vref{tab:ablation}). Yes,
+it is true that we could decide to take the values of the parameters at another
+time taking into account the peak of overall \gls{iou} at time number 16. Now,
+this graph actually presents very small fluctuations that are due to simple
+noise produced by the slight variation of the parameters when training and does
+not represent a significant improvement in the model.
+
+In addition to this loss function, another one studied in
+\vref{sec:loss-functions} has been tested, such as the one related to
+\gls{ti}. At first, certain improvements were expected in the overall \gls{iou}
+metric as it is a new loss function to optimize that could improve the
+model. The training process with this new loss function has been analogous to
+the one carried out previously, i.e., the model with pre-trained parameters is
+taken, the loss function is changed and the training process is ``restarted''
+again. To do this, the loss function has been implemented in Pytorch as
+follows: shown as a file below.
+
+\codeIn{python}{Code/tversky.py}
+
+Unfortunately, again the results, despite the fact that the optimization
+process has reduced the value of the loss function during the iteration in
+epochs, it has not been possible to substantially improve the performance of
+the model in the overall \gls{iou}. More specifically, the improvement was less
+than 1\%\footnote{The improvements in the performance of the model have been
+  specifically 0.47\%, which for the \code{val} split of the RefCOCO dataset
+  consists of a negligible increase in the overall \gls{iou}. It is also true
+  that due to the noise present in this graph, really some other time had a
+  higher performance.}, which is not really an improvement with enough weight
+to put it in value. One of the problems encountered during this training
+process has been similar to that found in the previous case. The graph of the
+loss function---despite decreasing---has done so in a small way (that is, on a
+microscale so to speak). In this way, a graph similar to a successful training
+process has been achieved (it has stopped at the minimum achieved with the loss
+function in the split of \code{val}), but the real variation of the loss
+function has been really small. In addition, in a similar way, the precision or
+accuracy function presents too much noise between epochs: many variations up
+and down in the value, but without significant improvements (or worsening),
+which is what was really being sought.
+
+Also comment that different loss functions can always be used to train the
+model. Now, typically the most used among them is \gls{ce}, which is one of the
+ones that usually works best. Normally, the loss function change is not
+performed unless there is some compelling reason to do it this way. We have
+tried to improve the training process of the model by changing these functions
+a bit innocently, and it has not worked very well. This is probably due to the
+fact that the different loss functions lead to similar points, since they
+``seek'' the same thing in the model: to improve segmentation.
+
 
 \subsubsection{Multimodal Embedding}\index{Multimodal!embedding}
 
