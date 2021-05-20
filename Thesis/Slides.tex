@@ -1,0 +1,225 @@
+% -*- TeX-master: "Slides.tex" -*-
+
+
+\RequirePackage[l2tabu, orthodox]{nag}
+\PassOptionsToPackage{dvipsnames, table}{xcolor}
+\documentclass{beamer}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{svg}
+
+% Configuration for SVG package.
+\svgsetup{
+  inkscapepath = Build/SVG/
+}
+\svgpath{Figures/}
+
+% Set path for figures (relative to main document).
+\graphicspath{{./Figures/}}
+
+
+
+% \setbeameroption{show notes} % Comentar/Descomentar para las notas
+\usetheme{CambridgeUS}
+% \usecolortheme{dolphin}
+\setbeamercolor{titlelike}{parent=structure, bg=gray!10}
+% \setbeamercovered{transparent}
+
+\AtBeginSection[]{
+  \subsection*{Outline}
+  \begin{frame}{Outline}
+    \tableofcontents[currentsection, sectionstyle=show/hide, subsectionstyle=show/show/hide]
+  \end{frame}
+}
+
+
+\title[Referring Expression Comprehension]{
+  % Referring Expression Comprehension}
+  Exploring and Visualizing\\
+  Referring Expression Comprehension}
+\subtitle{Bachelor's Thesis (Mathematics \& Industrial Engineering)}
+\author[David Álvarez Rosa]{
+  David Álvarez Rosa\inst{1,2,3}\\
+  \and
+  \textsl{Supervisor:} Sanja Fidler\inst{5}
+  \and
+  \textsl{Co-Supervisor:} Xavier Giró\inst{4}
+}
+\institute[UPC]{
+  Politechnical University of Catalonia\\
+  \tiny
+  \inst{1}Interdisciplinary Higher Education Centre\\
+  \inst{2}Barcelona School of Industrial Engineering ---
+  \inst{3}School of Mathematics and Statistics\\
+  \inst{4}Signal Theory and Communications Department
+  \and
+  \scriptsize
+  University of Toronto\\
+  \tiny
+  \inst{5}Computer Science Department
+}
+% \institute[UPC]{
+%   University of Toronto --
+%   % {\tiny Computer Science}\\[.5ex]
+%   Politechnical University of Catalonia\\
+%   \tiny
+%   % \href{https://cfis.upc.edu/en}{Interdisciplinary Higher Education Centre} \\
+%   % \href{https://etseib.upc.edu/en}{Barcelona School of Industrial Engineering} --
+%   % \href{https://fme.upc.edu/en}{School of Mathematics and Statistics}
+% }
+\logo{
+  \includesvg[height=1cm]{Logos/UofT.svg}
+  \hspace{1.5em}
+  \includesvg[height=1cm]{Logos/UPC.svg}
+  % \includegraphics[height=1cm]{UofT.png}
+  % \hspace{1.5em}
+  % \includegraphics[height=1cm]{UPC.png}
+}
+\date{Barcelona -- \today}
+% \titlegraphic{
+%   \null\hfill
+%   \includegraphics[height=1.25cm]{Logos/CFIS.jpeg}\hfill
+%   \includegraphics[height=1.25cm]{Logos/ETSEIB.png}\hfill
+%   \includegraphics[height=1.25cm]{Logos/FME.png}\hfill
+%   \includesvg[height=1.25cm]{Logos/UPC.svg}\hfill
+%   \includesvg[height=1.25cm]{Logos/UofT.svg}\hfill
+% }
+
+\begin{document}
+
+\section*{Front Matter}
+
+\subsection{Title}
+
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+\frame{\titlepage}
+
+\subsection{Acknowledgments}
+
+\begin{frame}{Acknowledgments}
+  Agradecimientos.
+\end{frame}
+
+\subsection{Table of Contents}
+
+\begin{frame}{Table of Contents}
+  % \setcounter{tocdepth}{1}
+  \tableofcontents[hideallsubsections]
+\end{frame}
+
+
+
+\section{Chapter 1. Introduction}
+
+\subsection{Description and Motivation}
+
+\begin{frame}{Title}{Subtitle}
+  Hey
+\end{frame}
+
+
+\subsection{Applications}
+
+\begin{frame}{Title}{Subtitle}
+  Hey
+\end{frame}
+
+
+
+\section{Chapter 2. Theoretical Background}
+
+\subsection{Tensors}
+
+\begin{frame}{Title}{Subtitle}
+  Hey
+\end{frame}
+
+
+\subsection{Neural Network Architectures}
+
+\begin{frame}{Feedforward Neural Network}{Subtitle}
+  Hey
+\end{frame}
+
+\begin{frame}{Convolutional Neural Network}{Subtitle}
+  Hey
+\end{frame}
+
+\begin{frame}{Recurrent Neural Network}{Subtitle}
+  Hey
+\end{frame}
+
+\begin{frame}{Transformer Model}{Subtitle}
+  Hey
+\end{frame}
+
+
+\subsection{Training}
+
+\begin{frame}{Optimization}{Subtitle}
+  Hey
+\end{frame}
+
+\begin{frame}{Regularization Techniques}{Subtitle}
+  Hey
+\end{frame}
+
+
+
+
+\section{Chapter 3. Referring Expression Comprehension}
+
+\subsection{Problem Formulation}
+
+\begin{frame}{Title}{Subtitle}
+  Hey.
+\end{frame}
+
+
+
+\section{Chapter 4. Models}
+
+\begin{frame}{Title}{Subtitle}
+  Hey.
+\end{frame}
+
+
+
+\section{Chapter 5. Results and Comparison}
+
+\begin{frame}{Title}{Subtitle}
+  Hey.
+\end{frame}
+
+
+
+\section{Chapter 6. Visualization}
+
+\begin{frame}{Title}{Subtitle}
+  Hey.
+\end{frame}
+
+
+
+\section{Chapter 7. Project Analysis}
+
+\begin{frame}{Title}{Subtitle}
+  Hey.
+\end{frame}
+
+
+
+\section{Chapter 8. Conclusions}
+
+\begin{frame}{Title}{Subtitle}
+  Hey.
+\end{frame}
+
+\end{document}
