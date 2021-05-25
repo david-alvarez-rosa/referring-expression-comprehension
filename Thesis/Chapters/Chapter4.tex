@@ -176,7 +176,6 @@ insignificant.
 
 \begin{figure}[p]
   \centering
-  \tikzset{external/export next=false}
   \begin{tikzpicture}
     \begin{axis}[trainPlot, ylabel={Dice Loss}]
       \addplot table[col sep=comma]{Data/train.csv};
@@ -203,7 +202,6 @@ vertical axis is quite small: this same graph on a vertical axis in the range
 
 \begin{figure}[p]
   \centering
-  \tikzset{external/export next=false}
   \begin{tikzpicture}
     \begin{axis}[trainPlot, ylabel={Overall \acs{iou}}]
       \addplot table[col sep=comma]{Data/other.csv};
