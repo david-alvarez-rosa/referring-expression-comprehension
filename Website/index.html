@@ -35,7 +35,7 @@
   <body>
     <header>
       <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="https://recomprehension.com">REC</a>
         <button class="navbar-toggler"
                 type="button"
                 data-toggle="collapse"
@@ -47,12 +47,10 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <div class="navbar-nav mr-auto">
-            <a class="nav-item nav-link active" href="#">
-              Home <span class="sr-only">(current)</span>
-            </a>
-            <a class="nav-item nav-link" href="#">Features</a>
-            <a class="nav-item nav-link" href="#">Pricing</a>
-            <a class="nav-item nav-link disabled" href="#">Disabled</a>
+            <a class="nav-item nav-link" href="#sec:abstract">Abstract</a>
+            <a class="nav-item nav-link" href="#sec:thesis">Thesis</a>
+            <a class="nav-item nav-link" href="#sec:img">Input</a>
+            <a class="nav-item nav-link" href="#sec:results">Results</a>
           </div>
 
           <form class="form-inline mt-2 mt-md-0">
@@ -86,8 +84,73 @@
 
 
     <main role="main" class="container">
-      <h1 class="mt-5">Referring Expression Comprehension</h1>
-      <p>Hey there!</p>
+      <h1 class="mt-5">
+        Exploring and Visualizing Referring Expression
+        Comprehension
+      </h1>
+
+      <section>
+        This website is the result of a bachelor's thesis.
+      </section>
+
+      <section id="sec:abstract">
+        <h2>Abstract</h2>
+        <p>Human-machine interaction is one of the main objectives currently in
+          the field of Artificial Intelligence. This work will contribute to
+          enhance this interaction by exploring the new task of Referring
+          Expression Comprehension (REC), consisting of: given a referring
+          expression&mdash;which can be a linguistic phrase or human speech&mdash;and an
+          image, detect the object to which the expression refers (i.e., achieve
+          a binary segmentation of the referred object). The multimodal nature of
+          this task will require the use of different deep learning
+          architectures, among them: convolutional neural networks (computer
+          vision); and recurrent neural networks and the Transformer model
+          (natural language processing).
+        </p>
+
+        <p>This thesis is presented as a self-contained document that can be
+          understood by a reader with no prior knowledge of machine learning. The
+          bulk of the work consists of an exhaustive study of the REC task: from
+          the applications; until the study, comparison and implementation of
+          models; going through a complete description of the current state of
+          the art. Likewise, a functional, free and public web page is presented
+          in which interaction is allowed in a simple way with the model
+          described in this work.
+        </p>
+
+        <h4>Keywords</h4>
+        <p>
+          Referring Expression Comprehension &bull; Artificial Intelligence
+          &bull; Machine Learning &bull; Deep Learning Computer Vision &bull;
+          Natural Language Processing &bull; Multimodal Learning
+        </p>
+
+        <h4>Mathematics Subject Classification</h4>
+        <a href="https://mathscinet.ams.org/msc/msc2010.html?t=68Txx">68T45</a>
+      </section>
+
+      <section id="sec:thesis">
+        <h2>Thesis</h2>
+        <p>
+          Access to full text:
+          <a href="Referring Expression Comprehension - David Álvarez Rosa.pdf">
+            Referring Expression Comprehension - David Álvarez Rosa.pdf
+          </a>
+        </p>
+        <p>
+          Slides:
+          <a href="Referring Expression Comprehension (Slides) - David Álvarez Rosa.pdf">
+            Referring Expression Comprehension (Slides) - David Álvarez Rosa.pdf
+          </a>
+        </p>
+        <p>
+          Source code:
+          <a href="https://gitlab.com/david-alvarez-rosa/bachelor-thesis">
+            Git repository
+          </a>
+        </p>
+      </section>
+
 
       <section id="sec:img">
         <h2>Choose Image</h2>
@@ -116,7 +179,7 @@
       </section>
 
 
-      <section id="sec:results">
+      <section id="sec:results" style="padding-bottom: 10em;">
         <h2>Results</h2>
         <div id="img-selected-warn" class="alert alert-warning">
           Please, <a href="#sec:img">choose image</a>.
@@ -134,158 +197,29 @@
 
           <p>or use microphone</p>
           <button type="button" onclick="startAudio();">Start audio</button>
+          <br /><br /><br />
 
-          <h3>Selected referring expression</h3>
-          <div id="re-selected-warn" class="alert alert-warning">
-            Please, enter a referring expression.
-          </div>
-          <p id="re-selected"></p>
+          <h4>Selected referring expression</h4>
+            <div id="re-selected-warn" class="alert alert-warning">
+              Please, enter a referring expression.
+            </div>
+            <p id="re-selected"></p>
         </div>
+        <br />
 
+        <h4>Segmented image</h4>
+        <div id="re-selected-warn" class="alert alert-warning">
+          Click first the submit button!
+        </div>
         <img id="img-segmented" />
       </section>
     </main>
 
 
     <footer class="page-footer font-small unique-color-dark">
-
-      <div style="background-color: #6351ce;">
-        <div class="container">
-
-          <!-- Grid row-->
-          <div class="row py-4 d-flex align-items-center">
-
-            <!-- Grid column -->
-            <div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0">
-              <h6 class="mb-0">Get connected with us on social networks!</h6>
-            </div>
-            <!-- Grid column -->
-
-            <!-- Grid column -->
-            <div class="col-md-6 col-lg-7 text-center text-md-right">
-
-              <!-- Facebook -->
-              <a class="fb-ic">
-                <i class="fab fa-facebook-f white-text mr-4"> </i>
-              </a>
-              <!-- Twitter -->
-              <a class="tw-ic">
-                <i class="fab fa-twitter white-text mr-4"> </i>
-              </a>
-              <!-- Google +-->
-              <a class="gplus-ic">
-                <i class="fab fa-google-plus-g white-text mr-4"> </i>
-              </a>
-              <!--Linkedin -->
-              <a class="li-ic">
-                <i class="fab fa-linkedin-in white-text mr-4"> </i>
-              </a>
-              <!--Instagram-->
-              <a class="ins-ic">
-                <i class="fab fa-instagram white-text"> </i>
-              </a>
-
-            </div>
-            <!-- Grid column -->
-
-          </div>
-          <!-- Grid row-->
-
-        </div>
+      <div class="footer-copyright text-center py-3">© 2021 Copyright
+        David Álvarez Rosa
       </div>
-
-      <!-- Footer Links -->
-      <div class="container text-center text-md-left mt-5">
-
-        <!-- Grid row -->
-        <div class="row mt-3">
-
-          <!-- Grid column -->
-          <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-
-            <!-- Content -->
-            <h6 class="text-uppercase font-weight-bold">Company name</h6>
-            <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-            <p>Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit amet,
-              consectetur
-              adipisicing elit.</p>
-
-          </div>
-          <!-- Grid column -->
-
-          <!-- Grid column -->
-          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-
-            <!-- Links -->
-            <h6 class="text-uppercase font-weight-bold">Products</h6>
-            <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-            <p>
-              <a href="#!">MDBootstrap</a>
-            </p>
-            <p>
-              <a href="#!">MDWordPress</a>
-            </p>
-            <p>
-              <a href="#!">BrandFlow</a>
-            </p>
-            <p>
-              <a href="#!">Bootstrap Angular</a>
-            </p>
-
-          </div>
-          <!-- Grid column -->
-
-          <!-- Grid column -->
-          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-
-            <!-- Links -->
-            <h6 class="text-uppercase font-weight-bold">Useful links</h6>
-            <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-            <p>
-              <a href="#!">Your Account</a>
-            </p>
-            <p>
-              <a href="#!">Become an Affiliate</a>
-            </p>
-            <p>
-              <a href="#!">Shipping Rates</a>
-            </p>
-            <p>
-              <a href="#!">Help</a>
-            </p>
-
-          </div>
-          <!-- Grid column -->
-
-          <!-- Grid column -->
-          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-
-            <!-- Links -->
-            <h6 class="text-uppercase font-weight-bold">Contact</h6>
-            <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-            <p>
-              <i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
-            <p>
-              <i class="fas fa-envelope mr-3"></i> info@example.com</p>
-            <p>
-              <i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
-            <p>
-              <i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
-
-          </div>
-          <!-- Grid column -->
-
-        </div>
-        <!-- Grid row -->
-
-      </div>
-      <!-- Footer Links -->
-
-      <!-- Copyright -->
-      <div class="footer-copyright text-center py-3">© 2020 Copyright:
-        <a href="https://mdbootstrap.com/"> MDBootstrap.com</a>
-      </div>
-      <!-- Copyright -->
     </footer>
 
   </body>

@@ -2,6 +2,10 @@ html {
     scroll-behavior: smooth;
 }
 
+section {
+    padding-bottom: 2em;
+}
+
 #gallery {
     width: 100%;
     display: flex;
@@ -32,6 +36,7 @@ html {
     max-width: 100%;
     margin: auto;
     display: none;
+    padding-bottom: 2em;
 }
 
 #re-selected {
@@ -39,7 +44,8 @@ html {
 }
 
 #img-segmented {
-    width: 350px;
+    display: block;
+    width: 575px;
     max-width: 100%;
     margin: auto;
 }
