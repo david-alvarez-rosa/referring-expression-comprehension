@@ -1,4 +1,5 @@
 Thesis.pdf
+Slides.pdf
 
 
 ## Below a general .gitignore file from:
@@ -122,8 +123,7 @@ acs-*.bib
 *-glo
 
 # uncomment this for glossaries-extra (will ignore makeindex's style files!)
-# *.ist
-Thesis.ist
+*.ist
 
 # gnuplottex
 *-gnuplottex-*
