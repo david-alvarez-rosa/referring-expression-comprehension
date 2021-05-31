@@ -184,11 +184,11 @@
 \end{frame}
 
 
-\subsection{Acknowledgments}
+% \subsection{Acknowledgments}
 
-\begin{frame}{Acknowledgments}
-  Acknowledgments.
-\end{frame}
+% \begin{frame}{Acknowledgments}
+%   Acknowledgments.
+% \end{frame}
 
 
 \subsection{Table of Contents}
@@ -441,15 +441,24 @@
   \end{figure}
 \end{frame}
 
-\begin{frame}{TODO}{TODO}
-  Quizá comentar aquí lo de LSTM y GRU.
-  Y quizás añadir también la fórmula.
+\begin{frame}{Recurrent Neural Network}{Variants}
+  \begin{itemize}
+    \item \Acf{lstm}
+    \item \Acf{gru}
+    \item But, \ldots
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{Transformer Model}{Subtitle}
-  TODO. Entender esto
-  \includegraphics[width=\textwidth]{Images/Attention.png}
-  \includegraphics[height=\textwidth]{Images/Transformer.png}
+\begin{frame}{Transformer Model}{Topology}
+  \begin{figure}
+    \includegraphics[width=.75\textwidth]{Images/Attention.png}
+    \caption{Attention mechanism}
+  \end{figure}
+\end{frame}
+
+\begin{frame}[plain]
+  \centering
+  \includegraphics[height=.9\textheight]{Images/Transformer.png}
 \end{frame}
 
 
@@ -717,6 +726,7 @@
 \subsection{Evaluation Techniques}
 
 \begin{frame}{Quantitative Measures}{Derived from Intersection over Union}
+  \vspace*{-.5cm}
   \begin{itemize}
     \item Overall IoU, defined as,
     \begin{equation}
@@ -754,14 +764,14 @@
 
 \begin{frame}{Modular Models}{Models}
   \begin{figure}
-    \includegraphics[width=.75\textwidth]{Images/MattNet.png}
+    \includegraphics[width=.65\textwidth]{Images/MattNet.png}
     \caption{Modular Attention Network (MAttNet)}
   \end{figure}
 \end{frame}
 
 \begin{frame}{Graph Generation}{Models}
   \begin{figure}
-    \includegraphics[width=.75\textwidth]{Images/Graph model.png}
+    \includegraphics[width=.8\textwidth]{Images/Graph model.png}
     \caption{Summary representation of graph-based models}
   \end{figure}
 \end{frame}
@@ -774,7 +784,7 @@
 
 \begin{frame}{Base Architecture}{Topology}
   \begin{figure}
-    \includegraphics[width=\textwidth]{Images/RefVOS.png}
+    \includegraphics[width=.75\textwidth]{Images/RefVOS.png}
     \caption{Referring Expression for Video Object Segmentation (RefVOS)}
   \end{figure}
 \end{frame}
@@ -787,14 +797,32 @@
 \end{frame}
 
 \begin{frame}{Base Architecture}{Language Encoder}
-  TODO
+  \begin{itemize}
+    \item \Acf{bert}
+    \item Based on the Transformer model
+    \item State of the art (even in computer vision!)
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{Base Architecture}{Multimodal Embedding}
   \begin{figure}
-    \includegraphics[width=\textwidth]{Images/RefVOS.png}
+    \includegraphics[width=.75\textwidth]{Images/RefVOS.png}
     \caption{Referring Expression for Video Object Segmentation (RefVOS)}
   \end{figure}
+\end{frame}
+
+\begin{frame}{Model Iterations}{Loss functions: cross entropy variants}
+  \begin{itemize}
+    \item \Acl{wce}
+    \item \Acl{bce}
+  \end{itemize}
+  \begin{alertblock}{Useless learning}
+    \begin{itemize}
+      \item Similar functions (loss objective)
+      \item Small (near 0) partial derivatives
+      \item Very little learning
+    \end{itemize}
+  \end{alertblock}
 \end{frame}
 
 \begin{frame}{Model Iterations}{Loss functions: Dice Loss I}
@@ -827,8 +855,80 @@
   \end{figure}
 \end{frame}
 
+\begin{frame}{Model Iterations}{Loss functions: Tversky Index}
+  \begin{itemize}
+    \item Similar results
+    \item Non significant improvements
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Model iterations}{Fusion strategies performance in RefCOCO dataset}
+  \centering
+  \rowcolors{3}{}{rowColor}
+  \begin{tabular}{l*3c}
+    \toprule
+    & \multicolumn{3}{c}{\textbf{RefCOCO}} \\
+    \cmidrule(lr){2-4}
+    \textbf{Strategy} & \code{val}     & \code{testA}   & \code{testB}   \\
+    \midrule
+    Addition          & 56.60          & 60.87          & 51.29          \\
+    Multiplication    & \textbf{59.45} & \textbf{63.19} & \textbf{54.17} \\
+    Concatenation     & 55.12          & 58.88          & 49.59          \\
+    Projection        & Infeasible     & Infeasible     & Infeasible     \\
+    Projection v2     & 21.08          & -              & -              \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
 \begin{frame}{Model Iterations}{Multimodal embedding: Projection}
-  TODO.
+  It is possible to define applications to map features to a vector space of
+  common dimension \(J\). That is, the application \(\phi\) is defined,
+  \begin{equation}
+    \begin{aligned}
+      \phi \colon \R^{D} \times \R^{D \times J} &\longrightarrow \R^J \\ (V, W_v)
+      &\longmapsto \phi(V, W_v) := W_v V,
+    \end{aligned}
+  \end{equation}
+  which maps the visual features \(V\) to the joint space \(\R^J\) via
+  \(W_v\). In the same way, the application \(\psi\) is defined,
+  \begin{equation}
+    \begin{aligned}
+      \psi \colon \R^{d} \times \R^{J \times d} &\longrightarrow \R^J \\ (L, W_l)
+      &\longmapsto \psi(L, W_l) := W_l L,
+    \end{aligned}
+  \end{equation}
+  which maps the language features \(L\) to the joint space \(\R^J\) via
+  \(W_l\).
+\end{frame}
+
+\begin{frame}{Model Iterations}{Multimodal embedding: Projection v2}
+  \begin{alertblock}{Computationally infeasible}
+    \(W_v \in \R^{D \times J}\), and \(D \times J\) is really, really big
+    (order of billions).
+  \end{alertblock}
+  Solution:
+  \begin{itemize}
+    \item Use same parameters for each slice in the depth of the visual
+    features.
+    \item For each slice \(V^i\), use same weigth matrix \(W_v\) and embed,
+    \begin{equation}
+      \tilde{V}^i = W_v V^i.
+    \end{equation}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Model Iterations}{Multimodal embedding: Projection v2 II}
+  This underperforms previous model (21.08 overall IoU). Caused by:
+  \begin{itemize}
+    \item Loss of spatial information
+    \item Meaningless transformation to visual information
+    \item Adding unnecessary non-pretrained parameters
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Training process}{Different techniques}
+  Several optimization methods exists, and can be changed, but this won't
+  change the ability of the model to learn necessarily.
 \end{frame}
 
 
@@ -912,113 +1012,56 @@
     \begin{subfigure}[t]{.32\textwidth}
       \centering
       \caption{Player with baseball bat}
-      \includegraphics[width=.9\textwidth]{Images/Player with baseball bat.jpg}
+      \includegraphics[width=.8\textwidth]{Images/Player with baseball bat.jpg}
     \end{subfigure}\hfill
     \begin{subfigure}[t]{.32\textwidth}
       \centering
       \caption{Middle player with glove}
-      \includegraphics[width=.9\textwidth]{Images/Middle player with glove.jpg}
+      \includegraphics[width=.8\textwidth]{Images/Middle player with glove.jpg}
     \end{subfigure}\hfill
     \begin{subfigure}[t]{.32\textwidth}
       \centering
       \caption{Man in the left}
-      \includegraphics[width=.9\textwidth]{Images/Man in the left.jpg}
+      \includegraphics[width=.8\textwidth]{Images/Man in the left.jpg}
     \end{subfigure}
 
-    \bigskip
+    \smallskip
     \begin{subfigure}[t]{.32\textwidth}
       \centering
       \caption{Donuts with topping}
-      \includegraphics[width=.9\textwidth]{Images/Donuts with topping.jpg}
+      \includegraphics[width=.8\textwidth]{Images/Donuts with topping.jpg}
     \end{subfigure}\hfill
     \begin{subfigure}[t]{.32\textwidth}
       \centering
       \caption{White background donuts}
-      \includegraphics[width=.9\textwidth]{Images/White background donut.jpg}
+      \includegraphics[width=.8\textwidth]{Images/White background donut.jpg}
     \end{subfigure}\hfill
     \begin{subfigure}[t]{.32\textwidth}
       \centering
       \caption{White donut left behind}
-      \includegraphics[width=.9\textwidth]{Images/White donut left behind.jpg}
+      \includegraphics[width=.8\textwidth]{Images/White donut left behind.jpg}
     \end{subfigure}
   \end{figure}
 \end{frame}
 
 \begin{frame}{Study of Succesful Samples}{Examples II}
-  \vspace*{-.5cm}
+  \vspace*{-.75cm}
   \begin{figure}
     \centering
     \begin{subfigure}[t]{.3\textwidth}
       \centering
       \caption{Person in blue}
-      \includegraphics[width=.95\textwidth]{Images/Person in blue.jpg}
+      \includegraphics[width=.8\textwidth]{Images/Person in blue.jpg}
     \end{subfigure}\hfill
     \begin{subfigure}[t]{.3\textwidth}
       \centering
       \caption{Person with watch}
-      \includegraphics[width=.95\textwidth]{Images/Person with watch.jpg}
+      \includegraphics[width=.8\textwidth]{Images/Person with watch.jpg}
     \end{subfigure}\hfill
     \begin{subfigure}[t]{.3\textwidth}
       \centering
       \caption{Woman}
-      \includegraphics[width=.95\textwidth]{Images/Woman.jpg}
-    \end{subfigure}
-  \end{figure}
-\end{frame}
-
-\begin{frame}{Study of Failed Samples}{Examples}
-  \vspace*{-.75cm}
-  \begin{figure}
-    \begin{subfigure}[t]{.32\textwidth}
-      \centering
-      \caption{Left tennis racket}\label{fig:racket}
-      \includegraphics[width=\textwidth]{Images/Left tennis racket.jpg}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{.32\textwidth}
-      \centering
-      \caption{Blond boy looking back}\label{fig:blond}
-      \includegraphics[width=\textwidth]{Images/Blond boy looking back.jpg}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{.32\textwidth}
-      \centering
-      \caption{Banana}\label{fig:banana}
-      \includegraphics[width=\textwidth]{Images/Banana.jpg}
-    \end{subfigure}
-
-    \bigskip
-    \begin{subfigure}[t]{.32\textwidth}
-      \centering
-      \caption{Woman holding hair dryer}\label{fig:dryer-1}
-      \includegraphics[width=.9\textwidth]{Images/Woman holding hair dryer.jpg}
-    \end{subfigure}\hspace{.1\textwidth}
-    \begin{subfigure}[t]{.32\textwidth}
-      \centering
-      \caption{Hair dryer}\label{fig:dryer-2}
-      \includegraphics[width=.9\textwidth]{Images/Hair dryer.jpg}
-    \end{subfigure}
-
-    \bigskip
-    \begin{subfigure}[t]{.4\textwidth}
-      \centering
-      \caption{Statue}\label{fig:statue-1}
-      \includegraphics[width=\textwidth]{Images/Statue.jpg}
-    \end{subfigure}\hspace{.06\textwidth}
-    \begin{subfigure}[t]{.4\textwidth}
-      \centering
-      \caption{Statue of a bird}\label{fig:statue-2}
-      \includegraphics[width=\textwidth]{Images/Statue of a bird.jpg}
-    \end{subfigure}
-
-    \bigskip
-    \begin{subfigure}[t]{.45\textwidth}
-      \centering
-      \caption{Tennis match referee}\label{fig:referee-1}
-      \includegraphics[width=.9\textwidth]{Images/Tennis match referee.jpg}
-    \end{subfigure}\hspace{.05\textwidth}
-    \begin{subfigure}[t]{.45\textwidth}
-      \centering
-      \caption{Tennis match referee sitting behind}\label{fig:referee-2}
-      \includegraphics[width=.9\textwidth]{Images/Tennis match referee sitting behind.jpg}
+      \includegraphics[width=.8\textwidth]{Images/Woman.jpg}
     \end{subfigure}
   \end{figure}
 \end{frame}
@@ -1042,7 +1085,7 @@
       \includegraphics[width=.9\textwidth]{Images/Banana.jpg}
     \end{subfigure}
 
-    \bigskip
+    \smallskip
     \begin{subfigure}[t]{.4\textwidth}
       \centering
       \caption{Statue}
@@ -1057,29 +1100,29 @@
 \end{frame}
 
 \begin{frame}[plain]
-  \vspace*{-.75cm}
+  \vspace*{-.5cm}
   \begin{figure}
     \begin{subfigure}[t]{.32\textwidth}
       \centering
       \caption{Woman holding hair dryer}
-      \includegraphics[width=.75\textwidth]{Images/Woman holding hair dryer.jpg}
+      \includegraphics[width=.72\textwidth]{Images/Woman holding hair dryer.jpg}
     \end{subfigure}\hspace{.1\textwidth}
     \begin{subfigure}[t]{.32\textwidth}
       \centering
       \caption{Hair dryer}
-      \includegraphics[width=.75\textwidth]{Images/Hair dryer.jpg}
+      \includegraphics[width=.72\textwidth]{Images/Hair dryer.jpg}
     \end{subfigure}
 
-    \bigskip
+    \smallskip
     \begin{subfigure}[t]{.45\textwidth}
       \centering
       \caption{Tennis match referee}
-      \includegraphics[width=.75\textwidth]{Images/Tennis match referee.jpg}
+      \includegraphics[width=.72\textwidth]{Images/Tennis match referee.jpg}
     \end{subfigure}\hspace{.05\textwidth}
     \begin{subfigure}[t]{.45\textwidth}
       \centering
       \caption{Tennis match referee sitting behind}
-      \includegraphics[width=.75\textwidth]{Images/Tennis match referee sitting behind.jpg}
+      \includegraphics[width=.72\textwidth]{Images/Tennis match referee sitting behind.jpg}
     \end{subfigure}
   \end{figure}
 \end{frame}
@@ -1089,12 +1132,12 @@
 
 \subsection{User Interface}
 
-\begin{frame}{Responsive Web Design and Accesibility}{Subtitle}
-  Hey.
-\end{frame}
-
-\begin{frame}{Guided Usage Example}{Subtitle}
-  Hey.
+\begin{frame}{Website overview}{Presentation of User Interface}
+  \begin{itemize}
+    \item Responsive Web Design
+    \item Accesibility
+    \item Usage Example: \url{https://recomprehension.com}
+  \end{itemize}
 \end{frame}
 
 
@@ -1102,7 +1145,7 @@
 
 \begin{frame}{Back end}{Graphic representation}
   \centering
-  \scalebox{.55}{\input{Figures/Tikz/Server.tex}}
+  \scalebox{.6}{\input{Figures/Tikz/Server.tex}}
 \end{frame}
 
 
@@ -1137,6 +1180,19 @@
       B1         & Multimodal learning lectures~\cite{giro-i-nieto20:all_deep_learn_upc_etset_telec} & -    & -    \\
       B2         & Publications                                                                      & -    & -    \\
       B3         & State-of-the-art papers on \acs{rec}                                              & -    & -    \\
+      \bottomrule
+    \end{tabular}
+  }
+\end{frame}
+
+\begin{frame}{Table of Activities}{Main activities broken down into tasks}
+  \centering
+  \scalebox{.75}{
+    \begin{tabular}{cp{.55\textwidth}cc}
+      \toprule
+
+      \rowcolor{topRowColor}
+      \textbf{Code} & \textbf{Activity} & \textbf{Start} & \textbf{End} \\
       \midrule
 
       \rowcolor{rowColor}
@@ -1165,24 +1221,16 @@
   }
 \end{frame}
 
-\begin{frame}{Gantt Chart}{Gantt chart of main activities}
+\begin{frame}{Gantt Chart}{Main activities}
   \centering
-  \input{Figures/Tikz/Gantt.tex}
+  \scalebox{.7}{\input{Figures/Tikz/Gantt.tex}}
 \end{frame}
 
 
-\subsection{Cost Analysis}
-
-\begin{frame}{Title}{Subtitle}
-  Hey.
-\end{frame}
+\subsection{Cost Analysis (view thesis)}
 
 
-\subsection{Environmental Impact}
-
-\begin{frame}{Title}{Subtitle}
-  Hey.
-\end{frame}
+\subsection{Environmental Impact (view thesis)}
 
 
 
@@ -1190,14 +1238,47 @@
 
 \subsection*{}
 
-\begin{frame}{Title}{Subtitle}
-  Hey.
+\begin{frame}{Conclusions}{General}
+  \begin{itemize}
+    \item Introduction to the fields of
+    \begin{itemize}
+      \item Machine Learning
+      \item Computer Vision
+      \item Natural Language Procesing
+    \end{itemize}
+    \item Improve programming skills (Python, Pytorch)
+    \item Web development (front end, back end API)
+  \end{itemize}
 \end{frame}
 
 \subsection{Future work}
 
-\begin{frame}{Title}{Subtitle}
-  Hey.
+\begin{frame}{Future possibilities}{For thesis and more}
+  \begin{itemize}
+    \item Fix ``black box'' problem (reasoning process cannot be visualized)
+    Ideal multi-step with \textbf{woman in red dress sitting on the right}:
+    \begin{enumerate}
+      \item Find all the women present in the image, these objects will be the only
+      solution candidates.
+      \item From these women choose all those who wear a red dress.
+      \item From this group select those that are seated.
+      \item Finally, if there is more than one possibility, select the one on the
+      right.
+    \end{enumerate}
+    \item Lack of high quality datasets
+    \item Adapt to video (with temporal coherence)
+    \item Leaderboard creation and objective evaluation of state of the art
+  \end{itemize}
+\end{frame}
+
+
+
+\section*{End Matter}
+
+
+\begin{frame}{Thanks}
+  \centering
+  Thank you!
 \end{frame}
 
 
