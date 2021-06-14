@@ -3,7 +3,8 @@
 # Sync all files with remote server (excluding GÇIT, datasets, flycheck, Python
 # venv and other caches and datasets).
 
-rsync -avzhP \
+rsync -e "ssh -p 6969" \
+      -avzhP \
       --delete \
       --exclude checkpoints/ \
       --exclude .git \
@@ -17,4 +18,4 @@ rsync -avzhP \
       --exclude audio \
       --exclude images \
       /home/david/Documents/UPC/Cuatrimestre\ 9/Bachelor\'s\ Thesis/ \
-      152.228.217.237:~/"Bachelor\'s\ Thesis/"
+      root@recomprehension.com:/var/www/html/thesis/

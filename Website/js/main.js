@@ -173,3 +173,9 @@ function toggleRecordingAux(event) {
         stopAudio();
     }
 }
+
+
+// Show warning message.
+$(document).ready(function(){
+        $("#warningModal").modal('show');
+});
