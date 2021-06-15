@@ -1,6 +1,45 @@
-* Thesis
+* Exploring and Visualizing Referring Expression Comprehension
+Feel free to use this code for your own thesis & slides. Just clone the
+repository,
+#+BEGIN_SRC bash
+  git clone https://gitlab.com/david-alvarez-rosa/bachelor-thesis.git
+#+END_SRC
+and enjoy :).
 
-A PDF version can be found at [[https://recomprehension.com/Thesis.pdf]].
+
+** Thesis
+A PDF version can be found at [[https://recomprehension.com/pdf/Referring%20Expression%20Comprehension%20-%20David%20%C3%81lvarez%20Rosa.pdf][Referring Expression Comprehension - David
+Álvarez Rosa.pdf]].
+
+To compile this document the first time, all the images must be downloaded
+(since they are not in version control). To do this, download them manually
+from [[https://recomprehension.com/Thesis/Figures/Images/]] or execute the
+following command (from the =Thesis= directory),
+#+BEGIN_SRC bash
+  # cd bachelor-thesis/Thesis/  # only if needed
+  wget --recursive \
+       --no-parent \
+       --no-directories \
+       --directory-prefix=Figures/Images/ \
+       https://recomprehension.com/Thesis/Figures/Images/
+#+END_SRC
+
+Then compile with,
+#+BEGIN_SRC bash
+  pdflatex -shell-escape Thesis.tex
+  biber Thesis
+  makeglossaries Thesis
+  pdflatex -shell-escape Thesis.tex
+  pdflatex -shell-escape Thesis.tex
+#+END_SRC
+
+*Note* It will take a long time to compile for the first time (as you will be
+ externalizing figures). From then on compile time will be drastically reduced
+ (you can always use =\includeonly{}= when editing).
+
+** Slides
+A PDF version can be found at [[https://recomprehension.com/pdf/Referring%20Expression%20Comprehension%20(Slides)%20-%20David%20%C3%81lvarez%20Rosa.pdf][Referring Expression Comprehension (Slides) -
+David Álvarez Rosa.pdf]].
 
 To compile this document the first time, all the images must be downloaded
 (since they are not in version control). To do this, download them manually
@@ -16,11 +55,11 @@ following command (from the =Thesis= directory),
 
 Then compile with,
 #+BEGIN_SRC bash
-  pdflatex -shell-escape Thesis.tex
-  biber Thesis
-  makeglossaries Thesis
-  pdflatex -shell-escape Thesis.tex
-  pdflatex -shell-escape Thesis.tex
+  pdflatex -shell-escape Slides.tex
+  biber Slides
+  makeglossaries Slides
+  pdflatex -shell-escape Slides.tex
+  pdflatex -shell-escape Slides.tex
 #+END_SRC
 
 *Note* It will take a long time to compile for the first time (as you will be

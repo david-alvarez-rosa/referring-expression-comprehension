@@ -1,2 +1,112 @@
-* Bachelor's Thesis
-This repository will contain the source code of my senior Bachelor's Thesis.
+* Exploring and Visualizing Referring Expression Comprehension
+This repository contains the source code develop in my senior Bachelor's Thesis
+at University of Toronto entitled: "Exploring and Visualizing Referring
+Expression Comprehension".
+
+- Author: [[https://david.alvarezrosa.com/][David Álvarez Rosa]]
+- Supervisor: Prof. [[https://www.cs.utoronto.ca/~fidler/][Sanja Fidler]] (NVIDIA & UofT)
+- Co-Supervisor: Prof. [[https://imatge.upc.edu/web/people/xavier-giro][Xavier Giró]] (BSC & UPC)
+- Wesbite: [[https://recomprehension.com/pdf/Referring%20Expression%20Comprehension%20(Slides)%20-%20David%20%C3%81lvarez%20Rosa.pdf][https://recomprehension.com]]
+- Thesis: [[https://recomprehension.com/pdf/Referring%20Expression%20Comprehension%20-%20David%20%C3%81lvarez%20Rosa.pdf][Referring Expression Comprehension - David Álvarez Rosa.pdf]]
+- Slides: [[https://recomprehension.com/pdf/Referring%20Expression%20Comprehension%20(Slides)%20-%20David%20%C3%81lvarez%20Rosa.pdf][Referring Expression Comprehension (Slides) - David Álvarez Rosa.pdf]]
+
+** Abstract
+Human-machine interaction is one of the main objectives currently in the field
+of Artificial Intelligence. This work will contribute to enhance this
+interaction by exploring the new task of Referring Expression Comprehension
+(REC), consisting of: given a referring expression—-which can be a linguistic
+phrase or human speech—-and an image, detect the object to which the expression
+refers (i.e., achieve a binary segmentation of the referred object). The
+multimodal nature of this task will require the use of different deep learning
+architectures, among them: convolutional neural networks (computer vision); and
+recurrent neural networks and the Transformer model (natural language
+processing).
+
+This thesis is presented as a self-contained document that can be understood by
+a reader with no prior knowledge of machine learning. The bulk of the work
+consists of an exhaustive study of the REC task: from the applications; until
+the study, comparison and implementation of models; going through a complete
+description of the current state of the art. Likewise, a functional, free and
+public web page is presented in which interaction is allowed in a simple way
+with the model described in this work.
+
+** Resumen
+La interacción humano-máquina es uno de los objetivos principales actualmente
+en el ámbito de la Inteligencia Artifcial. En este trabajo se contribuirá a
+facilitar esta interacción explorando la novedosa tarea de Comprensión de la
+Expresión Referente (CER), consistente en: dada una expresión referente —-que
+puede ser una frase lingüística o habla humana-— y una imagen, detectar el
+objeto al que la expresión se refiere (i.e., conseguir una segmentación binaria
+del objeto referido). El caracter multimodal de este cometido hará necesario el
+uso de diferentes arquitecturas de aprendizaje profundo, entre ellas: redes
+neuronales convolucionales (visión artificial); y redes neuronales recurrentes
+y el modelo /Transformer/ (procesamiento del lenguaje natural).
+
+Esta tesis se presenta como un documento autosuficiente que puede ser entendido
+por un lector sin conocimientos previos en aprendizaje automático. El grueso
+del trabajo consiste en un estudio exhaustivo de la tarea de CER: desde las
+aplicaciones; hasta el estudio, comparación e implementación de modelos;
+pasando por una descripción completa del estado del arte actual. Así mismo, se
+presenta una página web funcional, gratuita y pública en la que se permite la
+interacción de una manera sencilla con el modelo descrito en este trabajo.
+
+** Resum
+La interacció humà-màquina és un dels objectius principals actualment en
+l’àmbit de la Intel.ligència Artifcial. En aquest treball es contribuirà a
+facilitar aquesta interacció explorant la nova tasca de Comprensió de
+l’Expressió Referent (CER), que consisteix en: donada una expressió referent
+-—que pot ser una frase lingüística o parla humana—- i una imatge, detectar
+l’objecte a què l’expressió es refereix (i.e., aconseguir una segmentació
+binària de l’objecte referit). El caràcter multimodal d’aquesta comesa farà
+necessari l’ús de diferents arquitectures d’aprenentatge profund, entre elles:
+xarxes neuronals convolucionals (visió artificial); i xarxes neuronals
+recurrents i el model /Transformer/ (processament de el llenguatge natural).
+
+Aquesta tesi es presenta com un document autosuficient que pot ser entès per un
+lector sense coneixements previs en aprenentatge automàtic. El gruix de la
+feina consisteix en un estudi exhaustiu de la tasca de CER: des de les
+aplicacions; fins a l’estudi, comparació i implementació de models; passant per
+una descripció completa de l’estat de l’art actual. Així mateix, es presenta
+una pàgina web funcional, gratuïta i pública en la qual es permet la interacció
+d’una manera senzilla amb el model descrit en aquest treball.
+
+** Acknowledgements
+I would like to express my gratitude to Prof. Sanja Fidler for giving me the
+opportunity to carry out this project under her supervision and allowing me to
+be part of her laboratory and connect with its members. I also want to express
+my thanks to the entire Vector Institute staff for allowing me to use their
+computational resources, as well as for remotely assisting me with any
+technical problems that arose.
+
+Likewise, I want to thank Prof. Xavier Giró for his work as liaison
+co-supervisor between Canada and Barcelona and for being part of the evaluation
+panel of this thesis.
+
+Moreover, I want to express my gratitude to Fundació Privada Cellex and the
+Interdisciplinary Higher Education Centre. They have been the engines of my
+academic education and those that have allowed me to be part of this adventure
+of studying two official bachelors’ degrees simultaneously in the Politechnical
+University of Catalonia. Within this great team I want to give special thanks
+to Toni Pascual for his management of the mobility stay and the complications
+arising from the COVID-19 pandemic. Thanks also to Miguel Ángel Barja--with
+whom I have been lucky to be his student--for his role as director of the
+center.
+
+Finally, I want to thank my family and friends for their unconditional moral
+support without asking me too much "When will you graduate?"—or at least not
+very often.
+
+** Copyright
+David Álvarez Rosa © May 16, 2021
+Exploring and Visualizing Referring Expression Comprehension
+[[https://recomprehension.com][https://recomprehension.com]]
+
+Thesis typeset with pdfTEX 3.14159265–2.6–1.40.21 (TEX Live 2020) on Arch Linux
+using Latin Modern typefaces and written with GNU Emacs. The BibLATEX package
+has been used for bibliography management with Biber as processing backend.
+
+Vector graphics have been created by the author using PGF/TikZ. Vectorian
+decorative ornaments are from the LATEX package pgfornament.
+
+This thesis is licensed under a Creative Commons
+“[[https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en][Attribution–NonCommercial–ShareAlike 4.0 International]]” license.
