@@ -1,7 +1,6 @@
 # -*- ispell-dictionary: "english" -*-
 
 
-#+TITLE: Exploring and Visualizing Referring Expression Comprehension
 #+AUTHOR: David Álvarez Rosa
 #+EMAIL: david@alvarezrosa.com
 #+STARTUP: showall
