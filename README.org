@@ -101,12 +101,12 @@ whom I have been lucky to be his student---for his role as director of the
 center.
 
 Finally, I want to thank my family and friends for their unconditional moral
-support without asking me too much "/When will you graduate?/"---or at least not
+support without asking me too much /"When will you graduate?"/---or at least not
 very often.
 
 ** Copyright
-David Álvarez Rosa © May 16, 2021<br />
-Exploring and Visualizing Referring Expression Comprehension<br />
+David Álvarez Rosa © May 16, 2021 #+HTML: <br />
+Exploring and Visualizing Referring Expression Comprehension #+HTML: <br />
 [[https://recomprehension.com][https://recomprehension.com]]
 
 Thesis typeset with pdfTeX 3.14159265–2.6–1.40.21 (TeX Live 2020) on Arch Linux
