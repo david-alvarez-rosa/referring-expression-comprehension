@@ -14,7 +14,7 @@ Expression Comprehension".
 - Author: [[https://david.alvarezrosa.com/][David Álvarez Rosa]]
 - Supervisor: Prof. [[https://www.cs.utoronto.ca/~fidler/][Sanja Fidler]] (NVIDIA & UofT)
 - Co-Supervisor: Prof. [[https://imatge.upc.edu/web/people/xavier-giro][Xavier Giró]] (BSC & UPC)
-- Wesbite: [[https://recomprehension.com/pdf/Referring%20Expression%20Comprehension%20(Slides)%20-%20David%20%C3%81lvarez%20Rosa.pdf][https://recomprehension.com]]
+- Wesbite: [[https://recomprehension.com][https://recomprehension.com]]
 - Thesis: [[https://recomprehension.com/pdf/Referring%20Expression%20Comprehension%20-%20David%20%C3%81lvarez%20Rosa.pdf][Referring Expression Comprehension - David Álvarez Rosa.pdf]]
 - Slides: [[https://recomprehension.com/pdf/Referring%20Expression%20Comprehension%20(Slides)%20-%20David%20%C3%81lvarez%20Rosa.pdf][Referring Expression Comprehension (Slides) - David Álvarez Rosa.pdf]]
 
@@ -101,20 +101,20 @@ whom I have been lucky to be his student---for his role as director of the
 center.
 
 Finally, I want to thank my family and friends for their unconditional moral
-support without asking me too much "When will you graduate?"---or at least not
+support without asking me too much "/When will you graduate?/"---or at least not
 very often.
 
 ** Copyright
-David Álvarez Rosa © May 16, 2021
-Exploring and Visualizing Referring Expression Comprehension
+David Álvarez Rosa © May 16, 2021<br />
+Exploring and Visualizing Referring Expression Comprehension<br />
 [[https://recomprehension.com][https://recomprehension.com]]
 
-Thesis typeset with pdfTEX 3.14159265–2.6–1.40.21 (TEX Live 2020) on Arch Linux
-using Latin Modern typefaces and written with GNU Emacs. The BibLATEX package
+Thesis typeset with pdfTeX 3.14159265–2.6–1.40.21 (TeX Live 2020) on Arch Linux
+using Latin Modern typefaces and written with GNU Emacs. The BibLATeX package
 has been used for bibliography management with Biber as processing backend.
 
 Vector graphics have been created by the author using PGF/TikZ. Vectorian
-decorative ornaments are from the LATEX package pgfornament.
+decorative ornaments are from the LaTeX package pgfornament.
 
 This thesis is licensed under a Creative Commons
 “[[https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en][Attribution–NonCommercial–ShareAlike 4.0 International]]” license.
