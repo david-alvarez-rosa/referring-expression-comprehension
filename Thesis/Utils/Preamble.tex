@@ -2,7 +2,7 @@
 
 
 \RequirePackage[l2tabu, orthodox]{nag}
-\documentclass[11pt]{book}
+\documentclass{book}
 
 
 \usepackage[utf8]{inputenc}
@@ -20,6 +20,7 @@
 \usepackage[bottom, marginal, norule]{footmisc}
 \usepackage[type={CC}, modifier={by-nc-sa}, version={4.0}]{doclicense}
 \usepackage[backend=biber, style=alphabetic]{biblatex}
+\usepackage{pdfpages}
 \usepackage{imakeidx}
 \usepackage{siunitx, eurosym, chemformula}
 \usepackage{tikz, pgfplots, pgfgantt, pgfornament, dirtree}
@@ -39,10 +40,10 @@
 \geometry{
   layoutsize = {\the\layoutwidth, \the\layoutheight},
   papersize = {\the\layoutwidth, \the\layoutheight},
-  top = 1in,
-  bottom = .875in,
-  inner = .75in,
-  outer = .75in,
+  top = 1.1in,
+  bottom = 1.1in,
+  inner = .85in,
+  outer = .85in,
   bindingoffset = .25in,
   footskip = 30pt,
   % showframe,
@@ -465,6 +466,10 @@ This \namecref{#1}, entitled \textsl{\nameref*{#1}}, begins on page~\pageref{#1}
 
 \title{Exploring and Visualizing Referring Expression Comprehension}
 \author{David Álvarez Rosa}
+\renewcommand{\today}{May 25, 2021}
+\AtBeginDocument{%
+  \renewcommand{\today}{May 25, 2021}
+}
 \date{\today}
 
 
